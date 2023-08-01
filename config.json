@@ -1,0 +1,9 @@
+{
+  "prefix": "+",
+  "db": "mongodb+srv://Nawaz:Nawazlinked1@cluster0.yjuzknd.mongodb.net/test",
+  "color": "BLUE",
+  "error": "RED",
+  "success": "GREEN",
+  "token": "OTM0ODUwOTA1MjczMTU5NzEw.GOAoJF.SZqx2CV0yTlK9oRMjQNcJ0yODnR__v8nv1p4K4",
+  "moneyCap" : "1000000000"
+}

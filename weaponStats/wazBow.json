@@ -1,0 +1,7 @@
+{
+    "Damage" : 325,
+    "type" : "Bow",
+    "rarity" : "common",
+    "description" : "A common bow",
+    "procInfo": "No proc"
+}
