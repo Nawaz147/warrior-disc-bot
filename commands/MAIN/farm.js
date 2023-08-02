@@ -14,14 +14,14 @@ module.exports = {
   usage: "farm",
   category: "Economy",
   run: async (client, message, args) => {
-    const tokenDB = db.fetch(`${message.author.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${message.author.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
-        `${message.author} your token is not registered yet , type +token me to set your Oyo token`
+        `${message.author} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else {
       let user = message.author;
-      const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+      const tokenDB = db.fetch(`${user.id}.valoriumToken`);
       const banned = db.fetch(`banned_${tokenDB}`);
       const banReason = db.fetch(`reasonForBan_${tokenDB}`);
       const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -104,7 +104,7 @@ module.exports = {
               `You need to equip a weapon first , **eg : +equip bow ventorian**`
             );
           } else {
-            timeout = 1500;
+            timeout = 1200;
             var cooldown = await db.fetch(`cooldown_${tokenDB}`);
             if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
               let time = ms(timeout - (Date.now() - cooldown));

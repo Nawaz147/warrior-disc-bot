@@ -42,7 +42,7 @@ module.exports = {
           //   await db.set(`generate_${user.id}.${tokenDB}`, Date.now());
 
           message.channel.send(
-            `✅  You have hecked ${amount} __**oyons**__ for you !`
+            `✅  You have hecked ${amount} __**gold coins**__ for you !`
           );
         }
       } else {

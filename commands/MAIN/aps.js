@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
 const { MessageEmbed } = require("discord.js");
-const token = require("../economy/token");
 
 module.exports = {
   name: "achievements",
@@ -14,14 +13,14 @@ module.exports = {
       message.mentions.users.first() ||
       client.users.cache.get(args[0]) ||
       message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Warrior token is not registered yet , type +token me to set your Warrior token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -39,10 +38,10 @@ module.exports = {
       const achievementPoints = db.fetch(`achievementPoints_${tokenDB}`) || 0;
       const allAchievements = [
         {
-          name: "Enshrined as a Warrior Legend (200 APS)",
-          description: "Register yourself with Warrior Legends",
+          name: "Enshrined as a Valorium Legend (200 APS)",
+          description: "Register yourself with Valorium Legends",
           aps: 200,
-          achieved: db.fetch(`enshrinedAsAWarriorLegend_${tokenDB}`) || false,
+          achieved: db.fetch(`enshrinedAsAValoriumLegend_${tokenDB}`) || false,
         },
         {
           name: "First Blood (500 APS)",

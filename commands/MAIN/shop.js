@@ -10,7 +10,7 @@ module.exports = {
   category: "Economy",
   run: async (client, message, args) => {
     let user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -18,7 +18,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Warrior Legends token is not registered yet , type +token me to set your Warrior Legends token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -65,10 +65,7 @@ module.exports = {
       if (royaltyCoinPieces == null) {
         royaltyCoinPieces = 0;
       }
-      var oyoMaskPieces = db.fetch(`oyoMaskStoreAdd`);
-      if (oyoMaskPieces == null) {
-        oyoMaskPieces = 0;
-      }
+
       var magnificentCarpetPieces = db.fetch(`magnificentCarpetStoreAdd`);
       if (magnificentCarpetPieces == null) {
         magnificentCarpetPieces = 0;
@@ -133,9 +130,7 @@ module.exports = {
             if (money < prices.natureDaggers) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (natureDaggersPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const natureDaggersEmbed = new Discord.MessageEmbed()
                 .setTitle(`Nature daggers of superpower`)
@@ -150,9 +145,7 @@ module.exports = {
             if (money < prices.immortalGun) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (immortalGunPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const immortalGunEmbed = new Discord.MessageEmbed()
                 .setTitle(`Immortal Gun of Energy`)
@@ -167,9 +160,7 @@ module.exports = {
             if (money < prices.rashetaAxe) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (rashetaPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const rashetaEmbed = new Discord.MessageEmbed()
                 .setTitle(`Rasheta the furious axe`)
@@ -184,9 +175,7 @@ module.exports = {
             if (money < prices.waetraBow) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (waetraPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const waetraEmbed = new Discord.MessageEmbed()
                 .setTitle(`Waetra the freezed bow`)
@@ -201,9 +190,7 @@ module.exports = {
             if (money < prices.texarusStaff) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (texarusPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const texarusEmbed = new Discord.MessageEmbed()
                 .setTitle(`Texarus the demonished staff`)
@@ -229,7 +216,7 @@ module.exports = {
               );
             } else if (awakeningGemPieces == 0) {
               message.channel.send(
-                `There are (0) pieces of Awakening gem in Warrior Legends shop.`
+                `There are (0) pieces of Awakening gem in Valorium shop.`
               );
             } else if (quantity > awakeningGemPieces) {
               message.channel.send(
@@ -265,7 +252,7 @@ module.exports = {
               );
             } else if (EliteAwakeningGemPieces == 0) {
               message.channel.send(
-                `There are (0) pieces of Elite Awakening gem in Warrior Legends shop.`
+                `There are (0) pieces of Elite Awakening gem in Valorium shop.`
               );
             } else if (quantity > EliteAwakeningGemPieces) {
               message.channel.send(
@@ -295,9 +282,7 @@ module.exports = {
             if (money < prices.rubyOfRoyalty) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (rubyOfRoyaltyPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const rubyOfRoyaltyEmbed = new Discord.MessageEmbed()
                 .setTitle(`Ruby of royalty`)
@@ -312,9 +297,7 @@ module.exports = {
             if (money < prices.goldenGloryCard) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (goldenGloryCardPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const goldenGloryCardEmbed = new Discord.MessageEmbed()
                 .setTitle(`Golden glory card`)
@@ -329,9 +312,7 @@ module.exports = {
             if (money < prices.royalStatueOfHonor) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (royalStatueOfHonor == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const royalStatueOfHonorEmbed = new Discord.MessageEmbed()
                 .setTitle(`Royalty Statue of Honor`)
@@ -346,9 +327,7 @@ module.exports = {
             if (money < prices.royalStatueOfHonor) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (royaltyCoinPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const royaltyCoinEmbed = new Discord.MessageEmbed()
                 .setTitle(`Royalty Coin`)
@@ -359,30 +338,12 @@ module.exports = {
               db.subtract(`royaltyCoinStoreAdd`, 1);
             }
           }
-          if (args[1] == "oyoMask") {
-            if (money < prices.oyoMask) {
-              message.channel.send(`You dont have enough money to buy it`);
-            } else if (oyoMaskPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
-            } else {
-              const oyoMaskEmbed = new Discord.MessageEmbed()
-                .setTitle(`Oyo mask`)
-                .setDescription(`You purchased Oyo mask !`);
-              message.channel.send(oyoMaskEmbed);
-              db.add(`oyoMask_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.oyoMask);
-              db.subtract(`oyoMaskStoreAdd`, 1);
-            }
-          }
+
           if (args[1] == "magnificentCarpet") {
             if (money < prices.magnificentCarpet) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (magnificentCarpetPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const magnificentCarpetEmbed = new Discord.MessageEmbed()
                 .setTitle(`Magnificent Carpet`)
@@ -397,9 +358,7 @@ module.exports = {
             if (money < prices.magnificentPen) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (magnificentPenPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const magnificentPenEmbed = new Discord.MessageEmbed()
                 .setTitle(`Magnificent Pen`)
@@ -415,9 +374,7 @@ module.exports = {
             if (money < prices.splendidTrophy) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (splendidTrophyPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const splendidTrophyEmbed = new Discord.MessageEmbed()
                 .setTitle(`Splendid Trophy`)
@@ -433,9 +390,7 @@ module.exports = {
             if (money < prices.keysSack) {
               message.channel.send(`You dont have enough money to buy it`);
             } else if (keysSackPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces in Warrior Legends shop`
-              );
+              message.channel.send(`There are (0) pieces in Valorium shop`);
             } else {
               const keysSackEmbed = new Discord.MessageEmbed()
                 .setTitle(`1x 2850 keys sack`)

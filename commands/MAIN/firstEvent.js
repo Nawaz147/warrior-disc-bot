@@ -17,7 +17,7 @@ module.exports = {
   category: "Economy",
   run: async (client, message, args) => {
     let user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -25,7 +25,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Warrior token is not registered yet , type +token me to set your Warrior token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -85,7 +85,7 @@ module.exports = {
             "**You need to equip a weapon to play this event** , if you dont have one then **type +gw** to get your free weapon"
           );
         } else if (weaponEquipped == true) {
-          timeout = 1500;
+          timeout = 1200;
           var cooldown = await db.fetch(`cooldown_${tokenDB}`);
           if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
             let time = ms(timeout - (Date.now() - cooldown));
@@ -136,7 +136,7 @@ module.exports = {
                 db.set(`banDate_${tokenDB}`, fullDate);
                 message.channel.send(
                   `
-${user}  You've been banned from Warrior Legends for - Botting
+${user}  You've been banned from Valorium bot for - Botting
 Date : ${fullDate}
 `
                 );
@@ -145,7 +145,7 @@ Date : ${fullDate}
                   .setTitle("ACCOUNT BANNED !!")
                   .setDescription(
                     `
-You have been auto banned From Warrior Legends |
+You have been auto banned From Valorium bot |
 Reason : Botting |
 Banned by : <@934850905273159710> |
 `
@@ -200,19 +200,20 @@ Banned by : <@934850905273159710> |
 
               // ... (remaining existing code)
             } else {
-              var WarriorBossHealth = db.fetch(`WarriorBossHealth_${tokenDB}`);
-              if (WarriorBossHealth == null || WarriorBossHealth == undefined) {
-                var WarriorBossHealth = 1280986;
-                db.set(`WarriorBossHealth_${tokenDB}`, 1280986);
+              var ValoriumBossHealth = db.fetch(
+                `ValoriumBossHealth_${tokenDB}`
+              );
+              if (
+                ValoriumBossHealth == null ||
+                ValoriumBossHealth == undefined
+              ) {
+                var ValoriumBossHealth = 1280986;
+                db.set(`ValoriumBossHealth_${tokenDB}`, 1280986);
               }
-              var WarriorBoss = "Warrior Boss";
-              const items = [
-                "Warrior Pack",
-                "3,250 platinum",
-                "Golden ghost knight set",
-              ];
-              let chance = Math.floor(Math.random() * 100) + 0.5;
+              var ValoriumBoss = "Valorium Boss";
+              const items = ["500 platinum", "Golden ghost knight set"];
               let randomPoints = Math.floor(Math.random() * 34) + 1;
+              let randomPlatinum = Math.floor(Math.random() * 25) + 1;
               const randomItems =
                 items[Math.floor(Math.random() * items.length)];
               var randomGoldCoins = Math.floor(Math.random() * 12432) + 28103;
@@ -225,39 +226,41 @@ Banned by : <@934850905273159710> |
               } else {
                 var finalCoins = randomGoldCoins * goldLoot + 1;
               }
-              if (WarriorBossHealth < 0) {
-                const WarriorBossEmbed2 = new Discord.MessageEmbed()
-                  .setTitle(`${WarriorBoss}`)
-                  .setDescription(`${user} you hit ${WarriorBoss}`)
-                  .addField(`Warrior boss`, `1280986`)
-                  .addField(`Warrior Boss current health`, `0`)
+              if (ValoriumBossHealth < 0) {
+                const ValoriumBossEmbed2 = new Discord.MessageEmbed()
+                  .setTitle(`${ValoriumBoss}`)
+                  .setDescription(`${user} you hit ${ValoriumBoss}`)
+                  .addField(`Valorium boss`, `1280986`)
+                  .addField(`Valorium Boss current health`, `0`)
                   .addField(`Your damage`, `${weaponDamage}`)
                   .setColor("#0096FF");
-                message.channel.send(WarriorBossEmbed2);
+                message.channel.send(ValoriumBossEmbed2);
                 db.add(`antiBot_${tokenDB}`, 1);
               } else {
-                db.subtract(`WarriorBossHealth_${tokenDB}`, weaponDamage);
-                const WarriorBossEmbed = new Discord.MessageEmbed()
-                  .setTitle(`${WarriorBoss}`)
-                  .setDescription(`${user} you hit ${WarriorBoss}`)
-                  .addField(`Warrior boss`, `1280986`)
+                db.subtract(`ValoriumBossHealth_${tokenDB}`, weaponDamage);
+                const ValoriumBossEmbed = new Discord.MessageEmbed()
+                  .setTitle(`${ValoriumBoss}`)
+                  .setDescription(`${user} you hit ${ValoriumBoss}`)
+                  .addField(`Valorium boss`, `1280986`)
                   .addField(
-                    `Warrior Boss current health`,
-                    `${WarriorBossHealth}`
+                    `Valorium Boss current health`,
+                    `${ValoriumBossHealth}`
                   )
                   .addField(`Your damage`, `${weaponDamage}`)
                   .setColor("#0096FF");
-                message.channel.send(WarriorBossEmbed);
+                message.channel.send(ValoriumBossEmbed);
                 db.set(`cooldown_${tokenDB}`, Date.now());
               }
 
-              if (WarriorBossHealth == 0 || WarriorBossHealth < 0) {
-                const WarriorBossDead = new Discord.MessageEmbed()
-                  .setTitle(`${WarriorBoss}`)
-                  .setDescription(`${user} you killed ${WarriorBoss}`)
+              if (ValoriumBossHealth == 0 || ValoriumBossHealth < 0) {
+                const ValoriumBossDead = new Discord.MessageEmbed()
+                  .setTitle(`${ValoriumBoss}`)
+                  .setDescription(`${user} you killed ${ValoriumBoss}`)
                   .setColor("#EE4B2B");
-                message.channel.send(WarriorBossDead);
+                message.channel.send(ValoriumBossDead);
                 db.add(`bossesKilledTotal_${tokenDB}`, 1);
+                let chance = Math.random();
+                console.log(chance);
                 if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
                   const SingleBossKillApsEmbed = new Discord.MessageEmbed()
                     .setTitle(`APS COMPLETE - First Blood`)
@@ -292,19 +295,8 @@ Banned by : <@934850905273159710> |
                   message.channel.send(HundredBossKillApsEmbed);
                 }
                 db.set(`cooldown_${tokenDB}`, Date.now());
-                db.set(`WarriorBossHealth_${tokenDB}`, 1280986);
-                if (chance <= 1.5) {
-                  if (randomItems == "Warrior Pack") {
-                    message.channel.send(
-                      "```" +
-                        `diff
--You received : Warrior Pack
-` +
-                        "```"
-                    );
-                    db.add(`WarriorPack_${tokenDB}`, 1);
-                    db.add(`WarriorEventPoints_${tokenDB}`, randomPoints);
-                  }
+                db.set(`ValoriumBossHealth_${tokenDB}`, 1280986);
+                if (chance <= 0.015) {
                   if (randomItems == "Golden ghost knight set") {
                     message.channel.send(
                       "```" +
@@ -314,29 +306,38 @@ You received : Golden Ghost knight set
                         "```"
                     );
                     db.add(`goldenGhostKnightSet_${tokenDB}`, 1);
-                    db.add(`WarriorEventPoints_${tokenDB}`, randomPoints);
-                  }
-                  if (randomItems == "3,250 platinum") {
-                    db.add(`orons_${tokenDB}`, 3250);
+                    db.add(`ValoriumEventPoints_${tokenDB}`, randomPoints);
+                  } else if (randomItems == "500 platinum") {
+                    db.add(`platinum_${tokenDB}`, 500);
                     message.channel.send(
                       "```" +
                         `diff
--You received : 3,250 platinum
+-You received : 500 platinum
 ` +
                         "```"
                     );
-                    db.add(`WarriorEventPoints_${tokenDB}`, randomPoints);
+                    db.add(`ValoriumEventPoints_${tokenDB}`, randomPoints);
                   }
-                } else if (chance <= 2.5) {
+                } else if (chance <= 0.025) {
                   message.channel.send(
                     "```" +
                       `diff
--You received : Warrior mask
+-You received : Arcane Sensei Set
 ` +
                       "```"
                   );
-                  db.add(`WarriorMask_${tokenDB}`, 1);
-                  db.add(`WarriorEventPoints_${tokenDB}`, randomPoints);
+                  db.add(`arcaneSenseiSet_${tokenDB}`, 1);
+                  db.add(`ValoriumEventPoints_${tokenDB}`, randomPoints);
+                } else if (chance == 0.2) {
+                  db.add(`platinum_${tokenDB}`, randomPlatinum);
+                  message.channel.send(
+                    "```" +
+                      `css
+-You received : ${randomPlatinum} platinum
+` +
+                      "```"
+                  );
+                  db.add(`ValoriumEventPoints_${tokenDB}`, randomPoints);
                 } else {
                   bal = db.fetch(`money_${tokenDB}.pocket`);
                   if (finalCoins + bal > moneyCap.moneyCap) {
@@ -397,7 +398,7 @@ You received : Golden Ghost knight set
                         message.channel.send(apsEmbed);
                       }
                     }
-                    db.add(`WarriorEventPoints_${tokenDB}`, randomPoints);
+                    db.add(`ValoriumEventPoints_${tokenDB}`, randomPoints);
                     finalCoins = Math.floor(finalCoins)
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");

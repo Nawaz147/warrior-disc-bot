@@ -3,7 +3,6 @@ const db = require("quick.db");
 const Canvas = require("canvas");
 const config = require("../../config.json");
 const wazBow = require("../../weaponStats/wazbow.json");
-const token = require("../economy/token");
 const moneyCap = config.moneyCap;
 module.exports = {
   name: "balance",
@@ -16,7 +15,7 @@ module.exports = {
       message.mentions.users.first() ||
       client.users.cache.get(args[0]) ||
       message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -24,7 +23,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Warrior Legends token is not registered yet , type +token me to set your Warrior Legends token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -39,7 +38,6 @@ module.exports = {
         `You cannot use any commands right now! Bot is updating`
       );
     } else {
-      db.add(`supremeMagicalSet_${tokenDB}`, 1);
       bal = await db.fetch(`money_${tokenDB}.pocket`);
       // goldenTokens = db.fetch(`goldenTokens_${tokenDB}`);
       // if (goldenTokens === null) goldenTokens = "0";
@@ -48,10 +46,10 @@ module.exports = {
       if (bal === null) bal = "0";
       if (bal === undefined) bal = "0";
       bal = bal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      orons = await db.fetch(`orons_${tokenDB}`);
-      if (orons === null) orons = "0";
-      if (orons === undefined) orons = "0";
-      orons = orons.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      platinum = await db.fetch(`platinum_${tokenDB}`);
+      if (platinum === null) platinum = "0";
+      if (platinum === undefined) platinum = "0";
+      platinum = platinum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       keys = await db.fetch(`userKeys_${tokenDB}`);
       if (keys === null) keys = "0";
@@ -119,7 +117,7 @@ module.exports = {
       ctx.fillStyle = "#E1B530";
       ctx.fillText(bal, 150, textYPositions.goldCoins); // Adjust the x-coordinate here
       ctx.fillStyle = "#E5E4E2";
-      ctx.fillText(orons, 150, textYPositions.platinum); // Adjust the x-coordinate here
+      ctx.fillText(platinum, 150, textYPositions.platinum); // Adjust the x-coordinate here
       ctx.fillStyle = "#FF0000";
       ctx.fillText(keys, 150, textYPositions.keys); // Adjust the x-coordinate here
 
@@ -139,7 +137,7 @@ module.exports = {
       );
 
       bal = db.fetch(`money_${tokenDB}.pocket`);
-      orons = db.fetch(`orons_${tokenDB}`);
+      platinum = db.fetch(`platinum_${tokenDB}`);
       keys = db.fetch(`2850keys_${tokenDB}`);
     }
   },

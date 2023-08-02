@@ -15,8 +15,11 @@ module.exports = {
   usage: "inventory",
   category: "Economy",
   run: async (client, message, args) => {
-    let user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    let user =
+      message.mentions.users.first() ||
+      client.users.cache.get(args[0]) ||
+      message.author;
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -24,7 +27,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Warrior Legends token is not registered yet, type +token me to set your Warrior Legends token`
+        `${user} your Valorium token is not registered yet, type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -49,6 +52,13 @@ module.exports = {
           rasheta: db.fetch(`rasheta_${tokenDB}`) || 0,
           natureDaggers: db.fetch(`natureDaggers_${tokenDB}`) || 0,
           immortalGun: db.fetch(`immortalGun_${tokenDB}`) || 0,
+          goldenGhostKnightSet:
+            db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0,
+          supremeMagicalSet: db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
+          frozenSet: db.fetch(`frozenSet_${tokenDB}`) || 0,
+          superGolemSet: db.fetch(`superGolemSet_${tokenDB}`) || 0,
+          dawnfireSet: db.fetch(`dawnfireSet_${tokenDB}`) || 0,
+          arcaneSenseiSet: db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
         };
 
         // Create the inventory embed
@@ -131,7 +141,36 @@ module.exports = {
             "immortalGun"
           );
         }
-
+        if (items.goldenGhostKnightSet > 0) {
+          addItem(
+            "Golden Ghost Knight Set",
+            items.immortalGun,
+            "Vanity",
+            "goldenGhostKnightSet"
+          );
+        }
+        if (items.supremeMagicalSet > 0) {
+          addItem(
+            "Supreme Magical Set",
+            items.immortalGun,
+            "Vanity",
+            "supremeMagicalSet"
+          );
+        }
+        if (items.frozenSet > 0) {
+          addItem("Frozen Set", items.frozenSet, "Vanity", "frozenSet");
+        }
+        if (items.dawnfireSet > 0) {
+          addItem("Dawnfire Set", items.dawnfireSet, "Vanity", "dawnfireSet");
+        }
+        if (items.arcaneSenseiSet > 0) {
+          addItem(
+            "Arcane Sensei Set",
+            items.arcaneSenseiSet,
+            "Vanity",
+            "arcaneSenseiSet"
+          );
+        }
         // Send the inventory embed
         message.channel.send(inventoryEmbed);
       } else if (args[0] == "craft") {

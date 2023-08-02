@@ -6,7 +6,7 @@ const { Timestamp } = require("mongodb");
 module.exports = {
   name: "unban",
   aliases: ["UnbanUser", "ub", "Unban", "liftBan"],
-  description: "To unban someone from Oyo economy",
+  description: "To unban someone from Valorium economy",
   usage: "unban",
   category: "Economy",
   run: async (client, message, args) => {
@@ -15,10 +15,10 @@ module.exports = {
         message.mentions.users.first() || client.users.cache.get(args[0]);
       if (!user) {
         return message.channel.send(
-          "Please mention a user account to unban from Oyo economy"
+          "Please mention a user account to unban from Valorium economy"
         );
       }
-      const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+      const tokenDB = db.fetch(`${user.id}.valoriumToken`);
 
       if (user) {
         if (db.fetch(`banned_${tokenDB}`) == false) {
@@ -30,7 +30,7 @@ module.exports = {
             .setTitle("ACCOUNT UNBANNED !!")
             .setDescription(
               `
-| You have been unbanned From Oyo Economy |
+| You have been unbanned From Valorium Economy |
 | Unbanned by : <@${message.author.id}> |
         `
             )
@@ -41,7 +41,7 @@ module.exports = {
       }
     } else {
       message.channel.send(
-        "What the heck ? You cannot unban anyone from Oyo economy"
+        "What the heck ? You cannot unban anyone from Valorium economy"
       );
     }
   },

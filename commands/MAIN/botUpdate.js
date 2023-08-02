@@ -11,14 +11,14 @@ module.exports = {
   category: "Economy",
   run: async (client, message, args) => {
     let user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Oyo token is not registered yet , type Oyo token me to set your Oyo token`
+        `${user} your Valorium token is not registered yet , type Valorium token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()

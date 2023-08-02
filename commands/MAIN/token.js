@@ -10,7 +10,7 @@ module.exports = {
   run: async (client, message, args) => {
     const update = db.fetch(`updateInProgress`);
     if (!args[0]) {
-      message.channel.send("Usage: Warrior token me");
+      message.channel.send("Usage: +token me");
       return;
     }
     if (update) {
@@ -21,7 +21,7 @@ module.exports = {
     }
 
     const user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const tokenUser = db.fetch(`nameofUser_${user.id}.${tokenDB}`);
 
     if (args[0] === tokenDB) {
@@ -46,7 +46,7 @@ module.exports = {
           .setColor("GREEN");
         message.channel.send(`Your token has been sent on your dms`);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`APS COMPLETE - Enshrined as a warrior legend`)
+          .setTitle(`APS COMPLETE - Enshrined as a Valorium legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
@@ -54,8 +54,8 @@ module.exports = {
         user.send(embed);
 
         // Store the token in the database
-        db.set(`${user.id}.oyOtoken`, token);
-        db.set(`enshrinedAsAWarriorLegend_${token}`, true);
+        db.set(`${user.id}.valoriumToken`, token);
+        db.set(`enshrinedAsAValoriumLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         console.log(db.fetch(`achievementPoints_${token}`));
 
@@ -67,7 +67,7 @@ module.exports = {
         db.set(`${user.id}.tokenCreationDate`, formattedDate);
       } else {
         message.channel.send("Your token has already been registered.");
-        user.send(`Your Warrior token: ||${tokenDB}||`);
+        user.send(`Your Valorium token: ||${tokenDB}||`);
       }
       return;
     }
@@ -77,7 +77,7 @@ module.exports = {
         message.mentions.users.first() ||
         client.users.cache.get(args[0]) ||
         message.author;
-      const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+      const tokenDB = db.fetch(`${user.id}.valoriumToken`);
       if (!tokenDB) {
         let token =
           Math.random().toString(36).substring(2, 15) +
@@ -88,15 +88,15 @@ module.exports = {
           .setColor("GREEN");
         message.channel.send(`His token has been sent on his dms`);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`APS COMPLETE - Enshrined as a warrior legend`)
+          .setTitle(`APS COMPLETE - Enshrined as a Valorium legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
         user.send(embed);
 
         // Store the token in the database
-        db.set(`${user.id}.oyOtoken`, token);
-        db.set(`enshrinedAsAWarriorLegend_${tokenDB}`, true);
+        db.set(`${user.id}.valoriumToken`, token);
+        db.set(`enshrinedAsAValoriumLegend_${tokenDB}`, true);
         db.add(`achievementPoints_${tokenDB}`, 200);
         // Save the current date (day, month, and year) in the database
         const currentDate = new Date();

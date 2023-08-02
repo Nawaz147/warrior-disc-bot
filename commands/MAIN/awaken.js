@@ -13,7 +13,7 @@ module.exports = {
       message.mentions.users.first() ||
       client.users.cache.get(args[0]) ||
       message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
@@ -21,7 +21,7 @@ module.exports = {
 
     if (!tokenDB) {
       return message.channel.send(
-        `${user} your Warrior Legends token is not registered yet, type +token me to set your Warrior Legends token`
+        `${user} your Valorium Legends token is not registered yet, type +token me to set your Valorium Legends token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()

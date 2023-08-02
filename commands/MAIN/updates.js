@@ -14,7 +14,7 @@ module.exports = {
   category: "updates",
   run: async (client, message, args) => {
     let user = message.author;
-    const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${user.id}.${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${user.id}.${tokenDB}`);
     const banDate = db.fetch(`banDate_${user.id}.${tokenDB}`);
@@ -22,7 +22,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Techz token is not registered yet , type .t token me to set your Techz token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -42,18 +42,28 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
-**CONTENT UPDAATE (1 AUG 2023)**  
+**CONTENT UPDATE (2 AUG 2023)**  
+**+** Nerfed Ventorian Bow of ventor
+**+** Nerfed Texarus the demonished staff
+**+** Nerfed Waetra the freezed bow
+**+** Nerfed Rasheta the furious axe
+**+** Nerfed Nature daggers of superpower
+**+** Nerfed Immortal gun of energy
+**+** Spam cooldown reduced to 1.2 seconds from 1.5 seconds
+**+** Bot logo changed
+-------------------------------------------
+**CONTENT UPDATE (1 AUG 2023)**  
 **+** User info option added (+info)
 **+** New achievements added (+aps)
 **+** Bug fixes
 -------------------------------------------
-**CONTENT UPDAATE (31 JULY 2023)**
+**CONTENT UPDATE (31 JULY 2023)**
 **+** Inventory added
 **+** New mode added (+farm hit)
 **+** You can now craft vanities (+craft) for more info
 **+** Crafting inventory added (+inv craft)
 -------------------------------------------
-**CONTENT UPDAATE (30 JULY 2023)**
+**CONTENT UPDATE (30 JULY 2023)**
 **+** Bot logo changed
 **+** Bot name changed
 **+** Design changes

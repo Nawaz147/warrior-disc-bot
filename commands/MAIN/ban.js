@@ -6,14 +6,14 @@ const { Timestamp } = require("mongodb");
 module.exports = {
   name: "ban",
   aliases: ["banUser", "ba", "Ban"],
-  description: "To ban someone from Warrior Legends economy",
+  description: "To ban someone from Valorium economy",
   usage: "ban",
   category: "Economy",
   run: async (client, message, args) => {
     if (message.author.id == "768747976767832084") {
       let user =
         message.mentions.users.first() || client.users.cache.get(args[0]);
-      const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+      const tokenDB = db.fetch(`${user.id}.valoriumToken`);
       const banned = db.fetch(`banned_${tokenDB}`);
       let date = new Date();
       let day = date.getDate();
@@ -23,7 +23,7 @@ module.exports = {
       let fullDate = `${day}.${month}.${year}.`;
       if (!user) {
         return message.channel.send(
-          "Please mention a user account to ban from Warrior Legends economy"
+          "Please mention a user account to ban from Valorium economy"
         );
       }
       let reason = args.slice(1).join(" ");
@@ -37,7 +37,7 @@ module.exports = {
         db.set(`banDate_${tokenDB}`, fullDate);
         message.channel.send(
           `
-You banned <@${user.id}>'s account from Warrior Legends economy for - ${reason}
+You banned <@${user.id}>'s account from Valorium economy for - ${reason}
 Date : ${fullDate} 
 `
         );
@@ -45,7 +45,7 @@ Date : ${fullDate}
           .setTitle("ACCOUNT BANNED !!")
           .setDescription(
             `
-You have been banned From Warrior Legends Economy |
+You have been banned From Valorium Economy |
 Reason : ${reason} |
 Banned by : <@${message.author.id}> |
 `
@@ -56,7 +56,7 @@ Banned by : <@${message.author.id}> |
       }
     } else {
       message.channel.send(
-        "What the heck ? You cannot ban anyone from Warrior Legends economy"
+        "What the heck ? You cannot ban anyone from Valorium economy"
       );
     }
   },
