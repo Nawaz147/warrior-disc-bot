@@ -138,7 +138,7 @@ module.exports = {
 
       bal = db.fetch(`money_${tokenDB}.pocket`);
       platinum = db.fetch(`platinum_${tokenDB}`);
-      keys = db.fetch(`2850keys_${tokenDB}`);
+      keys = db.fetch(`userKeys_${tokenDB}`);
     }
   },
 };
