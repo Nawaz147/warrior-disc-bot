@@ -51,6 +51,8 @@ module.exports = {
 **+** Nerfed Immortal gun of energy
 **+** Spam cooldown reduced to 1.2 seconds from 1.5 seconds
 **+** Bot logo changed
+**+** Bot name changed
+**+** Promo codes added (check our website : https://valorium8.web.app)
 -------------------------------------------
 **CONTENT UPDATE (1 AUG 2023)**  
 **+** User info option added (+info)
