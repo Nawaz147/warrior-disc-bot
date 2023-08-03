@@ -8,6 +8,7 @@ const Canvas = require("canvas");
 const jimp = require("jimp");
 const gifFrames = require("gif-frames");
 const GIFEncoder = require("gif-encoder-2");
+const path = require("path");
 module.exports = {
   name: "character",
   aliases: ["Character", "char"],
@@ -247,9 +248,16 @@ module.exports = {
           return encoder.out.getData();
         }
       }
+      const VanitiesFolderPath = path.join(__dirname, "Vanities");
+
       if (goldenGhostKnightSetEquipped == true) {
+        var imagePath = path.join(
+          VanitiesFolderPath,
+          "goldenGhostKnightSet.gif"
+        );
+        console.log("Image Path:", imagePath); // Add this line for debugging
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/QM1F0NL/gif.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -258,8 +266,9 @@ module.exports = {
           ],
         });
       } else if (medusaSetEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "medusaSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/tsT3hD9/medusa-SET.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -268,8 +277,9 @@ module.exports = {
           ],
         });
       } else if (intrepidSetEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "intrepidSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/XWSFFYb/rareGIF.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -278,8 +288,9 @@ module.exports = {
           ],
         });
       } else if (arcaneSenseiEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "arcaneSenseiSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/RhSk01c/arc-full.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -291,8 +302,9 @@ module.exports = {
           ],
         });
       } else if (frozenSetEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "frozenSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/bLqKpB6/frozen-set.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -301,8 +313,9 @@ module.exports = {
           ],
         });
       } else if (dawnfireSetEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "dawnfireSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/QrfLyWg/dawnfire.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({
@@ -311,8 +324,9 @@ module.exports = {
           ],
         });
       } else if (supremeMagicalSetEquipped == true) {
+        var imagePath = path.join(VanitiesFolderPath, "supremeMagicalSet.gif");
         const image = new Welcomer()
-          .setBackground("https://i.ibb.co/2vfBgjr/supreme-magical-Set.gif")
+          .setBackground(imagePath)
           .setGIF(true)
           .setBlur(0);
         return message.channel.send({

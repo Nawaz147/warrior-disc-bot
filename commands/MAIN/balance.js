@@ -80,9 +80,7 @@ module.exports = {
 
       // Add a background image
       ctx.globalAlpha = 0.5; // Adjust the opacity value here (e.g., 0.5 for 50% opacity)
-      const background = await Canvas.loadImage(
-        "https://i.ibb.co/3SdwWbt/bg-economy.png"
-      );
+      const background = await Canvas.loadImage("../../masjid bg.PNG");
 
       ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
       ctx.globalAlpha = 1; // Adjust the opacity value here (e.g., 0.5 for 50% opacity)

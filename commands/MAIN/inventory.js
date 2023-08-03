@@ -59,6 +59,8 @@ module.exports = {
           superGolemSet: db.fetch(`superGolemSet_${tokenDB}`) || 0,
           dawnfireSet: db.fetch(`dawnfireSet_${tokenDB}`) || 0,
           arcaneSenseiSet: db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
+          intrepidSet: db.fetch(`intrepidSet_${tokenDB}`) || 0,
+          medusaSet: db.fetch(`medusaSet_${tokenDB}`) || 0,
         };
 
         // Create the inventory embed
@@ -170,6 +172,12 @@ module.exports = {
             "Vanity",
             "arcaneSenseiSet"
           );
+        }
+        if (items.intrepidSet > 0) {
+          addItem("Intrepid Set", items.intrepidSet, "Vanity", "intrepidSet");
+        }
+        if (items.medusaSet > 0) {
+          addItem("Medusa Set", items.medusaSet, "Vanity", "medusaSet");
         }
         // Send the inventory embed
         message.channel.send(inventoryEmbed);
