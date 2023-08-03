@@ -45,6 +45,7 @@ module.exports = {
 **CONTENT UPDATE (3 AUG 2023)**  
 **+** Added new store in which only platinum purchases (+store)
 **+** Added new crate "Locked crate of energy" to the store
+**+** Bug fixes
 -------------------------------------------
 **CONTENT UPDATE (2 AUG 2023)**  
 **+** Nerfed Ventorian Bow of ventor
