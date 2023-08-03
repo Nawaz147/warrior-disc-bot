@@ -42,7 +42,7 @@ module.exports = {
         `You cannot use any commands right now! Bot is updating`
       );
     } else {
-      if (!args[0]) {
+      if (!args[0] !== "craft") {
         var items = {
           awakeningGem: db.fetch(`awakeningGem_${tokenDB}`) || 0,
           eliteAwakeningGem: db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
@@ -65,7 +65,7 @@ module.exports = {
 
         // Create the inventory embed
         const inventoryEmbed = new Discord.MessageEmbed()
-          .setTitle("Inventory")
+          .setTitle(`${user.username}'s Inventory`)
           .setColor("#FFFF00");
 
         // Function to add item to inventory description
