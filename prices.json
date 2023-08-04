@@ -5,5 +5,17 @@
     "natureDaggers": 100000000,
     "immortalGun" : 150000000,
     "awakeningGem" : 17850,
-    "eliteAwakeningGem" : 126920
+    "eliteAwakeningGem" : 126920,
+    "unlockedCrateOfEnergy" : 280802,
+    "vortexOrb" : 50000000,
+    "verdantLeaf" : 45000000,
+    "celestialMoonStone" : 37580500,
+    "crystallineCorestone" : 35000000,
+    "tomeOfEverlastingWisdom" : 20000000,
+    "rustyGears" : 1390,
+    "dustbin" : 824,
+    "newspaper" : 432,
+    "tornCloth" : 2042, 
+    "usedTissue" : 98, 
+    "brokenStick" : 872
 }

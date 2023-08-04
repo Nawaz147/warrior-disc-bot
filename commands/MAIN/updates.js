@@ -42,6 +42,9 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (4 AUG 2023)**  
+**+** Normal inventory sections added (react to go next page)
+-------------------------------------------
 **CONTENT UPDATE (3 AUG 2023)**  
 **+** Added new store in which only platinum purchases (+store)
 **+** Added new crate "Locked crate of energy" to the store

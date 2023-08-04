@@ -1,12 +1,5 @@
 const Discord = require("discord.js");
-const ms = require("parse-ms");
 const db = require("quick.db");
-const Canvas = require("canvas");
-const rashetaDamage = require("../../weaponStats/rashetaAxe.json");
-const waetraDamage = require("../../weaponStats/waetraBow.json");
-const texarusDamage = require("../../weaponStats/texarusStaff.json");
-const natureDaggerss = require("../../weaponStats/natureDaggers.json");
-const ventorianBoww = require("../../weaponStats/ventorianBow.json");
 
 module.exports = {
   name: "inventory",
@@ -31,7 +24,7 @@ module.exports = {
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
-        .setTitle(user)
+        .setTitle(user.username)
         .setDescription(`This account is banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
@@ -42,148 +35,176 @@ module.exports = {
         `You cannot use any commands right now! Bot is updating`
       );
     } else {
-      if (!args[0] !== "craft") {
-        var items = {
-          awakeningGem: db.fetch(`awakeningGem_${tokenDB}`) || 0,
-          eliteAwakeningGem: db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
-          ventorianBow: db.fetch(`ventorianBow_${tokenDB}`) || 0,
-          texarus: db.fetch(`texarus_${tokenDB}`) || 0,
-          waetra: db.fetch(`waetra_${tokenDB}`) || 0,
-          rasheta: db.fetch(`rasheta_${tokenDB}`) || 0,
-          natureDaggers: db.fetch(`natureDaggers_${tokenDB}`) || 0,
-          immortalGun: db.fetch(`immortalGun_${tokenDB}`) || 0,
-          goldenGhostKnightSet:
+      if (!args[0] || args[0].toLowerCase() !== "craft") {
+        const items = {
+          "Awakening gem": db.fetch(`awakeningGem_${tokenDB}`) || 0,
+          "Elite awakening gem": db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
+          "Ventorian bow of ventor": db.fetch(`ventorianBow_${tokenDB}`) || 0,
+          "Texarus the demonished staff": db.fetch(`texarus_${tokenDB}`) || 0,
+          "Waetra the freezed bow": db.fetch(`waetra_${tokenDB}`) || 0,
+          "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
+          "Nature daggers of superpower":
+            db.fetch(`natureDaggers_${tokenDB}`) || 0,
+          "Immortal gun of energy": db.fetch(`immortalGun_${tokenDB}`) || 0,
+          "Golden Ghost Knight Set":
             db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0,
-          supremeMagicalSet: db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
-          frozenSet: db.fetch(`frozenSet_${tokenDB}`) || 0,
-          superGolemSet: db.fetch(`superGolemSet_${tokenDB}`) || 0,
-          dawnfireSet: db.fetch(`dawnfireSet_${tokenDB}`) || 0,
-          arcaneSenseiSet: db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
-          intrepidSet: db.fetch(`intrepidSet_${tokenDB}`) || 0,
-          medusaSet: db.fetch(`medusaSet_${tokenDB}`) || 0,
+          "Supreme magical set": db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
+          "Frozen set": db.fetch(`frozenSet_${tokenDB}`) || 0,
+          "Super golem set": db.fetch(`superGolemSet_${tokenDB}`) || 0,
+          "Dawnfire set": db.fetch(`dawnfireSet_${tokenDB}`) || 0,
+          "Arcane sensei set": db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
+          "Intrepid set": db.fetch(`intrepidSet_${tokenDB}`) || 0,
+          "Medusa set": db.fetch(`medusaSet_${tokenDB}`) || 0,
+          "Unlocked crate of energy":
+            db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0,
+          "Vortex orb": db.fetch(`vortexOrb_${tokenDB}`) || 0,
+          "Verdant Whisper leaf": db.fetch(`verdantLeaf_${tokenDB}`) || 0,
+          "Celestial Moonstone": db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
+          "Crystalline corestone":
+            db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
+          "Tome of ever lasting wisdom":
+            db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
+          "Rusty gears": db.fetch(`rustyGears_${tokenDB}`) || 0,
+          Dustbin: db.fetch(`dustbin_${tokenDB}`) || 0,
+          Newspaper: db.fetch(`newspaper_${tokenDB}`) || 0,
+          "Torn cloth": db.fetch(`tornCloth_${tokenDB}`) || 0,
+          "Used tissue": db.fetch(`usedTissue_${tokenDB}`) || 0,
+          "Broken stick": db.fetch(`brokenStick_${tokenDB}`) || 0,
         };
+
+        // Function to get the rarity of an item
 
         // Create the inventory embed
         const inventoryEmbed = new Discord.MessageEmbed()
           .setTitle(`${user.username}'s Inventory`)
           .setColor("#FFFF00");
 
-        // Function to add item to inventory description
-        function addItem(name, amount, rarity, id) {
-          inventoryEmbed.setDescription(
-            (inventoryEmbed.description || "") +
-              `\n\n**${name}** : (${amount}) x pcs\nRarity: ${rarity} , ID: ${id}`
-          );
-        }
-
         // Check each item and add it to the inventory description if the user has it
-        if (items.awakeningGem > 0) {
-          addItem(
-            "Awakening gem",
-            items.awakeningGem,
-            "Common",
-            "awakeningGem"
+        const itemNames = Object.keys(items);
+        const itemsPerPage = 12;
+        let currentPage = 1;
+        const itemsRarity = {
+          "Awakening gem": "Common",
+          "Elite awakening gem": "Epic",
+          "Ventorian bow of ventor": "Common",
+          "Texarus the demonished staff": "Legendary",
+          "Waetra the freezed bow": "Mythic",
+          "Rasheta the furious axe": "Mythic",
+          "Nature daggers of superpower": "Arcane",
+          "Immortal gun of energy": "Arcane",
+          "Golden Ghost Knight Set": "Vanity",
+          "Supreme magical set": "Vanity",
+          "Frozen set": "Vanity",
+          "Super golem set": "Vanity",
+          "Dawnfire set": "Vanity",
+          "Arcane sensei set": "Vanity",
+          "Intrepid set": "Vanity",
+          "Medusa set": "Vanity",
+          "Unlocked crate of energy": "Rare",
+          "Vortex orb": "Arcane",
+          "Verdant Whisper leaf": "Arcane",
+          "Celestial Moonstone": "Arcane",
+          "Crystalline corestone": "Mythic",
+          "Tome of everlasting wisdom": "Mythic",
+          "Rusty gears": "common",
+          Dustbin: "common",
+          Newspaper: "common",
+          "Torn cloth": "common",
+          "Used tissue": "common",
+          "Broken stick": "common",
+        };
+        const itemsID = {
+          "Awakening gem": "awakeningGem",
+          "Elite awakening gem": "eliteAwakeningGem",
+          "Ventorian bow of ventor": "ventorianBow",
+          "Texarus the demonished staff": "texarus",
+          "Waetra the freezed bow": "waetra",
+          "Rasheta the furious axe": "rasheta",
+          "Nature daggers of superpower": "natureDaggers",
+          "Immortal gun of energy": "immortalGun",
+          "Golden Ghost Knight Set": "goldenGhostKnightSet",
+          "Supreme magical set": "supremeMagicalSet",
+          "Frozen set": "frozenSet",
+          "Super golem set": "superGolemSet",
+          "Dawnfire set": "dawnfireSet",
+          "Arcane sensei set": "arcaneSenseiSet",
+          "Intrepid set": "intrepidSet",
+          "Medusa set": "medusaSet",
+          "Unlocked crate of energy": "unlockedCrateOfEnergy",
+          "Vortex orb": "vortexOrb",
+          "Verdant Whisper leaf": "verdantLeaf",
+          "Celestial Moonstone": "celestialMoonstone",
+          "Crystalline corestone": "crystallineCorestone",
+          "Tome of everlasting wisdom": "tomeOfEverlastingWisdom",
+          "Rusty gears": "rustyGears",
+          Dustbin: "dustbin",
+          Newspaper: "newspaper",
+          "Torn cloth": "tornCloth",
+          "Used tissue": "usedTissue",
+          "Broken stick": "brokenStick",
+          // Add the rarity for each item here
+        };
+        function showCurrentPage() {
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = Math.min(
+            startIndex + itemsPerPage,
+            itemNames.length
           );
+          const pageItems = itemNames.slice(startIndex, endIndex);
+          const inventoryItems = [];
+
+          for (const itemName of pageItems) {
+            const amount = items[itemName];
+            if (amount > 0) {
+              const rarity = itemsRarity[itemName] || "Unknown";
+              const itemID = itemsID[itemName] || "Unknown";
+              inventoryItems.push(
+                `**${itemName}** : (${amount}) x pcs\nRarity: ${rarity}, ID: ${itemID}
+                `
+              );
+            }
+          }
+
+          inventoryEmbed.setDescription(inventoryItems.join("\n"));
+          inventoryEmbed.setFooter(`Page ${currentPage}/${totalPages}`);
+          return inventoryEmbed;
         }
 
-        if (items.eliteAwakeningGem > 0) {
-          addItem(
-            "Elite Awakening gem",
-            items.eliteAwakeningGem,
-            "Epic",
-            "eliteAwakeningGem"
-          );
-        }
+        const totalPages = Math.ceil(itemNames.length / itemsPerPage);
+        const inventoryMessage = await message.channel.send(showCurrentPage());
 
-        if (items.ventorianBow > 0) {
-          addItem(
-            "Ventorian Bow of Ventor",
-            items.ventorianBow,
-            "Common",
-            "ventorianBow"
-          );
-        }
+        if (totalPages > 1) {
+          await inventoryMessage.react("◀️");
+          await inventoryMessage.react("▶️");
 
-        if (items.texarus > 0) {
-          addItem(
-            "Texarus the demonished staff",
-            items.texarus,
-            "Legendary",
-            "texarus"
-          );
-        }
+          const filter = (reaction, user) => {
+            return (
+              ["◀️", "▶️"].includes(reaction.emoji.name) &&
+              user.id === message.author.id
+            );
+          };
 
-        if (items.waetra > 0) {
-          addItem("Waetra the freezed bow", items.waetra, "Mythic", "waetra");
-        }
+          const collector = inventoryMessage.createReactionCollector(filter, {
+            time: 60000,
+            dispose: true,
+          });
 
-        if (items.rasheta > 0) {
-          addItem(
-            "Rasheta the furious axe",
-            items.rasheta,
-            "Mythic",
-            "rasheta"
-          );
-        }
+          collector.on("collect", (reaction) => {
+            reaction.users.remove(message.author).catch(console.error);
+            if (reaction.emoji.name === "▶️" && currentPage < totalPages) {
+              currentPage++;
+            } else if (reaction.emoji.name === "◀️" && currentPage > 1) {
+              currentPage--;
+            }
+            inventoryMessage.edit(showCurrentPage());
+          });
 
-        if (items.natureDaggers > 0) {
-          addItem(
-            "Nature Daggers of Superpower",
-            items.natureDaggers,
-            "Arcane",
-            "natureDaggers"
-          );
+          collector.on("end", () => {
+            inventoryMessage.reactions.removeAll().catch(console.error);
+          });
         }
-
-        if (items.immortalGun > 0) {
-          addItem(
-            "Immortal Gun of Energy",
-            items.immortalGun,
-            "Arcane",
-            "immortalGun"
-          );
-        }
-        if (items.goldenGhostKnightSet > 0) {
-          addItem(
-            "Golden Ghost Knight Set",
-            items.immortalGun,
-            "Vanity",
-            "goldenGhostKnightSet"
-          );
-        }
-        if (items.supremeMagicalSet > 0) {
-          addItem(
-            "Supreme Magical Set",
-            items.immortalGun,
-            "Vanity",
-            "supremeMagicalSet"
-          );
-        }
-        if (items.frozenSet > 0) {
-          addItem("Frozen Set", items.frozenSet, "Vanity", "frozenSet");
-        }
-        if (items.dawnfireSet > 0) {
-          addItem("Dawnfire Set", items.dawnfireSet, "Vanity", "dawnfireSet");
-        }
-        if (items.arcaneSenseiSet > 0) {
-          addItem(
-            "Arcane Sensei Set",
-            items.arcaneSenseiSet,
-            "Vanity",
-            "arcaneSenseiSet"
-          );
-        }
-        if (items.intrepidSet > 0) {
-          addItem("Intrepid Set", items.intrepidSet, "Vanity", "intrepidSet");
-        }
-        if (items.medusaSet > 0) {
-          addItem("Medusa Set", items.medusaSet, "Vanity", "medusaSet");
-        }
-        // Send the inventory embed
-        message.channel.send(inventoryEmbed);
-      } else if (args[0] == "craft") {
-        // Check materials for crafting
-        var materials = {
+      } else if (args[0].toLowerCase() === "craft") {
+        const materials = {
           cotton: db.fetch(`cotton_${tokenDB}`) || 0, // Common material
           superGem: db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
           leather: db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
@@ -193,48 +214,28 @@ module.exports = {
           silk: db.fetch(`silk_${tokenDB}`) || 0, // Arcane material
         };
 
+        // Function to add material to crafting inventory description
+        function addMaterial(name, amount, rarity, id) {
+          craftingEmbed.addField(
+            name,
+            `(${amount}) x pcs\nRarity: ${rarity} , ID: ${id}`
+          );
+        }
+
         // Create the crafting inventory embed
         const craftingEmbed = new Discord.MessageEmbed()
           .setTitle("Crafting Inventory")
           .setColor("#00FF00");
 
-        // Function to add material to crafting inventory description
-        function addMaterial(name, amount, rarity, id) {
-          craftingEmbed.setDescription(
-            (craftingEmbed.description || "") +
-              `\n\n**${name}** : (${amount}) x pcs\nRarity: ${rarity} , ID: ${id}`
-          );
-        }
-
         // Check each material and add it to the crafting inventory description if the user has it
-        if (materials.cotton > 0) {
-          addMaterial("Cotton", materials.cotton, "Common", "cotton");
-        }
-
-        if (materials.superGem > 0) {
-          addMaterial("Super Gem", materials.superGem, "Mythic", "superGem");
-        }
-
-        if (materials.leather > 0) {
-          addMaterial("Leather", materials.leather, "Arcane", "leather");
-        }
-        if (materials.greenRock > 0) {
-          addMaterial("Green rock", materials.greenRock, "common", "greenRock");
-        }
-        if (materials.silk > 0) {
-          addMaterial("Silk", materials.silk, "common", "silk");
-        }
-        if (materials.arcaneShard > 0) {
-          addMaterial(
-            "Arcane Shard",
-            materials.arcaneShard,
-            "Arcane",
-            "arcaneShard"
-          );
-        }
-
-        if (materials.iceCube > 0) {
-          addMaterial("Ice Cube", materials.iceCube, "Arcane", "iceCube");
+        const materialNames = Object.keys(materials);
+        for (const materialName of materialNames) {
+          const amount = materials[materialName];
+          if (amount > 0) {
+            const rarity = "Arcane"; // Assume all materials have arcane rarity
+            const id = materialName;
+            addMaterial(materialName, amount, rarity, id);
+          }
         }
 
         // Send the crafting inventory embed
