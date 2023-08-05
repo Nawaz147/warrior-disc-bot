@@ -1,5 +1,5 @@
 const canvacord = require("canvacord");
-const { Client, Collection, Intends } = require("discord.js");
+const { Client, Collection, Intents } = require("discord.js");
 const { config } = require("dotenv");
 const { prefix, db, token } = require("./config.json");
 const datab = require("quick.db");
@@ -9,9 +9,11 @@ const DiscordSlash = require("discord.js-slash-command");
 const client = new Client({
   disableMentions: "everyone",
   partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER"],
-  ws: {
-    intents: Intends,
-  },
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
+  ],
 });
 const api = require("srod-v2");
 const { Player } = require("discord-player");

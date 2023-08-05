@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports = {
   name: "inventory",
@@ -81,7 +82,7 @@ module.exports = {
 
         // Check each item and add it to the inventory description if the user has it
         const itemNames = Object.keys(items);
-        const itemsPerPage = 12;
+        const itemsPerPage = 8;
         let currentPage = 1;
         const itemsRarity = {
           "Awakening gem": "Common",
@@ -148,32 +149,32 @@ module.exports = {
           const startIndex = (currentPage - 1) * itemsPerPage;
           const endIndex = Math.min(
             startIndex + itemsPerPage,
-            itemNames.length
+            itemNamesWithQuantity.length
           );
-          const pageItems = itemNames.slice(startIndex, endIndex);
+          const pageItems = itemNamesWithQuantity.slice(startIndex, endIndex);
           const inventoryItems = [];
 
-          for (const itemName of pageItems) {
-            const amount = items[itemName];
-            if (amount > 0) {
-              const rarity = itemsRarity[itemName] || "Unknown";
-              const itemID = itemsID[itemName] || "Unknown";
-              inventoryItems.push(
-                `**${itemName}** : (${amount}) x pcs\nRarity: ${rarity}, ID: ${itemID}
-                `
-              );
-            }
+          for (const [itemName, amount] of pageItems) {
+            const rarity = itemsRarity[itemName] || "ERROR";
+            const itemID = itemsID[itemName] || "ERROR";
+            inventoryItems.push(
+              `**${itemName}** : (${amount}) x pcs\nRarity: ${rarity}, ID: ${itemID}\n`
+            );
           }
 
           inventoryEmbed.setDescription(inventoryItems.join("\n"));
           inventoryEmbed.setFooter(`Page ${currentPage}/${totalPages}`);
           return inventoryEmbed;
         }
-
-        const totalPages = Math.ceil(itemNames.length / itemsPerPage);
+        const itemNamesWithQuantity = Object.entries(items).filter(
+          ([itemName, quantity]) => quantity > 0
+        );
+        const totalPages = Math.ceil(
+          itemNamesWithQuantity.length / itemsPerPage
+        );
         const inventoryMessage = await message.channel.send(showCurrentPage());
 
-        if (totalPages > 1) {
+        if (totalPages > 1 && itemNamesWithQuantity.length > itemsPerPage) {
           await inventoryMessage.react("◀️");
           await inventoryMessage.react("▶️");
 
@@ -191,17 +192,22 @@ module.exports = {
 
           collector.on("collect", (reaction) => {
             reaction.users.remove(message.author).catch(console.error);
+
             if (reaction.emoji.name === "▶️" && currentPage < totalPages) {
               currentPage++;
+              inventoryMessage.edit(showCurrentPage());
             } else if (reaction.emoji.name === "◀️" && currentPage > 1) {
               currentPage--;
+              inventoryMessage.edit(showCurrentPage());
             }
-            inventoryMessage.edit(showCurrentPage());
           });
 
           collector.on("end", () => {
             inventoryMessage.reactions.removeAll().catch(console.error);
           });
+        } else {
+          // If the user has 7 items or less, remove the reactions (if any) from the message
+          inventoryMessage.reactions.removeAll().catch(console.error);
         }
       } else if (args[0].toLowerCase() === "craft") {
         const materials = {

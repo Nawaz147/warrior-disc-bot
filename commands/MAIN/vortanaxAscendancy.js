@@ -111,7 +111,7 @@ module.exports = {
           } else {
             var antiBot = db.fetch(`antiBot_${tokenDB}`);
 
-            if (antiBot == 42) {
+            if (antiBot == 45555) {
               db.set(`passedCaptchaVerification_${tokenDB}`, false);
               // ... CAPTCHA Verification logic (existing code) ...
 
@@ -300,7 +300,7 @@ module.exports = {
                       `yaml\nYou received : Unlocked Crate of Energy\n` +
                       "```"
                   );
-                } else if (chance <= 0.9) {
+                } else if (chance <= 0.5) {
                   console.log(randomScrap);
                   if (randomScrap == "Rusty gears") {
                     message.channel.send(
@@ -333,14 +333,14 @@ module.exports = {
                     );
                     db.add(`brokenStick_${tokenDB}`, 1);
                   }
-                } else if (chance <= 0.0025) {
+                } else if (chance <= 0.01) {
                   // 0.25% chance to get Vortex Orb
                   var vortexOrbs = db.fetch(`vortexOrb_${tokenDB}`) || 0;
                   db.set(`vortexOrb_${tokenDB}`, vortexOrbs + 1);
                   message.channel.send(
                     "```" + `diff\n+You received : Vortex Orb\n` + "```"
                   );
-                } else if (chance <= 0.0005) {
+                } else if (chance <= 0.0125) {
                   // 0.50% chance to get Verdant Whisper Leaf
                   var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
                   db.set(`verdantLeaf_${tokenDB}`, verdantLeaf + 1);
@@ -349,7 +349,7 @@ module.exports = {
                       `diff\n+You received : Verdant Whisper Leaf\n` +
                       "```"
                   );
-                } else if (chance <= 0.0075) {
+                } else if (chance <= 0.015) {
                   // 0.75% chance to get Celestial Moonstone
                   var celestialMoonstone =
                     db.fetch(`celestialMoonstone_${tokenDB}`) || 0;
@@ -362,7 +362,7 @@ module.exports = {
                       `diff\n+You received : Celestial Moonstone\n` +
                       "```"
                   );
-                } else if (chance <= 0.0075) {
+                } else if (chance <= 0.075) {
                   // 0.75% chance to get Crystalline Corestone
                   var crystallineCorestone =
                     db.fetch(`crystallineCorestone_${tokenDB}`) || 0;
@@ -375,7 +375,7 @@ module.exports = {
                       `diff\n+You received : Crystalline Corestone\n` +
                       "```"
                   );
-                } else if (chance <= 0.0008) {
+                } else if (chance <= 0.095) {
                   var tomes =
                     db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0;
                   db.set(`tomeOfEverlastingWisdom_${tokenDB}`, tomes + 1);
