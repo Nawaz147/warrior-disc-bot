@@ -863,6 +863,38 @@ module.exports = {
           }
         }
       }
+      if (item == "bullet") {
+        const bullet = db.fetch(`bullet_${tokenDB}`);
+        if (!bullet) {
+          message.channel.send(`You dont have Bullet`);
+        } else if (amountOfPieces > bullet) {
+          message.channel.send(`You dont have ${amountOfPieces}x Bullet`);
+        } else if (!amountOfPieces) {
+          message.channel.send(`Mention the amount of pieces you want to sell`);
+        } else {
+          const bulletSoldEmbed = new Discord.MessageEmbed()
+            .setTitle(`Bullet`)
+            .setDescription(
+              `YOU SOLD ${amountOfPieces}x "BULLET" FOR ${
+                (prices.bullet / 2) * amountOfPieces
+              } GOLD COINS (you have ${bullet - amountOfPieces} pieces left)`
+            )
+            .setColor("#D33333");
+          message.channel.send(bulletSoldEmbed);
+          db.add(`bulletStoreAdd`, amountOfPieces);
+          db.subtract(`bullet_${tokenDB}`, amountOfPieces);
+          db.add(
+            `money_${tokenDB}.pocket`,
+            (prices.bullet / 2) * amountOfPieces
+          );
+        }
+      }
+
+      if (item == "soldier") {
+        message.channel.send(
+          "You cannot sell a soldier , what are you even thinking 😑😑"
+        );
+      }
       if (item == "awakeningGem") {
         const awakeningGem = db.fetch(`awakeningGem_${tokenDB}`);
         if (!awakeningGem) {

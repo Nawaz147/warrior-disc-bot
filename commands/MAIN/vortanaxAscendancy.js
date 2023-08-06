@@ -292,15 +292,13 @@ module.exports = {
                 db.set(`vortanaxBossHealth_${tokenDB}`, 1490826);
 
                 if (chance <= 0.08) {
-                  // 8% chance to get Unlocked Crate of Energy
-                  var unlockedCrate =
-                    db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0;
-                  db.set(`unlockedCrateOfEnergy_${tokenDB}`, unlockedCrate + 1);
+                  var soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
+                  db.set(`soldiers_${tokenDB}`, soldiers + 1);
                   message.channel.send(
-                    "```" +
-                      `yaml\nYou received : Unlocked Crate of Energy\n` +
-                      "```"
+                    "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
                   );
+                  console.log("You received a soldier");
+                  // 8% chance to get Unlocked Crate of Energy
                 } else if (chance <= 0.1) {
                   var eliteAwakeningGem =
                     db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
@@ -309,7 +307,6 @@ module.exports = {
                     "```" + `yaml\nYou received : Elite awakening gem\n` + "```"
                   );
                 } else if (chance <= 0.5) {
-                  console.log(randomScrap);
                   if (randomScrap == "Rusty gears") {
                     message.channel.send(
                       "```" + `diff\nYou received : Rusty gears\n` + "```"
@@ -347,14 +344,12 @@ module.exports = {
                     db.add(`awakeningGem_${tokenDB}`, 1);
                   }
                 } else if (chance <= 0.01) {
-                  // 0.25% chance to get Vortex Orb
                   var vortexOrbs = db.fetch(`vortexOrb_${tokenDB}`) || 0;
                   db.set(`vortexOrb_${tokenDB}`, vortexOrbs + 1);
                   message.channel.send(
                     "```" + `diff\n+You received : Vortex Orb\n` + "```"
                   );
-                } else if (chance <= 0.0125) {
-                  // 0.50% chance to get Verdant Whisper Leaf
+                } else if (chance <= 0.012) {
                   var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
                   db.set(`verdantLeaf_${tokenDB}`, verdantLeaf + 1);
                   message.channel.send(
@@ -363,7 +358,6 @@ module.exports = {
                       "```"
                   );
                 } else if (chance <= 0.015) {
-                  // 0.75% chance to get Celestial Moonstone
                   var celestialMoonstone =
                     db.fetch(`celestialMoonstone_${tokenDB}`) || 0;
                   db.set(
@@ -376,7 +370,6 @@ module.exports = {
                       "```"
                   );
                 } else if (chance <= 0.075) {
-                  // 0.75% chance to get Crystalline Corestone
                   var crystallineCorestone =
                     db.fetch(`crystallineCorestone_${tokenDB}`) || 0;
                   db.set(
@@ -397,6 +390,15 @@ module.exports = {
                       `diff\n+You received : Tome of Everlasting Wisdom\n` +
                       "```"
                   );
+                } else if (chance <= 0.07) {
+                  var unlockedCrate =
+                    db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0;
+                  db.set(`unlockedCrateOfEnergy_${tokenDB}`, unlockedCrate + 1);
+                  message.channel.send(
+                    "```" +
+                      `yaml\nYou received : Unlocked Crate of Energy\n` +
+                      "```"
+                  );
                 } else {
                   bal = await db.fetch(`money_${tokenDB}.pocket`);
 
@@ -414,9 +416,60 @@ module.exports = {
                     );
                   } else {
                     db.add(`money_${tokenDB}.pocket`, Math.floor(finalCoins));
-                    db.add(`lootedGold_${tokenDB}`, Math.floor(finalCoins));
-                    var lootedGold = db.fetch(`lootedGold_${tokenDB}`) || 0;
+                    db.add(`lootedGold_${tokenDB}`, Math.floor(finalCoins)); // Use Math.floor() to remove decimals
+                    // Use Math.floor() to remove decimals
+                    const lootedGold = db.fetch(`lootedGold_${tokenDB}`) || 0;
+                    const apsData = [
+                      {
+                        amount: 100000,
+                        aps: 100,
+                        key: "acquiredAHeftySumOf100k",
+                        title: "APS COMPLETE - Acquired a hefty sum of 100k",
+                      },
+                      {
+                        amount: 500000,
+                        aps: 200,
+                        key: "amassedAnImpressiveHaulOf500k",
+                        title:
+                          "APS COMPLETE - Amassed an impressive haul of 500k",
+                      },
+                      {
+                        amount: 1000000,
+                        aps: 500,
+                        key: "reachedAmillionInRiches",
+                        title: "APS COMPLETE - Reached a million in riches",
+                      },
+                      {
+                        amount: 10000000,
+                        aps: 1000,
+                        key: "glorious10mPlunder",
+                        title: "APS COMPLETE - Glorious 10-Million Plunder",
+                      },
+                      {
+                        amount: 100000000,
+                        aps: 1700,
+                        key: "wealthConqueror",
+                        title: "APS COMPLETE - Wealth Conqueror",
+                      },
+                    ];
 
+                    for (const achievement of apsData) {
+                      const achievementKey = `${achievement.key}_${tokenDB}`;
+                      if (
+                        lootedGold >= achievement.amount &&
+                        !db.fetch(achievementKey)
+                      ) {
+                        const apsEmbed = new Discord.MessageEmbed()
+                          .setTitle(achievement.title)
+                          .setDescription(
+                            `${user} You gained ${achievement.aps} aps`
+                          )
+                          .setColor("#00FF00");
+                        db.set(achievementKey, true);
+                        db.add(`achievementPoints_${tokenDB}`, achievement.aps);
+                        message.channel.send(apsEmbed);
+                      }
+                    }
                     // ... Check for achievement points (existing code) ...
 
                     finalCoins = Math.floor(finalCoins)

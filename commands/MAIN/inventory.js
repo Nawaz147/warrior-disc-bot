@@ -38,40 +38,41 @@ module.exports = {
     } else {
       if (!args[0] || args[0].toLowerCase() !== "craft") {
         const items = {
-          "Gold Bar": db.fetch(`goldBar_${tokenDB}`) || 0,
-          "Awakening gem": db.fetch(`awakeningGem_${tokenDB}`) || 0,
-          "Elite awakening gem": db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
-          "Ventorian bow of ventor": db.fetch(`ventorianBow_${tokenDB}`) || 0,
-          "Texarus the demonished staff": db.fetch(`texarus_${tokenDB}`) || 0,
-          "Waetra the freezed bow": db.fetch(`waetra_${tokenDB}`) || 0,
-          "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
+          Bullet: db.fetch(`bullet_${tokenDB}`) || 0,
+          "Immortal gun of energy": db.fetch(`immortalGun_${tokenDB}`) || 0,
           "Nature daggers of superpower":
             db.fetch(`natureDaggers_${tokenDB}`) || 0,
-          "Immortal gun of energy": db.fetch(`immortalGun_${tokenDB}`) || 0,
-          "Golden Ghost Knight Set":
-            db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0,
-          "Supreme magical set": db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
-          "Frozen set": db.fetch(`frozenSet_${tokenDB}`) || 0,
-          "Super golem set": db.fetch(`superGolemSet_${tokenDB}`) || 0,
-          "Dawnfire set": db.fetch(`dawnfireSet_${tokenDB}`) || 0,
-          "Arcane sensei set": db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
-          "Intrepid set": db.fetch(`intrepidSet_${tokenDB}`) || 0,
-          "Medusa set": db.fetch(`medusaSet_${tokenDB}`) || 0,
-          "Unlocked crate of energy":
-            db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0,
           "Vortex orb": db.fetch(`vortexOrb_${tokenDB}`) || 0,
           "Verdant Whisper leaf": db.fetch(`verdantLeaf_${tokenDB}`) || 0,
           "Celestial Moonstone": db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
+          "Gold Bar": db.fetch(`goldBar_${tokenDB}`) || 0,
           "Crystalline corestone":
             db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
           "Tome of ever lasting wisdom":
             db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
+          "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
+          "Waetra the freezed bow": db.fetch(`waetra_${tokenDB}`) || 0,
+          "Arcane sensei set": db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
+          "Super golem set": db.fetch(`superGolemSet_${tokenDB}`) || 0,
+          "Supreme magical set": db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
+          "Golden Ghost Knight Set":
+            db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0,
+          "Medusa set": db.fetch(`medusaSet_${tokenDB}`) || 0,
+          "Intrepid set": db.fetch(`intrepidSet_${tokenDB}`) || 0,
+          "Frozen set": db.fetch(`frozenSet_${tokenDB}`) || 0,
+          "Dawnfire set": db.fetch(`dawnfireSet_${tokenDB}`) || 0,
+          "Texarus the demonished staff": db.fetch(`texarus_${tokenDB}`) || 0,
+          "Elite awakening gem": db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
+          "Unlocked crate of energy":
+            db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0,
+          "Awakening gem": db.fetch(`awakeningGem_${tokenDB}`) || 0,
+          "Ventorian bow of ventor": db.fetch(`ventorianBow_${tokenDB}`) || 0,
           "Rusty gears": db.fetch(`rustyGears_${tokenDB}`) || 0,
+          "Torn cloth": db.fetch(`tornCloth_${tokenDB}`) || 0,
+          "Broken stick": db.fetch(`brokenStick_${tokenDB}`) || 0,
           Dustbin: db.fetch(`dustbin_${tokenDB}`) || 0,
           Newspaper: db.fetch(`newspaper_${tokenDB}`) || 0,
-          "Torn cloth": db.fetch(`tornCloth_${tokenDB}`) || 0,
           "Used tissue": db.fetch(`usedTissue_${tokenDB}`) || 0,
-          "Broken stick": db.fetch(`brokenStick_${tokenDB}`) || 0,
         };
 
         // Function to get the rarity of an item
@@ -87,6 +88,7 @@ module.exports = {
         let currentPage = 1;
         const itemsRarity = {
           "Gold Bar": "Mythic",
+          Bullet: "Arcane",
           "Awakening gem": "Common",
           "Elite awakening gem": "Epic",
           "Ventorian bow of ventor": "Common",
@@ -118,6 +120,7 @@ module.exports = {
         };
         const itemsID = {
           "Gold Bar": "goldBar",
+          Bullet: "bullet",
           "Awakening gem": "awakeningGem",
           "Elite awakening gem": "eliteAwakeningGem",
           "Ventorian bow of ventor": "ventorianBow",

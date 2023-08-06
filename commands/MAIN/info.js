@@ -43,6 +43,14 @@ module.exports = {
       if (achievementPoints == null || achievementPoints == undefined) {
         achievementPoints = 0;
       }
+      var soldiers = db.fetch(`soldiers_${tokenDB}`);
+      if (soldiers == null || soldiers == undefined) {
+        soldiers = 0;
+      }
+      var battlesWon = db.fetch(`battlesWon_${tokenDB}`);
+      if (battlesWon == null || battlesWon == undefined) {
+        battlesWon = 0;
+      }
       const userInfoEmbed = new Discord.MessageEmbed()
         .setTitle(`${user.username}'s Info`)
         .addField("User ID", user.id)
@@ -51,7 +59,8 @@ module.exports = {
         .addField("User status", user.presence.status)
         .addField("Bosses killed", bossesKilledTotal)
         .addField("Achievement Points (APS)", achievementPoints)
-
+        .addField("Soldiers under command", soldiers)
+        .addField("Battles won", battlesWon)
         .setColor("#ffffff");
 
       if (banned === true) {

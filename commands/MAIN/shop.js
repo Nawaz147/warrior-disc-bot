@@ -106,6 +106,10 @@ module.exports = {
       if (goldBarPieces == null) {
         goldBarPieces = 0;
       }
+      var bulletPieces = 999999999999999999999999999999999999999999999999999;
+      if (bulletPieces == null) {
+        bulletPieces = 0;
+      }
       if (!args[1]) {
         const shopEmbed = new Discord.MessageEmbed().setTitle(`SHOP`)
           .setDescription(`
@@ -125,12 +129,48 @@ module.exports = {
 
 **Awakening gem :** (${awakeningGemPieces}) in stock [price : 17,850] <sells for half price>
 **Elite Awakening gem :** (${EliteAwakeningGemPieces}) in stock [price : 126,920] <sells for half price>
-**Gold Bar :** (UNLIMITED) in stock [price : 10,000,000] (sells for full price)
+**Gold Bar :** (UNLIMITED) in stock [price : 10,000,000] <sells for full price>
+**Bullet :** (UNLIMITED) in stock [price : 100,000,000] <sells for half price>
 `);
         message.channel.send(shopEmbed);
       } else {
         const money = db.fetch(`money_${tokenDB}.pocket`);
         if (args[0] == "buy") {
+          if (args[1] == "bullet") {
+            const quantity = parseInt(args[2]);
+
+            if (isNaN(quantity) || quantity <= 0) {
+              message.channel.send(
+                `Please provide a valid number of Bullets to buy.`
+              );
+            } else if (money < prices.bullet * quantity) {
+              message.channel.send(
+                `You don't have enough money to buy ${quantity} Bullet(s).`
+              );
+            } else if (bulletPieces == 0) {
+              message.channel.send(
+                `There are (0) pieces of Bullet in Valorium shop.`
+              );
+            } else if (quantity > bulletPieces) {
+              message.channel.send(
+                `There are only ${bulletPieces} Bullet(s) left.`
+              );
+            } else {
+              if (money < prices.bullet) {
+                message.channel.send(`You dont have enough money to buy it`);
+              } else if (bulletPieces == 0) {
+                message.channel.send(`There are (0) pieces in Valorium shop`);
+              } else {
+                const bulletEmbed = new Discord.MessageEmbed()
+                  .setTitle(`Bullet`)
+                  .setDescription(`You purchased ${quantity}x bullets`);
+                message.channel.send(bulletEmbed);
+                db.add(`bullet_${tokenDB}`, 1);
+                db.subtract(`money_${tokenDB}.pocket`, prices.bullet);
+                db.subtract(`bulletStoreAdd`, 1);
+              }
+            }
+          }
           if (args[1] == "natureDaggers") {
             if (money < prices.natureDaggers) {
               message.channel.send(`You dont have enough money to buy it`);

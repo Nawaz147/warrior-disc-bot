@@ -126,7 +126,7 @@ module.exports = {
           description: "Do awakening 50 times [normal / elite]",
           aps: 500,
           totalAwakeningsRequired: 50,
-          achieved: db.fetch(`ascendedFifty)${tokenDB}`) || false,
+          achieved: db.fetch(`ascendedFifty_${tokenDB}`) || false,
         },
         {
           name: "Centennial Epiphany (625 APS)",
@@ -145,7 +145,7 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setTitle(`${user.username}'s Unaccomplished Achievements`)
         .setColor("#00FF00")
-        .setFooter(`APS - ${achievementPoints} / 8415`);
+        .setFooter(`APS - ${achievementPoints} / 8390`);
 
       // Filter out the achieved achievements
       const remainingAchievements = allAchievements.filter(

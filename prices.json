@@ -7,7 +7,7 @@
     "immortalGun" : 150000000,
     "awakeningGem" : 17850,
     "eliteAwakeningGem" : 126920,
-    "unlockedCrateOfEnergy" : 280802,
+    "unlockedCrateOfEnergy" : 0,
     "vortexOrb" : 50000000,
     "verdantLeaf" : 45000000,
     "celestialMoonStone" : 37580500,
@@ -26,5 +26,7 @@
     "newspaper" : 432,
     "tornCloth" : 2042, 
     "usedTissue" : 98, 
-    "brokenStick" : 872
+    "brokenStick" : 872 ,
+    "soldier" : 0,
+    "bullet" : 100000000
 }

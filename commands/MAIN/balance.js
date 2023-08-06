@@ -20,7 +20,6 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
-
     if (!tokenDB) {
       message.channel.send(
         `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`

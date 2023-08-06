@@ -44,6 +44,7 @@ module.exports = {
 -------------------------------------------
 **CONTENT UPDATE (6 AUG 2023)**  
 **+** Sell option added [+sell (itemID) (Number of pieces to sell)]
+**+** Attack option added [+shoot (user)]
 -------------------------------------------
 **CONTENT UPDATE (5 AUG 2023)**  
 **+** Inventory bug fixed
