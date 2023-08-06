@@ -38,6 +38,7 @@ module.exports = {
     } else {
       if (!args[0] || args[0].toLowerCase() !== "craft") {
         const items = {
+          "Gold Bar": db.fetch(`goldBar_${tokenDB}`) || 0,
           "Awakening gem": db.fetch(`awakeningGem_${tokenDB}`) || 0,
           "Elite awakening gem": db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
           "Ventorian bow of ventor": db.fetch(`ventorianBow_${tokenDB}`) || 0,
@@ -85,6 +86,7 @@ module.exports = {
         const itemsPerPage = 8;
         let currentPage = 1;
         const itemsRarity = {
+          "Gold Bar": "Mythic",
           "Awakening gem": "Common",
           "Elite awakening gem": "Epic",
           "Ventorian bow of ventor": "Common",
@@ -115,6 +117,7 @@ module.exports = {
           "Broken stick": "common",
         };
         const itemsID = {
+          "Gold Bar": "goldBar",
           "Awakening gem": "awakeningGem",
           "Elite awakening gem": "eliteAwakeningGem",
           "Ventorian bow of ventor": "ventorianBow",

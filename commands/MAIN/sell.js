@@ -39,34 +39,7 @@ module.exports = {
         message.channel.send(
           "Enter an item name you want to sell , eg: +sell rasheta"
         );
-      } else if (
-        !prices.hasOwnProperty(item)
-        // item !== "rasheta" &&
-        // item !== "waetra" &&
-        // item !== "texarus" &&
-        // item !== "natureDaggers" &&
-        // item !== "immortalGun" &&
-        // item !== "goldenGhostKnightSet" &&
-        // item !== "arcaneSenseiSet" &&
-        // item !== "frozenSet" &&
-        // item !== "superGolemset" &&
-        // item !== "dawnfireSet" &&
-        // item !== "intrepidSet" &&
-        // item !== "medusaSet" &&
-        // item !== "supremeMagicalSet" &&
-        // item !== "unlockedCrateOfEnergy" &&
-        // item !== "vortexOrb" &&
-        // item !== "verdantLeaf" &&
-        // item !== "celestialMoonstone" &&
-        // item !== "crystallineCorestone" &&
-        // item !== "tomeOfEverlastingWisdom" &&
-        // item !== "rustyGears" &&
-        // item !== "dustbin" &&
-        // item !== "newspaper" &&
-        // item !== "tornCloth" &&
-        // item !== "usedTissue" &&
-        // item !== "brokenStick"
-      ) {
+      } else if (!prices.hasOwnProperty(item)) {
         message.channel.send(
           `Invalid item name , **Usage example : +sell [itemID] [Number of pieces]**`
         );
@@ -89,6 +62,36 @@ module.exports = {
           return;
         } else {
           var amountOfPieces = parseInt(args[1]);
+          if (item == "goldBar") {
+            const goldBar = db.fetch(`goldBar_${tokenDB}`);
+            if (!goldBar) {
+              message.channel.send(`You dont have Gold Bar`);
+            } else if (amountOfPieces > goldBar) {
+              message.channel.send(`You dont have ${amountOfPieces}x Gold Bar`);
+            } else if (!amountOfPieces) {
+              message.channel.send(
+                `Mention the amount of pieces you want to sell`
+              );
+            } else {
+              db.add(`goldBarStoreAdd`, amountOfPieces);
+              db.subtract(`goldBar_${tokenDB}`, amountOfPieces);
+              db.add(
+                `money_${tokenDB}.pocket`,
+                prices.goldBar * amountOfPieces
+              );
+              const goldBarSoldEmbed = new Discord.MessageEmbed()
+                .setTitle(`Gold Bar`)
+                .setDescription(
+                  `YOU SOLD ${amountOfPieces}x "Gold Bar" FOR ${
+                    prices.goldBar * amountOfPieces
+                  } GOLD COINS (you have ${
+                    goldBar - amountOfPieces
+                  } pieces left)`
+                )
+                .setColor("#D33333");
+              message.channel.send(goldBarSoldEmbed);
+            }
+          }
           if (item == "rasheta") {
             const rasheta = db.fetch(`rasheta_${tokenDB}`);
             if (!rasheta) {
@@ -106,13 +109,14 @@ module.exports = {
               db.subtract(`rasheta_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.rasheta * amountOfPieces
+                (prices.rasheta / 2) * amountOfPieces
               );
+
               const rashetaSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Rasheta The Furious Axe`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "RASHETA THE FURIOUS AXE" FOR ${
-                    prices.rasheta * amountOfPieces
+                    (prices.rasheta / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     rasheta - amountOfPieces
                   } pieces left)`
@@ -136,12 +140,15 @@ module.exports = {
             } else {
               db.add(`waetraStoreAdd`, amountOfPieces);
               db.subtract(`waetra_${tokenDB}`, amountOfPieces);
-              db.add(`money_${tokenDB}.pocket`, prices.waetra * amountOfPieces);
+              db.add(
+                `money_${tokenDB}.pocket`,
+                (prices.waetra / 2) * amountOfPieces
+              );
               const waetraSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Waetra the freezed bow`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "WAETRA THE FREEZED BOW" FOR ${
-                    prices.waetra * amountOfPieces
+                    (prices.waetra / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     waetra - amountOfPieces
                   } pieces left)`
@@ -169,13 +176,13 @@ module.exports = {
               db.subtract(`texarus_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.texarus * amountOfPieces
+                (prices.texarus / 2) * amountOfPieces
               );
               const texarusSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Texarus the demonished staff`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "TEXARUS THE DEMONISHED STAFF" FOR ${
-                    prices.texarus * amountOfPieces
+                    (prices.texarus / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     texarus - amountOfPieces
                   } pieces left)`
@@ -203,13 +210,13 @@ module.exports = {
               db.subtract(`natureDaggers_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.natureDaggers * amountOfPieces
+                (prices.natureDaggers / 2) * amountOfPieces
               );
               const natureDaggersSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Nature Daggers of Superpower`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "NATURE DAGGERS OF SUPERPOWER" FOR ${
-                    prices.natureDaggers * amountOfPieces
+                    (prices.natureDaggers / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     natureDaggers - amountOfPieces
                   } pieces left)`
@@ -235,13 +242,13 @@ module.exports = {
               db.subtract(`immortalGun_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.immortalGun * amountOfPieces
+                (prices.immortalGun / 2) * amountOfPieces
               );
               const immortalGunSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Immortal Gun of Energy`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "IMMORTAL GUN OF ENERGY" FOR ${
-                    prices.immortalGun * amountOfPieces
+                    (prices.immortalGun / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     immortalGun - amountOfPieces
                   } pieces left)`
@@ -270,7 +277,7 @@ module.exports = {
                 .setTitle(`Golden Ghost Knight Set`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "GOLDEN GHOST KNIGHT SET" FOR ${
-                    prices.goldenGhostKnightSet * amountOfPieces
+                    (prices.goldenGhostKnightSet / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     goldenGhostKnightSet - amountOfPieces
                   } pieces left)`
@@ -281,7 +288,7 @@ module.exports = {
               db.subtract(`goldenGhostKnightSet_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.goldenGhostKnightSet * amountOfPieces
+                (prices.goldenGhostKnightSet / 2) * amountOfPieces
               );
             }
           }
@@ -302,7 +309,7 @@ module.exports = {
                 .setTitle(`Arcane sensei set`)
                 .setDescription(
                   `YOU SOLD ${amountOfPieces}x "ARCANE SENSEI SET" FOR ${
-                    prices.arcaneSenseiSet * amountOfPieces
+                    (prices.arcaneSenseiSet / 2) * amountOfPieces
                   } GOLD COINS (you have ${
                     arcaneSenseiSet - amountOfPieces
                   } pieces left)`
@@ -313,7 +320,7 @@ module.exports = {
               db.subtract(`arcaneSenseiSet_${tokenDB}`, amountOfPieces);
               db.add(
                 `money_${tokenDB}.pocket`,
-                prices.arcaneSenseiSet * amountOfPieces
+                (prices.arcaneSenseiSet / 2) * amountOfPieces
               );
             }
           }
@@ -333,7 +340,7 @@ module.exports = {
               .setTitle(`Frozen set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "FROZEN SET" FOR ${
-                  prices.frozenSet * amountOfPieces
+                  (prices.frozenSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   frozenSet - amountOfPieces
                 } pieces left)`
@@ -344,7 +351,7 @@ module.exports = {
             db.subtract(`frozenSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.frozenSet * amountOfPieces
+              (prices.frozenSet / 2) * amountOfPieces
             );
           }
         }
@@ -365,7 +372,7 @@ module.exports = {
               .setTitle(`Super golem set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "SUPER GOLEM SET" FOR ${
-                  prices.superGolemSet * amountOfPieces
+                  (prices.superGolemSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   superGolemSet - amountOfPieces
                 } pieces left)`
@@ -376,7 +383,7 @@ module.exports = {
             db.subtract(`superGolemSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.superGolemSet * amountOfPieces
+              (prices.superGolemSet / 2) * amountOfPieces
             );
           }
         }
@@ -397,7 +404,7 @@ module.exports = {
               .setTitle(`Dawnfire set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "DAWNFIRE SET" FOR ${
-                  prices.dawnfireSet * amountOfPieces
+                  (prices.dawnfireSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   dawnfireSet - amountOfPieces
                 } pieces left)`
@@ -408,7 +415,7 @@ module.exports = {
             db.subtract(`dawnfireSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.dawnfireSet * amountOfPieces
+              (prices.dawnfireSet / 2) * amountOfPieces
             );
           }
         }
@@ -429,7 +436,7 @@ module.exports = {
               .setTitle(`Intrepid set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "INTREPID SET" FOR ${
-                  prices.intrepidSet * amountOfPieces
+                  (prices.intrepidSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   intrepidSet - amountOfPieces
                 } pieces left)`
@@ -440,7 +447,7 @@ module.exports = {
             db.subtract(`intrepidSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.intrepidSet * amountOfPieces
+              (prices.intrepidSet / 2) * amountOfPieces
             );
           }
         }
@@ -459,7 +466,7 @@ module.exports = {
               .setTitle(`Medusa set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "MEDUSA SET" FOR ${
-                  prices.medusaSet * amountOfPieces
+                  (prices.medusaSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   medusaSet - amountOfPieces
                 } pieces left)`
@@ -470,7 +477,7 @@ module.exports = {
             db.subtract(`medusaSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.medusaSet * amountOfPieces
+              (prices.medusaSet / 2) * amountOfPieces
             );
           }
         }
@@ -491,7 +498,7 @@ module.exports = {
               .setTitle(`Supreme magical set`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "SUPREME MAGICAL SET" FOR ${
-                  prices.supremeMagicalSet * amountOfPieces
+                  (prices.supremeMagicalSet / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   supremeMagicalSet - amountOfPieces
                 } pieces left)`
@@ -502,7 +509,7 @@ module.exports = {
             db.subtract(`supremeMagicalSet_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.supremeMagicalSet * amountOfPieces
+              (prices.supremeMagicalSet / 2) * amountOfPieces
             );
           }
         }
@@ -524,7 +531,7 @@ module.exports = {
               .setTitle(`Vortex orb`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "VORTEX ORB" FOR ${
-                  prices.vortexOrb * amountOfPieces
+                  (prices.vortexOrb / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   vortexOrb - amountOfPieces
                 } pieces left)`
@@ -535,7 +542,7 @@ module.exports = {
             db.subtract(`vortexOrb_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.vortexOrb * amountOfPieces
+              (prices.vortexOrb / 2) * amountOfPieces
             );
           }
         }
@@ -556,7 +563,7 @@ module.exports = {
               .setTitle(`Verdant Whisper leaf`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "VERDANT WHISPER LEAF" FOR ${
-                  prices.verdantLeaf * amountOfPieces
+                  (prices.verdantLeaf / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   verdantLeaf - amountOfPieces
                 } pieces left)`
@@ -567,7 +574,7 @@ module.exports = {
             db.subtract(`verdantLeaf_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.verdantLeaf * amountOfPieces
+              (prices.verdantLeaf / 2) * amountOfPieces
             );
           }
         }
@@ -588,7 +595,7 @@ module.exports = {
               .setTitle(`Celestial Moonstone`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "CELESTIAL MOONSTONE" FOR ${
-                  prices.celestialMoonstone * amountOfPieces
+                  (prices.celestialMoonstone / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   celestialMoonstone - amountOfPieces
                 } pieces left)`
@@ -599,7 +606,7 @@ module.exports = {
             db.subtract(`celestialMoonstone_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.celestialMoonstone * amountOfPieces
+              (prices.celestialMoonstone / 2) * amountOfPieces
             );
           }
         }
@@ -622,7 +629,7 @@ module.exports = {
               .setTitle(`Crystalline Corestone`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "CRYSTALLINE CORESTONE" FOR ${
-                  prices.crystallineCorestone * amountOfPieces
+                  (prices.crystallineCorestone / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   crystallineCorestone - amountOfPieces
                 } pieces left)`
@@ -633,7 +640,7 @@ module.exports = {
             db.subtract(`crystallineCorestone_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.crystallineCorestone * amountOfPieces
+              (prices.crystallineCorestone / 2) * amountOfPieces
             );
           }
         }
@@ -656,7 +663,7 @@ module.exports = {
               .setTitle(`Tome of everlasting wisdom`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "TOME OF EVERLASTING WISDOM" FOR ${
-                  prices.tomeOfEverlastingWisdom * amountOfPieces
+                  (prices.tomeOfEverlastingWisdom / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   tomeOfEverlastingWisdom - amountOfPieces
                 } pieces left)`
@@ -667,7 +674,7 @@ module.exports = {
             db.subtract(`tomeOfEverlastingWisdom_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.tomeOfEverlastingWisdom * amountOfPieces
+              (prices.tomeOfEverlastingWisdom / 2) * amountOfPieces
             );
           }
         }
@@ -688,7 +695,7 @@ module.exports = {
               .setTitle(`Rusty gears`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "RUSTY GEARS" FOR ${
-                  prices.rustyGears * amountOfPieces
+                  (prices.rustyGears / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   rustyGears - amountOfPieces
                 } pieces left)`
@@ -699,7 +706,7 @@ module.exports = {
             db.subtract(`rustyGears_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.rustyGears * amountOfPieces
+              (prices.rustyGears / 2) * amountOfPieces
             );
           }
         }
@@ -718,14 +725,17 @@ module.exports = {
               .setTitle(`Dustbin`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "DUSTBIN" FOR ${
-                  prices.dustbin * amountOfPieces
+                  (prices.dustbin / 2) * amountOfPieces
                 } GOLD COINS (you have ${dustbin - 1} pieces left)`
               )
               .setColor("#D33333");
             message.channel.send(dustbinSoldEmbed);
             db.add(`dustbinStoreAdd`, amountOfPieces);
             db.subtract(`dustbin_${tokenDB}`, amountOfPieces);
-            db.add(`money_${tokenDB}.pocket`, prices.dustbin * amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.dustbin / 2) * amountOfPieces
+            );
           }
         }
         if (item == "newspaper") {
@@ -743,7 +753,7 @@ module.exports = {
               .setTitle(`Newspaper`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "NEWSPAPER" FOR ${
-                  prices.newspaper * amountOfPieces
+                  (prices.newspaper / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   newspaper - amountOfPieces
                 } pieces left)`
@@ -754,7 +764,7 @@ module.exports = {
             db.subtract(`newspaper_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.newspaper * amountOfPieces
+              (prices.newspaper / 2) * amountOfPieces
             );
           }
         }
@@ -773,7 +783,7 @@ module.exports = {
               .setTitle(`Torn cloth`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "TORN CLOTH" FOR ${
-                  prices.tornCloth * amountOfPieces
+                  (prices.tornCloth / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   tornCloth - amountOfPieces
                 } pieces left)`
@@ -784,7 +794,7 @@ module.exports = {
             db.subtract(`tornCloth_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.tornCloth * amountOfPieces
+              (prices.tornCloth / 2) * amountOfPieces
             );
           }
         }
@@ -805,7 +815,7 @@ module.exports = {
               .setTitle(`Used tissue`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "USED TISSUE" FOR ${
-                  prices.usedTissue * amountOfPieces
+                  (prices.usedTissue / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   usedTissue - amountOfPieces
                 } pieces left)`
@@ -816,7 +826,7 @@ module.exports = {
             db.subtract(`usedTissue_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.usedTissue * amountOfPieces
+              (prices.usedTissue / 2) * amountOfPieces
             );
           }
         }
@@ -837,7 +847,7 @@ module.exports = {
               .setTitle(`Broken stick`)
               .setDescription(
                 `YOU SOLD ${amountOfPieces}x "BROKEN STICK" FOR ${
-                  prices.brokenStick * amountOfPieces
+                  (prices.brokenStick / 2) * amountOfPieces
                 } GOLD COINS (you have ${
                   brokenStick - amountOfPieces
                 } pieces left)`
@@ -848,9 +858,69 @@ module.exports = {
             db.subtract(`brokenStick_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.brokenStick * amountOfPieces
+              (prices.brokenStick / 2) * amountOfPieces
             );
           }
+        }
+      }
+      if (item == "awakeningGem") {
+        const awakeningGem = db.fetch(`awakeningGem_${tokenDB}`);
+        if (!awakeningGem) {
+          message.channel.send(`You dont have Awakening gem`);
+        } else if (amountOfPieces > awakeningGem) {
+          message.channel.send(
+            `You dont have ${amountOfPieces}x Awakening gem`
+          );
+        } else if (!amountOfPieces) {
+          message.channel.send(`Mention the amount of pieces you want to sell`);
+        } else {
+          const awakeningGemSoldEmbed = new Discord.MessageEmbed()
+            .setTitle(`Awakening gem`)
+            .setDescription(
+              `YOU SOLD ${amountOfPieces}x "AWAKENING GEM" FOR ${
+                (prices.awakeningGem / 2) * amountOfPieces
+              } GOLD COINS (you have ${
+                awakeningGem - amountOfPieces
+              } pieces left)`
+            )
+            .setColor("#D33333");
+          message.channel.send(awakeningGemSoldEmbed);
+          db.add(`awakeningGemStoreAdd`, amountOfPieces);
+          db.subtract(`awakeningGem_${tokenDB}`, amountOfPieces);
+          db.add(
+            `money_${tokenDB}.pocket`,
+            (prices.awakeningGem / 2) * amountOfPieces
+          );
+        }
+      }
+      if (item == "eliteAwakeningGem") {
+        const eliteAwakeningGem = db.fetch(`eliteAwakeningGem_${tokenDB}`);
+        if (!eliteAwakeningGem) {
+          message.channel.send(`You dont have Elite Awakening gem`);
+        } else if (amountOfPieces > eliteAwakeningGem) {
+          message.channel.send(
+            `You dont have ${amountOfPieces}x Elite Awakening gem`
+          );
+        } else if (!amountOfPieces) {
+          message.channel.send(`Mention the amount of pieces you want to sell`);
+        } else {
+          const eliteAwakeningGemSoldEmbed = new Discord.MessageEmbed()
+            .setTitle(`Elite Awakening gem`)
+            .setDescription(
+              `YOU SOLD ${amountOfPieces}x "ELITE AWAKENING GEM" FOR ${
+                (prices.eliteAwakeningGem / 2) * amountOfPieces
+              } GOLD COINS (you have ${
+                eliteAwakeningGem - amountOfPieces
+              } pieces left)`
+            )
+            .setColor("#D33333");
+          message.channel.send(eliteAwakeningGemSoldEmbed);
+          db.add(`eliteAwakeningGemStoreAdd`, amountOfPieces);
+          db.subtract(`eliteAwakeningGem_${tokenDB}`, amountOfPieces);
+          db.add(
+            `money_${tokenDB}.pocket`,
+            (prices.eliteAwakeningGem / 2) * amountOfPieces
+          );
         }
       }
     }

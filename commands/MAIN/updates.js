@@ -42,6 +42,12 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (6 AUG 2023)**  
+**+** Sell option added [+sell (itemID) (Number of pieces to sell)]
+-------------------------------------------
+**CONTENT UPDATE (5 AUG 2023)**  
+**+** Inventory bug fixed
+-------------------------------------------
 **CONTENT UPDATE (4 AUG 2023)**  
 **+** Normal inventory sections added (react to go next page)
 -------------------------------------------

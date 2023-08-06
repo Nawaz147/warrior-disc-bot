@@ -94,13 +94,17 @@ module.exports = {
       if (goldenGhostKnightSetPieces == null) {
         goldenGhostKnightSetPieces = 0;
       }
-      var awakeningGemPieces = 999999999999999999999999999999999999999999999999999;
+      var awakeningGemPieces = db.fetch(`awakeningGemStoreAdd`);
       if (awakeningGemPieces == null) {
         awakeningGemPieces = 0;
       }
-      var EliteAwakeningGemPieces = 999999999999999999999999999999999999999999999999999;
+      var EliteAwakeningGemPieces = db.fetch(`eliteAwakeningGemStoreAdd`);
       if (EliteAwakeningGemPieces == null) {
         EliteAwakeningGemPieces = 0;
+      }
+      var goldBarPieces = 999999999999999999999999999999999999999999999999999;
+      if (goldBarPieces == null) {
+        goldBarPieces = 0;
       }
       if (!args[1]) {
         const shopEmbed = new Discord.MessageEmbed().setTitle(`SHOP`)
@@ -109,18 +113,19 @@ module.exports = {
 **WEAPONS**
 ----------------
 
-**IMMORTAL GUN OF ENERGY :** (${immortalGunPieces}) in stock [price : 150,000,000]
-**NATURE DAGGERS OF SUPERPOWER :** (${natureDaggersPieces}) in stock [price : 100,000,000]
-**RASHETA THE FURIOUS AXE :** (${rashetaPieces}) in stock [price : 50,000,000]
-**WAETRA THE FREEZED BOW :** (${waetraPieces}) in stock [price : 22,500,000]
-**TEXARUS THE DEMONISHED STAFF :** (${texarusPieces}) in stock [price : 5,000,000]
+**IMMORTAL GUN OF ENERGY :** (${immortalGunPieces}) in stock [price : 150,000,000] <sells for half price>
+**NATURE DAGGERS OF SUPERPOWER :** (${natureDaggersPieces}) in stock [price : 100,000,000] <sells for half price>
+**RASHETA THE FURIOUS AXE :** (${rashetaPieces}) in stock [price : 50,000,000] <sells for half price>
+**WAETRA THE FREEZED BOW :** (${waetraPieces}) in stock [price : 22,500,000] <sells for half price>
+**TEXARUS THE DEMONISHED STAFF :** (${texarusPieces}) in stock [price : 5,000,000] <sells for half price>
 
 ----------------
 **OTHERS**
 ----------------
 
-**Awakening gem :** (UNLIMITED) in stock [price : 17,850]
-**Elite Awakening gem :** (UNLIMITED) in stock [price : 126,920]
+**Awakening gem :** (${awakeningGemPieces}) in stock [price : 17,850] <sells for half price>
+**Elite Awakening gem :** (${EliteAwakeningGemPieces}) in stock [price : 126,920] <sells for half price>
+**Gold Bar :** (UNLIMITED) in stock [price : 10,000,000] (sells for full price)
 `);
         message.channel.send(shopEmbed);
       } else {
@@ -273,7 +278,35 @@ module.exports = {
               db.subtract(`EliteAwakeningGemStoreAdd`, quantity);
             }
           }
+          if (args[1] == "goldBar") {
+            const quantity = parseInt(args[2]);
 
+            if (isNaN(quantity) || quantity <= 0) {
+              message.channel.send(
+                `Please provide a valid number of elite awakening gems to buy.`
+              );
+            } else if (money < prices.goldBar * quantity) {
+              message.channel.send(
+                `You don't have enough money to buy ${quantity} Gold Bar(s).`
+              );
+            } else if (goldBarPieces == 0) {
+              message.channel.send(
+                `There are (0) pieces of Gold Bar in Valorium shop.`
+              );
+            } else if (quantity > goldBarPieces) {
+              message.channel.send(
+                `There are only ${goldBarPieces} Gold Bar(s) left.`
+              );
+            } else {
+              const goldBarEmbed = new Discord.MessageEmbed()
+                .setTitle(`Gold Bar`)
+                .setDescription(`You purchased Gold Bar (${quantity} pieces)`);
+              message.channel.send(goldBarEmbed);
+              db.add(`goldBar_${tokenDB}`, quantity);
+              db.subtract(`money_${tokenDB}.pocket`, prices.goldBar * quantity);
+              db.subtract(`goldBarStoreAdd`, quantity);
+            }
+          }
           // ... your existing code ...
 
           // ... your existing code ...

@@ -28,6 +28,7 @@ module.exports = {
       "Torn cloth",
       "Used tissue",
       "Broken stick",
+      "Awakening gem",
     ];
     var shuffledItems = scrapItems.slice().sort(() => Math.random() - 0.5);
     var randomScrap = shuffledItems[0];
@@ -300,6 +301,13 @@ module.exports = {
                       `yaml\nYou received : Unlocked Crate of Energy\n` +
                       "```"
                   );
+                } else if (chance <= 0.1) {
+                  var eliteAwakeningGem =
+                    db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
+                  db.set(`eliteAwakeningGem_${tokenDB}`, eliteAwakeningGem + 1);
+                  message.channel.send(
+                    "```" + `yaml\nYou received : Elite awakening gem\n` + "```"
+                  );
                 } else if (chance <= 0.5) {
                   console.log(randomScrap);
                   if (randomScrap == "Rusty gears") {
@@ -332,6 +340,11 @@ module.exports = {
                       "```" + `diff\nYou received : Broken stick\n` + "```"
                     );
                     db.add(`brokenStick_${tokenDB}`, 1);
+                  } else if (randomScrap == "Awakening gem") {
+                    message.channel.send(
+                      "```" + `diff\nYou received : Awakening gem\n` + "```"
+                    );
+                    db.add(`awakeningGem_${tokenDB}`, 1);
                   }
                 } else if (chance <= 0.01) {
                   // 0.25% chance to get Vortex Orb
