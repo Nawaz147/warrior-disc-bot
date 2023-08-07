@@ -41,7 +41,6 @@ module.exports = {
       // goldenTokens = db.fetch(`goldenTokens_${tokenDB}`);
       // if (goldenTokens === null) goldenTokens = "0";
       // if (goldenTokens === undefined) goldenTokens = "0";
-
       if (bal === null) bal = "0";
       if (bal === undefined) bal = "0";
       bal = bal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

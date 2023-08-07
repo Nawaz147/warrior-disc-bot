@@ -30,6 +30,27 @@ module.exports = {
       "Broken stick",
       "Awakening gem",
     ];
+    const soldierChance = 0.08;
+    const eliteAwakeningGemChance = 0.02;
+    const scrapChance = 0.3;
+    const vortexOrbChance = 0.01;
+    const verdantLeafChance = 0.002;
+    const celestialMoonstoneChance = 0.003;
+    const crystallineCorestoneChance = 0.015;
+    const tomeOfEverlastingWisdomChance = 0.015;
+    const unlockedCrateChance = 0.07;
+    const goldCoinsChance =
+      1 -
+      (soldierChance +
+        eliteAwakeningGemChance +
+        scrapChance +
+        vortexOrbChance +
+        verdantLeafChance +
+        celestialMoonstoneChance +
+        crystallineCorestoneChance +
+        tomeOfEverlastingWisdomChance +
+        unlockedCrateChance);
+
     var shuffledItems = scrapItems.slice().sort(() => Math.random() - 0.5);
     var randomScrap = shuffledItems[0];
     if (!tokenDB) {
@@ -291,7 +312,7 @@ module.exports = {
                 db.set(`cooldown_${tokenDB}`, Date.now());
                 db.set(`vortanaxBossHealth_${tokenDB}`, 1490826);
 
-                if (chance <= 0.08) {
+                if (chance <= soldierChance) {
                   var soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
                   db.set(`soldiers_${tokenDB}`, soldiers + 1);
                   message.channel.send(
@@ -299,14 +320,14 @@ module.exports = {
                   );
                   console.log("You received a soldier");
                   // 8% chance to get Unlocked Crate of Energy
-                } else if (chance <= 0.1) {
+                } else if (chance <= eliteAwakeningGemChance) {
                   var eliteAwakeningGem =
                     db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
                   db.set(`eliteAwakeningGem_${tokenDB}`, eliteAwakeningGem + 1);
                   message.channel.send(
                     "```" + `yaml\nYou received : Elite awakening gem\n` + "```"
                   );
-                } else if (chance <= 0.5) {
+                } else if (chance <= scrapChance) {
                   if (randomScrap == "Rusty gears") {
                     message.channel.send(
                       "```" + `diff\nYou received : Rusty gears\n` + "```"
@@ -343,13 +364,13 @@ module.exports = {
                     );
                     db.add(`awakeningGem_${tokenDB}`, 1);
                   }
-                } else if (chance <= 0.01) {
+                } else if (chance <= vortexOrbChance) {
                   var vortexOrbs = db.fetch(`vortexOrb_${tokenDB}`) || 0;
                   db.set(`vortexOrb_${tokenDB}`, vortexOrbs + 1);
                   message.channel.send(
                     "```" + `diff\n+You received : Vortex Orb\n` + "```"
                   );
-                } else if (chance <= 0.012) {
+                } else if (chance <= verdantLeafChance) {
                   var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
                   db.set(`verdantLeaf_${tokenDB}`, verdantLeaf + 1);
                   message.channel.send(
@@ -357,7 +378,7 @@ module.exports = {
                       `diff\n+You received : Verdant Whisper Leaf\n` +
                       "```"
                   );
-                } else if (chance <= 0.015) {
+                } else if (chance <= celestialMoonstoneChance) {
                   var celestialMoonstone =
                     db.fetch(`celestialMoonstone_${tokenDB}`) || 0;
                   db.set(
@@ -369,7 +390,7 @@ module.exports = {
                       `diff\n+You received : Celestial Moonstone\n` +
                       "```"
                   );
-                } else if (chance <= 0.075) {
+                } else if (chance <= crystallineCorestoneChance) {
                   var crystallineCorestone =
                     db.fetch(`crystallineCorestone_${tokenDB}`) || 0;
                   db.set(
@@ -381,7 +402,7 @@ module.exports = {
                       `diff\n+You received : Crystalline Corestone\n` +
                       "```"
                   );
-                } else if (chance <= 0.095) {
+                } else if (chance <= tomeOfEverlastingWisdomChance) {
                   var tomes =
                     db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0;
                   db.set(`tomeOfEverlastingWisdom_${tokenDB}`, tomes + 1);
@@ -390,7 +411,7 @@ module.exports = {
                       `diff\n+You received : Tome of Everlasting Wisdom\n` +
                       "```"
                   );
-                } else if (chance <= 0.07) {
+                } else if (chance <= unlockedCrateChance) {
                   var unlockedCrate =
                     db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0;
                   db.set(`unlockedCrateOfEnergy_${tokenDB}`, unlockedCrate + 1);
@@ -399,10 +420,92 @@ module.exports = {
                       `yaml\nYou received : Unlocked Crate of Energy\n` +
                       "```"
                   );
-                } else {
+                } else if (chance <= goldCoinsChance) {
                   bal = await db.fetch(`money_${tokenDB}.pocket`);
 
                   var randomGoldCoins = Math.floor(Math.random() * 2900) + 8209;
+                  var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
+                  let finalCoins;
+                  if (goldLoot == 0) {
+                    finalCoins = randomGoldCoins;
+                  } else {
+                    finalCoins = randomGoldCoins * goldLoot + 1;
+                  }
+                  if (finalCoins + bal > moneyCap.moneyCap) {
+                    message.channel.send(
+                      "**You cannot exceed the gold limit**"
+                    );
+                  } else {
+                    db.add(`money_${tokenDB}.pocket`, Math.floor(finalCoins));
+                    db.add(`lootedGold_${tokenDB}`, Math.floor(finalCoins)); // Use Math.floor() to remove decimals
+                    // Use Math.floor() to remove decimals
+                    const lootedGold = db.fetch(`lootedGold_${tokenDB}`) || 0;
+                    const apsData = [
+                      {
+                        amount: 100000,
+                        aps: 100,
+                        key: "acquiredAHeftySumOf100k",
+                        title: "APS COMPLETE - Acquired a hefty sum of 100k",
+                      },
+                      {
+                        amount: 500000,
+                        aps: 200,
+                        key: "amassedAnImpressiveHaulOf500k",
+                        title:
+                          "APS COMPLETE - Amassed an impressive haul of 500k",
+                      },
+                      {
+                        amount: 1000000,
+                        aps: 500,
+                        key: "reachedAmillionInRiches",
+                        title: "APS COMPLETE - Reached a million in riches",
+                      },
+                      {
+                        amount: 10000000,
+                        aps: 1000,
+                        key: "glorious10mPlunder",
+                        title: "APS COMPLETE - Glorious 10-Million Plunder",
+                      },
+                      {
+                        amount: 100000000,
+                        aps: 1700,
+                        key: "wealthConqueror",
+                        title: "APS COMPLETE - Wealth Conqueror",
+                      },
+                    ];
+
+                    for (const achievement of apsData) {
+                      const achievementKey = `${achievement.key}_${tokenDB}`;
+                      if (
+                        lootedGold >= achievement.amount &&
+                        !db.fetch(achievementKey)
+                      ) {
+                        const apsEmbed = new Discord.MessageEmbed()
+                          .setTitle(achievement.title)
+                          .setDescription(
+                            `${user} You gained ${achievement.aps} aps`
+                          )
+                          .setColor("#00FF00");
+                        db.set(achievementKey, true);
+                        db.add(`achievementPoints_${tokenDB}`, achievement.aps);
+                        message.channel.send(apsEmbed);
+                      }
+                    }
+                    // ... Check for achievement points (existing code) ...
+
+                    finalCoins = Math.floor(finalCoins)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    message.channel.send(
+                      "```" +
+                        `diff\nYou received : ${finalCoins} Gold Coins\n` +
+                        "```"
+                    );
+                  }
+                } else {
+                  bal = await db.fetch(`money_${tokenDB}.pocket`);
+
+                  var randomGoldCoins = Math.floor(Math.random() * 2900) + 5202;
                   var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
                   let finalCoins;
                   if (goldLoot == 0) {
