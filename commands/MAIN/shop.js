@@ -130,7 +130,7 @@ module.exports = {
 **Awakening gem :** (${awakeningGemPieces}) in stock [price : 17,850] <sells for half price>
 **Elite Awakening gem :** (${EliteAwakeningGemPieces}) in stock [price : 126,920] <sells for half price>
 **Gold Bar :** (UNLIMITED) in stock [price : 10,000,000] <sells for full price>
-**Bullet :** (UNLIMITED) in stock [price : 100,000,000] <sells for half price>
+**Bullet :** (UNLIMITED) in stock [price : 35,000,000] <sells for half price>
 `);
         message.channel.send(shopEmbed);
       } else {
