@@ -2,13 +2,13 @@ const Discord = require("discord.js");
 const ms = require("parse-ms");
 const db = require("quick.db");
 const Canvas = require("canvas");
-const rasheta = require("../../weaponStats/rashetaAxe.json");
-const waetra = require("../../weaponStats/waetraBow.json");
-const texarus = require("../../weaponStats/texarusStaff.json");
-const natureDaggers = require("../../weaponStats/natureDaggers.json");
-const ventorianBow = require("../../weaponStats/ventorianBow.json");
-const immortalGun = require("../../weaponStats/immortalGun.json");
-const weaponNames = require("../../weapons.json");
+const rasheta = require("./weaponStats/rashetaAxe.json");
+const waetra = require("./weaponStats/waetraBow.json");
+const texarus = require("./weaponStats/texarusStaff.json");
+const natureDaggers = require("./weaponStats/natureDaggers.json");
+const ventorianBow = require("./weaponStats/ventorianBow.json");
+const immortalGun = require("./weaponStats/immortalGun.json");
+const weaponNames = require("./weapons.json");
 module.exports = {
   name: "weaponInfo",
   aliases: [

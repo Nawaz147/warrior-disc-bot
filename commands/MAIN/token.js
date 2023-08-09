@@ -96,8 +96,8 @@ module.exports = {
 
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsAValoriumLegend_${tokenDB}`, true);
-        db.add(`achievementPoints_${tokenDB}`, 200);
+        db.set(`enshrinedAsAValoriumLegend_${token}`, true);
+        db.add(`achievementPoints_${token}`, 200);
         // Save the current date (day, month, and year) in the database
         const currentDate = new Date();
         const formattedDate = `${currentDate.getDate()}.${

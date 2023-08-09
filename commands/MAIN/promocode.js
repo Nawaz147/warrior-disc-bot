@@ -7,7 +7,7 @@ const moneyCap = config.moneyCap;
 
 module.exports = {
   name: "promocode",
-  aliases: ["pc", "promoCode"],
+  aliases: ["pc", "promoCode", "promo"],
   description: "To use promocode",
   usage: "promocode",
   category: "Economy",

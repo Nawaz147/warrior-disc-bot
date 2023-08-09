@@ -39,7 +39,7 @@ module.exports = {
       const allAchievements = [
         {
           name: "Enshrined as a Valorium Legend (200 APS)",
-          description: "Register yourself with Valorium Legends",
+          description: "Register yourself with Valorium discord bot",
           aps: 200,
           achieved: db.fetch(`enshrinedAsAValoriumLegend_${tokenDB}`) || false,
         },

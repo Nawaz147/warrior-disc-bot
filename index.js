@@ -86,8 +86,6 @@ for (const file of player) {
 }
 client.login(token);
 client.on("ready", () => {
-  console.log(`Hi, ${client.user.username} is now online!`);
-  console.log("In " + client.guilds.cache.size + " servers!");
   client.user
     .setActivity(`${prefix}`, {
       type: "LISTENING",

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorium</title>
+    <!-- Link Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link your CSS file here -->
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+    <script defer src="./index.js"></script>
+</head>
+
+<body>
+    <header>
+        <span>Valorium</span>
+        <button>+</button>
+    </header>
+    <!-- <input type="text" id="discordIdInput" placeholder="Discord ID">
+    <input type="password" id="tokenInput" placeholder="Token">
+    <button id="addGoldCoinsButton">Add 5000 Gold Coins</button> -->
+
+    <main>
+        <div class="detailsContainer">
+            <h1 id="server-count">SERVER DOWN</h1>
+            <h1 id="updateStatus"></h1>
+        </div>
+        <div class="commands-container">
+            <h2>Bot Commands</h2>
+            <ul>
+                <li>1. +token me - To register your token in Valorium discord bot</li>
+                <li>2. +gw - To get your free weapon</li>
+                <li>3. +equip [weaponID] - To equip your weapon</li>
+                <li>4. +play hit - To play event</li>
+                <li>5. +farm hit - To farm crafting items</li>
+                <li>6. +awaken - to awaken using normal awakening gem</li>
+                <li>7. +awaken elite - to awaken using Elite awakening gem</li>
+                <li>8. +shop - to check whats in the shop!</li>
+                <li>9. +shop buy [itemIDHere] - To buy the item mentioned from shop</li>
+                <li>10. +bal - To check balance (Gold coins , platinum , keys)</li>
+                <li>11. +aps - To check achievments left and their progress</li>
+                <li>12. +info - To check user info</li>
+                <li>13. +updates - To check latest changes done in the discord bot</li>
+                <li>14. +inv - To check your inventory</li>
+                <li>15. +inv craft- To check your craftinginventory</li>
+                <li>16. +wepInfo [weaponID] - To check weapon info</li>
+                <li>17. +craft - To check items available for crafting</li>
+                <li>18. +craft [itemID] - To craft that item</li>
+                <li>19. +promocode [code here] - To receive the item</li>
+                <li>20. +store - To see the platinum store</li>
+                <li>21. +store buy [itemID] - To buy an item from the platinum store</li>
+                <!-- Add more commands with details here -->
+            </ul>
+        </div>
+
+        <div class="promo-container">
+            <h2>Promo Codes</h2>
+            <p>Use promo code E9XPO3 to get 5x Elite Awakening Gems.</p>
+            <p>Use promo code GZ3POV to get 5x Awakening Gems.</p>
+            <p>Use promo code D4CO9E to get 500,000 Gold Coins.</p>
+            <p>Use promo code PXLTO8 to get 100 platinum.</p>
+            <p>MORE COMING SOON</p>
+            <!-- Add more promo codes here -->
+        </div>
+    </main>
+
+    <script>
+        // Fetch the server count from your server's API
+        function serverDetails() {
+            // Fetch the server count from your server's API
+            fetch("http://localhost:9500/serverDetails")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const serverCountElement = document.getElementById("server-count");
+                    const updateStatus = document.getElementById("updateStatus");
+                    serverCountElement.textContent = `Server Count: ${data.serverCount}`;
+                    updateStatus.textContent = `Update status : ${data.botUpdateStatus}`;
+                })
+        }
+
+        // Fetch the server count initially
+        serverDetails();
+
+        // Fetch the server count every 1 second
+        setInterval(serverDetails, 100);
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const addButton = document.querySelector("#addGoldCoinsButton");
+        //     const userIdInput = document.querySelector("input[type='text']");
+        //     const tokenInput = document.querySelector("input[type='password']"); // Assuming you're using password input for token
+
+        //     addButton.addEventListener("click", async () => {
+        //         const userId = userIdInput.value;
+        //         const token = tokenInput.value;
+        //         const data = { userId, token };
+
+        //         // Send POST request to add gold coins
+        //         const response = await fetch("http://localhost:9500/add-gold-coins", {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json"
+        //             },
+        //             body: JSON.stringify(data) // Send the data directly without nesting
+        //         });
+
+        //         if (response.ok) {
+        //             const result = await response.json();
+        //             console.log(result.message); // Log success message
+        //         } else {
+        //             console.error("Error adding gold coins:", response.statusText);
+        //         }
+        //     });
+        // });
+    </script>
+</body>
+
+</html>
