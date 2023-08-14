@@ -31,14 +31,14 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
     } else {
       if (!args[0] || args[0].toLowerCase() !== "craft") {
         const items = {
-          Bullet: db.fetch(`bullet_${tokenDB}`) || 0,
+          "Dagger of death": db.fetch(`daggerOfDeath_${tokenDB}`) || 0,
           "Immortal gun of energy": db.fetch(`immortalGun_${tokenDB}`) || 0,
           "Nature daggers of superpower":
             db.fetch(`natureDaggers_${tokenDB}`) || 0,
@@ -48,6 +48,7 @@ module.exports = {
           "Gold Bar": db.fetch(`goldBar_${tokenDB}`) || 0,
           "Crystalline corestone":
             db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
+          Bullet: db.fetch(`bullet_${tokenDB}`) || 0,
           "Tome of ever lasting wisdom":
             db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
           "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
@@ -88,6 +89,7 @@ module.exports = {
         let currentPage = 1;
         const itemsRarity = {
           "Gold Bar": "Mythic",
+          "Dagger of death": "Arcane",
           Bullet: "Arcane",
           "Awakening gem": "Common",
           "Elite awakening gem": "Epic",
@@ -120,6 +122,7 @@ module.exports = {
         };
         const itemsID = {
           "Gold Bar": "goldBar",
+          "Dagger of death": "daggerOfDeath",
           Bullet: "bullet",
           "Awakening gem": "awakeningGem",
           "Elite awakening gem": "eliteAwakeningGem",

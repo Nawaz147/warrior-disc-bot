@@ -12,12 +12,10 @@ module.exports = {
     if (!args[0]) {
       message.channel.send("Usage: +token me");
       return;
-    }
-    if (update) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         "You cannot use any commands right now! Bot is updating"
       );
-      return;
     }
 
     const user = message.author;

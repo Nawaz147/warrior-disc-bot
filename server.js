@@ -7,11 +7,11 @@ const client = new Discord.Client();
 const { prefix, token } = require("./config.json");
 const db = require("quick.db");
 // Serve static files from the "public" folder
-app.use(express.static("./website/"));
+app.use(express.static("/"));
 
 // Handle the root URL and serve the HTML file
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./website/", "index.html"));
+  res.sendFile(path.join(__dirname, "/", "index.html"));
 });
 
 app.use(function (req, res, next) {
@@ -20,14 +20,13 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+
 // Listen for when the bot is ready
-const port = 9500;
-const listener = app.listen(port, () => {
+const port = "9500";
+const listener = app.listen(port, "0.0.0.0", () => {
   console.log("Your app is listening on port " + listener.address().port);
   client.login(token);
   client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`);
-
     // Create an API endpoint to provide the server count
     app.get("/serverDetails", (req, res) => {
       // Retrieve the server count from your Discord bot's client

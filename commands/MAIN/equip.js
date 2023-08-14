@@ -28,7 +28,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -47,6 +47,7 @@ module.exports = {
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             message.channel.send(`${user} you have equipped Waz the meed bow`);
           }
         } else if (args[1] == "waetra") {
@@ -61,6 +62,7 @@ module.exports = {
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`wepName_${tokenDB}`, "waetraBow");
             message.channel.send(
               `${user} you have equipped Waetra the freezed bow`
@@ -77,6 +79,7 @@ module.exports = {
             db.set(`equippedRasheta_${tokenDB}`, "False");
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
             db.set(`equippedWaetra_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
             db.set(`wepName_${tokenDB}`, "ventorianBow");
             message.channel.send(
@@ -96,6 +99,7 @@ module.exports = {
             db.set(`equippedTexarus_${tokenDB}`, "False");
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
             db.set(`wepName_${tokenDB}`, "rashetaAxe");
             message.channel.send(
@@ -115,6 +119,7 @@ module.exports = {
             db.set(`equippedTexarus_${tokenDB}`, "False");
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "True");
             db.set(`wepName_${tokenDB}`, "immortalGun");
             message.channel.send(
@@ -242,11 +247,29 @@ module.exports = {
             db.set(`equippedTexarus_${tokenDB}`, "False");
             db.set(`equippedNatureDaggers_${tokenDB}`, "True");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
             db.set(`wepName_${tokenDB}`, "natureDaggers");
             message.channel.send(
               `${user} you have equipped Nature Daggers of Superpower`
             );
+          }
+        }
+        if (args[1] == "death") {
+          var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
+          if (!daggerOfDeath) {
+            message.channel.send("You dont have it !");
+          } else {
+            db.set(`equippedRasheta_${tokenDB}`, "False");
+            db.set(`equippedWaetra_${tokenDB}`, "False");
+            db.set(`equippedWaz_${tokenDB}`, "False");
+            db.set(`equippedTexarus_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "True");
+            db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+            db.set(`equippedVentorianBow_${tokenDB}`, "False");
+            db.set(`equippedImmortalGun_${tokenDB}`, "False");
+            db.set(`wepName_${tokenDB}`, "daggerOfDeath");
+            message.channel.send(`${user} you have equipped Dagger of death`);
           }
         }
       } else if (args[0] == "staff") {
@@ -260,6 +283,7 @@ module.exports = {
             db.set(`equippedWaz_${tokenDB}`, "False");
             db.set(`equippedWaetra_${tokenDB}`, "False");
             db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
             db.set(`equippedVentorianBow_${tokenDB}`, "False");
             db.set(`equippedImmortalGun_${tokenDB}`, "False");
             db.set(`wepName_${tokenDB}`, "texarusStaff");

@@ -31,7 +31,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       return message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       return message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );

@@ -30,7 +30,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -39,7 +39,7 @@ module.exports = {
       const allAchievements = [
         {
           name: "Enshrined as a Valorium Legend (200 APS)",
-          description: "Register yourself with Valorium discord bot",
+          description: "Register yourself with Valorium discord",
           aps: 200,
           achieved: db.fetch(`enshrinedAsAValoriumLegend_${tokenDB}`) || false,
         },

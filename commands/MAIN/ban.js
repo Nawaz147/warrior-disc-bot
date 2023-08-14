@@ -56,7 +56,7 @@ Banned by : <@${message.author.id}> |
       }
     } else {
       message.channel.send(
-        "What the heck ? You cannot ban anyone from Valorium economy"
+        "What ? You cannot ban anyone from Valorium economy"
       );
     }
   },

@@ -8,6 +8,7 @@ var texarus = require("../../weaponStats/texarusStaff.json");
 var natureDaggerss = require("../../weaponStats/natureDaggers.json");
 var ventorianBoww = require("../../weaponStats/ventorianBow.json");
 var immortalGunn = require("../../weaponStats/immortalGun.json");
+var daggerOfDeathh = require("../../weaponStats/daggerOfDeath.json");
 module.exports = {
   name: "play",
   aliases: ["Play"],
@@ -21,6 +22,7 @@ module.exports = {
     var banReason = db.fetch(`reasonForBan_${tokenDB}`);
     var banDate = db.fetch(`banDate_${tokenDB}`);
     var update = db.fetch(`updateInProgress`);
+
     scrapItems = [
       "Rusty gears",
       "Dustbin",
@@ -30,20 +32,22 @@ module.exports = {
       "Broken stick",
       "Awakening gem",
     ];
-    const soldierChance = 0.08;
-    const eliteAwakeningGemChance = 0.02;
-    const scrapChance = 0.3;
-    const vortexOrbChance = 0.01;
-    const verdantLeafChance = 0.002;
-    const celestialMoonstoneChance = 0.003;
-    const crystallineCorestoneChance = 0.015;
-    const tomeOfEverlastingWisdomChance = 0.015;
-    const unlockedCrateChance = 0.07;
+    const soldierChance = 0.1; // Increase the chance of getting a soldier
+    const eliteAwakeningGemChance = 0.03; // Increase the chance of getting an elite awakening gem
+    const scrapChance = 0.15; // Decrease the chance of getting scrap items
+    const vortexOrbChance = 0.02; // Increase the chance of getting a vortex orb
+    const daggerOfDeathChance = 0.013; // Increase the chance of getting a vortex orb
+    const verdantLeafChance = 0.01; // Increase the chance of getting a verdant leaf
+    const celestialMoonstoneChance = 0.011; // Increase the chance of getting a celestial moonstone
+    const crystallineCorestoneChance = 0.02; // Increase the chance of getting a crystalline corestone
+    const tomeOfEverlastingWisdomChance = 0.023; // Increase the chance of getting a tome of everlasting wisdom
+    const unlockedCrateChance = 0.05; // Decrease the chance of getting an unlocked crate
     const goldCoinsChance =
       1 -
       (soldierChance +
         eliteAwakeningGemChance +
         scrapChance +
+        daggerOfDeathChance +
         vortexOrbChance +
         verdantLeafChance +
         celestialMoonstoneChance +
@@ -65,7 +69,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -89,6 +93,10 @@ module.exports = {
         var rashetaEquipped = db.fetch(`equippedRasheta_${tokenDB}`);
         var immortal = db.fetch(`immortalGun_${tokenDB}`);
         var immortalEquipped = db.fetch(`equippedImmortalGun_${tokenDB}`);
+        var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
+        var daggerOfDeathEquipped = db.fetch(
+          `equippedDaggerOfDeath_${tokenDB}`
+        );
 
         let weaponDamage, weaponEquipped;
 
@@ -110,24 +118,39 @@ module.exports = {
         } else if (texarusEquipped == "True") {
           weaponDamage = texarus.Damage;
           weaponEquipped = true;
+        } else if (daggerOfDeathEquipped == "True") {
+          const daggerOfDeathLevel =
+            db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+          if (daggerOfDeathLevel > 1 || daggerOfDeathLevel == 1) {
+            const daggerOfDeathDamage = db.fetch(
+              `daggerOfDeathDamage_${tokenDB}`
+            );
+            weaponDamage = daggerOfDeathDamage;
+            weaponEquipped = true;
+          } else {
+            weaponDamage = daggerOfDeathh.Damage;
+            weaponEquipped = true;
+          }
         }
 
         if (weaponEquipped !== true) {
           message.channel.send(
             "**You need to equip a weapon to play this event**, if you don't have one then **type +gw** to get your free weapon"
           );
+          const daggerOfDeathLevel =
+            db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+          console.log(daggerOfDeathLevel);
         } else {
-          var cooldownDuration = 1500;
-          var cooldown = db.fetch(`cooldown_${tokenDB}`) || 0; // Set default value to 0 if cooldown is not set in the database
+          timeout = 800;
+          var cooldown = await db.fetch(`cooldown_${tokenDB}`);
+          if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
+            let time = ms(timeout - (Date.now() - cooldown));
 
-          if (cooldown !== null && cooldown - Date.now() > 0) {
-            var time = ms(cooldown - (Date.now() - cooldown));
-
-            var timeEmbed = new Discord.MessageEmbed()
+            let timeEmbed = new Discord.MessageEmbed()
               .setColor("#FFFFFF")
-              .setTitle("Spamming isn't a good thing")
+              .setTitle(`Spamming isn't a good thing`)
               .setDescription(
-                `You need to wait ${time.seconds}s ${time.milliseconds}ms`
+                `You need to wait ${time.seconds}s ${time.milliseconds}ms `
               );
             message.channel.send(timeEmbed);
           } else {
@@ -240,7 +263,7 @@ module.exports = {
 
               var vortanaxBoss = "Archon Vortanax";
 
-              if (vortanaxBossHealth < 0) {
+              if (vortanaxBossHealth == 0 || vortanaxBossHealth < 0) {
                 var vortanaxBossEmbed2 = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you hit ${vortanaxBoss}`)
@@ -249,33 +272,64 @@ module.exports = {
                   .addField(`Your damage`, `${weaponDamage}`)
                   .setColor("#FF7F50");
                 message.channel.send(vortanaxBossEmbed2);
-                db.add(`antiBot_${tokenDB}`, 1);
-              } else {
-                db.subtract(`vortanaxBossHealth_${tokenDB}`, weaponDamage);
-                var vortanaxBossEmbed = new Discord.MessageEmbed()
-                  .setTitle(`${vortanaxBoss}`)
-                  .setDescription(`${user} you hit ${vortanaxBoss}`)
-                  .addField(`Archon Vortanax`, `1490826`)
-                  .addField(
-                    `Archon Vortanax current health`,
-                    `${vortanaxBossHealth}`
-                  )
-                  .addField(`Your damage`, `${weaponDamage}`)
-                  .setColor("#FF7F50");
-                message.channel.send(vortanaxBossEmbed);
-                db.set(`cooldown_${tokenDB}`, Date.now());
-              }
-
-              if (vortanaxBossHealth == 0 || vortanaxBossHealth < 0) {
                 var vortanaxBossDead = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you killed ${vortanaxBoss}`)
                   .setColor("#EE4B2B");
                 message.channel.send(vortanaxBossDead);
-                db.add(`bossesKilledTotal_${tokenDB}`, 1);
+                db.add(`antiBot_${tokenDB}`, 1);
+                const daggerOfDeathDamage = db.fetch(
+                  `daggerOfDeathDamage_${tokenDB}`
+                );
+                if (weaponDamage == daggerOfDeathDamage) {
+                  const daggerXP = Math.floor(Math.random() * 6) + 15;
+                  db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
 
+                  // Retrieve the current XP and level of Dagger of Death
+                  const currentXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
+                  const currentLevel =
+                    db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+
+                  // Define the damage values for each level
+                  const levelDamage = [
+                    200301, 233406, 340221, 462059, 609231, 920132, 1306890,
+                    1690530,
+                  ];
+                  const xpLevels = [
+                    { threshold: 35, level: 2 },
+                    { threshold: 70, level: 3 },
+                    { threshold: 156, level: 4 },
+                    { threshold: 360, level: 5 },
+                    { threshold: 700, level: 6 },
+                    { threshold: 1280, level: 7 },
+                    { threshold: 1940, level: 8 },
+                    { threshold: 2642, level: 9 },
+                  ];
+                  const nextLevelXP = xpLevels[currentLevel - 1].threshold;
+
+                  // Check if the accumulated XP is enough for a level-up
+                  for (let i = currentLevel; i < levelDamage.length; i++) {
+                    if (currentXP >= nextLevelXP) {
+                      // Level up the weapon
+                      db.set(`daggerOfDeathLevel_${tokenDB}`, i + 1);
+                      // Reset XP to 0 for the next level
+                      db.set(`daggerOfDeathXP_${tokenDB}`, 0);
+
+                      // Set the new weapon damage based on the level
+                      db.set(`daggerOfDeathDamage_${tokenDB}`, levelDamage[i]);
+
+                      message.channel.send(
+                        `Congratulations! Your Dagger of Death has leveled up to level ${
+                          i + 1
+                        } and its damage has increased to ${levelDamage[i]}!`
+                      );
+                      break; // Exit the loop after leveling up
+                    }
+                  }
+                }
                 let chance = Math.random();
-
+                const cooldownDuration = 1500;
+                db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
                 if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
                   var SingleBossKillApsEmbed = new Discord.MessageEmbed()
                     .setTitle(`APS COMPLETE - First Blood`)
@@ -410,6 +464,12 @@ module.exports = {
                     "```" +
                       `diff\n+You received : Tome of Everlasting Wisdom\n` +
                       "```"
+                  );
+                } else if (chance <= daggerOfDeathChance) {
+                  var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`) || 0;
+                  db.set(`daggerOfDeath_${tokenDB}`, daggerOfDeath + 1);
+                  message.channel.send(
+                    "```" + `diff\n+You received : Dagger of death\n` + "```"
                   );
                 } else if (chance <= unlockedCrateChance) {
                   var unlockedCrate =
@@ -585,6 +645,20 @@ module.exports = {
                     );
                   }
                 }
+              } else {
+                db.subtract(`vortanaxBossHealth_${tokenDB}`, weaponDamage);
+                var vortanaxBossEmbed = new Discord.MessageEmbed()
+                  .setTitle(`${vortanaxBoss}`)
+                  .setDescription(`${user} you hit ${vortanaxBoss}`)
+                  .addField(`Archon Vortanax`, `1490826`)
+                  .addField(
+                    `Archon Vortanax current health`,
+                    `${vortanaxBossHealth}`
+                  )
+                  .addField(`Your damage`, `${weaponDamage}`)
+                  .setColor("#FF7F50");
+                message.channel.send(vortanaxBossEmbed);
+                db.set(`cooldown_${tokenDB}`, Date.now());
               }
             }
           }

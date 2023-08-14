@@ -32,7 +32,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -41,6 +41,12 @@ module.exports = {
         .setTitle("Updates")
         .setDescription(
           `
+-------------------------------------------
+**CONTENT UPDATE (14 AUG 2023)**  
+**+** New weapon added 'Dagger of death' (can be levelled up)
+**+** Bug fixes
+**+** Chances increased of getting good items in event
+**+** Dagger of death added to loot table in event and locked crate of energy
 -------------------------------------------
 **CONTENT UPDATE (6 AUG 2023)**  
 **+** Sell option added [+sell (itemID) (Number of pieces to sell)]

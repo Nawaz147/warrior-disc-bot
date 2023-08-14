@@ -20,6 +20,7 @@ module.exports = {
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
+    const update = db.fetch(`update_${tokenDB}`);
 
     if (!tokenDB) {
       message.channel.send(
@@ -33,6 +34,10 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+    } else if (update == true && message.author.id !== "768747976767832084") {
+      message.channel.send(
+        `You cannot use any commands right now! Bot is updating`
+      );
     } else {
       var item = args[0];
       if (!item) {

@@ -28,7 +28,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -45,11 +45,10 @@ module.exports = {
             `${user} you don't have any Unlocked crate of energy`
           );
         } else {
-          const goldChance = 0.95; // 95% chance to get gold
-          const platinumChance = 0.03; // 3% chance to get platinum
-          const vanityChance = 0.01; // 1% chance to get vanity
-          const weaponChance = 0.0075; // 1% chance to get weapons
-          const minPlatinum = 5;
+          const goldChance = 0.85; // 85% chance to get gold
+          const platinumChance = 0.1; // 10% chance to get platinum
+          const vanityChance = 0.035; // 3.5% chance to get vanity
+          const weaponChance = 0.015; // 1.5% chance to get weaponsconst minPlatinum = 5;
           const maxPlatinum = 25;
           const minGold = 2000;
           const maxGold = 12000;
@@ -100,6 +99,7 @@ module.exports = {
               "Rasheta the furious axe",
               "Nature daggers of superpower",
               "Immortal gun of energy",
+              "Dagger of death",
             ]; // Replace with actual weapon names
             const randomWeapon =
               weapons[Math.floor(Math.random() * weapons.length)];
@@ -113,6 +113,8 @@ module.exports = {
               db.add(`natureDaggers_${tokenDB}`, 1);
             } else if (randomWeapon == "Immortal gun of energy") {
               db.add(`immortalGun_${tokenDB}`, 1);
+            } else if (randomWeapon == "Dagger of death") {
+              db.add(`daggerOfDeath_${tokenDB}`, 1);
             }
             reward = `+ ${randomWeapon} +`;
           }

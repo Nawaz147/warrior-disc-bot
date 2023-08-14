@@ -2,13 +2,14 @@ const Discord = require("discord.js");
 const ms = require("parse-ms");
 const db = require("quick.db");
 const Canvas = require("canvas");
-const rasheta = require("./weaponStats/rashetaAxe.json");
-const waetra = require("./weaponStats/waetraBow.json");
-const texarus = require("./weaponStats/texarusStaff.json");
-const natureDaggers = require("./weaponStats/natureDaggers.json");
-const ventorianBow = require("./weaponStats/ventorianBow.json");
-const immortalGun = require("./weaponStats/immortalGun.json");
-const weaponNames = require("./weapons.json");
+const rasheta = require("../../weaponStats/rashetaAxe.json");
+const waetra = require("../../weaponStats/waetraBow.json");
+const texarus = require("../../weaponStats/texarusStaff.json");
+const natureDaggers = require("../../weaponStats/natureDaggers.json");
+const ventorianBow = require("../../weaponStats/ventorianBow.json");
+const immortalGun = require("../../weaponStats/immortalGun.json");
+const daggerOfDeath = require("../../weaponStats/daggerOfDeath.json");
+const weaponNames = require("../../weapons.json");
 module.exports = {
   name: "weaponInfo",
   aliases: [
@@ -30,7 +31,23 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
-
+    const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
+    const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+    if (daggerOfDeathLevel > 0) {
+      var daggerOfDeathDamage = db.fetch(`daggerOfDeathDamage_${tokenDB}`);
+    } else {
+      daggerOfDeathDamage = daggerOfDeath.Damage;
+    }
+    const xpLevels = [
+      { threshold: 35, level: 2 },
+      { threshold: 70, level: 3 },
+      { threshold: 156, level: 4 },
+      { threshold: 360, level: 5 },
+      { threshold: 700, level: 6 },
+      { threshold: 1280, level: 7 },
+      { threshold: 1940, level: 8 },
+      { threshold: 2642, level: 9 },
+    ];
     if (!tokenDB) {
       message.channel.send(
         `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
@@ -43,7 +60,7 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-    } else if (update == true) {
+    } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
@@ -56,10 +73,10 @@ module.exports = {
 
         const texarusEmbed = new Discord.MessageEmbed()
           .setColor("#D139F2")
-          .setTitle(weaponNames + xarus)
+          .setTitle(weaponNames.texarus)
           .setDescription(texarus.description)
           .addField("Damage", texarus.Damage)
-          .addField("Type", "Staff")
+          .addField("Type", texarus.type)
           .addField("Equipped", equippedTexarus)
           .addField("Rarity", texarus.rarity)
           .setThumbnail(
@@ -78,7 +95,7 @@ module.exports = {
           .setTitle(weaponNames.waetraBow)
           .setDescription(waetra.description)
           .addField("Damage", waetra.Damage)
-          .addField("Type", "Bow")
+          .addField("Type", waetra.type)
           .addField("Equipped", equippedWaetra)
           .addField("Rarity", waetra.rarity)
           .setThumbnail("https://i.ibb.co/dmVmnwz/waetra-the-freezed-bow.webp");
@@ -94,7 +111,7 @@ module.exports = {
           .setTitle(weaponNames.ventorianBow)
           .setDescription(ventorianBow.description)
           .addField("Damage", ventorianBow.Damage)
-          .addField("Type", "Bow")
+          .addField("Type", ventorianBow.type)
           .addField("Equipped", equippedVentorianBow)
           .addField("Rarity", ventorianBow.rarity)
           .setThumbnail("https://i.ibb.co/vs0DwDj/bow.png");
@@ -111,7 +128,7 @@ module.exports = {
           .setTitle(weaponNames.immortalGun)
           .setDescription(immortalGun.description)
           .addField("Damage", immortalGun.Damage)
-          .addField("Type", "Gun")
+          .addField("Type", immortalGun.type)
           .addField("Equipped", equippedImmortalGun)
           .addField("Rarity", immortalGun.rarity)
           .setThumbnail("https://i.ibb.co/crzLQYB/gun.png");
@@ -131,7 +148,7 @@ module.exports = {
           .setTitle(weaponNames.natureDaggers)
           .setDescription(natureDaggers.description)
           .addField("Damage", natureDaggers.Damage)
-          .addField("Type", "Daggers")
+          .addField("Type", natureDaggers.type)
           .addField("Equipped", equippedNatureDaggers)
           .addField("Rarity", natureDaggers.rarity)
           .setThumbnail("https://i.ibb.co/pJkCgK2/daggers.png");
@@ -147,96 +164,131 @@ module.exports = {
           .setTitle(weaponNames.rasheta)
           .setDescription(rasheta.description)
           .addField("Damage", rasheta.Damage)
-          .addField("Type", "Axe")
+          .addField("Type", rasheta.type)
           .addField("Equipped", equippedRasheta)
           .addField("Rarity", rasheta.rarity)
           .setThumbnail("https://i.ibb.co/P1nw8MW/rasheta-the-furious-axe.png");
         message.channel.send(rashetaEmbed);
       }
+      if (args[0] === "daggerOfDeath") {
+        function calculateRequiredXP(level) {
+          if (level >= 9) {
+            return "Max";
+          }
+
+          const nextLevel = level + 1;
+          const nextLevelInfo = xpLevels.find(
+            (entry) => entry.level === nextLevel
+          );
+
+          if (nextLevelInfo) {
+            return nextLevelInfo.threshold;
+          }
+
+          // Return the last threshold if the next level is not found
+          const lastLevelInfo = xpLevels[xpLevels.length - 1];
+          return lastLevelInfo.threshold;
+        }
+        var equippedDaggerOfDeath = db.fetch(
+          `equippedDaggerOfDeath_${tokenDB}`
+        );
+        if (!equippedDaggerOfDeath) {
+          var equippedDaggerOfDeath = "False";
+        }
+        const requiredXP = calculateRequiredXP(daggerOfDeathLevel);
+
+        let xpDisplay;
+        if (daggerOfDeathLevel === 9 && daggerOfDeathXP >= 0) {
+          xpDisplay = "Max";
+        } else {
+          xpDisplay = `${daggerOfDeathXP} / ${requiredXP}`;
+        }
+        const daggerOfDeathEmbed = new Discord.MessageEmbed()
+          .setColor("#A0EAEB")
+          .setTitle(weaponNames.daggerOfDeath)
+          .setDescription(daggerOfDeath.description)
+          .addField("Damage", daggerOfDeathDamage)
+          .addField("Type", daggerOfDeath.type)
+          .addField("Equipped", equippedDaggerOfDeath)
+          .addField("Rarity", daggerOfDeath.rarity)
+          .addField("Level", daggerOfDeathLevel)
+          .addField("XP", xpDisplay)
+          .setThumbnail("https://i.ibb.co/7pxp53P/dagger-of-death.png");
+        message.channel.send(daggerOfDeathEmbed);
+      }
       if (args[0] == "Rasheta the furious axe") {
-        message.channel.send(`Did u mean to write : **+store sell rasheta**`);
+        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
       } else if (args[0] == "Rasheta The Furious Axe") {
-        message.channel.send(`Did u mean to write : **+store sell rasheta**`);
+        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
       } else if (args[0] == "Rasheta The furious Axe") {
-        message.channel.send(`Did u mean to write : **+store sell rasheta**`);
+        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
       } else if (args[0] == "rashet") {
-        message.channel.send(`Did u mean to write : **+store sell rasheta**`);
+        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
       } else if (args[0] == "Rasheta") {
-        message.channel.send(`Did u mean to write : **+store sell rasheta**`);
+        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
       } else if (args[0] == "Nature Daggers Of Superpower") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "nature daggers of superpower") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "Nature Daggers Of Superpower") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "nature") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "NatureDaggers") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "Naturedaggers") {
         message.channel.send(
-          `Did u mean to write : **+store sell natureDaggers**`
+          `Did u mean to write : **+wepInfo natureDaggers**`
         );
       } else if (args[0] == "Waetra The Freezed Bow") {
-        message.channel.send(`Did u mean to write : **+store sell waetra**`);
+        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
       } else if (args[0] == "waetra the freezed bow") {
-        message.channel.send(`Did u mean to write : **+store sell waetra**`);
+        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
       } else if (args[0] == "Waetra The Freezed bow") {
-        message.channel.send(`Did u mean to write : **+store sell waetra**`);
+        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
       } else if (args[0] == "waetraBow") {
-        message.channel.send(`Did u mean to write : **+store sell waetra**`);
+        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
       } else if (args[0] == "Waetra") {
-        message.channel.send(`Did u mean to write : **+store sell waetra**`);
+        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
       } else if (args[0] == "Texarus The Demonished Staff") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "texarus The demonished staff") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "texarus the demonished staff") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "Texarus the demonished staff") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "Texarus") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "TexarusStaff") {
-        message.channel.send(`Did u mean to write : **+store sell texarus**`);
+        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
       } else if (args[0] == "ventorian") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "Ventorian Bow of Ventor") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "ventorian bow of ventor") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "Ventorian Bow Of Ventor") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "VentorianBow") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "Ventorian bow of ventor") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0] == "VentorBow") {
-        message.channel.send(
-          `Did u mean to write : **+store sell ventorianBow**`
-        );
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
+      } else if (args[0]) {
+      } else if (args[0] == "ventor") {
+        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0]) {
         if (
           args[0] !== "ventorianBow" &&
@@ -244,7 +296,8 @@ module.exports = {
           args[0] !== "waetraBow" &&
           args[0] !== "rashetaAxe" &&
           args[0] !== "natureDaggers" &&
-          args[0] !== "immortalGun"
+          args[0] !== "immortalGun" &&
+          args[0] !== "daggerOfDeath"
         ) {
           message.channel.send(
             `*Invalid Item name , Item named : **${args[0]}** does not exist , Usage eg : +wepInfo ventorianBow*`
