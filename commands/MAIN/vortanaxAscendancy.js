@@ -77,7 +77,7 @@ module.exports = {
     } else if (acceptedTOS == false) {
       message.channel.send(
         `
-You need to accept the terms of service for using this discord bot!
+${user.username} needs to accept the terms of service for using this discord bot!
 Type **+tos** to check the terms of service 
 Type **+tos accept** to accept the terms of service        
 `
@@ -148,7 +148,6 @@ Type **+tos accept** to accept the terms of service
           );
           const daggerOfDeathLevel =
             db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
-          console.log(daggerOfDeathLevel);
         } else {
           timeout = 1000;
           var cooldown = await db.fetch(`cooldown_${tokenDB}`);
@@ -385,8 +384,6 @@ Type **+tos accept** to accept the terms of service
                   message.channel.send(
                     "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
                   );
-                  console.log("You received a soldier");
-                  // 8% chance to get Unlocked Crate of Energy
                 } else if (chance <= eliteAwakeningGemChance) {
                   var eliteAwakeningGem =
                     db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;

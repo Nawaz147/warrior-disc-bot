@@ -41,7 +41,7 @@ module.exports = {
     } else if (acceptedTOS == false) {
       message.channel.send(
         `
-You need to accept the terms of service for using this discord bot!
+${user.username} needs to accept the terms of service for using this discord bot!
 Type **+tos** to check the terms of service 
 Type **+tos accept** to accept the terms of service        
 `
