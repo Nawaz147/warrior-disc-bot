@@ -87,7 +87,7 @@ for (const file of player) {
 client.login(token);
 client.on("ready", () => {
   client.user
-    .setActivity(`${prefix}`, {
+    .setActivity(`${prefix}help`, {
       type: "LISTENING",
     })
     .catch(console.error);

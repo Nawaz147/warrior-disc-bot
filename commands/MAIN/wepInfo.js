@@ -31,6 +31,7 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
     const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
     if (daggerOfDeathLevel > 0) {
@@ -63,6 +64,14 @@ module.exports = {
     } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
+      );
+    } else if (acceptedTOS == false) {
+      message.channel.send(
+        `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service 
+Type **+tos accept** to accept the terms of service        
+`
       );
     } else {
       if (args[0] === "texarus") {

@@ -18,6 +18,7 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     if (!tokenDB) {
       message.channel.send(
@@ -34,6 +35,14 @@ module.exports = {
     } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
+      );
+    } else if (acceptedTOS == false) {
+      message.channel.send(
+        `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service 
+Type **+tos accept** to accept the terms of service        
+`
       );
     } else {
       var bossesKilledTotal = db.fetch(`bossesKilledTotal_${tokenDB}`);
@@ -250,53 +259,61 @@ module.exports = {
         bullet * prices.bullet +
         balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      const userInfoEmbed = new Discord.MessageEmbed()
-        .setTitle(`${user.username}'s Info`)
-        .addField("User ID", user.id)
-        .addField("User Tag", user.tag)
-        .addField("Is Banned?", banned ? "Yes" : "No")
-        .addField("User status", user.presence.status)
-        .addField("Bosses killed", bossesKilledTotal)
-        .addField("Achievement Points (APS)", achievementPoints)
-        .addField("Soldiers under command", soldiers)
-        .addField("Battles Won", battlesWon)
-        .addField("Battles Lost", battlesLost)
-        .addField("War points", warPoints)
-        .addField("Net worth", netWorth)
-        .setColor("#ffffff");
+      // Replace this with your ASCII art representation
+      const tokenCreationDate = db.fetch(`${user.id}.tokenCreationDate`);
+      const currentDate = new Date();
+      const creationDateParts = tokenCreationDate.split(".");
+      const creationDate = new Date(
+        parseInt(creationDateParts[2]),
+        parseInt(creationDateParts[1]) - 1,
+        parseInt(creationDateParts[0])
+      );
+
+      const timeDifference = currentDate.getTime() - creationDate.getTime();
+      const daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const monthsPlayed = Math.floor(daysPlayed / 30);
+
+      if (!tokenCreationDate) {
+        message.channel.send("ERROR");
+        return;
+      }
+      const RPGCanvas = `
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃${user.username}'s Info         
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ User ID: ${user.id}                
+┃ User Tag: ${user.tag}           
+┃ Is Banned? ${banned ? "Yes" : "No"}           
+┃ User Status: ${user.presence.status}        
+┃ Bosses Killed: ${bossesKilledTotal}      
+┃ Achievement Points (APS): ${achievementPoints}  
+┃ Soldiers under Command: ${soldiers}      
+┃ Battles Won: ${battlesWon}           
+┃ Battles Lost: ${battlesLost}          
+┃ War Points: ${warPoints}            
+┃ Net Worth: ${netWorth}             
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃ Played Duration            
+┃ ${monthsPlayed} months ${daysPlayed % 30} days     
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+`;
+
+      // Send the RPGCanvas as a message
+      message.channel.send("```" + RPGCanvas + "```");
 
       if (banned === true) {
-        userInfoEmbed.addField("Ban Reason", banReason);
-        userInfoEmbed.addField("Ban Date", banDate);
+        // userInfoEmbed.addField("Ban Reason", banReason);
+        // userInfoEmbed.addField("Ban Date", banDate);
       } else {
         // Fetch the token creation date from the database
-        const tokenCreationDate = db.fetch(`${user.id}.tokenCreationDate`);
-
-        if (!tokenCreationDate) {
-          message.channel.send("Unable to fetch token creation date.");
-          return;
-        }
-
         // Calculate the played duration using native JavaScript date functions
-        const currentDate = new Date();
-        const creationDateParts = tokenCreationDate.split(".");
-        const creationDate = new Date(
-          parseInt(creationDateParts[2]),
-          parseInt(creationDateParts[1]) - 1,
-          parseInt(creationDateParts[0])
-        );
-
-        const timeDifference = currentDate.getTime() - creationDate.getTime();
-        const daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-        const monthsPlayed = Math.floor(daysPlayed / 30);
-
-        userInfoEmbed.addField(
-          "Played Duration",
-          `${monthsPlayed} months ${daysPlayed % 30} days`
-        );
+        // userInfoEmbed.addField(
+        //   "Played Duration",
+        //   `${monthsPlayed} months ${daysPlayed % 30} days`
+        // );
       }
 
-      message.channel.send(userInfoEmbed);
+      // message.channel.send(userInfoEmbed);
     }
   },
 };

@@ -25,7 +25,7 @@ module.exports = {
     if (args[0] === tokenDB) {
       const embed = new MessageEmbed()
         .setTitle("Token")
-        .setDescription(`Eyy! this is your token`)
+        .setDescription(`Hey! this is your token`)
         .setColor("#00ff00")
         .setFooter(`${user.username}`);
       message.channel.send(embed);

@@ -1,24 +1,31 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
-const colors = require("../../colors.json");
+const Canvas = require("canvas");
+const config = require("../../config.json");
+const e = require("express");
+const prices = require("../../prices.json");
+const moneyCap = config.moneyCap;
 module.exports = {
-  name: "getWeapon",
-  aliases: ["GW", "gw", "Gw", "gW"],
-  description: "To get free weapon",
-  usage: "getWeapon",
+  name: "help",
+  aliases: ["Help", "HELP"],
+  description: "To get commands",
+  usage: "help",
   category: "Economy",
   run: async (client, message, args) => {
-    const user = message.author;
+    let user =
+      message.mentions.users.first() ||
+      client.users.cache.get(args[0]) ||
+      message.author;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
-    const update = db.fetch(`updateInProgress`);
+    const update = db.fetch(`update_${tokenDB}`);
     var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
+        `${user} your Lustrozy token is not registered yet , type +token me to set your Lustrozy token`
       );
     } else if (banned == true) {
       const banEmbed = new Discord.MessageEmbed()
@@ -41,16 +48,13 @@ Type **+tos accept** to accept the terms of service
 `
       );
     } else {
-      if (db.fetch(`ventorianBow_${tokenDB}`)) {
-        message.channel.send("You already have it !");
-      } else {
-        db.add(`ventorianBow_${tokenDB}`, 1);
-        const ventorianBowEmbed = new Discord.MessageEmbed()
-          .setTitle("Your free weapon")
-          .setDescription("You received : Ventorian bow of ventor !")
-          .setColor("#00FF00");
-        message.channel.send(ventorianBowEmbed);
-      }
+      const tosEmbed = new Discord.MessageEmbed()
+        .setTitle("Help")
+        .setDescription(
+          `For getting command list and promocodes , go on : https://valorium8.web.app`
+        )
+        .setColor("#ffff00");
+      message.channel.send(tosEmbed);
     }
   },
 };

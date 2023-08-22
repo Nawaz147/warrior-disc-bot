@@ -19,6 +19,7 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${user.id}.${tokenDB}`);
     const banDate = db.fetch(`banDate_${user.id}.${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     if (!tokenDB) {
       message.channel.send(
@@ -35,6 +36,14 @@ module.exports = {
     } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
+      );
+    } else if (acceptedTOS == false) {
+      message.channel.send(
+        `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service 
+Type **+tos accept** to accept the terms of service        
+`
       );
     } else {
       const updatesEmbed = new Discord.MessageEmbed()

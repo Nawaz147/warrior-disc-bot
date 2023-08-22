@@ -22,6 +22,7 @@ module.exports = {
     var banReason = db.fetch(`reasonForBan_${tokenDB}`);
     var banDate = db.fetch(`banDate_${tokenDB}`);
     var update = db.fetch(`updateInProgress`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     scrapItems = [
       "Rusty gears",
@@ -72,6 +73,14 @@ module.exports = {
     } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
+      );
+    } else if (acceptedTOS == false) {
+      message.channel.send(
+        `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service 
+Type **+tos accept** to accept the terms of service        
+`
       );
     } else {
       if (args[0] !== "hit") {
@@ -141,7 +150,7 @@ module.exports = {
             db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
           console.log(daggerOfDeathLevel);
         } else {
-          timeout = 800;
+          timeout = 1000;
           var cooldown = await db.fetch(`cooldown_${tokenDB}`);
           if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
             let time = ms(timeout - (Date.now() - cooldown));
@@ -221,11 +230,6 @@ module.exports = {
                 var userResponse = response.content.trim().toLowerCase(); // Convert user response to lowercase
 
                 if (userResponse === captcha) {
-                  // Compare both strings in lowercase
-                  // Proceed with the "hit" command logic here
-
-                  // ... your existing "hit" command logic ...
-
                   db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
 
                   // Reset the antiBot state
@@ -287,8 +291,7 @@ module.exports = {
 
                   // Retrieve the current XP and level of Dagger of Death
                   const currentXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
-                  const currentLevel =
-                    db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+                  var currentLevel = 1;
 
                   // Define the damage values for each level
                   const levelDamage = [
@@ -305,11 +308,21 @@ module.exports = {
                     { threshold: 1940, level: 8 },
                     { threshold: 2642, level: 9 },
                   ];
-                  const nextLevelXP = xpLevels[currentLevel - 1].threshold;
+                  for (const levelData of xpLevels) {
+                    if (currentXP >= levelData.threshold) {
+                      currentLevel = levelData.level;
+                    } else {
+                      break;
+                    }
+                  }
+                  let nextLevelXP;
 
                   // Check if the accumulated XP is enough for a level-up
+                  var daggerOfDeathLevel = db.fetch(
+                    `daggerOfDeathLevel_${tokenDB}`
+                  );
                   for (let i = currentLevel; i < levelDamage.length; i++) {
-                    if (currentXP >= nextLevelXP) {
+                    if (daggerOfDeathLevel == 9 && currentXP >= nextLevelXP) {
                       // Level up the weapon
                       db.set(`daggerOfDeathLevel_${tokenDB}`, i + 1);
                       // Reset XP to 0 for the next level
@@ -328,7 +341,7 @@ module.exports = {
                   }
                 }
                 let chance = Math.random();
-                const cooldownDuration = 1500;
+                const cooldownDuration = 1000;
                 db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
                 if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
                   var SingleBossKillApsEmbed = new Discord.MessageEmbed()

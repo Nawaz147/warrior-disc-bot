@@ -17,6 +17,7 @@ module.exports = {
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     if (message.author.id == "768747976767832084") {
       if (!tokenDB) {
         message.channel.send(
