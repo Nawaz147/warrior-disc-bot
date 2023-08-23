@@ -9,15 +9,13 @@ module.exports = {
   usage: "tos",
   category: "Economy",
   run: async (client, message, args) => {
-    let user =
-      message.mentions.users.first() ||
-      client.users.cache.get(args[0]) ||
-      message.author;
+    let user = message.author;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const banned = db.fetch(`banned_${tokenDB}`);
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     if (!tokenDB) {
       message.channel.send(
@@ -31,17 +29,19 @@ module.exports = {
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
       message.channel.send(
         `You cannot use any commands right now! Bot is updating`
       );
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       if (args[0] == "accept") {
-        var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
         if (acceptedTOS == true) {
           message.channel.send(
             "You have already accepted the terms of service."
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else {
           db.set(`acceptedTOS_${tokenDB}`, true);
           const acceptedTOSembed = new Discord.MessageEmbed()
@@ -52,7 +52,8 @@ module.exports = {
           message.channel.send(acceptedTOSembed);
         }
       } else if (!args[0]) {
-        const tosEmbed = new Discord.MessageEmbed()
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+        var tosEmbed = new Discord.MessageEmbed()
           .setTitle("Terms of Service")
           .setDescription(
             "Please read and accept the following terms of service before using the bot."
@@ -81,13 +82,16 @@ module.exports = {
             "6. User Accounts and Ownership",
             "By using our Discord RPG bot, you acknowledge and agree that user accounts created within the bot remain the property of the bot's owner. While you have the privilege of using and interacting with your user account, you do not acquire any ownership rights over the account or its associated data. The bot's owner reserves the right to suspend or terminate user accounts as outlined in this Terms of Service."
           )
-          .setFooter(
-            "Type +tos accept if you agree to abide by the Terms of Service."
-          )
           .setColor("#3498db");
-
-        // Send the ToS embed to the user
-        message.channel.send(tosEmbed);
+        if (acceptedTOS == true) {
+          var acceptedFooter = `${user.username}, you have already accepted the terms of service`;
+          var tosEmbed = tosEmbed.setFooter(acceptedFooter);
+          message.channel.send(tosEmbed);
+        } else {
+          var acceptedFooter = `${user.username}, Type +tos accept if you agree to abide by the Terms of Service.`;
+          var tosEmbed = tosEmbed.setFooter(acceptedFooter);
+          message.channel.send(tosEmbed);
+        }
       }
     }
   },

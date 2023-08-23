@@ -22,16 +22,20 @@ module.exports = {
 
       let fullDate = `${day}.${month}.${year}.`;
       if (!user) {
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         return message.channel.send(
           "Please mention a user account to ban from Valorium economy"
         );
       }
       let reason = args.slice(1).join(" ");
       if (banned == true) {
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         message.channel.send(`This user is already banned`);
       } else if (!reason) {
         message.channel.send("Please provide a reason");
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else if (user && reason) {
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         db.set(`reasonForBan_${tokenDB}`, reason);
         db.set(`banned_${tokenDB}`, true);
         db.set(`banDate_${tokenDB}`, fullDate);
@@ -58,6 +62,7 @@ Banned by : <@${message.author.id}> |
       message.channel.send(
         "What ? You cannot ban anyone from Valorium economy"
       );
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     }
   },
 };

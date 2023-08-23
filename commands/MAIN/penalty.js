@@ -36,14 +36,14 @@ module.exports = {
         reason = args.slice(2).join(" ");
         if (!amount) {
           message.channel.send(`Please specify an amount to penalty`);
-        } else if (!amount) {
-          message.channel.send(`Please specify an amount`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else {
           db.subtract(`money_${tokenDB}.pocket`, amount);
           amount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           if (!reason) {
             reason = "Not specified";
           }
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
           const penaltyEmbed = new Discord.MessageEmbed()
             .setTitle(`Penalty`)
             .setDescription(
@@ -77,8 +77,9 @@ Amount : ${amount} Gold Coins
         message.author;
       if (user.id == "768747976767832084") {
         message.channel.send(
-          `WOOOT !! You are trying to penalty my one and only owner 😡 , you have been penalted by me [amount : 50,000]`
+          `WOOOT !! You are trying to penalty my owner 😡 , you have been penalted by me [amount : 50,000]`
         );
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         db.subtract(`money_${tokenDB}.pocket`, 50000);
         const penaltyNotification = new Discord.MessageEmbed()
           .setTitle(`You have been penaltied`)
@@ -97,6 +98,7 @@ amount : 50,000 Gold Coins
         `WHOA ! WHOA ! trying to penalty someone ..? You have been penaltied by me (amount : 50000)`
       );
       db.subtract(`money_${tokenDB}.pocket`, 50000);
+      db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       const penaltyNotification = new Discord.MessageEmbed()
         .setTitle(`You have been penaltied`)
         .setDescription(

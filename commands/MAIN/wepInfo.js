@@ -31,7 +31,6 @@ module.exports = {
     const banReason = db.fetch(`reasonForBan_${tokenDB}`);
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
-    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
     const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
     if (daggerOfDeathLevel > 0) {
@@ -49,36 +48,75 @@ module.exports = {
       { threshold: 1940, level: 8 },
       { threshold: 2642, level: 9 },
     ];
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
         `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
-    } else if (banned == true) {
+    } else if (banned == true && !message.mentions.users.first()) {
       const banEmbed = new Discord.MessageEmbed()
         .setTitle(user)
-        .setDescription(`This account is banned`)
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle(user)
+        .setDescription(`That user's account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#FFFF00");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating`
-      );
-    } else if (acceptedTOS == false) {
-      message.channel.send(
-        `
-${user.username} needs to accept the terms of service for using this discord bot!
-Type **+tos** to check the terms of service 
-Type **+tos accept** to accept the terms of service        
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
 `
-      );
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && !message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service.
+Type **+tos accept** to accept the terms of service.
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+${user.username} has not yet accepted the terms of service
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       if (args[0] === "texarus") {
         var equippedTexarus = db.fetch(`equippedTexarus_${tokenDB}`);
         if (!equippedTexarus) {
           var equippedTexarus = "False";
         }
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
 
         const texarusEmbed = new Discord.MessageEmbed()
           .setColor("#D139F2")
@@ -98,6 +136,7 @@ Type **+tos accept** to accept the terms of service
         var equippedWaetra = db.fetch(`equippedWaetra_${tokenDB}`);
         if (!equippedWaetra) {
           var equippedWaetra = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const waetraEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -114,6 +153,7 @@ Type **+tos accept** to accept the terms of service
         var equippedVentorianBow = db.fetch(`equippedVentorianBow_${tokenDB}`);
         if (!equippedVentorianBow) {
           var equippedVentorianBow = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const ventorianBowEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -131,6 +171,7 @@ Type **+tos accept** to accept the terms of service
         var equippedImmortalGun = db.fetch(`equippedImmortalGun_${tokenDB}`);
         if (!equippedImmortalGun) {
           var equippedImmortalGun = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const immortalGunEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -151,6 +192,7 @@ Type **+tos accept** to accept the terms of service
         );
         if (!equippedNatureDaggers) {
           var equippedNatureDaggers = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const natureDaggersEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -167,6 +209,7 @@ Type **+tos accept** to accept the terms of service
         var equippedRasheta = db.fetch(`equippedRasheta_${tokenDB}`);
         if (!equippedRasheta) {
           var equippedRasheta = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const rashetaEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -211,6 +254,7 @@ Type **+tos accept** to accept the terms of service
           xpDisplay = "Max";
         } else {
           xpDisplay = `${daggerOfDeathXP} / ${requiredXP}`;
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const daggerOfDeathEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
@@ -224,80 +268,6 @@ Type **+tos accept** to accept the terms of service
           .addField("XP", xpDisplay)
           .setThumbnail("https://i.ibb.co/7pxp53P/dagger-of-death.png");
         message.channel.send(daggerOfDeathEmbed);
-      }
-      if (args[0] == "Rasheta the furious axe") {
-        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
-      } else if (args[0] == "Rasheta The Furious Axe") {
-        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
-      } else if (args[0] == "Rasheta The furious Axe") {
-        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
-      } else if (args[0] == "rashet") {
-        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
-      } else if (args[0] == "Rasheta") {
-        message.channel.send(`Did u mean to write : **+wepInfo rasheta**`);
-      } else if (args[0] == "Nature Daggers Of Superpower") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "nature daggers of superpower") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "Nature Daggers Of Superpower") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "nature") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "NatureDaggers") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "Naturedaggers") {
-        message.channel.send(
-          `Did u mean to write : **+wepInfo natureDaggers**`
-        );
-      } else if (args[0] == "Waetra The Freezed Bow") {
-        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
-      } else if (args[0] == "waetra the freezed bow") {
-        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
-      } else if (args[0] == "Waetra The Freezed bow") {
-        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
-      } else if (args[0] == "waetraBow") {
-        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
-      } else if (args[0] == "Waetra") {
-        message.channel.send(`Did u mean to write : **+wepInfo waetra**`);
-      } else if (args[0] == "Texarus The Demonished Staff") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "texarus The demonished staff") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "texarus the demonished staff") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "Texarus the demonished staff") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "Texarus") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "TexarusStaff") {
-        message.channel.send(`Did u mean to write : **+wepInfo texarus**`);
-      } else if (args[0] == "ventorian") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "Ventorian Bow of Ventor") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "ventorian bow of ventor") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "Ventorian Bow Of Ventor") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "VentorianBow") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "Ventorian bow of ventor") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0] == "VentorBow") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
-      } else if (args[0]) {
-      } else if (args[0] == "ventor") {
-        message.channel.send(`Did u mean to write : **+wepInfo ventorianBow**`);
       } else if (args[0]) {
         if (
           args[0] !== "ventorianBow" &&
@@ -311,12 +281,14 @@ Type **+tos accept** to accept the terms of service
           message.channel.send(
             `*Invalid Item name , Item named : **${args[0]}** does not exist , Usage eg : +wepInfo ventorianBow*`
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         }
       }
       if (!args[0]) {
         message.channel.send(
           `***Please enter a weapon name , eg: +wepInfo ventorianBow***`
         );
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       }
     }
   },

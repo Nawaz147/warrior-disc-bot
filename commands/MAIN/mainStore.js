@@ -20,31 +20,67 @@ module.exports = {
     var totalCratePieces = db.fetch(`totalCratePieces`) || 0;
     let cratePieces = db.fetch(`cratePieces`) || totalCratePieces;
     var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
-        `${user}, your Valorium token is not registered yet. Type +token me to set your Valorium token.`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
-    } else if (banned) {
+    } else if (banned == true && !message.mentions.users.first()) {
       const banEmbed = new Discord.MessageEmbed()
-        .setTitle(user.username)
-        .setDescription(`This account is banned`)
+        .setTitle(user)
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
-      return;
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle(user)
+        .setDescription(`That user's account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#FFFF00");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating.`
-      );
-    } else if (acceptedTOS == false) {
-      message.channel.send(
-        `
-${user.username} needs to accept the terms of service for using this discord bot!
-Type **+tos** to check the terms of service 
-Type **+tos accept** to accept the terms of service        
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
 `
-      );
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && !message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service.
+Type **+tos accept** to accept the terms of service.
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+${user.username} has not yet accepted the terms of service
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       // Store details
       const lockedCrates = 300; // Number of locked crates per batch
@@ -80,6 +116,7 @@ Type **+tos accept** to accept the terms of service
             .setDescription(
               `You need to wait ${time.seconds}s ${time.milliseconds}ms `
             );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           message.channel.send(timeEmbed);
         } else {
           var currentTime = Date.now();
@@ -97,9 +134,11 @@ Type **+tos accept** to accept the terms of service
             message.channel.send(
               `Sorry, ${user}, Locked crate of energy is not available in store now . You need to wait till it resets.`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             return;
           } else {
             if (Platinum >= lockedCratePrice) {
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               // Deduct the price from user's platinum
               db.subtract(`platinum_${tokenDB}`, lockedCratePrice);
 
@@ -182,6 +221,7 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `${user}, you don't have enough platinum to buy the locked crate of energy.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             }
           }
         }
@@ -215,8 +255,8 @@ Type **+tos accept** to accept the terms of service
           )
           .setFooter(`Pieces reset in ${timeLeftString}`)
           .setColor("#00FF00");
-
         message.channel.send(storeEmbed);
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       }
     }
   },

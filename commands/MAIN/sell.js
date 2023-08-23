@@ -22,47 +22,86 @@ module.exports = {
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`update_${tokenDB}`);
     var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
-
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Lustrozy token is not registered yet , type +token me to set your Lustrozy token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
-    } else if (banned == true) {
+    } else if (banned == true && !message.mentions.users.first()) {
       const banEmbed = new Discord.MessageEmbed()
         .setTitle(user)
-        .setDescription(`This account is banned`)
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle(user)
+        .setDescription(`That user's account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#FFFF00");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating`
-      );
-    } else if (acceptedTOS == false) {
-      message.channel.send(
-        `
-${user.username} needs to accept the terms of service for using this discord bot!
-Type **+tos** to check the terms of service 
-Type **+tos accept** to accept the terms of service        
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
 `
-      );
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && !message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service.
+Type **+tos accept** to accept the terms of service.
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+${user.username} has not yet accepted the terms of service
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       var item = args[0];
       if (!item) {
         message.channel.send(
           "Enter an item name you want to sell , eg: +sell rasheta"
         );
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else if (!prices.hasOwnProperty(item)) {
         message.channel.send(
           `Invalid item name , **Usage example : +sell [itemID] [Number of pieces]**`
         );
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else {
         var amountOfPieces = parseInt(args[1]);
         if (isNaN(amountOfPieces) || amountOfPieces < 1) {
           message.channel.send(
             "Please enter a valid number of item pieces to sell."
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           return; // Stop execution if the number of pieces is not valid
         }
         const totalGoldGained = prices[item] * amountOfPieces;
@@ -73,6 +112,7 @@ Type **+tos accept** to accept the terms of service
         // Check if the gold limit will be exceeded after the sale
         if (currentGold + totalGoldGained > moneyCap) {
           message.channel.send("**You cannot exceed the gold limit.**");
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           return;
         } else {
           var amountOfPieces = parseInt(args[1]);
@@ -80,12 +120,15 @@ Type **+tos accept** to accept the terms of service
             const goldBar = db.fetch(`goldBar_${tokenDB}`);
             if (!goldBar) {
               message.channel.send(`You dont have Gold Bar`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > goldBar) {
               message.channel.send(`You dont have ${amountOfPieces}x Gold Bar`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`goldBarStoreAdd`, amountOfPieces);
               db.subtract(`goldBar_${tokenDB}`, amountOfPieces);
@@ -103,6 +146,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(goldBarSoldEmbed);
             }
           }
@@ -110,14 +154,17 @@ Type **+tos accept** to accept the terms of service
             const rasheta = db.fetch(`rasheta_${tokenDB}`);
             if (!rasheta) {
               message.channel.send(`You dont have Rasheta The Furious Axe`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > rasheta) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Rasheta The Furious Axe`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`rashetaStoreAdd`, amountOfPieces);
               db.subtract(`rasheta_${tokenDB}`, amountOfPieces);
@@ -136,6 +183,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(rashetaSoldEmbed);
             }
           }
@@ -143,14 +191,17 @@ Type **+tos accept** to accept the terms of service
             const waetra = db.fetch(`waetra_${tokenDB}`);
             if (!waetra) {
               message.channel.send(`You dont have Waetra the freezed bow`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > waetra) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Waetra the freezed bow`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`waetraStoreAdd`, amountOfPieces);
               db.subtract(`waetra_${tokenDB}`, amountOfPieces);
@@ -168,6 +219,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(waetraSoldEmbed);
             }
           }
@@ -177,14 +229,17 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `You dont have Texarus the demonished staff`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > texarus) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Texarus the demonished staff`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`texarusStoreAdd`, amountOfPieces);
               db.subtract(`texarus_${tokenDB}`, amountOfPieces);
@@ -202,6 +257,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(texarusSoldEmbed);
             }
           }
@@ -211,14 +267,17 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `You dont have Nature Daggers of Superpower`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > natureDaggers) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Nature daggers of superpower`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`natureDaggersStoreAdd`, amountOfPieces);
               db.subtract(`natureDaggers_${tokenDB}`, amountOfPieces);
@@ -236,6 +295,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(natureDaggersSoldEmbed);
             }
           }
@@ -243,14 +303,17 @@ Type **+tos accept** to accept the terms of service
             const immortalGun = db.fetch(`immortalGun_${tokenDB}`);
             if (!immortalGun) {
               message.channel.send(`You dont have Immortal Gun of Energy`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > immortalGun) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Immortal gun of energy`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               db.add(`immortalGunStoreAdd`, amountOfPieces);
               db.subtract(`immortalGun_${tokenDB}`, amountOfPieces);
@@ -268,6 +331,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(immortalGunSoldEmbed);
             }
           }
@@ -278,14 +342,17 @@ Type **+tos accept** to accept the terms of service
             );
             if (!goldenGhostKnightSet) {
               message.channel.send(`You dont have Golden Ghost Knight Set`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > goldenGhostKnightSet) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Golden ghost knight set`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const goldenGhostKnightSetSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Golden Ghost Knight Set`)
@@ -297,6 +364,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(goldenGhostKnightSetSoldEmbed);
               db.add(`goldenGhostKnightSetStoreAdd`, amountOfPieces);
               db.subtract(`goldenGhostKnightSet_${tokenDB}`, amountOfPieces);
@@ -310,14 +378,17 @@ Type **+tos accept** to accept the terms of service
             const arcaneSenseiSet = db.fetch(`arcaneSenseiSet_${tokenDB}`);
             if (!arcaneSenseiSet) {
               message.channel.send(`You dont have Arcane sensei set`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (amountOfPieces > arcaneSenseiSet) {
               message.channel.send(
                 `You dont have ${amountOfPieces}x Arcane sensei set`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (!amountOfPieces) {
               message.channel.send(
                 `Mention the amount of pieces you want to sell`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const arcaneSenseiSetSoldEmbed = new Discord.MessageEmbed()
                 .setTitle(`Arcane sensei set`)
@@ -329,6 +400,7 @@ Type **+tos accept** to accept the terms of service
                   } pieces left)`
                 )
                 .setColor("#D33333");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(arcaneSenseiSetSoldEmbed);
               db.add(`arcaneSenseiSetStoreAdd`, amountOfPieces);
               db.subtract(`arcaneSenseiSet_${tokenDB}`, amountOfPieces);
@@ -343,12 +415,15 @@ Type **+tos accept** to accept the terms of service
           const frozenSet = db.fetch(`frozenSet_${tokenDB}`);
           if (!frozenSet) {
             message.channel.send(`You dont have Frozen set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > frozenSet) {
             message.channel.send(`You dont have ${amountOfPieces}x Frozen set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const frozenSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Frozen set`)
@@ -360,6 +435,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(frozenSetSoldEmbed);
             db.add(`frozenSetStoreAdd`, amountOfPieces);
             db.subtract(`frozenSet_${tokenDB}`, amountOfPieces);
@@ -373,14 +449,17 @@ Type **+tos accept** to accept the terms of service
           const superGolemSet = db.fetch(`superGolemSet_${tokenDB}`);
           if (!superGolemSet) {
             message.channel.send(`You dont have Super golem set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > superGolemSet) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Super golem set`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const superGolemSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Super golem set`)
@@ -392,6 +471,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(superGolemSetSoldEmbed);
             db.add(`superGolemSetStoreAdd`, amountOfPieces);
             db.subtract(`superGolemSet_${tokenDB}`, amountOfPieces);
@@ -405,14 +485,17 @@ Type **+tos accept** to accept the terms of service
           const dawnfireSet = db.fetch(`dawnfireSet_${tokenDB}`);
           if (!dawnfireSet) {
             message.channel.send(`You dont have Dawnfire set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > dawnfireSet) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Dawnfire set`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const dawnfireSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Dawnfire set`)
@@ -424,6 +507,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(dawnfireSetSoldEmbed);
             db.add(`dawnfireSetStoreAdd`, amountOfPieces);
             db.subtract(`dawnfireSet_${tokenDB}`, amountOfPieces);
@@ -437,14 +521,17 @@ Type **+tos accept** to accept the terms of service
           const intrepidSet = db.fetch(`intrepidSet_${tokenDB}`);
           if (!intrepidSet) {
             message.channel.send(`You dont have Intrepid set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > intrepidSet) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Intrepid set`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const intrepidSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Intrepid set`)
@@ -456,6 +543,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(intrepidSetSoldEmbed);
             db.add(`intrepidSetStoreAdd`, amountOfPieces);
             db.subtract(`intrepidSet_${tokenDB}`, amountOfPieces);
@@ -469,12 +557,15 @@ Type **+tos accept** to accept the terms of service
           const medusaSet = db.fetch(`medusaSet_${tokenDB}`);
           if (!medusaSet) {
             message.channel.send(`You dont have Medusa set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > medusaSet) {
             message.channel.send(`You dont have ${amountOfPieces}x Medusa set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const medusaSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Medusa set`)
@@ -486,6 +577,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(medusaSetSoldEmbed);
             db.add(`medusaStoreAdd`, amountOfPieces);
             db.subtract(`medusaSet_${tokenDB}`, amountOfPieces);
@@ -499,14 +591,17 @@ Type **+tos accept** to accept the terms of service
           const supremeMagicalSet = db.fetch(`supremeMagicalSet_${tokenDB}`);
           if (!supremeMagicalSet) {
             message.channel.send(`You dont have Supreme magical set`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > supremeMagicalSet) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Supreme magical set`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const supremeMagicalSetSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Supreme magical set`)
@@ -518,6 +613,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(supremeMagicalSetSoldEmbed);
             db.add(`supremeMagicalSetStoreAdd`, amountOfPieces);
             db.subtract(`supremeMagicalSet_${tokenDB}`, amountOfPieces);
@@ -534,12 +630,15 @@ Type **+tos accept** to accept the terms of service
           const vortexOrb = db.fetch(`vortexOrb_${tokenDB}`);
           if (!vortexOrb) {
             message.channel.send(`You dont have Vortex orb`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > vortexOrb) {
             message.channel.send(`You dont have ${amountOfPieces}x Vortex orb`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const vortexOrbSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Vortex orb`)
@@ -551,6 +650,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(vortexOrbSoldEmbed);
             db.add(`vortexOrbStoreAdd`, amountOfPieces);
             db.subtract(`vortexOrb_${tokenDB}`, amountOfPieces);
@@ -564,14 +664,17 @@ Type **+tos accept** to accept the terms of service
           const verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`);
           if (!verdantLeaf) {
             message.channel.send(`You dont have Verdant Whisper leaf`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > verdantLeaf) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Verdant Whisper leaf`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const verdantLeafSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Verdant Whisper leaf`)
@@ -583,6 +686,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(verdantLeafSoldEmbed);
             db.add(`verdantLeafStoreAdd`, amountOfPieces);
             db.subtract(`verdantLeaf_${tokenDB}`, amountOfPieces);
@@ -596,14 +700,17 @@ Type **+tos accept** to accept the terms of service
           const celestialMoonstone = db.fetch(`celestialMoonstone_${tokenDB}`);
           if (!celestialMoonstone) {
             message.channel.send(`You dont have Celestial Moonstone`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > celestialMoonstone) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Celestial Moonstone`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const celestialMoonstoneSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Celestial Moonstone`)
@@ -615,6 +722,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(celestialMoonstoneSoldEmbed);
             db.add(`celestialMoonstoneStoreAdd`, amountOfPieces);
             db.subtract(`celestialMoonstone_${tokenDB}`, amountOfPieces);
@@ -630,14 +738,17 @@ Type **+tos accept** to accept the terms of service
           );
           if (!crystallineCorestone) {
             message.channel.send(`You dont have Crystalline Corestone`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > crystallineCorestone) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Crystalline Corestone`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const crystallineCorestoneSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Crystalline Corestone`)
@@ -649,6 +760,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(crystallineCorestoneSoldEmbed);
             db.add(`crystallineCorestoneStoreAdd`, amountOfPieces);
             db.subtract(`crystallineCorestone_${tokenDB}`, amountOfPieces);
@@ -664,14 +776,17 @@ Type **+tos accept** to accept the terms of service
           );
           if (!tomeOfEverlastingWisdom) {
             message.channel.send(`You dont have Tome of everlasting wisdom`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > tomeOfEverlastingWisdom) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Tome of everlasting wisdom`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const tomeOfEverlastingWisdomSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Tome of everlasting wisdom`)
@@ -683,6 +798,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(tomeOfEverlastingWisdomSoldEmbed);
             db.add(`tomeOfEverlastingWisdomStoreAdd`, amountOfPieces);
             db.subtract(`tomeOfEverlastingWisdom_${tokenDB}`, amountOfPieces);
@@ -700,10 +816,12 @@ Type **+tos accept** to accept the terms of service
             message.channel.send(
               `You dont have ${amountOfPieces}x Rusty gears`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const rustyGearsSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Rusty gears`)
@@ -715,6 +833,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(rustyGearsSoldEmbed);
             db.add(`rustyGearsStoreAdd`, amountOfPieces);
             db.subtract(`rustyGears_${tokenDB}`, amountOfPieces);
@@ -728,12 +847,15 @@ Type **+tos accept** to accept the terms of service
           const dustbin = db.fetch(`dustbin_${tokenDB}`);
           if (dustbin < 1) {
             message.channel.send(`You dont have Dustbin`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > dustbin) {
             message.channel.send(`You dont have ${amountOfPieces}x Dustbin`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const dustbinSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Dustbin`)
@@ -743,6 +865,7 @@ Type **+tos accept** to accept the terms of service
                 } GOLD COINS (you have ${dustbin - 1} pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(dustbinSoldEmbed);
             db.add(`dustbinStoreAdd`, amountOfPieces);
             db.subtract(`dustbin_${tokenDB}`, amountOfPieces);
@@ -756,12 +879,15 @@ Type **+tos accept** to accept the terms of service
           const newspaper = db.fetch(`newspaper_${tokenDB}`);
           if (!newspaper) {
             message.channel.send(`You dont have Newspaper`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > newspaper) {
             message.channel.send(`You dont have ${amountOfPieces}x Newspaper`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const newspaperSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Newspaper`)
@@ -773,6 +899,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(newspaperSoldEmbed);
             db.add(`newspaperStoreAdd`, amountOfPieces);
             db.subtract(`newspaper_${tokenDB}`, amountOfPieces);
@@ -786,12 +913,15 @@ Type **+tos accept** to accept the terms of service
           const tornCloth = db.fetch(`tornCloth_${tokenDB}`);
           if (!tornCloth) {
             message.channel.send(`You dont have Torn cloth`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > tornCloth) {
             message.channel.send(`You dont have ${amountOfPieces}x Torn cloth`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const tornClothSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Torn cloth`)
@@ -803,6 +933,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(tornClothSoldEmbed);
             db.add(`tornClothStoreAdd`, amountOfPieces);
             db.subtract(`tornCloth_${tokenDB}`, amountOfPieces);
@@ -816,14 +947,17 @@ Type **+tos accept** to accept the terms of service
           const usedTissue = db.fetch(`usedTissue_${tokenDB}`);
           if (!usedTissue) {
             message.channel.send(`You dont have Used tissue`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > usedTissue) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Used tissue`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const usedTissueSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Used tissue`)
@@ -835,6 +969,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(usedTissueSoldEmbed);
             db.add(`usedTissueStoreAdd`, amountOfPieces);
             db.subtract(`usedTissue_${tokenDB}`, amountOfPieces);
@@ -848,14 +983,17 @@ Type **+tos accept** to accept the terms of service
           const brokenStick = db.fetch(`brokenStick_${tokenDB}`);
           if (!brokenStick) {
             message.channel.send(`You dont have Broken stick`);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (amountOfPieces > brokenStick) {
             message.channel.send(
               `You dont have ${amountOfPieces}x Broken stick`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (!amountOfPieces) {
             message.channel.send(
               `Mention the amount of pieces you want to sell`
             );
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
             const brokenStickSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Broken stick`)
@@ -867,6 +1005,7 @@ Type **+tos accept** to accept the terms of service
                 } pieces left)`
               )
               .setColor("#D33333");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(brokenStickSoldEmbed);
             db.add(`brokenStickStoreAdd`, amountOfPieces);
             db.subtract(`brokenStick_${tokenDB}`, amountOfPieces);
@@ -881,11 +1020,14 @@ Type **+tos accept** to accept the terms of service
         const bullet = db.fetch(`bullet_${tokenDB}`);
         if (!bullet) {
           message.channel.send(`You dont have Bullet`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (amountOfPieces > bullet) {
           message.channel.send(`You dont have ${amountOfPieces}x Bullet`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (!amountOfPieces) {
           message.channel.send(`Mention the amount of pieces you want to sell`);
         } else {
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           const bulletSoldEmbed = new Discord.MessageEmbed()
             .setTitle(`Bullet`)
             .setDescription(
@@ -894,6 +1036,7 @@ Type **+tos accept** to accept the terms of service
               } GOLD COINS (you have ${bullet - amountOfPieces} pieces left)`
             )
             .setColor("#D33333");
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
           message.channel.send(bulletSoldEmbed);
           db.add(`bulletStoreAdd`, amountOfPieces);
           db.subtract(`bullet_${tokenDB}`, amountOfPieces);
@@ -908,18 +1051,23 @@ Type **+tos accept** to accept the terms of service
         message.channel.send(
           "You cannot sell a soldier , what are you even thinking 😑😑"
         );
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       }
       if (item == "awakeningGem") {
         const awakeningGem = db.fetch(`awakeningGem_${tokenDB}`);
         if (!awakeningGem) {
           message.channel.send(`You dont have Awakening gem`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (amountOfPieces > awakeningGem) {
           message.channel.send(
             `You dont have ${amountOfPieces}x Awakening gem`
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (!amountOfPieces) {
           message.channel.send(`Mention the amount of pieces you want to sell`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else {
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           const awakeningGemSoldEmbed = new Discord.MessageEmbed()
             .setTitle(`Awakening gem`)
             .setDescription(
@@ -930,6 +1078,7 @@ Type **+tos accept** to accept the terms of service
               } pieces left)`
             )
             .setColor("#D33333");
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
           message.channel.send(awakeningGemSoldEmbed);
           db.add(`awakeningGemStoreAdd`, amountOfPieces);
           db.subtract(`awakeningGem_${tokenDB}`, amountOfPieces);
@@ -943,13 +1092,17 @@ Type **+tos accept** to accept the terms of service
         const eliteAwakeningGem = db.fetch(`eliteAwakeningGem_${tokenDB}`);
         if (!eliteAwakeningGem) {
           message.channel.send(`You dont have Elite Awakening gem`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (amountOfPieces > eliteAwakeningGem) {
           message.channel.send(
             `You dont have ${amountOfPieces}x Elite Awakening gem`
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else if (!amountOfPieces) {
           message.channel.send(`Mention the amount of pieces you want to sell`);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         } else {
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           const eliteAwakeningGemSoldEmbed = new Discord.MessageEmbed()
             .setTitle(`Elite Awakening gem`)
             .setDescription(
@@ -960,6 +1113,7 @@ Type **+tos accept** to accept the terms of service
               } pieces left)`
             )
             .setColor("#D33333");
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
           message.channel.send(eliteAwakeningGemSoldEmbed);
           db.add(`eliteAwakeningGemStoreAdd`, amountOfPieces);
           db.subtract(`eliteAwakeningGem_${tokenDB}`, amountOfPieces);

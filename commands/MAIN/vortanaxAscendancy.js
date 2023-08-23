@@ -22,7 +22,6 @@ module.exports = {
     var banReason = db.fetch(`reasonForBan_${tokenDB}`);
     var banDate = db.fetch(`banDate_${tokenDB}`);
     var update = db.fetch(`updateInProgress`);
-    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
 
     scrapItems = [
       "Rusty gears",
@@ -58,30 +57,68 @@ module.exports = {
 
     var shuffledItems = scrapItems.slice().sort(() => Math.random() - 0.5);
     var randomScrap = shuffledItems[0];
+    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Valorium token is not registered yet, type +token me to set your Valorium token`
+        `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
-    } else if (banned == true) {
-      var banEmbed = new Discord.MessageEmbed()
+    } else if (banned == true && !message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
         .setTitle(user)
-        .setDescription(`This account is banned`)
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle(user)
+        .setDescription(`That user's account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#FFFF00");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating`
-      );
-    } else if (acceptedTOS == false) {
-      message.channel.send(
-        `
-${user.username} needs to accept the terms of service for using this discord bot!
-Type **+tos** to check the terms of service 
-Type **+tos accept** to accept the terms of service        
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
 `
-      );
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && !message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service.
+Type **+tos accept** to accept the terms of service.
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+${user.username} has not yet accepted the terms of service
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       if (args[0] !== "hit") {
         return message.channel.send(
@@ -146,9 +183,11 @@ Type **+tos accept** to accept the terms of service
           message.channel.send(
             "**You need to equip a weapon to play this event**, if you don't have one then **type +gw** to get your free weapon"
           );
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           const daggerOfDeathLevel =
             db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
         } else {
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           timeout = 1000;
           var cooldown = await db.fetch(`cooldown_${tokenDB}`);
           if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
@@ -164,7 +203,7 @@ Type **+tos accept** to accept the terms of service
           } else {
             var antiBot = db.fetch(`antiBot_${tokenDB}`);
 
-            if (antiBot == 45555) {
+            if (antiBot == 42) {
               db.set(`passedCaptchaVerification_${tokenDB}`, false);
               // ... CAPTCHA Verification logic (existing code) ...
 
@@ -267,6 +306,7 @@ Type **+tos accept** to accept the terms of service
               var vortanaxBoss = "Archon Vortanax";
 
               if (vortanaxBossHealth == 0 || vortanaxBossHealth < 0) {
+                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
                 var vortanaxBossEmbed2 = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you hit ${vortanaxBoss}`)
@@ -656,6 +696,7 @@ Type **+tos accept** to accept the terms of service
                   }
                 }
               } else {
+                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
                 db.subtract(`vortanaxBossHealth_${tokenDB}`, weaponDamage);
                 var vortanaxBossEmbed = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)

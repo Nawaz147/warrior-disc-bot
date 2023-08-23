@@ -9,13 +9,24 @@ module.exports = {
   usage: "token",
   run: async (client, message, args) => {
     const update = db.fetch(`updateInProgress`);
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!args[0]) {
       message.channel.send("Usage: +token me");
       return;
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        "You cannot use any commands right now! Bot is updating"
-      );
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
+`
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     }
 
     const user = message.author;
@@ -42,7 +53,7 @@ module.exports = {
           .setTitle(`${user.username}'s token`)
           .setDescription(`Your new token: ||${token}||`)
           .setColor("GREEN");
-        message.channel.send(`Your token has been sent on your dms`);
+        message.channel.send(`Your new token has been sent on your dms`);
         const apsEmbed = new Discord.MessageEmbed()
           .setTitle(`APS COMPLETE - Enshrined as a Valorium legend`)
           .setDescription(`${user} You gained 200 aps`)
@@ -64,8 +75,9 @@ module.exports = {
         }.${currentDate.getFullYear()}`;
         db.set(`${user.id}.tokenCreationDate`, formattedDate);
       } else {
-        message.channel.send("Your token has already been registered.");
+        message.channel.send("Your token has been sent on your dms.");
         user.send(`Your Valorium token: ||${tokenDB}||`);
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       }
       return;
     }
@@ -84,7 +96,8 @@ module.exports = {
           .setTitle(`${user.username}'s token`)
           .setDescription(`Your new token: ||${token}||`)
           .setColor("GREEN");
-        message.channel.send(`His token has been sent on his dms`);
+        message.channel.send(`His new token has been sent on his dms`);
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         const apsEmbed = new Discord.MessageEmbed()
           .setTitle(`APS COMPLETE - Enshrined as a Valorium legend`)
           .setDescription(`${user} You gained 200 aps`)
@@ -104,6 +117,7 @@ module.exports = {
         db.set(`${user.id}.tokenCreationDate`, formattedDate);
       } else {
         message.channel.send("His Token is already registered");
+        db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       }
       return;
     }

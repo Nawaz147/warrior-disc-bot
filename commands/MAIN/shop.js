@@ -16,31 +16,67 @@ module.exports = {
     const banDate = db.fetch(`banDate_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
     var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
-
+    var currentUser = message.author;
+    var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!tokenDB) {
       message.channel.send(
         `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
       );
-    } else if (banned == true) {
+    } else if (banned == true && !message.mentions.users.first()) {
       const banEmbed = new Discord.MessageEmbed()
         .setTitle(user)
-        .setDescription(`This account is banned`)
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
         .setColor("#FFFF00");
       message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && message.mentions.users.first()) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle(user)
+        .setDescription(`That user's account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#FFFF00");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating`
-      );
-    } else if (acceptedTOS == false) {
-      message.channel.send(
-        `
-${user.username} needs to accept the terms of service for using this discord bot!
-Type **+tos** to check the terms of service 
-Type **+tos accept** to accept the terms of service        
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
 `
-      );
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && !message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+You need to accept the terms of service for using this discord bot!
+Type **+tos** to check the terms of service.
+Type **+tos accept** to accept the terms of service.
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (acceptedTOS == false && message.mentions.users.first()) {
+      const acceptTOSembed = new Discord.MessageEmbed()
+        .setTitle(`Failed to proceed`)
+        .setDescription(
+          `
+${user.username} has not yet accepted the terms of service
+`
+        )
+        .setColor("#808080");
+      message.channel.send(acceptTOSembed);
+      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       var natureDaggersPieces = db.fetch(`natureDaggersStoreAdd`);
       if (natureDaggersPieces == null) {
@@ -120,6 +156,7 @@ Type **+tos accept** to accept the terms of service
         bulletPieces = 0;
       }
       if (!args[1]) {
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         const shopEmbed = new Discord.MessageEmbed().setTitle(`SHOP`)
           .setDescription(`
 ----------------
@@ -142,6 +179,7 @@ Type **+tos accept** to accept the terms of service
 **Bullet :** (UNLIMITED) in stock [price : 35,000,000] <sells for half price>
 `);
         message.channel.send(shopEmbed);
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       } else {
         const money = db.fetch(`money_${tokenDB}.pocket`);
         if (args[0] == "buy") {
@@ -152,28 +190,35 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `Please provide a valid number of Bullets to buy.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (money < prices.bullet * quantity) {
               message.channel.send(
                 `You don't have enough money to buy ${quantity} Bullet(s).`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (bulletPieces == 0) {
               message.channel.send(
                 `There are (0) pieces of Bullet in Valorium shop.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (quantity > bulletPieces) {
               message.channel.send(
                 `There are only ${bulletPieces} Bullet(s) left.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               if (money < prices.bullet) {
                 message.channel.send(`You dont have enough money to buy it`);
+                db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
               } else if (bulletPieces == 0) {
                 message.channel.send(`There are (0) pieces in Valorium shop`);
+                db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
               } else {
                 const bulletEmbed = new Discord.MessageEmbed()
                   .setTitle(`Bullet`)
                   .setDescription(`You purchased ${quantity}x bullets`);
                 message.channel.send(bulletEmbed);
+                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
                 db.add(`bullet_${tokenDB}`, 1);
                 db.subtract(`money_${tokenDB}.pocket`, prices.bullet);
                 db.subtract(`bulletStoreAdd`, 1);
@@ -183,28 +228,35 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "natureDaggers") {
             if (money < prices.natureDaggers) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (natureDaggersPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const natureDaggersEmbed = new Discord.MessageEmbed()
                 .setTitle(`Nature daggers of superpower`)
                 .setDescription(`You purchased Nature Daggers of superpower !`);
               message.channel.send(natureDaggersEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`natureDaggers_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.natureDaggers);
               db.subtract(`natureDaggersStoreAdd`, 1);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             }
           }
           if (args[1] == "immortalGun") {
             if (money < prices.immortalGun) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (immortalGunPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const immortalGunEmbed = new Discord.MessageEmbed()
                 .setTitle(`Immortal Gun of Energy`)
                 .setDescription(`You purchased Immortal Gun of Energy`);
               message.channel.send(immortalGunEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`immortalGun_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.immortalGun);
               db.subtract(`immortalGunStoreAdd`, 1);
@@ -213,13 +265,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "rasheta") {
             if (money < prices.rashetaAxe) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (rashetaPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const rashetaEmbed = new Discord.MessageEmbed()
                 .setTitle(`Rasheta the furious axe`)
                 .setDescription(`You purchased Rasheta the furious axe !`);
               message.channel.send(rashetaEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`rasheta_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.rashetaAxe);
               db.subtract(`rashetaStoreAdd`, 1);
@@ -228,13 +283,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "waetra") {
             if (money < prices.waetraBow) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (waetraPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const waetraEmbed = new Discord.MessageEmbed()
                 .setTitle(`Waetra the freezed bow`)
                 .setDescription(`You purchased Waetra the freezed bow !`);
               message.channel.send(waetraEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`waetra_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.waetraBow);
               db.subtract(`waetraStoreAdd`, 1);
@@ -243,13 +301,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "texarus") {
             if (money < prices.texarusStaff) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (texarusPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const texarusEmbed = new Discord.MessageEmbed()
                 .setTitle(`Texarus the demonished staff`)
                 .setDescription(`You purchased Texarus the demonished staff !`);
               message.channel.send(texarusEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`texarus_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.texarusStaff);
               db.subtract(`texarusStoreAdd`, 1);
@@ -268,14 +329,17 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `You don't have enough money to buy ${quantity} awakening gem(s).`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (awakeningGemPieces == 0) {
               message.channel.send(
                 `There are (0) pieces of Awakening gem in Valorium shop.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (quantity > awakeningGemPieces) {
               message.channel.send(
                 `There are only ${awakeningGemPieces} awakening gem(s) left.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const awakeningGemEmbed = new Discord.MessageEmbed()
                 .setTitle(`Awakening gem`)
@@ -284,6 +348,7 @@ Type **+tos accept** to accept the terms of service
                 );
               message.channel.send(awakeningGemEmbed);
               db.add(`awakeningGem_${tokenDB}`, quantity);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.subtract(
                 `money_${tokenDB}.pocket`,
                 prices.awakeningGem * quantity
@@ -304,14 +369,17 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `You don't have enough money to buy ${quantity} elite awakening gem(s).`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (EliteAwakeningGemPieces == 0) {
               message.channel.send(
                 `There are (0) pieces of Elite Awakening gem in Valorium shop.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (quantity > EliteAwakeningGemPieces) {
               message.channel.send(
                 `There are only ${EliteAwakeningGemPieces} elite awakening gem(s) left.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const eliteAwakeningGemEmbed = new Discord.MessageEmbed()
                 .setTitle(`Elite Awakening gem`)
@@ -320,6 +388,7 @@ Type **+tos accept** to accept the terms of service
                 );
               message.channel.send(eliteAwakeningGemEmbed);
               db.add(`eliteAwakeningGem_${tokenDB}`, quantity);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.subtract(
                 `money_${tokenDB}.pocket`,
                 prices.eliteAwakeningGem * quantity
@@ -338,19 +407,23 @@ Type **+tos accept** to accept the terms of service
               message.channel.send(
                 `You don't have enough money to buy ${quantity} Gold Bar(s).`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (goldBarPieces == 0) {
               message.channel.send(
                 `There are (0) pieces of Gold Bar in Valorium shop.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (quantity > goldBarPieces) {
               message.channel.send(
                 `There are only ${goldBarPieces} Gold Bar(s) left.`
               );
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const goldBarEmbed = new Discord.MessageEmbed()
                 .setTitle(`Gold Bar`)
                 .setDescription(`You purchased Gold Bar (${quantity} pieces)`);
               message.channel.send(goldBarEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`goldBar_${tokenDB}`, quantity);
               db.subtract(`money_${tokenDB}.pocket`, prices.goldBar * quantity);
               db.subtract(`goldBarStoreAdd`, quantity);
@@ -363,13 +436,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "rubyOfRoyalty") {
             if (money < prices.rubyOfRoyalty) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (rubyOfRoyaltyPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const rubyOfRoyaltyEmbed = new Discord.MessageEmbed()
                 .setTitle(`Ruby of royalty`)
                 .setDescription(`You purchased Ruby of Royalty !`);
               message.channel.send(rubyOfRoyaltyEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`rubyOfRoyalty_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.rubyOfRoyalty);
               db.subtract(`rubyOfRoyaltyStoreAdd`, 1);
@@ -378,13 +454,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "goldenGloryCard") {
             if (money < prices.goldenGloryCard) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (goldenGloryCardPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const goldenGloryCardEmbed = new Discord.MessageEmbed()
                 .setTitle(`Golden glory card`)
                 .setDescription(`You purchased Golden glory card !`);
               message.channel.send(goldenGloryCardEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`goldenGloryCard_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.goldenGloryCard);
               db.subtract(`goldenGloryCardStoreAdd`, 1);
@@ -393,13 +472,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "royalStatueOfHonor") {
             if (money < prices.royalStatueOfHonor) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (royalStatueOfHonor == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const royalStatueOfHonorEmbed = new Discord.MessageEmbed()
                 .setTitle(`Royalty Statue of Honor`)
                 .setDescription(`You purchased Royalty Statue of Honor !`);
               message.channel.send(royalStatueOfHonorEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`royalStatueOfHonor_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.royalStatueOfHonor);
               db.subtract(`royalStatueOfHonorStoreAdd`, 1);
@@ -408,13 +490,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "royaltyCoin") {
             if (money < prices.royalStatueOfHonor) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (royaltyCoinPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const royaltyCoinEmbed = new Discord.MessageEmbed()
                 .setTitle(`Royalty Coin`)
                 .setDescription(`You purchased Royalty Coin !`);
               message.channel.send(royaltyCoinEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`royaltyCoin_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.royalStatueOfHonor);
               db.subtract(`royaltyCoinStoreAdd`, 1);
@@ -424,13 +509,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "magnificentCarpet") {
             if (money < prices.magnificentCarpet) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (magnificentCarpetPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const magnificentCarpetEmbed = new Discord.MessageEmbed()
                 .setTitle(`Magnificent Carpet`)
                 .setDescription(`You purchased Magnificent Carpet !`);
               message.channel.send(magnificentCarpetEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`magnificentCarpet_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.magnificentCarpet);
               db.subtract(`magnificentCarpetStoreAdd`, 1);
@@ -439,13 +527,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "magnificentPen") {
             if (money < prices.magnificentPen) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (magnificentPenPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const magnificentPenEmbed = new Discord.MessageEmbed()
                 .setTitle(`Magnificent Pen`)
                 .setDescription(`You purchased Magnificent Pen !`);
               message.channel.send(magnificentPenEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`magnificentPen_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.magnificentPen);
               db.subtract(`magnificentPenStoreAdd`, 1);
@@ -455,13 +546,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "splendidTrophy") {
             if (money < prices.splendidTrophy) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (splendidTrophyPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const splendidTrophyEmbed = new Discord.MessageEmbed()
                 .setTitle(`Splendid Trophy`)
                 .setDescription(`You purchased Splendid Trophy !`);
               message.channel.send(splendidTrophyEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`splendidTrophy_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.splendidTrophy);
               db.subtract(`splendidTrophyStoreAdd`, 1);
@@ -471,13 +565,16 @@ Type **+tos accept** to accept the terms of service
           if (args[1] == "keysSack") {
             if (money < prices.keysSack) {
               message.channel.send(`You dont have enough money to buy it`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (keysSackPieces == 0) {
               message.channel.send(`There are (0) pieces in Valorium shop`);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else {
               const keysSackEmbed = new Discord.MessageEmbed()
                 .setTitle(`1x 2850 keys sack`)
                 .setDescription(`You purchased 2850 keys sack !`);
               message.channel.send(keysSackEmbed);
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`2850keys_${tokenDB}`, 1);
               db.subtract(`money_${tokenDB}.pocket`, prices.keysSack);
               db.subtract(`keysSackStoreAdd`, 1);
