@@ -1,0 +1,103 @@
+const Discord = require("discord.js");
+const db = require("quick.db");
+const { MessageEmbed } = require("discord.js");
+
+function startFunction(message, args, client) {
+  let user =
+    message.mentions.users.first() ||
+    client.users.cache.get(args[0]) ||
+    message.author;
+  const tokenDB = db.fetch(`${user.id}.valoriumToken`);
+  const banned = db.fetch(`banned_${tokenDB}`);
+  const banReason = db.fetch(`reasonForBan_${tokenDB}`);
+  const banDate = db.fetch(`banDate_${tokenDB}`);
+  const update = db.fetch(`updateInProgress`);
+  var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+  var currentUser = message.author;
+  var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
+  if (!tokenDB) {
+    if (user == currentUser) {
+      const tokenEmbed = new Discord.MessageEmbed()
+        .setTitle(`🔑 Time to Unlock Adventure: Register Your Token!`)
+        .setDescription(
+          `
+Ready to jump into the exciting world of Valorium? Hang on a moment – it appears your Valorium token hasn't been registered just yet.
+Don't worry, setting things up is a breeze! Just type +token me and unlock the gates to amazing adventures in no time. If you're curious why things seem restricted, it's all due to that token magic. Once you enter +token me, those doors will swing wide open, and your Valorium journey will begin!
+No time to waste! Type +token me like a pro and let's kickstart your adventure. See you on the heroic side! 🚀🗡️`
+        )
+        .setColor(`#6A1B9A`);
+      message.channel.send(tokenEmbed);
+    } else {
+      const otherTokenEmbed = new Discord.MessageEmbed()
+        .setTitle(
+          `Adventure Awaits: ${user.username}'s Token is Not Yet Registered`
+        )
+        .setDescription(
+          `
+Attention, noble traveler!
+While your intentions are valiant, it appears that the Valorium token for this user has not yet been registered. The path to adventure remains sealed until they personally type +token me to activate their entry into the world of Valorium.
+Feel free to share this guidance with them, so they can step into their destined role as a hero and unlock the realms of possibility that await.
+Safe travels, and may the winds of fortune guide your way!      
+`
+        )
+        .setColor(`#8A2BE2`);
+      message.channel.send(otherTokenEmbed);
+    }
+  } else if (banned == true && user == currentUser) {
+    const banEmbed = new Discord.MessageEmbed()
+      .setTitle("Account terminated")
+      .setDescription(`Your account has been banned`)
+      .addField("Reason", `${banReason}`)
+      .addField("Date", `${banDate}`)
+      .setColor("#8B0000");
+    message.channel.send(banEmbed);
+    db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+  } else if (banned == true && user !== currentUser) {
+    const banEmbed = new Discord.MessageEmbed()
+      .setTitle("Account terminated")
+      .setDescription(`${user.username}'s account has been banned`)
+      .addField("Reason", `${banReason}`)
+      .addField("Date", `${banDate}`)
+      .setColor("#8B0000");
+    message.channel.send(banEmbed);
+    db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+  } else if (update == true) {
+    const updateInProgressEmbed = new Discord.MessageEmbed()
+      .setTitle(`Temporary Command Suspension`)
+      .setDescription(
+        `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
+`
+      )
+      .setColor("#3498db")
+      .setTimestamp();
+    message.channel.send(updateInProgressEmbed);
+    db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+  } else if (acceptedTOS == false && user == currentUser) {
+    const acceptTOSembed = new Discord.MessageEmbed()
+      .setTitle(`Failed to proceed`)
+      .setDescription(
+        `
+You need to accept the terms of service for using this discord bot!
+To review the terms of service, simply type **+tos**
+To accept the terms of service, use the command **+tos accept**
+`
+      )
+      .setColor("#808080");
+    message.channel.send(acceptTOSembed);
+    db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+  } else if (acceptedTOS == false && user !== currentUser) {
+    const acceptTOSembed = new Discord.MessageEmbed()
+      .setTitle(`Failed to proceed`)
+      .setDescription(
+        `
+${user.username} has not yet accepted the terms of service
+`
+      )
+      .setColor("#808080");
+    message.channel.send(acceptTOSembed);
+    db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+  }
+}
+module.exports = startFunction;

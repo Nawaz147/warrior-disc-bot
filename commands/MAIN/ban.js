@@ -3,6 +3,7 @@ const ms = require("parse-ms");
 const db = require("quick.db");
 const Canvas = require("canvas");
 const { Timestamp } = require("mongodb");
+const startFunction = require("../../startCommandFunction.js");
 module.exports = {
   name: "ban",
   aliases: ["banUser", "ba", "Ban"],
@@ -45,6 +46,7 @@ You banned <@${user.id}>'s account from Valorium economy for - ${reason}
 Date : ${fullDate} 
 `
         );
+        db.add(`bannedCount_${tokenDB}`, 1);
         const bannedEmbed = new Discord.MessageEmbed()
           .setTitle("ACCOUNT BANNED !!")
           .setDescription(
@@ -55,14 +57,11 @@ Banned by : <@${message.author.id}> |
 `
           )
           .setTimestamp()
-          .setColor("#FF0000");
+          .setColor("#8B0000");
         user.send(bannedEmbed);
       }
     } else {
-      message.channel.send(
-        "What ? You cannot ban anyone from Valorium economy"
-      );
-      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+      return;
     }
   },
 };

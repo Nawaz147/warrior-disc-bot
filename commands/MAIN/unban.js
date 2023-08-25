@@ -24,25 +24,33 @@ module.exports = {
         if (db.fetch(`banned_${tokenDB}`) == false) {
           message.channel.send(`This user is not banned !`);
         } else {
+          var banReason = db.fetch(`reasonForBan_${tokenDB}`);
+          var banDate = db.fetch(`banDate_${tokenDB}`);
+          var currentUserToken = db.fetch(`${user.id}.valoriumToken`);
           db.set(`banned_${tokenDB}`, false);
-          message.channel.send(`You unbanned <@${user.id}>'s account `);
+          const unbannedEmbed = new Discord.MessageEmbed()
+            .setTitle("Revoked Ban")
+            .setDescription(`${user.username}'s account has been unbanned`)
+            .addField("Reason", `${banReason}`)
+            .addField("Date", `${banDate}`)
+            .setColor("#00FF00");
+          message.channel.send(unbannedEmbed);
+          db.add(`usefulUsageOfCommand_${currentUserToken}`, 1);
           const bannedEmbed = new Discord.MessageEmbed()
             .setTitle("ACCOUNT UNBANNED !!")
             .setDescription(
               `
-| You have been unbanned From Valorium Economy |
-| Unbanned by : <@${message.author.id}> |
-        `
+🔓 Unbanned: Back to Valorium Economy
+👤 Unbanned by: <@${message.author.id}>
+              `
             )
             .setTimestamp()
-            .setColor("#FF0000");
+            .setColor("#00FF00");
           user.send(bannedEmbed);
         }
       }
     } else {
-      message.channel.send(
-        "What the heck ? You cannot unban anyone from Valorium economy"
-      );
+      return;
     }
   },
 };

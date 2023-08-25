@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const ms = require("parse-ms");
 const db = require("quick.db");
 const Canvas = require("canvas");
+const startFunction = require("../../startCommandFunction.js");
 
 module.exports = {
   name: "update",

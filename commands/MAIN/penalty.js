@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const ms = require("parse-ms");
 const db = require("quick.db");
+const startFunction = require("../../startCommandFunction.js");
 
 module.exports = {
   name: "penalty",
@@ -14,24 +15,15 @@ module.exports = {
       client.users.cache.get(args[0]) ||
       message.author;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
-    const banned = db.fetch(`banned_${tokenDB}`);
-    const banReason = db.fetch(`reasonForBan_${tokenDB}`);
-    const banDate = db.fetch(`banDate_${tokenDB}`);
-    var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
-    if (message.author.id == "768747976767832084") {
-      if (!tokenDB) {
-        message.channel.send(
-          `${user} your Valorium token is not registered yet , type +token me to set your Valorium token`
-        );
-      } else if (banned == true) {
-        const banEmbed = new Discord.MessageEmbed()
-          .setTitle(user)
-          .setDescription(`This account is banned`)
-          .addField("Reason", `${banReason}`)
-          .addField("Date", `${banDate}`)
-          .setColor("#FFFF00");
-        message.channel.send(banEmbed);
-      } else {
+    const update = db.fetch(`updateInProgress`);
+    const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    const banned = db.fetch(`banned_${tokenDB}`) || false;
+
+    if (startFunction) {
+      startFunction(message, args, client);
+    }
+    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      {
         amount = args[1];
         reason = args.slice(2).join(" ");
         if (!amount) {

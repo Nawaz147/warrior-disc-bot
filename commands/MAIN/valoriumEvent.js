@@ -9,6 +9,7 @@
 // const ventorianBoww = require("../../weaponStats/ventorianBow.json");
 // const immortalGunn = require("../../weaponStats/immortalGun.json");
 // const moneyCap = require("../../config.json");
+// const startFunction = require("../../startCommandFunction.js");
 // module.exports = {
 //   name: "play",
 //   aliases: ["Play"],
