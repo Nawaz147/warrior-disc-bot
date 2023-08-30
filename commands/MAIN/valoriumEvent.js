@@ -309,7 +309,7 @@
 //                 console.log(chance);
 //                 if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
 //                   const SingleBossKillApsEmbed = new Discord.MessageEmbed()
-//                     .setTitle(`APS COMPLETE - First Blood`)
+//                     .setTitle(`ACHIEVEMENT COMPLETE - First Blood`)
 //                     .setDescription(`${user} You gained 500 aps`)
 //                     .setColor("#00FF00");
 //                   db.set(`firstBlood_${tokenDB}`, true);
@@ -317,7 +317,7 @@
 //                   message.channel.send(SingleBossKillApsEmbed);
 //                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 10) {
 //                   const TenBossKillApsEmbed = new Discord.MessageEmbed()
-//                     .setTitle(`APS COMPLETE - Decade of Annihilation`)
+//                     .setTitle(`ACHIEVEMENT COMPLETE - Decade of Annihilation`)
 //                     .setDescription(`${user} You gained 300 aps`)
 //                     .setColor("#00FF00");
 //                   db.set(`decadeOfAnnihilation_${tokenDB}`, true);
@@ -325,7 +325,7 @@
 //                   message.channel.send(TenBossKillApsEmbed);
 //                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 50) {
 //                   const FiftyBossKillApsEmbed = new Discord.MessageEmbed()
-//                     .setTitle(`APS COMPLETE - Half-century of Destruction`)
+//                     .setTitle(`ACHIEVEMENT COMPLETE - Half-century of Destruction`)
 //                     .setDescription(`${user} You gained 800 aps`)
 //                     .setColor("#00FF00");
 //                   db.set(`halfCenturyOfDestruction_${tokenDB}`, true);
@@ -333,7 +333,7 @@
 //                   message.channel.send(FiftyBossKillApsEmbed);
 //                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 100) {
 //                   const HundredBossKillApsEmbed = new Discord.MessageEmbed()
-//                     .setTitle(`APS COMPLETE - Century of Slaughter`)
+//                     .setTitle(`ACHIEVEMENT COMPLETE - Century of Slaughter`)
 //                     .setDescription(`${user} You gained 1500 aps`)
 //                     .setColor("#00FF00");
 //                   db.set(`centuryOfSlaughter_${tokenDB}`, true);
@@ -398,32 +398,32 @@
 //                         amount: 100000,
 //                         aps: 100,
 //                         key: "acquiredAHeftySumOf100k",
-//                         title: "APS COMPLETE - Acquired a hefty sum of 100k",
+//                         title: "ACHIEVEMENT COMPLETE - Acquired a hefty sum of 100k",
 //                       },
 //                       {
 //                         amount: 500000,
 //                         aps: 200,
 //                         key: "amassedAnImpressiveHaulOf500k",
 //                         title:
-//                           "APS COMPLETE - Amassed an impressive haul of 500k",
+//                           "ACHIEVEMENT COMPLETE - Amassed an impressive haul of 500k",
 //                       },
 //                       {
 //                         amount: 1000000,
 //                         aps: 500,
 //                         key: "reachedAmillionInRiches",
-//                         title: "APS COMPLETE - Reached a million in riches",
+//                         title: "ACHIEVEMENT COMPLETE - Reached a million in riches",
 //                       },
 //                       {
 //                         amount: 10000000,
 //                         aps: 1000,
 //                         key: "glorious10mPlunder",
-//                         title: "APS COMPLETE - Glorious 10-Million Plunder",
+//                         title: "ACHIEVEMENT COMPLETE - Glorious 10-Million Plunder",
 //                       },
 //                       {
 //                         amount: 100000000,
 //                         aps: 1700,
 //                         key: "wealthConqueror",
-//                         title: "APS COMPLETE - Wealth Conqueror",
+//                         title: "ACHIEVEMENT COMPLETE - Wealth Conqueror",
 //                       },
 //                     ];
 

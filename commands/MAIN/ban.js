@@ -7,7 +7,7 @@ const startFunction = require("../../startCommandFunction.js");
 module.exports = {
   name: "ban",
   aliases: ["banUser", "ba", "Ban"],
-  description: "To ban someone from Valorium economy",
+  description: "To ban someone from Valorium Discord bot",
   usage: "ban",
   category: "Economy",
   run: async (client, message, args) => {
@@ -22,14 +22,13 @@ module.exports = {
       let year = date.getFullYear();
 
       let fullDate = `${day}.${month}.${year}.`;
+      let reason = args.slice(1).join(" ");
       if (!user) {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         return message.channel.send(
-          "Please mention a user account to ban from Valorium economy"
+          "Please mention a user account to ban from Valorium Discord bot"
         );
-      }
-      let reason = args.slice(1).join(" ");
-      if (banned == true) {
+      } else if (banned == true) {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         message.channel.send(`This user is already banned`);
       } else if (!reason) {
@@ -40,18 +39,21 @@ module.exports = {
         db.set(`reasonForBan_${tokenDB}`, reason);
         db.set(`banned_${tokenDB}`, true);
         db.set(`banDate_${tokenDB}`, fullDate);
-        message.channel.send(
-          `
-You banned <@${user.id}>'s account from Valorium economy for - ${reason}
-Date : ${fullDate} 
+        const bannedUserEmbed = new Discord.MessageEmbed()
+          .setDescription(
+            `
+You banned ${user} from Valorium discord bot
 `
-        );
+          )
+          .setColor(`#8B0000`)
+          .setFooter(`Reason : ${reason}`);
+        message.channel.send(bannedUserEmbed);
         db.add(`bannedCount_${tokenDB}`, 1);
         const bannedEmbed = new Discord.MessageEmbed()
           .setTitle("ACCOUNT BANNED !!")
           .setDescription(
             `
-You have been banned From Valorium Economy |
+You have been banned From Valorium Discord bot |
 Reason : ${reason} |
 Banned by : <@${message.author.id}> |
 `

@@ -28,18 +28,19 @@ module.exports = {
       "Broken stick",
       "Awakening gem",
     ];
-    const soldierChance = 0.1; // Increase the chance of getting a soldier
-    const eliteAwakeningGemChance = 0.2; // Increase the chance of getting an elite awakening gem
-    const scrapChance = 0.15; // Decrease the chance of getting scrap items
-    const vortexOrbChance = 0.02; // Increase the chance of getting a vortex orb
-    const daggerOfDeathChance = 0.015; // Increase the chance of getting a vortex orb
-    const verdantLeafChance = 0.01; // Increase the chance of getting a verdant leaf
-    const celestialMoonstoneChance = 0.011; // Increase the chance of getting a celestial moonstone
-    const crystallineCorestoneChance = 0.02; // Increase the chance of getting a crystalline corestone
-    const tomeOfEverlastingWisdomChance = 0.023; // Increase the chance of getting a tome of everlasting wisdom
-    const unlockedCrateChance = 0.05; // Decrease the chance of getting an unlocked crate
+    // Generates a random integer between 0 and 100
+    const eliteAwakeningGemChance = 20; // Increase the chance of getting an elite awakening gem
+    const soldierChance = 10; // Increase the chance of getting a soldier
+    const scrapChance = 41; // Decrease the chance of getting scrap items
+    const tomeOfEverlastingWisdomChance = 6; // Increase the chance of getting a tome of everlasting wisdom
+    const crystallineCorestoneChance = 5; // Increase the chance of getting a crystalline corestone
+    const vortexOrbChance = 2; // Increase the chance of getting a vortex orb
+    const unlockedCrateChance = 7; // Decrease the chance of getting an unlocked crate
+    const celestialMoonstoneChance = 4; // Increase the chance of getting a celestial moonstone
+    const daggerOfDeathChance = 1; // Increase the chance of getting a dagger of death
+    const verdantLeafChance = 3; // Increase the chance of getting a verdant leaf
     const goldCoinsChance =
-      1 -
+      100 -
       (soldierChance +
         eliteAwakeningGemChance +
         scrapChance +
@@ -50,7 +51,6 @@ module.exports = {
         crystallineCorestoneChance +
         tomeOfEverlastingWisdomChance +
         unlockedCrateChance);
-
     var shuffledItems = scrapItems.slice().sort(() => Math.random() - 0.5);
     var randomScrap = shuffledItems[0];
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
@@ -109,7 +109,7 @@ module.exports = {
         } else if (daggerOfDeathEquipped == "True") {
           const daggerOfDeathLevel =
             db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
-          if (daggerOfDeathLevel > 1 || daggerOfDeathLevel == 1) {
+          if (daggerOfDeathLevel > 1) {
             const daggerOfDeathDamage = db.fetch(
               `daggerOfDeathDamage_${tokenDB}`
             );
@@ -143,8 +143,7 @@ module.exports = {
               );
             message.channel.send(timeEmbed);
           } else {
-            var antiBot = db.fetch(`antiBot_${tokenDB}`);
-
+            var antiBot = db.fetch(`antiBot_${tokenDB}`) || 0;
             if (antiBot == 42) {
               db.set(`passedCaptchaVerification_${tokenDB}`, false);
               // ... CAPTCHA Verification logic (existing code) ...
@@ -181,16 +180,25 @@ module.exports = {
                 db.set(`banned_${tokenDB}`, true);
                 db.set(`reasonForBan_${tokenDB}`, "Botting");
                 db.set(`banDate_${tokenDB}`, fullDate);
-
-                message.channel.send(
-                  `${user}  You've been banned from Valorium bot for - Botting\nDate : ${fullDate}`
-                );
+                const bannedUserEmbed = new Discord.MessageEmbed()
+                  .setDescription(
+                    `
+${user} You've been banned from Valorium discord bot
+      `
+                  )
+                  .setColor(`#8B0000`)
+                  .setFooter(`Reason : Botting`);
+                message.channel.send(bannedUserEmbed);
                 db.set(`antiBot_${tokenDB}`, 0);
 
                 var bannedEmbed = new Discord.MessageEmbed()
                   .setTitle("ACCOUNT BANNED !!")
                   .setDescription(
-                    `You have been auto-banned from Valorium bot\nReason: Botting\nBanned by: <@934850905273159710>`
+                    `
+You have been banned From Valorium Discord bot |
+Reason : Botting |
+Banned by : <@934850905273159710>         
+`
                   )
                   .setTimestamp()
                   .setColor("#FF0000");
@@ -210,6 +218,7 @@ module.exports = {
                 var userResponse = response.content.trim().toLowerCase(); // Convert user response to lowercase
 
                 if (userResponse === captcha) {
+                  cooldownDuration = 1000;
                   db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
 
                   // Reset the antiBot state
@@ -252,16 +261,19 @@ module.exports = {
                 var vortanaxBossEmbed2 = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you hit ${vortanaxBoss}`)
-                  .addField(`Archon Vortanax`, `1490826`)
+                  .addField(`Archon Vortanax Total Health`, `1490826`)
                   .addField(`Archon Vortanax current health`, `0`)
                   .addField(`Your damage`, `${weaponDamage}`)
-                  .setColor("#FF7F50");
+                  .setColor("#ff80ed");
                 message.channel.send(vortanaxBossEmbed2);
                 var vortanaxBossDead = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you killed ${vortanaxBoss}`)
-                  .setColor("#EE4B2B");
+                  .setColor("#ff10ed");
                 message.channel.send(vortanaxBossDead);
+                db.add(`bossesKilledTotal_${tokenDB}`, 1);
+                var chance = Math.floor(Math.random() * 100);
+                console.log(chance);
                 db.add(`antiBot_${tokenDB}`, 1);
                 const daggerOfDeathDamage = db.fetch(
                   `daggerOfDeathDamage_${tokenDB}`
@@ -321,12 +333,11 @@ module.exports = {
                     }
                   }
                 }
-                let chance = Math.random();
                 const cooldownDuration = 1000;
                 db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
                 if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
                   var SingleBossKillApsEmbed = new Discord.MessageEmbed()
-                    .setTitle(`APS COMPLETE - First Blood`)
+                    .setTitle(`ACHIEVEMENT COMPLETE - First Blood`)
                     .setDescription(`${user} You gained 500 aps`)
                     .setColor("#00FF00");
                   db.set(`firstBlood_${tokenDB}`, true);
@@ -334,7 +345,7 @@ module.exports = {
                   message.channel.send(SingleBossKillApsEmbed);
                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 10) {
                   var TenBossKillApsEmbed = new Discord.MessageEmbed()
-                    .setTitle(`APS COMPLETE - Decade of Annihilation`)
+                    .setTitle(`ACHIEVEMENT COMPLETE - Decade of Annihilation`)
                     .setDescription(`${user} You gained 300 aps`)
                     .setColor("#00FF00");
                   db.set(`decadeOfAnnihilation_${tokenDB}`, true);
@@ -342,7 +353,9 @@ module.exports = {
                   message.channel.send(TenBossKillApsEmbed);
                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 50) {
                   var FiftyBossKillApsEmbed = new Discord.MessageEmbed()
-                    .setTitle(`APS COMPLETE - Half-century of Destruction`)
+                    .setTitle(
+                      `ACHIEVEMENT COMPLETE - Half-century of Destruction`
+                    )
                     .setDescription(`${user} You gained 800 aps`)
                     .setColor("#00FF00");
                   db.set(`halfCenturyOfDestruction_${tokenDB}`, true);
@@ -350,7 +363,7 @@ module.exports = {
                   message.channel.send(FiftyBossKillApsEmbed);
                 } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 100) {
                   var HundredBossKillApsEmbed = new Discord.MessageEmbed()
-                    .setTitle(`APS COMPLETE - Century of Slaughter`)
+                    .setTitle(`ACHIEVEMENT COMPLETE - Century of Slaughter`)
                     .setDescription(`${user} You gained 1500 aps`)
                     .setColor("#00FF00");
                   db.set(`centuryOfSlaughter_${tokenDB}`, true);
@@ -360,20 +373,33 @@ module.exports = {
                 db.set(`cooldown_${tokenDB}`, Date.now());
                 db.set(`vortanaxBossHealth_${tokenDB}`, 1490826);
 
-                if (chance <= soldierChance) {
+                if (chance == soldierChance) {
                   var soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
                   db.set(`soldiers_${tokenDB}`, soldiers + 1);
                   message.channel.send(
                     "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
                   );
-                } else if (chance <= eliteAwakeningGemChance) {
+                } else if (chance == eliteAwakeningGemChance) {
                   var eliteAwakeningGem =
                     db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
                   db.set(`eliteAwakeningGem_${tokenDB}`, eliteAwakeningGem + 1);
                   message.channel.send(
                     "```" + `yaml\nYou received : Elite awakening gem\n` + "```"
                   );
-                } else if (chance <= scrapChance) {
+                } else if (
+                  chance == 30 ||
+                  chance == 31 ||
+                  chance == 32 ||
+                  chance == 33 ||
+                  chance == 34 ||
+                  chance == 35 ||
+                  chance == 36 ||
+                  chance == 37 ||
+                  chance == 38 ||
+                  chance == 39 ||
+                  chance == 40 ||
+                  chance == 41
+                ) {
                   if (randomScrap == "Rusty gears") {
                     message.channel.send(
                       "```" + `diff\nYou received : Rusty gears\n` + "```"
@@ -410,13 +436,13 @@ module.exports = {
                     );
                     db.add(`awakeningGem_${tokenDB}`, 1);
                   }
-                } else if (chance <= vortexOrbChance) {
+                } else if (chance == vortexOrbChance) {
                   var vortexOrbs = db.fetch(`vortexOrb_${tokenDB}`) || 0;
                   db.set(`vortexOrb_${tokenDB}`, vortexOrbs + 1);
                   message.channel.send(
                     "```" + `diff\n+You received : Vortex Orb\n` + "```"
                   );
-                } else if (chance <= verdantLeafChance) {
+                } else if (chance == verdantLeafChance) {
                   var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
                   db.set(`verdantLeaf_${tokenDB}`, verdantLeaf + 1);
                   message.channel.send(
@@ -424,7 +450,7 @@ module.exports = {
                       `diff\n+You received : Verdant Whisper Leaf\n` +
                       "```"
                   );
-                } else if (chance <= celestialMoonstoneChance) {
+                } else if (chance == celestialMoonstoneChance) {
                   var celestialMoonstone =
                     db.fetch(`celestialMoonstone_${tokenDB}`) || 0;
                   db.set(
@@ -436,7 +462,7 @@ module.exports = {
                       `diff\n+You received : Celestial Moonstone\n` +
                       "```"
                   );
-                } else if (chance <= crystallineCorestoneChance) {
+                } else if (chance == crystallineCorestoneChance) {
                   var crystallineCorestone =
                     db.fetch(`crystallineCorestone_${tokenDB}`) || 0;
                   db.set(
@@ -448,7 +474,7 @@ module.exports = {
                       `diff\n+You received : Crystalline Corestone\n` +
                       "```"
                   );
-                } else if (chance <= tomeOfEverlastingWisdomChance) {
+                } else if (chance == tomeOfEverlastingWisdomChance) {
                   var tomes =
                     db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0;
                   db.set(`tomeOfEverlastingWisdom_${tokenDB}`, tomes + 1);
@@ -457,13 +483,13 @@ module.exports = {
                       `diff\n+You received : Tome of Everlasting Wisdom\n` +
                       "```"
                   );
-                } else if (chance <= daggerOfDeathChance) {
+                } else if (chance == daggerOfDeathChance) {
                   var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`) || 0;
                   db.set(`daggerOfDeath_${tokenDB}`, daggerOfDeath + 1);
                   message.channel.send(
                     "```" + `diff\n+You received : Dagger of death\n` + "```"
                   );
-                } else if (chance <= unlockedCrateChance) {
+                } else if (chance == unlockedCrateChance) {
                   var unlockedCrate =
                     db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0;
                   db.set(`unlockedCrateOfEnergy_${tokenDB}`, unlockedCrate + 1);
@@ -472,7 +498,7 @@ module.exports = {
                       `yaml\nYou received : Unlocked Crate of Energy\n` +
                       "```"
                   );
-                } else if (chance <= goldCoinsChance) {
+                } else if (chance == goldCoinsChance) {
                   bal = await db.fetch(`money_${tokenDB}.pocket`);
 
                   var randomGoldCoins = Math.floor(Math.random() * 2900) + 8209;
@@ -497,32 +523,35 @@ module.exports = {
                         amount: 100000,
                         aps: 100,
                         key: "acquiredAHeftySumOf100k",
-                        title: "APS COMPLETE - Acquired a hefty sum of 100k",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Acquired a hefty sum of 100k",
                       },
                       {
                         amount: 500000,
                         aps: 200,
                         key: "amassedAnImpressiveHaulOf500k",
                         title:
-                          "APS COMPLETE - Amassed an impressive haul of 500k",
+                          "ACHIEVEMENT COMPLETE - Amassed an impressive haul of 500k",
                       },
                       {
                         amount: 1000000,
                         aps: 500,
                         key: "reachedAmillionInRiches",
-                        title: "APS COMPLETE - Reached a million in riches",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Reached a million in riches",
                       },
                       {
                         amount: 10000000,
                         aps: 1000,
                         key: "glorious10mPlunder",
-                        title: "APS COMPLETE - Glorious 10-Million Plunder",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Glorious 10-Million Plunder",
                       },
                       {
                         amount: 100000000,
                         aps: 1700,
                         key: "wealthConqueror",
-                        title: "APS COMPLETE - Wealth Conqueror",
+                        title: "ACHIEVEMENT COMPLETE - Wealth Conqueror",
                       },
                     ];
 
@@ -579,32 +608,35 @@ module.exports = {
                         amount: 100000,
                         aps: 100,
                         key: "acquiredAHeftySumOf100k",
-                        title: "APS COMPLETE - Acquired a hefty sum of 100k",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Acquired a hefty sum of 100k",
                       },
                       {
                         amount: 500000,
                         aps: 200,
                         key: "amassedAnImpressiveHaulOf500k",
                         title:
-                          "APS COMPLETE - Amassed an impressive haul of 500k",
+                          "ACHIEVEMENT COMPLETE - Amassed an impressive haul of 500k",
                       },
                       {
                         amount: 1000000,
                         aps: 500,
                         key: "reachedAmillionInRiches",
-                        title: "APS COMPLETE - Reached a million in riches",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Reached a million in riches",
                       },
                       {
                         amount: 10000000,
                         aps: 1000,
                         key: "glorious10mPlunder",
-                        title: "APS COMPLETE - Glorious 10-Million Plunder",
+                        title:
+                          "ACHIEVEMENT COMPLETE - Glorious 10-Million Plunder",
                       },
                       {
                         amount: 100000000,
                         aps: 1700,
                         key: "wealthConqueror",
-                        title: "APS COMPLETE - Wealth Conqueror",
+                        title: "ACHIEVEMENT COMPLETE - Wealth Conqueror",
                       },
                     ];
 
@@ -643,13 +675,13 @@ module.exports = {
                 var vortanaxBossEmbed = new Discord.MessageEmbed()
                   .setTitle(`${vortanaxBoss}`)
                   .setDescription(`${user} you hit ${vortanaxBoss}`)
-                  .addField(`Archon Vortanax`, `1490826`)
+                  .addField(`Archon Vortanax Total Health`, `1490826`)
                   .addField(
                     `Archon Vortanax current health`,
                     `${vortanaxBossHealth}`
                   )
                   .addField(`Your damage`, `${weaponDamage}`)
-                  .setColor("#FF7F50");
+                  .setColor("#ff80ed");
                 message.channel.send(vortanaxBossEmbed);
                 db.set(`cooldown_${tokenDB}`, Date.now());
               }

@@ -8,6 +8,8 @@ const natureDaggerss = require("../../weaponStats/natureDaggers.json");
 const ventorianBoww = require("../../weaponStats/ventorianBow.json");
 const immortalGunn = require("../../weaponStats/immortalGun.json");
 const startFunction = require("../../startCommandFunction.js");
+var daggerOfDeathh = require("../../weaponStats/daggerOfDeath.json");
+
 module.exports = {
   name: "farm",
   aliases: ["Farm"],
@@ -57,6 +59,8 @@ module.exports = {
       var rashetaEquipped = db.fetch(`equippedRasheta_${tokenDB}`);
       var immortal = db.fetch(`immortalGun_${tokenDB}`);
       var immortalEquipped = db.fetch(`equippedImmortalGun_${tokenDB}`);
+      var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
+      var daggerOfDeathEquipped = db.fetch(`equippedDaggerOfDeath_${tokenDB}`);
       if (natureDaggersEquipped == "True") {
         var weaponDamage = natureDaggerss.Damage;
         var weaponEquipped = true;
@@ -75,6 +79,19 @@ module.exports = {
       } else if (texarusEquipped == "True") {
         var weaponDamage = texarus.Damage;
         var weaponEquipped = true;
+      } else if (daggerOfDeathEquipped == "True") {
+        const daggerOfDeathLevel =
+          db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+        if (daggerOfDeathLevel > 1 || daggerOfDeathLevel == 1) {
+          const daggerOfDeathDamage = db.fetch(
+            `daggerOfDeathDamage_${tokenDB}`
+          );
+          weaponDamage = daggerOfDeathDamage;
+          weaponEquipped = true;
+        } else {
+          weaponDamage = daggerOfDeathh.Damage;
+          weaponEquipped = true;
+        }
       }
 
       if (args[0] === "hit") {
@@ -133,20 +150,23 @@ module.exports = {
                 db.set(`banned_${tokenDB}`, true);
                 db.set(`reasonForBan_${tokenDB}`, "Botting");
                 db.set(`banDate_${tokenDB}`, fullDate);
-                message.channel.send(
-                  `
-${user}  You've been banned from Warrior Legends for - Botting
-Date : ${fullDate}
-`
-                );
+                const bannedUserEmbed = new Discord.MessageEmbed()
+                  .setDescription(
+                    `
+${user} You've been banned from Valorium discord bot
+      `
+                  )
+                  .setColor(`#8B0000`)
+                  .setFooter(`Reason : Botting`);
+                message.channel.send(bannedUserEmbed);
                 db.set(`antiBot_${tokenDB}`, 0);
-                const bannedEmbed = new Discord.MessageEmbed()
+                var bannedEmbed = new Discord.MessageEmbed()
                   .setTitle("ACCOUNT BANNED !!")
                   .setDescription(
                     `
-You have been auto banned From Warrior Legends |
-Reason : Botting |
-Banned by : <@934850905273159710> |
+You have been banned From Valorium Discord bot |
+Reason : ${reason} |
+Banned by : <@934850905273159710>         
 `
                   )
                   .setTimestamp()
@@ -227,7 +247,7 @@ Banned by : <@934850905273159710> |
                     const raxfuryBossEmbed = new Discord.MessageEmbed()
                       .setTitle(`${raxfuryBoss}`)
                       .setDescription(`${user} you hit ${raxfuryBoss}`)
-                      .addField(`Raxfury Boss`, `896810`)
+                      .addField(`Raxfury Boss`, `1280986`)
                       .addField(
                         `Raxfury Boss current health`,
                         `${raxfuryBossHealth}`
@@ -247,6 +267,73 @@ Banned by : <@934850905273159710> |
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(`raxfuryBossHealth_${tokenDB}`, 1280986);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
+                    const daggerOfDeathDamage = db.fetch(
+                      `daggerOfDeathDamage_${tokenDB}`
+                    );
+                    if (weaponDamage == daggerOfDeathDamage) {
+                      const daggerXP = Math.floor(Math.random() * 6) + 15;
+                      db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
+
+                      // Retrieve the current XP and level of Dagger of Death
+                      const currentXP =
+                        db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
+                      var currentLevel = 1;
+
+                      // Define the damage values for each level
+                      const levelDamage = [
+                        200301, 233406, 340221, 462059, 609231, 920132, 1306890,
+                        1690530,
+                      ];
+                      const xpLevels = [
+                        { threshold: 35, level: 2 },
+                        { threshold: 70, level: 3 },
+                        { threshold: 156, level: 4 },
+                        { threshold: 360, level: 5 },
+                        { threshold: 700, level: 6 },
+                        { threshold: 1280, level: 7 },
+                        { threshold: 1940, level: 8 },
+                        { threshold: 2642, level: 9 },
+                      ];
+                      for (const levelData of xpLevels) {
+                        if (currentXP >= levelData.threshold) {
+                          currentLevel = levelData.level;
+                        } else {
+                          break;
+                        }
+                      }
+                      let nextLevelXP;
+
+                      // Check if the accumulated XP is enough for a level-up
+                      var daggerOfDeathLevel = db.fetch(
+                        `daggerOfDeathLevel_${tokenDB}`
+                      );
+                      for (let i = currentLevel; i < levelDamage.length; i++) {
+                        if (
+                          daggerOfDeathLevel == 9 &&
+                          currentXP >= nextLevelXP
+                        ) {
+                          // Level up the weapon
+                          db.set(`daggerOfDeathLevel_${tokenDB}`, i + 1);
+                          // Reset XP to 0 for the next level
+                          db.set(`daggerOfDeathXP_${tokenDB}`, 0);
+
+                          // Set the new weapon damage based on the level
+                          db.set(
+                            `daggerOfDeathDamage_${tokenDB}`,
+                            levelDamage[i]
+                          );
+
+                          message.channel.send(
+                            `Congratulations! Your Dagger of Death has leveled up to level ${
+                              i + 1
+                            } and its damage has increased to ${
+                              levelDamage[i]
+                            }!`
+                          );
+                          break; // Exit the loop after leveling up
+                        }
+                      }
+                    }
                     if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
                       const SingleBossKillApsEmbed = new Discord.MessageEmbed()
                         .setTitle(`APS COMPLETE - First Blood`)

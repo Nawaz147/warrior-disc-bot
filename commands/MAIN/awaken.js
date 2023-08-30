@@ -82,25 +82,25 @@ module.exports = {
               gemsAmount: 1,
               aps: 100,
               key: "emergingAwareness",
-              title: "APS COMPLETE - Emerging Awareness",
+              title: "ACHIEVEMENT COMPLETE - Emerging Awareness",
             },
             {
               gemsAmount: 10,
               aps: 365,
               key: "tenthEnlightenment",
-              title: "APS COMPLETE - Tenth Enlightenment",
+              title: "ACHIEVEMENT COMPLETE - Tenth Enlightenment",
             },
             {
               gemsAmount: 50,
               aps: 500,
               key: "ascendedFifty",
-              title: "APS COMPLETE - Ascended Fifty",
+              title: "ACHIEVEMENT COMPLETE - Ascended Fifty",
             },
             {
               gemsAmount: 100,
               aps: 625,
               key: "centennialEpiphany",
-              title: "APS COMPLETE - Centennial Epiphany",
+              title: "ACHIEVEMENT COMPLETE - Centennial Epiphany",
             },
           ];
 
@@ -172,25 +172,25 @@ ${awake3}x Gold Loot
               gemsAmount: 1,
               aps: 100,
               key: "emergingAwareness",
-              title: "APS COMPLETE - Emerging Awareness",
+              title: "ACHIEVEMENT COMPLETE - Emerging Awareness",
             },
             {
               gemsAmount: 10,
               aps: 365,
               key: "tenthEnlightenment",
-              title: "APS COMPLETE - Tenth Enlightenment",
+              title: "ACHIEVEMENT COMPLETE - Tenth Enlightenment",
             },
             {
               gemsAmount: 50,
               aps: 500,
               key: "ascendedFifty",
-              title: "APS COMPLETE - Ascended Fifty",
+              title: "ACHIEVEMENT COMPLETE - Ascended Fifty",
             },
             {
               gemsAmount: 100,
               aps: 625,
               key: "centennialEpiphany",
-              title: "APS COMPLETE - Centennial Epiphany",
+              title: "ACHIEVEMENT COMPLETE - Centennial Epiphany",
             },
           ];
 

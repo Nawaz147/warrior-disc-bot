@@ -46,7 +46,7 @@ module.exports = {
             "Crystalline corestone":
               db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
             Bullet: db.fetch(`bullet_${tokenDB}`) || 0,
-            "Tome of ever lasting wisdom":
+            "Tome of everlasting wisdom":
               db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
             "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
             "Waetra the freezed bow": db.fetch(`waetra_${tokenDB}`) || 0,
@@ -73,6 +73,13 @@ module.exports = {
             Dustbin: db.fetch(`dustbin_${tokenDB}`) || 0,
             Newspaper: db.fetch(`newspaper_${tokenDB}`) || 0,
             "Used tissue": db.fetch(`usedTissue_${tokenDB}`) || 0,
+            Cotton: db.fetch(`cotton_${tokenDB}`) || 0, // Common material
+            "Super gem": db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
+            Leather: db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
+            "Arcane shard": db.fetch(`arcaneShard_${tokenDB}`) || 0, // Arcane material
+            "Ice cube": db.fetch(`iceCube_${tokenDB}`) || 0, // Arcane material
+            "Green rock": db.fetch(`greenRock_${tokenDB}`) || 0, // Arcane material
+            Silk: db.fetch(`silk_${tokenDB}`) || 0, // Arcane material
           };
 
           // Function to get the rarity of an item
@@ -118,6 +125,13 @@ module.exports = {
             "Torn cloth": "common",
             "Used tissue": "common",
             "Broken stick": "common",
+            Cotton: "common",
+            "Super gem": "Mythic",
+            Leather: "Arcane",
+            "Arcane shard": "Arcane",
+            "Ice cube": "Mythic",
+            "Green rock": "common",
+            Silk: "common",
           };
           const itemsID = {
             "Gold Bar": "goldBar",
@@ -151,6 +165,13 @@ module.exports = {
             "Torn cloth": "tornCloth",
             "Used tissue": "usedTissue",
             "Broken stick": "brokenStick",
+            Cotton: "cotton",
+            "Super gem": "superGem",
+            Leather: "leather",
+            "Arcane shard": "arcaneShard",
+            "Ice cube": "iceCube",
+            "Green rock": "greenRock",
+            Silk: "silk",
           };
           function showCurrentPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;
@@ -184,12 +205,12 @@ module.exports = {
           );
 
           if (totalPages > 1 && itemNamesWithQuantity.length > itemsPerPage) {
-            await inventoryMessage.react("◀️");
-            await inventoryMessage.react("▶️");
+            await inventoryMessage.react("👈");
+            await inventoryMessage.react("👉");
 
             const filter = (reaction, user) => {
               return (
-                ["◀️", "▶️"].includes(reaction.emoji.name) &&
+                ["👈", "👉"].includes(reaction.emoji.name) &&
                 user.id === message.author.id
               );
             };
@@ -202,10 +223,10 @@ module.exports = {
             collector.on("collect", (reaction) => {
               reaction.users.remove(message.author).catch(console.error);
 
-              if (reaction.emoji.name === "▶️" && currentPage < totalPages) {
+              if (reaction.emoji.name === "👉" && currentPage < totalPages) {
                 currentPage++;
                 inventoryMessage.edit(showCurrentPage());
-              } else if (reaction.emoji.name === "◀️" && currentPage > 1) {
+              } else if (reaction.emoji.name === "👈" && currentPage > 1) {
                 currentPage--;
                 inventoryMessage.edit(showCurrentPage());
               }
@@ -218,43 +239,6 @@ module.exports = {
             // If the user has 7 items or less, remove the reactions (if any) from the message
             inventoryMessage.reactions.removeAll().catch(console.error);
           }
-        } else if (args[0].toLowerCase() === "craft") {
-          const materials = {
-            cotton: db.fetch(`cotton_${tokenDB}`) || 0, // Common material
-            superGem: db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
-            leather: db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
-            arcaneShard: db.fetch(`arcaneShard_${tokenDB}`) || 0, // Arcane material
-            iceCube: db.fetch(`iceCube_${tokenDB}`) || 0, // Arcane material
-            greenRock: db.fetch(`greenRock_${tokenDB}`) || 0, // Arcane material
-            silk: db.fetch(`silk_${tokenDB}`) || 0, // Arcane material
-          };
-
-          // Function to add material to crafting inventory description
-          function addMaterial(name, amount, rarity, id) {
-            craftingEmbed.addField(
-              name,
-              `(${amount}) x pcs\nRarity: ${rarity} , ID: ${id}`
-            );
-          }
-
-          // Create the crafting inventory embed
-          const craftingEmbed = new Discord.MessageEmbed()
-            .setTitle("Crafting Inventory")
-            .setColor("#00FF00");
-
-          // Check each material and add it to the crafting inventory description if the user has it
-          const materialNames = Object.keys(materials);
-          for (const materialName of materialNames) {
-            const amount = materials[materialName];
-            if (amount > 0) {
-              const rarity = "Arcane"; // Assume all materials have arcane rarity
-              const id = materialName;
-              addMaterial(materialName, amount, rarity, id);
-            }
-          }
-
-          // Send the crafting inventory embed
-          message.channel.send(craftingEmbed);
         }
       } else {
         // The bot does not have the required permissions

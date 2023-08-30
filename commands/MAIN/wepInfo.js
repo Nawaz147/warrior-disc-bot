@@ -11,6 +11,7 @@ const immortalGun = require("../../weaponStats/immortalGun.json");
 const daggerOfDeath = require("../../weaponStats/daggerOfDeath.json");
 const weaponNames = require("../../weapons.json");
 const startFunction = require("../../startCommandFunction.js");
+const { Message } = require("discord.js");
 
 module.exports = {
   name: "weaponInfo",
@@ -27,12 +28,20 @@ module.exports = {
   usage: "wepInfo",
   category: "Economy",
   run: async (client, message, args) => {
-    let user = message.author;
+    let user =
+      message.mentions.users.first() ||
+      message.author ||
+      client.users.cache.get(args[0]);
 
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
+    const update = db.fetch(`updateInProgress`);
+    const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    const banned = db.fetch(`banned_${tokenDB}`) || false;
     const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
     const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
     if (daggerOfDeathLevel > 0) {
       var daggerOfDeathDamage = db.fetch(`daggerOfDeathDamage_${tokenDB}`);
+      daggerOfDeathDamage = daggerOfDeath.Damage;
     } else {
       daggerOfDeathDamage = daggerOfDeath.Damage;
     }
@@ -46,10 +55,6 @@ module.exports = {
       { threshold: 1940, level: 8 },
       { threshold: 2642, level: 9 },
     ];
-    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
-    const update = db.fetch(`updateInProgress`);
-    const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
-    const banned = db.fetch(`banned_${tokenDB}`) || false;
 
     if (startFunction) {
       startFunction(message, args, client);
@@ -198,8 +203,8 @@ module.exports = {
           xpDisplay = "Max";
         } else {
           xpDisplay = `${daggerOfDeathXP} / ${requiredXP}`;
-          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
+        console.log(user.username);
         const daggerOfDeathEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")
           .setTitle(weaponNames.daggerOfDeath)
@@ -212,12 +217,13 @@ module.exports = {
           .addField("XP", xpDisplay)
           .setThumbnail("https://i.ibb.co/7pxp53P/dagger-of-death.png");
         message.channel.send(daggerOfDeathEmbed);
+        db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       } else if (args[0]) {
         if (
           args[0] !== "ventorianBow" &&
-          args[0] !== "texarusStaff" &&
-          args[0] !== "waetraBow" &&
-          args[0] !== "rashetaAxe" &&
+          args[0] !== "texarus" &&
+          args[0] !== "waetra" &&
+          args[0] !== "rasheta" &&
           args[0] !== "natureDaggers" &&
           args[0] !== "immortalGun" &&
           args[0] !== "daggerOfDeath"

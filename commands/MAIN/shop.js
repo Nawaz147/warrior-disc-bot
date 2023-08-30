@@ -206,7 +206,7 @@ module.exports = {
             }
           }
           if (args[1] == "rasheta") {
-            if (money < prices.rashetaAxe) {
+            if (money < prices.rasheta) {
               message.channel.send(`You dont have enough money to buy it`);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (rashetaPieces == 0) {
@@ -219,12 +219,12 @@ module.exports = {
               message.channel.send(rashetaEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`rasheta_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.rashetaAxe);
+              db.subtract(`money_${tokenDB}.pocket`, prices.rasheta);
               db.subtract(`rashetaStoreAdd`, 1);
             }
           }
           if (args[1] == "waetra") {
-            if (money < prices.waetraBow) {
+            if (money < prices.waetra) {
               message.channel.send(`You dont have enough money to buy it`);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (waetraPieces == 0) {
@@ -237,12 +237,12 @@ module.exports = {
               message.channel.send(waetraEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`waetra_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.waetraBow);
+              db.subtract(`money_${tokenDB}.pocket`, prices.waetra);
               db.subtract(`waetraStoreAdd`, 1);
             }
           }
           if (args[1] == "texarus") {
-            if (money < prices.texarusStaff) {
+            if (money < prices.texarus) {
               message.channel.send(`You dont have enough money to buy it`);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (texarusPieces == 0) {
@@ -255,7 +255,7 @@ module.exports = {
               message.channel.send(texarusEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               db.add(`texarus_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.texarusStaff);
+              db.subtract(`money_${tokenDB}.pocket`, prices.texarus);
               db.subtract(`texarusStoreAdd`, 1);
             }
           }

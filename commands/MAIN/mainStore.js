@@ -12,10 +12,10 @@ module.exports = {
   category: "Economy",
   run: async (client, message, args) => {
     const user = message.author;
-    const Platinum = db.fetch(`platinum_${tokenDB}`);
     var totalCratePieces = db.fetch(`totalCratePieces`) || 0;
     let cratePieces = db.fetch(`cratePieces`) || totalCratePieces;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
+    const Platinum = db.fetch(`platinum_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
@@ -27,10 +27,10 @@ module.exports = {
       // Store details
       const lockedCrates = 300; // Number of locked crates per batch
       const crateOpenInterval = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
-      const goldChance = 0.85; // 85% chance to get gold
-      const platinumChance = 0.1; // 10% chance to get platinum
-      const vanityChance = 0.035; // 3.5% chance to get vanity
-      const weaponChance = 0.015; // 1.5% chance to get weapons
+      const goldChance = 85; // 85% chance to get gold
+      const platinumChance = 10; // 10% chance to get platinum
+      const vanityChance = 3; // 3.5% chance to get vanity
+      const weaponChance = 2; // 1.5% chance to get weapons
       const minPlatinum = 5;
       const maxPlatinum = 25;
       const weapons = [
@@ -86,7 +86,7 @@ module.exports = {
 
               // Calculate the type of reward (gold, platinum, vanity, or weapon)
               let reward = "";
-              const rewardType = Math.random();
+              const rewardType = Math.floor(Math.random() * 100);
 
               if (rewardType < goldChance) {
                 var goldAmount = Math.floor(

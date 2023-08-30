@@ -45,7 +45,7 @@ Safe travels, and may the winds of fortune guide your way!
     }
   } else if (banned == true && user == currentUser) {
     const banEmbed = new Discord.MessageEmbed()
-      .setTitle("Account terminated")
+      .setTitle("Failed to access")
       .setDescription(`Your account has been banned`)
       .addField("Reason", `${banReason}`)
       .addField("Date", `${banDate}`)
@@ -54,7 +54,7 @@ Safe travels, and may the winds of fortune guide your way!
     db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
   } else if (banned == true && user !== currentUser) {
     const banEmbed = new Discord.MessageEmbed()
-      .setTitle("Account terminated")
+      .setTitle("Failed to access")
       .setDescription(`${user.username}'s account has been banned`)
       .addField("Reason", `${banReason}`)
       .addField("Date", `${banDate}`)

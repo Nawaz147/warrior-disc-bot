@@ -24,15 +24,11 @@ module.exports = {
         if (db.fetch(`banned_${tokenDB}`) == false) {
           message.channel.send(`This user is not banned !`);
         } else {
-          var banReason = db.fetch(`reasonForBan_${tokenDB}`);
-          var banDate = db.fetch(`banDate_${tokenDB}`);
           var currentUserToken = db.fetch(`${user.id}.valoriumToken`);
           db.set(`banned_${tokenDB}`, false);
           const unbannedEmbed = new Discord.MessageEmbed()
             .setTitle("Revoked Ban")
             .setDescription(`${user.username}'s account has been unbanned`)
-            .addField("Reason", `${banReason}`)
-            .addField("Date", `${banDate}`)
             .setColor("#00FF00");
           message.channel.send(unbannedEmbed);
           db.add(`usefulUsageOfCommand_${currentUserToken}`, 1);
