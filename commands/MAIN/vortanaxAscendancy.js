@@ -107,10 +107,10 @@ module.exports = {
           weaponDamage = texarus.Damage;
           weaponEquipped = true;
         } else if (daggerOfDeathEquipped == "True") {
-          const daggerOfDeathLevel =
+          var daggerOfDeathLevel =
             db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
           if (daggerOfDeathLevel > 1) {
-            const daggerOfDeathDamage = db.fetch(
+            var daggerOfDeathDamage = db.fetch(
               `daggerOfDeathDamage_${tokenDB}`
             );
             weaponDamage = daggerOfDeathDamage;
@@ -275,16 +275,15 @@ Banned by : <@934850905273159710>
                 var chance = Math.floor(Math.random() * 100);
                 console.log(chance);
                 db.add(`antiBot_${tokenDB}`, 1);
-                const daggerOfDeathDamage = db.fetch(
-                  `daggerOfDeathDamage_${tokenDB}`
-                );
-                if (weaponDamage == daggerOfDeathDamage) {
+                var weaponName = db.fetch(`wepName_${tokenDB}`);
+                if (weaponName == "daggerOfDeath") {
                   const daggerXP = Math.floor(Math.random() * 6) + 15;
                   db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
 
                   // Retrieve the current XP and level of Dagger of Death
                   const currentXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
-                  var currentLevel = 1;
+                  var currentLevel =
+                    db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
 
                   // Define the damage values for each level
                   const levelDamage = [
@@ -301,6 +300,7 @@ Banned by : <@934850905273159710>
                     { threshold: 1940, level: 8 },
                     { threshold: 2642, level: 9 },
                   ];
+
                   for (const levelData of xpLevels) {
                     if (currentXP >= levelData.threshold) {
                       currentLevel = levelData.level;
@@ -308,26 +308,31 @@ Banned by : <@934850905273159710>
                       break;
                     }
                   }
-                  let nextLevelXP;
-
-                  // Check if the accumulated XP is enough for a level-up
-                  var daggerOfDeathLevel = db.fetch(
-                    `daggerOfDeathLevel_${tokenDB}`
-                  );
-                  for (let i = currentLevel; i < levelDamage.length; i++) {
-                    if (daggerOfDeathLevel == 9 && currentXP >= nextLevelXP) {
+                  for (
+                    let i = daggerOfDeathLevel - 1;
+                    i < xpLevels.length;
+                    i++
+                  ) {
+                    const nextLevelXP = xpLevels[i].threshold;
+                    if (currentXP >= nextLevelXP && daggerOfDeathLevel !== 9) {
                       // Level up the weapon
-                      db.set(`daggerOfDeathLevel_${tokenDB}`, i + 1);
-                      // Reset XP to 0 for the next level
                       db.set(`daggerOfDeathXP_${tokenDB}`, 0);
-
-                      // Set the new weapon damage based on the level
                       db.set(`daggerOfDeathDamage_${tokenDB}`, levelDamage[i]);
 
-                      message.channel.send(
-                        `Congratulations! Your Dagger of Death has leveled up to level ${
-                          i + 1
-                        } and its damage has increased to ${levelDamage[i]}!`
+                      var daggerLevelupEmbed = new Discord.MessageEmbed()
+                        .setTitle("Level up!")
+                        .setDescription(
+                          `Your weapon leveled up to level ${
+                            daggerOfDeathLevel + 1
+                          }`
+                        )
+                        .addField(`New damage`, `${levelDamage[i]}`)
+                        .setColor(`#013220`);
+
+                      message.channel.send(daggerLevelupEmbed);
+                      db.set(
+                        `daggerOfDeathLevel_${tokenDB}`,
+                        daggerOfDeathLevel + 1
                       );
                       break; // Exit the loop after leveling up
                     }

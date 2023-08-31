@@ -42,43 +42,95 @@ module.exports = {
           }
         } else if (args[1] == "waetra") {
           var waetra = db.fetch(`waetra_${tokenDB}`);
+          var equippedWaetra = db.fetch(`equippedWaetra_${tokenDB}`) || false;
           if (!waetra) {
-            message.channel.send("You dont have it !");
+            const dontHaveItEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You dont have it.
+`
+              )
+              .setColor(`#b10000`);
+            message.channel.send(dontHaveItEmbed);
             db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
-            db.set(`equippedWaetra_${tokenDB}`, "True");
-            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-            db.set(`equippedWaz_${tokenDB}`, "False");
-            db.set(`equippedTexarus_${tokenDB}`, "False");
-            db.set(`equippedRasheta_${tokenDB}`, "False");
-            db.set(`equippedNatureDaggers_${tokenDB}`, "False");
-            db.set(`equippedVentorianBow_${tokenDB}`, "False");
-            db.set(`equippedImmortalGun_${tokenDB}`, "False");
-            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
-            db.set(`wepName_${tokenDB}`, "waetraBow");
-            message.channel.send(
-              `${user} you have equipped Waetra the freezed bow`
-            );
+            if (equippedWaetra == "True") {
+              const alreadyEquippedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `
+You have already equipped it
+`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(alreadyEquippedEmbed);
+            } else {
+              db.set(`equippedWaetra_${tokenDB}`, "True");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.set(`equippedWaz_${tokenDB}`, "False");
+              db.set(`equippedTexarus_${tokenDB}`, "False");
+              db.set(`equippedRasheta_${tokenDB}`, "False");
+              db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+              db.set(`equippedVentorianBow_${tokenDB}`, "False");
+              db.set(`equippedImmortalGun_${tokenDB}`, "False");
+              db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
+              db.set(`wepName_${tokenDB}`, "waetraBow");
+              const equippedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `
+${user.username}, you equipped Waetra the freezed bow ✔         
+`
+                )
+                .setColor(`#00FF00`);
+              message.channel.send(equippedEmbed);
+            }
           }
         } else if (args[1] == "ventorian") {
-          var ventorianBow = db.fetch(`ventorianBow_${tokenDB}`);
+          var ventorianBow = db.fetch(`ventorianBow_${tokenDB}`) || false;
+          var equippedVentorianBow = db.fetch(
+            `equippedVentorianBow_${tokenDB}`
+          );
           if (!ventorianBow) {
-            message.channel.send("You dont have it !");
+            const dontHaveItEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You dont have it.
+`
+              )
+              .setFooter(`Type +gw to get it for free`)
+              .setColor(`#b10000`);
+            message.channel.send(dontHaveItEmbed);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else {
-            db.set(`equippedVentorianBow_${tokenDB}`, "True");
-            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-            db.set(`equippedWaz_${tokenDB}`, "False");
-            db.set(`equippedTexarus_${tokenDB}`, "False");
-            db.set(`equippedRasheta_${tokenDB}`, "False");
-            db.set(`equippedNatureDaggers_${tokenDB}`, "False");
-            db.set(`equippedWaetra_${tokenDB}`, "False");
-            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
-            db.set(`equippedImmortalGun_${tokenDB}`, "False");
-            db.set(`wepName_${tokenDB}`, "ventorianBow");
-            message.channel.send(
-              `${user} you have equipped Ventorian the ventor bow`
-            );
+            if (equippedVentorianBow == "True") {
+              const alreadyEquippedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `
+You have already equipped it
+`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(alreadyEquippedEmbed);
+            } else {
+              db.set(`equippedVentorianBow_${tokenDB}`, "True");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.set(`equippedWaz_${tokenDB}`, "False");
+              db.set(`equippedTexarus_${tokenDB}`, "False");
+              db.set(`equippedRasheta_${tokenDB}`, "False");
+              db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+              db.set(`equippedWaetra_${tokenDB}`, "False");
+              db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
+              db.set(`equippedImmortalGun_${tokenDB}`, "False");
+              db.set(`wepName_${tokenDB}`, "ventorianBow");
+              const equippedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `
+${user.username}, you equipped Ventorian bow of ventor ✔       
+`
+                )
+                .setColor(`#00FF00`);
+              message.channel.send(equippedEmbed);
+            }
           }
         }
       } else if (args[0] == "axe") {
@@ -126,7 +178,7 @@ module.exports = {
           }
         }
       } else if (args[0] == "vanity") {
-        if (args[1] == "goldenGhostKnight") {
+        if (args[1] == "goldenGhostKnightSet") {
           var goldenGhostKnightSet = db.fetch(
             `goldenGhostKnightSet_${tokenDB}`
           );
@@ -144,7 +196,7 @@ module.exports = {
             message.channel.send(`You equipped Golden Ghost knight set`);
           }
         }
-        if (args[1] == "medusa") {
+        if (args[1] == "medusaSet") {
           var medusaSet = db.fetch(`medusaSet_${tokenDB}`);
           if (!medusaSet) {
             message.channel.send("You dont have it !");
@@ -160,7 +212,7 @@ module.exports = {
             message.channel.send(`You equipped Medusa set`);
           }
         }
-        if (args[1] == "intrepid") {
+        if (args[1] == "intrepidSet") {
           var intrepidSet = db.fetch(`intrepidSet_${tokenDB}`);
           if (!intrepidSet) {
             message.channel.send("You dont have it !");
@@ -176,7 +228,7 @@ module.exports = {
             message.channel.send(`You equipped Intrepid set`);
           }
         }
-        if (args[1] == "arcaneSensei") {
+        if (args[1] == "arcaneSenseiSet") {
           var arcaneSenseiSet = db.fetch(`arcaneSenseiSet_${tokenDB}`);
           if (!arcaneSenseiSet) {
             message.channel.send("You dont have it !");
@@ -192,7 +244,7 @@ module.exports = {
             message.channel.send(`You equipped Arcane Sensei set`);
           }
         }
-        if (args[1] == "frozen") {
+        if (args[1] == "frozenSet") {
           var frozenSet = db.fetch(`frozenSet_${tokenDB}`);
           if (!frozenSet) {
             message.channel.send("You dont have it !");
@@ -208,7 +260,7 @@ module.exports = {
             message.channel.send(`You equipped Frozen set`);
           }
         }
-        if (args[1] == "dawnfire") {
+        if (args[1] == "dawnfireSet") {
           var dawnfireSet = db.fetch(`dawnfireSet_${tokenDB}`);
           if (!dawnfireSet) {
             message.channel.send("You dont have it !");
@@ -224,7 +276,7 @@ module.exports = {
             message.channel.send(`You equipped Dawnfire set`);
           }
         }
-        if (args[1] == "supremeMagical") {
+        if (args[1] == "supremeMagicalSet") {
           var supremeMagicalSet = db.fetch(`supremeMagicalSet_${tokenDB}`);
           if (!supremeMagicalSet) {
             message.channel.send("You dont have it !");

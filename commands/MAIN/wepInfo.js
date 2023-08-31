@@ -39,9 +39,8 @@ module.exports = {
     const banned = db.fetch(`banned_${tokenDB}`) || false;
     const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
     const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
-    if (daggerOfDeathLevel > 0) {
-      var daggerOfDeathDamage = db.fetch(`daggerOfDeathDamage_${tokenDB}`);
-      daggerOfDeathDamage = daggerOfDeath.Damage;
+    if (daggerOfDeathLevel > 1) {
+      daggerOfDeathDamage = db.fetch(`daggerOfDeathDamage_${tokenDB}`);
     } else {
       daggerOfDeathDamage = daggerOfDeath.Damage;
     }

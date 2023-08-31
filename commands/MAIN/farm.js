@@ -267,10 +267,8 @@ Banned by : <@934850905273159710>
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(`raxfuryBossHealth_${tokenDB}`, 1280986);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                    const daggerOfDeathDamage = db.fetch(
-                      `daggerOfDeathDamage_${tokenDB}`
-                    );
-                    if (weaponDamage == daggerOfDeathDamage) {
+                    var weaponName = db.fetch(`wepName_${tokenDB}`);
+                    if (weaponName == "daggerOfDeath") {
                       const daggerXP = Math.floor(Math.random() * 6) + 15;
                       db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
 
