@@ -34,52 +34,82 @@ module.exports = {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         if (!args[0] || args[0].toLowerCase() !== "craft") {
           const items = {
-            "Dagger of death": db.fetch(`daggerOfDeath_${tokenDB}`) || 0,
-            "Immortal gun of energy": db.fetch(`immortalGun_${tokenDB}`) || 0,
-            "Nature daggers of superpower":
+            "<:daggerofdeath:1147084241516105728> Dagger of death":
+              db.fetch(`daggerOfDeath_${tokenDB}`) || 0,
+            "<:immortalgun:1147084130807455814> Immortal gun of energy":
+              db.fetch(`immortalGun_${tokenDB}`) || 0,
+            "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
-            "Vortex orb": db.fetch(`vortexOrb_${tokenDB}`) || 0,
-            "Verdant Whisper leaf": db.fetch(`verdantLeaf_${tokenDB}`) || 0,
-            "Celestial Moonstone":
+            "<:vortexorb:1147066784969666600> Vortex orb":
+              db.fetch(`vortexOrb_${tokenDB}`) || 0,
+            "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
+              db.fetch(`verdantLeaf_${tokenDB}`) || 0,
+            "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
               db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
-            "Gold Bar": db.fetch(`goldBar_${tokenDB}`) || 0,
-            "Crystalline corestone":
+            "<:goldbar:1147101331534921758> Gold Bar":
+              db.fetch(`goldBar_${tokenDB}`) || 0,
+            "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
               db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
-            Bullet: db.fetch(`bullet_${tokenDB}`) || 0,
-            "Tome of everlasting wisdom":
+            "<:bullet:1147100873164603472> Bullet":
+              db.fetch(`bullet_${tokenDB}`) || 0,
+            "<:tomeofeverlastingwisdom:1147073417275773018> Tome of everlasting wisdom":
               db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
-            "Rasheta the furious axe": db.fetch(`rasheta_${tokenDB}`) || 0,
-            "Waetra the freezed bow": db.fetch(`waetra_${tokenDB}`) || 0,
-            "Arcane sensei set": db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
-            "Super golem set": db.fetch(`superGolemSet_${tokenDB}`) || 0,
-            "Supreme magical set":
+            "<:rashetathefuriousaxe:1147085204779962408> Rasheta the furious axe":
+              db.fetch(`rasheta_${tokenDB}`) || 0,
+            "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
+              db.fetch(`waetra_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Arcane sensei set":
+              db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Super golem set":
+              db.fetch(`superGolemSet_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Supreme magical set":
               db.fetch(`supremeMagicalSet_${tokenDB}`) || 0,
-            "Golden Ghost Knight Set":
+            "<:vanityicon:1147071701633482773> Golden Ghost Knight Set":
               db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0,
-            "Medusa set": db.fetch(`medusaSet_${tokenDB}`) || 0,
-            "Intrepid set": db.fetch(`intrepidSet_${tokenDB}`) || 0,
-            "Frozen set": db.fetch(`frozenSet_${tokenDB}`) || 0,
-            "Dawnfire set": db.fetch(`dawnfireSet_${tokenDB}`) || 0,
-            "Texarus the demonished staff": db.fetch(`texarus_${tokenDB}`) || 0,
-            "Elite awakening gem":
+            "<:vanityicon:1147071701633482773> Medusa set":
+              db.fetch(`medusaSet_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Intrepid set":
+              db.fetch(`intrepidSet_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Frozen set":
+              db.fetch(`frozenSet_${tokenDB}`) || 0,
+            "<:vanityicon:1147071701633482773> Dawnfire set":
+              db.fetch(`dawnfireSet_${tokenDB}`) || 0,
+            "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
+              db.fetch(`texarus_${tokenDB}`) || 0,
+            "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
               db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
-            "Unlocked crate of energy":
+            "<:unlockedCrateOfEnergy:1147102884585017355> Unlocked crate of energy":
               db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0,
-            "Awakening gem": db.fetch(`awakeningGem_${tokenDB}`) || 0,
-            "Ventorian bow of ventor": db.fetch(`ventorianBow_${tokenDB}`) || 0,
-            "Rusty gears": db.fetch(`rustyGears_${tokenDB}`) || 0,
-            "Torn cloth": db.fetch(`tornCloth_${tokenDB}`) || 0,
-            "Broken stick": db.fetch(`brokenStick_${tokenDB}`) || 0,
-            Dustbin: db.fetch(`dustbin_${tokenDB}`) || 0,
-            Newspaper: db.fetch(`newspaper_${tokenDB}`) || 0,
-            "Used tissue": db.fetch(`usedTissue_${tokenDB}`) || 0,
-            Cotton: db.fetch(`cotton_${tokenDB}`) || 0, // Common material
-            "Super gem": db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
-            Leather: db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
-            "Arcane shard": db.fetch(`arcaneShard_${tokenDB}`) || 0, // Arcane material
-            "Ice cube": db.fetch(`iceCube_${tokenDB}`) || 0, // Arcane material
-            "Green rock": db.fetch(`greenRock_${tokenDB}`) || 0, // Arcane material
-            Silk: db.fetch(`silk_${tokenDB}`) || 0, // Arcane material
+            "<:awakeninggem:1147071223042424902> Awakening gem":
+              db.fetch(`awakeningGem_${tokenDB}`) || 0,
+            "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
+              db.fetch(`ventorianBow_${tokenDB}`) || 0,
+            "<:rustygears:1147072174264426606> Rusty gears":
+              db.fetch(`rustyGears_${tokenDB}`) || 0,
+            "<:torncloth:1147103370637738035> Torn cloth":
+              db.fetch(`tornCloth_${tokenDB}`) || 0,
+            "<:brokenstick:1147072664792485949> Broken stick":
+              db.fetch(`brokenStick_${tokenDB}`) || 0,
+            "<:dustbin:1147071977601908767> Dustbin":
+              db.fetch(`dustbin_${tokenDB}`) || 0,
+            "<:newspaper:1147073903068463114> Newspaper":
+              db.fetch(`newspaper_${tokenDB}`) || 0,
+            "<:usedtissue:1147072375305797692> Used tissue":
+              db.fetch(`usedTissue_${tokenDB}`) || 0,
+            "<:cotton:1147116559526015088> Cotton":
+              db.fetch(`cotton_${tokenDB}`) || 0, // Common material
+            "<:supergem:1147106342427955300> Super gem":
+              db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
+            "<:supergem:1147106342427955300> Leather":
+              db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
+            "<:arcaneshard:1147112213073629206> Arcane shard":
+              db.fetch(`arcaneShard_${tokenDB}`) || 0, // Arcane material
+            "<:icecube:1147112519878590514> Ice cube":
+              db.fetch(`iceCube_${tokenDB}`) || 0, // Arcane material
+            "<:greenrock:1147112816235515954> Green rock":
+              db.fetch(`greenRock_${tokenDB}`) || 0, // Arcane material
+            "<:silk:1147103793058693130> Silk":
+              db.fetch(`silk_${tokenDB}`) || 0, // Arcane material
           };
 
           // Function to get the rarity of an item
@@ -94,84 +124,114 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
-            "Gold Bar": "Mythic",
-            "Dagger of death": "Arcane",
-            Bullet: "Arcane",
-            "Awakening gem": "Common",
-            "Elite awakening gem": "Epic",
-            "Ventorian bow of ventor": "Common",
-            "Texarus the demonished staff": "Legendary",
-            "Waetra the freezed bow": "Mythic",
-            "Rasheta the furious axe": "Mythic",
-            "Nature daggers of superpower": "Arcane",
-            "Immortal gun of energy": "Arcane",
-            "Golden Ghost Knight Set": "Vanity",
-            "Supreme magical set": "Vanity",
-            "Frozen set": "Vanity",
-            "Super golem set": "Vanity",
-            "Dawnfire set": "Vanity",
-            "Arcane sensei set": "Vanity",
-            "Intrepid set": "Vanity",
-            "Medusa set": "Vanity",
-            "Unlocked crate of energy": "Rare",
-            "Vortex orb": "Arcane",
-            "Verdant Whisper leaf": "Arcane",
-            "Celestial Moonstone": "Arcane",
-            "Crystalline corestone": "Mythic",
-            "Tome of everlasting wisdom": "Mythic",
-            "Rusty gears": "common",
-            Dustbin: "common",
-            Newspaper: "common",
-            "Torn cloth": "common",
-            "Used tissue": "common",
-            "Broken stick": "common",
-            Cotton: "common",
-            "Super gem": "Mythic",
-            Leather: "Arcane",
-            "Arcane shard": "Arcane",
-            "Ice cube": "Mythic",
-            "Green rock": "common",
-            Silk: "common",
+            "<:goldbar:1147101331534921758> Gold Bar": "Mythic",
+            "<:daggerofdeath:1147084241516105728> Dagger of death": "Arcane",
+            "<:bullet:1147100873164603472> Bullet": "Arcane",
+            "<:awakeninggem:1147071223042424902> Awakening gem": "Common",
+            "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
+              "Epic",
+            "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
+              "Common",
+            "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
+              "Legendary",
+            "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
+              "Mythic",
+            "<:rashetathefuriousaxe:1147085204779962408> Rasheta the furious axe":
+              "Mythic",
+            "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
+              "Arcane",
+            "<:immortalgun:1147084130807455814> Immortal gun of energy":
+              "Arcane",
+            "<:vanityicon:1147071701633482773> Golden Ghost Knight Set":
+              "Vanity",
+            "<:vanityicon:1147071701633482773> Supreme magical set": "Vanity",
+            "<:vanityicon:1147071701633482773> Frozen set": "Vanity",
+            "<:vanityicon:1147071701633482773> Super golem set": "Vanity",
+            "<:vanityicon:1147071701633482773> Dawnfire set": "Vanity",
+            "<:vanityicon:1147071701633482773> Arcane sensei set": "Vanity",
+            "<:vanityicon:1147071701633482773> Intrepid set": "Vanity",
+            "<:vanityicon:1147071701633482773> Medusa set": "Vanity",
+            "<:unlockedCrateOfEnergy:1147102884585017355> Unlocked crate of energy":
+              "Rare",
+            "<:vortexorb:1147066784969666600> Vortex orb": "Arcane",
+            "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
+              "Arcane",
+            "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
+              "Arcane",
+            "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
+              "Mythic",
+            "<:tomeofeverlastingwisdom:1147073417275773018> Tome of everlasting wisdom":
+              "Mythic",
+            "<:rustygears:1147072174264426606> Rusty gears": "common",
+            "<:dustbin:1147071977601908767> Dustbin": "common",
+            "<:newspaper:1147073903068463114> Newspaper": "common",
+            "<:torncloth:1147103370637738035> Torn cloth": "common",
+            "<:usedtissue:1147072375305797692> Used tissue": "common",
+            "<:brokenstick:1147072664792485949> Broken stick": "common",
+            "<:cotton:1147116559526015088> Cotton": "common",
+            "<:supergem:1147106342427955300> Super gem": "Mythic",
+            "<:supergem:1147106342427955300> Leather": "Arcane",
+            "<:arcaneshard:1147112213073629206> Arcane shard": "Arcane",
+            "<:icecube:1147112519878590514> Ice cube": "Mythic",
+            "<:greenrock:1147112816235515954> Green rock": "common",
+            "<:silk:1147103793058693130> Silk": "common",
           };
           const itemsID = {
-            "Gold Bar": "goldBar",
-            "Dagger of death": "daggerOfDeath",
-            Bullet: "bullet",
-            "Awakening gem": "awakeningGem",
-            "Elite awakening gem": "eliteAwakeningGem",
-            "Ventorian bow of ventor": "ventorianBow",
-            "Texarus the demonished staff": "texarus",
-            "Waetra the freezed bow": "waetra",
-            "Rasheta the furious axe": "rasheta",
-            "Nature daggers of superpower": "natureDaggers",
-            "Immortal gun of energy": "immortalGun",
-            "Golden Ghost Knight Set": "goldenGhostKnightSet",
-            "Supreme magical set": "supremeMagicalSet",
-            "Frozen set": "frozenSet",
-            "Super golem set": "superGolemSet",
-            "Dawnfire set": "dawnfireSet",
-            "Arcane sensei set": "arcaneSenseiSet",
-            "Intrepid set": "intrepidSet",
-            "Medusa set": "medusaSet",
-            "Unlocked crate of energy": "unlockedCrateOfEnergy",
-            "Vortex orb": "vortexOrb",
-            "Verdant Whisper leaf": "verdantLeaf",
-            "Celestial Moonstone": "celestialMoonstone",
-            "Crystalline corestone": "crystallineCorestone",
-            "Tome of everlasting wisdom": "tomeOfEverlastingWisdom",
-            "Rusty gears": "rustyGears",
-            Dustbin: "dustbin",
-            Newspaper: "newspaper",
-            "Torn cloth": "tornCloth",
-            "Used tissue": "usedTissue",
-            "Broken stick": "brokenStick",
-            Cotton: "cotton",
-            "Super gem": "superGem",
-            Leather: "leather",
-            "Arcane shard": "arcaneShard",
-            "Ice cube": "iceCube",
-            "Green rock": "greenRock",
-            Silk: "silk",
+            "<:goldbar:1147101331534921758> Gold Bar": "goldBar",
+            "<:daggerofdeath:1147084241516105728> Dagger of death":
+              "daggerOfDeath",
+            "<:bullet:1147100873164603472> Bullet": "bullet",
+            "<:awakeninggem:1147071223042424902> Awakening gem": "awakeningGem",
+            "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
+              "eliteAwakeningGem",
+            "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
+              "ventorianBow",
+            "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
+              "texarus",
+            "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
+              "waetra",
+            "<:rashetathefuriousaxe:1147085204779962408> Rasheta the furious axe":
+              "rasheta",
+            "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
+              "natureDaggers",
+            "<:immortalgun:1147084130807455814> Immortal gun of energy":
+              "immortalGun",
+            "<:vanityicon:1147071701633482773> Golden Ghost Knight Set":
+              "goldenGhostKnightSet",
+            "<:vanityicon:1147071701633482773> Supreme magical set":
+              "supremeMagicalSet",
+            "<:vanityicon:1147071701633482773> Frozen set": "frozenSet",
+            "<:vanityicon:1147071701633482773> Super golem set":
+              "superGolemSet",
+            "<:vanityicon:1147071701633482773> Dawnfire set": "dawnfireSet",
+            "<:vanityicon:1147071701633482773> Arcane sensei set":
+              "arcaneSenseiSet",
+            "<:vanityicon:1147071701633482773> Intrepid set": "intrepidSet",
+            "<:vanityicon:1147071701633482773> Medusa set": "medusaSet",
+            "<:unlockedCrateOfEnergy:1147102884585017355> Unlocked crate of energy":
+              "unlockedCrateOfEnergy",
+            "<:vortexorb:1147066784969666600> Vortex orb": "vortexOrb",
+            "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
+              "verdantLeaf",
+            "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
+              "celestialMoonstone",
+            "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
+              "crystallineCorestone",
+            "<:tomeofeverlastingwisdom:1147073417275773018> Tome of everlasting wisdom":
+              "tomeOfEverlastingWisdom",
+            "<:rustygears:1147072174264426606> Rusty gears": "rustyGears",
+            "<:dustbin:1147071977601908767> Dustbin": "dustbin",
+            "<:newspaper:1147073903068463114> Newspaper": "newspaper",
+            "<:torncloth:1147103370637738035> Torn cloth": "tornCloth",
+            "<:usedtissue:1147072375305797692> Used tissue": "usedTissue",
+            "<:brokenstick:1147072664792485949> Broken stick": "brokenStick",
+            "<:cotton:1147116559526015088> Cotton": "cotton",
+            "<:supergem:1147106342427955300> Super gem": "superGem",
+            "<:supergem:1147106342427955300> Leather": "leather",
+            "<:arcaneshard:1147112213073629206> Arcane shard": "arcaneShard",
+            "<:icecube:1147112519878590514> Ice cube": "iceCube",
+            "<:greenrock:1147112816235515954> Green rock": "greenRock",
+            "<:silk:1147103793058693130> Silk": "silk",
           };
           function showCurrentPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;
@@ -186,7 +246,7 @@ module.exports = {
               const rarity = itemsRarity[itemName] || "ERROR";
               const itemID = itemsID[itemName] || "ERROR";
               inventoryItems.push(
-                `**${itemName}** : (${amount}) x pcs\nRarity: ${rarity}, ID: ${itemID}\n`
+                `**${itemName}** : (${amount}) x pcs\n   Rarity: ${rarity}, ID: ${itemID}\n`
               );
             }
 
@@ -216,7 +276,7 @@ module.exports = {
             };
 
             const collector = inventoryMessage.createReactionCollector(filter, {
-              time: 60000,
+              time: 90000,
               dispose: true,
             });
 

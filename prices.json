@@ -28,5 +28,7 @@
     "usedTissue" : 98, 
     "brokenStick" : 872 ,
     "soldier" : 0,
-    "bullet" : 35000000
+    "bullet" : 35000000,
+    "daggerOfDeath" : 300000000, 
+    "trashItems": 0
 }

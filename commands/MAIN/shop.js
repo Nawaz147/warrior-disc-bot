@@ -74,6 +74,10 @@ module.exports = {
       if (immortalGunPieces == null) {
         immortalGunPieces = 0;
       }
+      var daggerOfDeathPieces = db.fetch(`daggerOfDeathStoreAdd`);
+      if (daggerOfDeathPieces == null) {
+        daggerOfDeathPieces = 0;
+      }
       var arcaneSenseiPieces = db.fetch(`arcaneSenseiStoreAdd`);
       if (arcaneSenseiPieces == null) {
         arcaneSenseiPieces = 0;
@@ -106,6 +110,7 @@ module.exports = {
 **WEAPONS**
 ----------------
 
+**DAGGER OF DEATH :** (${daggerOfDeathPieces}) in stock [price : 300,000,000] <sells for half price>
 **IMMORTAL GUN OF ENERGY :** (${immortalGunPieces}) in stock [price : 150,000,000] <sells for half price>
 **NATURE DAGGERS OF SUPERPOWER :** (${natureDaggersPieces}) in stock [price : 100,000,000] <sells for half price>
 **RASHETA THE FURIOUS AXE :** (${rashetaPieces}) in stock [price : 50,000,000] <sells for half price>

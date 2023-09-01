@@ -31,7 +31,7 @@ module.exports = {
     // Generates a random integer between 0 and 100
     const eliteAwakeningGemChance = 20; // Increase the chance of getting an elite awakening gem
     const soldierChance = 10; // Increase the chance of getting a soldier
-    const scrapChance = 41; // Decrease the chance of getting scrap items
+    const scrapChance = 200; // Decrease the chance of getting scrap items
     const tomeOfEverlastingWisdomChance = 6; // Increase the chance of getting a tome of everlasting wisdom
     const crystallineCorestoneChance = 5; // Increase the chance of getting a crystalline corestone
     const vortexOrbChance = 2; // Increase the chance of getting a vortex orb
@@ -272,7 +272,7 @@ Banned by : <@934850905273159710>
                   .setColor("#ff10ed");
                 message.channel.send(vortanaxBossDead);
                 db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                var chance = Math.floor(Math.random() * 100);
+                var chance = Math.floor(Math.random() * 225);
                 console.log(chance);
                 db.add(`antiBot_${tokenDB}`, 1);
                 var weaponName = db.fetch(`wepName_${tokenDB}`);
@@ -391,20 +391,7 @@ Banned by : <@934850905273159710>
                   message.channel.send(
                     "```" + `yaml\nYou received : Elite awakening gem\n` + "```"
                   );
-                } else if (
-                  chance == 30 ||
-                  chance == 31 ||
-                  chance == 32 ||
-                  chance == 33 ||
-                  chance == 34 ||
-                  chance == 35 ||
-                  chance == 36 ||
-                  chance == 37 ||
-                  chance == 38 ||
-                  chance == 39 ||
-                  chance == 40 ||
-                  chance == 41
-                ) {
+                } else if (chance >= 30 && chance < 200) {
                   if (randomScrap == "Rusty gears") {
                     message.channel.send(
                       "```" + `diff\nYou received : Rusty gears\n` + "```"
