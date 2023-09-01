@@ -30,11 +30,12 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
-**CONTENT UPDATE (1 SEP 2023)**  
+**CONTENT UPDATE (1 SEP 2023)**        
 **+** Added icons for each item 
 **+** Added option to sell trash items by typing (+sell trashItems)
 **+** Designed sell embed
 **+** Made Dagger of death sellable
+**+** Changed inventory reaction to icons
 -------------------------------------------
         `
         )

@@ -96,11 +96,11 @@ module.exports = {
               db.fetch(`newspaper_${tokenDB}`) || 0,
             "<:usedtissue:1147072375305797692> Used tissue":
               db.fetch(`usedTissue_${tokenDB}`) || 0,
-            "<:cotton:1147116559526015088> Cotton":
+            "<:cotton:1147116559526015088>Cotton":
               db.fetch(`cotton_${tokenDB}`) || 0, // Common material
             "<:supergem:1147106342427955300> Super gem":
               db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
-            "<:supergem:1147106342427955300> Leather":
+            "<:leather:1147104055701798933> Leather":
               db.fetch(`leather_${tokenDB}`) || 0, // Arcane material
             "<:arcaneshard:1147112213073629206> Arcane shard":
               db.fetch(`arcaneShard_${tokenDB}`) || 0, // Arcane material
@@ -168,9 +168,9 @@ module.exports = {
             "<:torncloth:1147103370637738035> Torn cloth": "common",
             "<:usedtissue:1147072375305797692> Used tissue": "common",
             "<:brokenstick:1147072664792485949> Broken stick": "common",
-            "<:cotton:1147116559526015088> Cotton": "common",
+            "<:cotton:1147116559526015088>Cotton": "common",
             "<:supergem:1147106342427955300> Super gem": "Mythic",
-            "<:supergem:1147106342427955300> Leather": "Arcane",
+            "<:leather:1147104055701798933> Leather": "Arcane",
             "<:arcaneshard:1147112213073629206> Arcane shard": "Arcane",
             "<:icecube:1147112519878590514> Ice cube": "Mythic",
             "<:greenrock:1147112816235515954> Green rock": "common",
@@ -225,9 +225,9 @@ module.exports = {
             "<:torncloth:1147103370637738035> Torn cloth": "tornCloth",
             "<:usedtissue:1147072375305797692> Used tissue": "usedTissue",
             "<:brokenstick:1147072664792485949> Broken stick": "brokenStick",
-            "<:cotton:1147116559526015088> Cotton": "cotton",
+            "<:cotton:1147116559526015088>Cotton": "cotton",
             "<:supergem:1147106342427955300> Super gem": "superGem",
-            "<:supergem:1147106342427955300> Leather": "leather",
+            "<:leather:1147104055701798933> Leather": "leather",
             "<:arcaneshard:1147112213073629206> Arcane shard": "arcaneShard",
             "<:icecube:1147112519878590514> Ice cube": "iceCube",
             "<:greenrock:1147112816235515954> Green rock": "greenRock",
@@ -265,12 +265,12 @@ module.exports = {
           );
 
           if (totalPages > 1 && itemNamesWithQuantity.length > itemsPerPage) {
-            await inventoryMessage.react("👈");
-            await inventoryMessage.react("👉");
+            await inventoryMessage.react("<:leftarrow:1147157614065627208>");
+            await inventoryMessage.react("<:rightarrow:1147157581266165811>");
 
             const filter = (reaction, user) => {
               return (
-                ["👈", "👉"].includes(reaction.emoji.name) &&
+                ["leftarrow", "rightarrow"].includes(reaction.emoji.name) &&
                 user.id === message.author.id
               );
             };
@@ -283,10 +283,16 @@ module.exports = {
             collector.on("collect", (reaction) => {
               reaction.users.remove(message.author).catch(console.error);
 
-              if (reaction.emoji.name === "👉" && currentPage < totalPages) {
+              if (
+                reaction.emoji.name === "rightarrow" &&
+                currentPage < totalPages
+              ) {
                 currentPage++;
                 inventoryMessage.edit(showCurrentPage());
-              } else if (reaction.emoji.name === "👈" && currentPage > 1) {
+              } else if (
+                reaction.emoji.name === "leftarrow" &&
+                currentPage > 1
+              ) {
                 currentPage--;
                 inventoryMessage.edit(showCurrentPage());
               }
