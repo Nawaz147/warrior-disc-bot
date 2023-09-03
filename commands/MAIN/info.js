@@ -72,6 +72,10 @@ module.exports = {
       if (immortalGun == null || immortalGun == undefined || NaN) {
         immortalGun = 0;
       }
+      var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
+      if (daggerOfDeath == null || daggerOfDeath == undefined || NaN) {
+        daggerOfDeath = 0;
+      }
       var awakeningGem = db.fetch(`awakeningGem_${tokenDB}`);
       if (awakeningGem == null || awakeningGem == undefined || NaN) {
         awakeningGem = 0;
@@ -190,6 +194,24 @@ module.exports = {
       if (usedTissue == null || usedTissue == undefined || usedTissue === NaN) {
         usedTissue = 0;
       }
+      var valoriumsTear = db.fetch(`valoriumsTear_${tokenDB}`);
+      if (
+        valoriumsTear == null ||
+        valoriumsTear == undefined ||
+        valoriumsTear === NaN
+      ) {
+        valoriumsTear = 0;
+      }
+      var valoriumsEclipsianSoul = db.fetch(
+        `valoriumsEclipsianSoul_${tokenDB}`
+      );
+      if (
+        valoriumsEclipsianSoul == null ||
+        valoriumsEclipsianSoul == undefined ||
+        valoriumsEclipsianSoul === NaN
+      ) {
+        valoriumsEclipsianSoul = 0;
+      }
       var brokenStick = db.fetch(`brokenStick_${tokenDB}`);
       if (
         brokenStick == null ||
@@ -236,6 +258,9 @@ module.exports = {
         usedTissue * prices.usedTissue +
         brokenStick * prices.brokenStick +
         bullet * prices.bullet +
+        valoriumsTear * prices.valoriumsTear +
+        valoriumsEclipsianSoul * prices.valoriumsEclipsianSoul +
+        daggerOfDeath * prices.daggerOfDeath +
         balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       // Replace this with your ASCII art representation
@@ -260,17 +285,17 @@ module.exports = {
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃${user.username}'s Info         
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ User ID: ${user.id}                
-┃ User Tag: ${user.tag}           
-┃ Is Banned? ${banned ? "Yes" : "No"}           
-┃ User Status: ${user.presence.status}        
-┃ Bosses Killed: ${bossesKilledTotal}      
-┃ Achievement Points (APS): ${achievementPoints}  
-┃ Soldiers under Command: ${soldiers}      
-┃ Battles Won: ${battlesWon}           
-┃ Battles Lost: ${battlesLost}          
-┃ War Points: ${warPoints}            
-┃ Net Worth: ${netWorth}             
+┃ User ID: ${user.id}
+┃ User Tag: ${user.tag}
+┃ Is Banned? ${banned ? "Yes" : "No"}
+┃ User Status: ${user.presence.status}
+┃ Bosses Killed: ${bossesKilledTotal}
+┃ Achievement Points (APS): ${achievementPoints}
+┃ Soldiers under Command: ${soldiers}
+┃ Battles Won: ${battlesWon}
+┃ Battles Lost: ${battlesLost}
+┃ War Points: ${warPoints}
+┃ Net Worth: ${netWorth}
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
 ┃ Played Duration            
 ┃ ${monthsPlayed} months ${daysPlayed % 30} days     
@@ -280,17 +305,15 @@ module.exports = {
       // Send the RPGCanvas as a message
       message.channel.send("```" + RPGCanvas + "```");
 
-      if (banned === true) {
-        // userInfoEmbed.addField("Ban Reason", banReason);
-        // userInfoEmbed.addField("Ban Date", banDate);
-      } else {
-        // Fetch the token creation date from the database
-        // Calculate the played duration using native JavaScript date functions
-        // userInfoEmbed.addField(
-        //   "Played Duration",
-        //   `${monthsPlayed} months ${daysPlayed % 30} days`
-        // );
-      }
+      // if (banned === true) {
+      //   userInfoEmbed.addField("Ban Reason", banReason);
+      //   userInfoEmbed.addField("Ban Date", banDate);
+      // } else {
+      //   userInfoEmbed.addField(
+      //     "Played Duration",
+      //     `${monthsPlayed} months ${daysPlayed % 30} days`
+      //   );
+      // }
 
       // message.channel.send(userInfoEmbed);
     }

@@ -30,5 +30,7 @@
     "soldier" : 0,
     "bullet" : 35000000,
     "daggerOfDeath" : 300000000, 
-    "trashItems": 0
+    "trashItems": 0 , 
+    "valoriumsTear" : 12750000 , 
+    "valoriumsEclipsianSoul" : 50000000
 }

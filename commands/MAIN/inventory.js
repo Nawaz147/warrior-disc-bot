@@ -44,10 +44,14 @@ module.exports = {
               db.fetch(`vortexOrb_${tokenDB}`) || 0,
             "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
               db.fetch(`verdantLeaf_${tokenDB}`) || 0,
+            "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
+              db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0,
             "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
               db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
             "<:goldbar:1147101331534921758> Gold Bar":
               db.fetch(`goldBar_${tokenDB}`) || 0,
+            "<:valoriumsTear:1147381630009364581> Valorium's tear":
+              db.fetch(`valoriumsTear_${tokenDB}`) || 0,
             "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
               db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
             "<:bullet:1147100873164603472> Bullet":
@@ -175,6 +179,9 @@ module.exports = {
             "<:icecube:1147112519878590514> Ice cube": "Mythic",
             "<:greenrock:1147112816235515954> Green rock": "common",
             "<:silk:1147103793058693130> Silk": "common",
+            "<:valoriumsTear:1147381630009364581> Valorium's tear": "Mythic",
+            "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
+              "Arcane",
           };
           const itemsID = {
             "<:goldbar:1147101331534921758> Gold Bar": "goldBar",
@@ -232,6 +239,10 @@ module.exports = {
             "<:icecube:1147112519878590514> Ice cube": "iceCube",
             "<:greenrock:1147112816235515954> Green rock": "greenRock",
             "<:silk:1147103793058693130> Silk": "silk",
+            "<:valoriumsTear:1147381630009364581> Valorium's tear":
+              "valoriumsTear",
+            "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
+              "valoriumsEclipsianSoul",
           };
           function showCurrentPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;

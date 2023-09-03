@@ -1,60 +1,47 @@
-// const Discord = require("discord.js");
-// const ms = require("parse-ms");
-// const db = require("quick.db");
-// const Canvas = require("canvas");
-// module.exports = {
-//   name: "eventInfo",
-//   aliases: ["event", "eventPrewiew", "eventDetails"],
-//   description: "To get current eventInfo",
-//   usage: "eventInfo",
-//   category: "Economy",
-//   run: async (client, message, args) => {
-//     const update = db.fetch(`updateInProgress`);
-//     if (update == true) {
-//       message.channel.send(
-//         `You cannot use any commands right now! Bot is updating`
-//       );
-//     } else {
-//       const eventEmbed = new Discord.MessageEmbed()
-//         .setColor("#66FF33")
-//         .setTitle("Event Info")
-//         .addField("Event Name : ", "Oyo event")
-//         .addField(
-//           "Description : ",
-//           "In this event you can kill the boss and loot some amazing things and lot of oyons"
-//         )
-//         .addField("Event Start Date : ", "1/12/2022")
-//         .addField("Event End Date : ", "Not Decided")
-//         .setDescription(
-//           `
-// **YOU CAN LOOT**
+const Discord = require("discord.js");
+const ms = require("parse-ms");
+const db = require("quick.db");
+const Canvas = require("canvas");
+const startFunction = require("../../startCommandFunction.js");
+module.exports = {
+  name: "eventInfo",
+  aliases: ["event", "eventPrewiew", "eventDetails"],
+  description: "To get current eventInfo",
+  usage: "eventInfo",
+  category: "Economy",
+  run: async (client, message, args) => {
+    let user = message.author;
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
+    const update = db.fetch(`updateInProgress`);
+    const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
+    const banned = db.fetch(`banned_${tokenDB}`) || false;
 
-// **RARE : **
-// Oyo pack <:Oyopack:1047775486610255872>
-// 3250 orons
+    if (startFunction) {
+      startFunction(message, args, client);
+    }
+    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      const eventEmbed = new Discord.MessageEmbed()
+        .setColor("#66FF33")
+        .addField("Event Name : ", "Valorium event")
+        .addField(
+          `
+**LOOT TABLE**
+`,
+          `1. <:valoriumsSoul:1147382331422810132> Valorium's eclipsian soul
+2. <:valoriumsTear:1147381630009364581> Valorium's tear
+3. <:vanityicon:1147071701633482773> Arcane sensei set
+4. <:vanityicon:1147071701633482773> Golden ghost knight set
+5. <:platinum:1147864790782464130> 500 platinum
+6. <:platinum:1147864790782464130> Random platinum (1 - 24)
+7. <:goldcoins:1147864245862678548> Random gold coins (12,508 - 24,939)
+8. 🗡 Soldier 🗡
+`
+        )
 
-// **OTHER : **
-// 150,000 to 750,000 orons
-// `
-//         )
-//         .setTimestamp();
+        .setTimestamp()
+        .setColor("#E6E6FA");
 
-//       message.channel.send(eventEmbed);
-//       // const doublePriceEvent = new Discord.MessageEmbed()
-//       //   .setColor("#66FF33")
-//       //   .setTitle("Upcoming Event Info")
-//       //   .addField("Event Name : ", "Gold Rush")
-//       //   .addField(
-//       //     "Description : ",
-//       //     "In this event you can sell your items for real price "
-//       //   )
-//       //   .addField("Example : ", "1 car = 7500")
-//       //   .addField("Event Start Date : ", "04/15/2022")
-//       //   .addField("Event End Date : ", "04/22/2022")
-//       //   .setThumbnail(
-//       //     "https://lh3.googleusercontent.com/d0ftoGSluoBqaglyymRDWPwaBq0383FEoVPFtUWfAogrxgMowOM9dEsTtkxQbPYml3vLdhk=s120"
-//       //   );
-//       // message.channel.send(doublePriceEvent);
-//     }
-//   },
-// };
+      message.channel.send(eventEmbed);
+    }
+  },
+};

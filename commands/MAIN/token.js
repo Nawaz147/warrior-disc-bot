@@ -61,7 +61,15 @@ The bot is currently undergoing an update. Please be patient!
         message.channel.send(apsEmbed);
 
         user.send(embed);
-
+        setTimeout(() => {
+          const guide1Embed = new Discord.MessageEmbed()
+            .setTitle("Guide")
+            .setDescription(
+              `Type +tos to check terms of service and type +tos accept to accept and get access to playing `
+            )
+            .setColor(`#0000FF`);
+          message.channel.send(guide1Embed);
+        }, 3000);
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
         db.set(`enshrinedAsAValoriumLegend_${token}`, true);

@@ -26,7 +26,7 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
-      const promoCodes = ["E9XPO3", "GZ3POV", "D4CO9E", "PXLTO8"];
+      const promoCodes = ["E9XPO3", "GZ3POV", "D4CO9E", "PXLTO8", "42X0ED"];
       const code = args[0]?.trim();
       if (!code) {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
@@ -35,7 +35,6 @@ module.exports = {
 
       if (promoCodes.includes(code)) {
         const usedCodes = db.fetch(`usedPromoCodes_${tokenDB}`) || [];
-
         if (usedCodes.includes(code)) {
           db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           return message.channel.send("You have already used this promo code");
@@ -50,33 +49,51 @@ module.exports = {
           case "E9XPO3":
             // Give 5 elite awakening gems to user
             db.add(`eliteAwakeningGem_${tokenDB}`, 5);
-            message.channel.send(
-              `Congratulations! You have successfully redeemed the promo code and received 5 elite awakening gems.`
-            );
+            var promocodeReedemedEmbed = new Discord.MessageEmbed()
+              .setTitle("Promocode redeemed (E9XPO3)")
+              .setDescription(`You received : 5 Eite awakening gems`)
+              .setColor(`#00FF00`);
+            message.channel.send(promocodeReedemedEmbed);
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           case "GZ3POV":
             // Give 5 awakening gems to user
             db.add(`awakeningGem_${tokenDB}`, 5);
-            message.channel.send(
-              `Congratulations! You have successfully redeemed the promo code and received 5 awakening gems.`
-            );
+            var promocodeReedemedEmbed = new Discord.MessageEmbed()
+              .setTitle("Promocode redeemed (GZ3POV)")
+              .setDescription(`You received : 5 Awakening gems`)
+              .setColor(`#00FF00`);
+            message.channel.send(promocodeReedemedEmbed);
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           case "D4CO9E":
             // Give 500,000 Gold Points to user
             db.add(`money_${tokenDB}.pocket`, 500000);
-            message.channel.send(
-              `Congratulations! You have successfully redeemed the promo code and received 500,000 Gold Points.`
-            );
+            var promocodeReedemedEmbed = new Discord.MessageEmbed()
+              .setTitle("Promocode redeemed (D4CO9E)")
+              .setDescription(`You received : 500,000 Gold coins`)
+              .setColor(`#00FF00`);
+            message.channel.send(promocodeReedemedEmbed);
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            break;
+          case "42X0ED":
+            // Give 500,000 Gold Points to user
+            var promocodeReedemedEmbed = new Discord.MessageEmbed()
+              .setTitle("Promocode redeemed (42X0ED)")
+              .setDescription(`You received : 3 soldiers`)
+              .setColor(`#00FF00`);
+            message.channel.send(promocodeReedemedEmbed);
+            db.add(`soldiers_${tokenDB}`, 3);
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           case "PXLTO8":
             // Give 100 platinum to user
+            var promocodeReedemedEmbed = new Discord.MessageEmbed()
+              .setTitle("Promocode redeemed (PXLTO8)")
+              .setDescription(`You received : 100 platinum`)
+              .setColor(`#00FF00`);
+            message.channel.send(promocodeReedemedEmbed);
             db.add(`platinum_${tokenDB}`, 100);
-            message.channel.send(
-              `Congratulations! You have successfully redeemed the promo code and received 100 platinum.`
-            );
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           default:
@@ -84,7 +101,10 @@ module.exports = {
         }
       } else {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-        return message.channel.send("Invalid promo code.");
+        var invalidEmbed = new Discord.MessageEmbed()
+          .setDescription(`Invalid promo code`)
+          .setColor(`#b10000`);
+        message.channel.send(invalidEmbed);
       }
     }
   },

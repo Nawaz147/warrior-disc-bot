@@ -25,9 +25,10 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       var item = args[0];
+      var itemDB = db.fetch(`${args[0]}_${tokenDB}`);
       if (!item) {
         message.channel.send(
-          "Enter an item name you want to sell , eg: +sell rasheta"
+          "Invalid command usage , correct usage eg: +sell rasheta 1"
         );
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else if (!prices.hasOwnProperty(item)) {
@@ -46,6 +47,9 @@ module.exports = {
           );
           db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           return; // Stop execution if the number of pieces is not valid
+        } else if (amountOfPieces > itemDB) {
+          message.channel.send(`You dont have that many pieces`);
+          return;
         }
         if (item == "goldBar") {
           var totalGoldGained = prices[item] * amountOfPieces;
@@ -63,54 +67,74 @@ module.exports = {
           return;
         } else {
           var amountOfPieces = parseInt(args[1]);
+          var goldBar = db.fetch(`goldBar_${tokenDB}`) || 0;
           if (item == "goldBar") {
-            goldBarSellPrice = prices.goldBar;
-            db.add(`goldBarStoreAdd`, amountOfPieces);
-            db.subtract(`goldBar_${tokenDB}`, amountOfPieces);
-            db.add(`money_${tokenDB}.pocket`, prices.goldBar * amountOfPieces);
-            goldBarSellPrice = goldBarSellPrice
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            goldBarTotalSellPrice = prices.goldBar * amountOfPieces;
-            goldBarTotalSellPrice = goldBarTotalSellPrice
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            const goldBarSoldEmbed = new Discord.MessageEmbed()
-              .setTitle(`Sold Successfully`)
-              .addField(`Item name`, "Gold bar")
-              .addField(`Number of pieces`, `${amountOfPieces}`)
-              .addField(`Sell price per piece`, `${goldBarSellPrice}`)
-              .addField(`Total sell price`, `${goldBarTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${goldBar - amountOfPieces}`)
-              .setColor("#008080");
-            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-            message.channel.send(goldBarSoldEmbed);
+            if (goldBar > 0) {
+              if (goldBar == amountOfPieces || goldBar > amountOfPieces) {
+                goldBarSellPrice = prices.goldBar;
+                db.add(`goldBarStoreAdd`, amountOfPieces);
+                db.subtract(`goldBar_${tokenDB}`, amountOfPieces);
+                db.add(
+                  `money_${tokenDB}.pocket`,
+                  prices.goldBar * amountOfPieces
+                );
+                goldBarSellPrice = goldBarSellPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                goldBarTotalSellPrice = prices.goldBar * amountOfPieces;
+                goldBarTotalSellPrice = goldBarTotalSellPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                const goldBarSoldEmbed = new Discord.MessageEmbed()
+                  .setTitle(`Sold Successfully`)
+                  .addField(`Item name`, "Gold bar")
+                  .addField(`Number of pieces`, `${amountOfPieces}`)
+                  .addField(`Sell price per piece`, `${goldBarSellPrice}`)
+                  .addField(`Total sell price`, `${goldBarTotalSellPrice}`)
+                  .setColor("#008080");
+                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+                message.channel.send(goldBarSoldEmbed);
+              }
+            }
           }
+
           if (item == "rasheta") {
-            rashetaSellPrice = prices.rasheta / 2;
-            db.add(`rashetaStoreAdd`, amountOfPieces);
-            db.subtract(`rasheta_${tokenDB}`, amountOfPieces);
-            db.add(
-              `money_${tokenDB}.pocket`,
-              (prices.rasheta / 2) * amountOfPieces
-            );
-            rashetaSellPrice = rashetaSellPrice
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            rashetaTotalSellPrice = (prices.rasheta / 2) * amountOfPieces;
-            rashetaTotalSellPrice = rashetaTotalSellPrice
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            const rashetaSoldEmbed = new Discord.MessageEmbed()
-              .setTitle(`Sold Successfully`)
-              .addField(`Item name`, "Rasheta the furious axe")
-              .addField(`Number of pieces`, `${amountOfPieces}`)
-              .addField(`Sell price per piece`, `${rashetaSellPrice}`)
-              .addField(`Total sell price`, `${rashetaTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${rasheta - amountOfPieces}`)
-              .setColor("#008080");
-            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-            message.channel.send(rashetaSoldEmbed);
+            var rasheta = db.fetch(`rasheta_${tokenDB}`) || 0;
+            if (rasheta > 0) {
+              if (rasheta == amountOfPieces || rasheta > amountOfPieces) {
+                rashetaSellPrice = prices.rasheta / 2;
+                db.add(`rashetaStoreAdd`, amountOfPieces);
+                db.subtract(`rasheta_${tokenDB}`, amountOfPieces);
+                db.add(
+                  `money_${tokenDB}.pocket`,
+                  (prices.rasheta / 2) * amountOfPieces
+                );
+                rashetaSellPrice = rashetaSellPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                rashetaTotalSellPrice = (prices.rasheta / 2) * amountOfPieces;
+                rashetaTotalSellPrice = rashetaTotalSellPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                const rashetaSoldEmbed = new Discord.MessageEmbed()
+                  .setTitle(`Sold Successfully`)
+                  .addField(`Item name`, "Rasheta the furious axe")
+                  .addField(`Number of pieces`, `${amountOfPieces}`)
+                  .addField(`Sell price per piece`, `${rashetaSellPrice}`)
+                  .addField(`Total sell price`, `${rashetaTotalSellPrice}`)
+                  .setColor("#008080");
+                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+                message.channel.send(rashetaSoldEmbed);
+              } else if (rasheta == 0) {
+                message.channel.send("You dont have gold bar");
+              } else if (rasheta > 0 && rasheta !== amountOfPieces) {
+                message.channel.send(
+                  `You dont have ${amountOfPieces}x gold bars`
+                );
+              } else {
+                db.set(`rasheta_${tokenDB}`, 0);
+              }
+            }
           }
           if (item == "waetra") {
             waetraSellPrice = prices.waetra / 2;
@@ -133,7 +157,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${waetraSellPrice}`)
               .addField(`Total sell price`, `${waetraTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${waetra - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(waetraSoldEmbed);
@@ -159,7 +182,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${texarusSellPrice}`)
               .addField(`Total sell price`, `${texarusTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${texarus - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(texarusSoldEmbed);
@@ -186,10 +208,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${natureDaggersSellPrice}`)
               .addField(`Total sell price`, `${natureDaggersTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${natureDaggers - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(natureDaggersSoldEmbed);
@@ -216,10 +234,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${immortalGunSellPrice}`)
               .addField(`Total sell price`, `${immortalGunTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${immortalGun - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(immortalGunSoldEmbed);
@@ -261,10 +275,6 @@ module.exports = {
                 .addField(`Number of pieces`, `${amountOfPieces}`)
                 .addField(`Sell price per piece`, `${daggerOfDeathSellPrice}`)
                 .addField(`Total sell price`, `${daggerOfDeathTotalSellPrice}`)
-                .addField(
-                  `Pieces left with you`,
-                  `${daggerOfDeath - amountOfPieces}`
-                )
                 .setColor("#008080");
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               message.channel.send(daggerOfDeathSoldEmbed);
@@ -300,10 +310,6 @@ module.exports = {
                 `Total sell price`,
                 `${goldenGhostKnightSetTotalSellPrice}`
               )
-              .addField(
-                `Pieces left with you`,
-                `${goldenGhostKnightSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(goldenGhostKnightSetSoldEmbed);
@@ -330,10 +336,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${arcaneSenseiSetSellPrice}`)
               .addField(`Total sell price`, `${arcaneSenseiSetTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${arcaneSenseiSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(arcaneSenseiSetSoldEmbed);
@@ -360,7 +362,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${frozenSetSellPrice}`)
               .addField(`Total sell price`, `${frozenSetTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${frozenSet - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(frozenSetSoldEmbed);
@@ -388,10 +389,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${superGolemSetSellPrice}`)
               .addField(`Total sell price`, `${superGolemSetTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${superGolemSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(superGolemSetSoldEmbed);
@@ -418,10 +415,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${dawnfireSetSellPrice}`)
               .addField(`Total sell price`, `${dawnfireSetTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${dawnfireSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(dawnfireSetSoldEmbed);
@@ -448,10 +441,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${intrepidSetSellPrice}`)
               .addField(`Total sell price`, `${intrepidSetTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${intrepidSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(intrepidSetSoldEmbed);
@@ -477,7 +466,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${medusaSetSellPrice}`)
               .addField(`Total sell price`, `${medusaSetTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${medusaSet - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(medusaSetSoldEmbed);
@@ -507,10 +495,6 @@ module.exports = {
                 `Total sell price`,
                 `${supremeMagicalSetTotalSellPrice}`
               )
-              .addField(
-                `Pieces left with you`,
-                `${supremeMagicalSet - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(supremeMagicalSetSoldEmbed);
@@ -539,7 +523,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${vortexOrbSellPrice}`)
               .addField(`Total sell price`, `${vortexOrbTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${vortexOrb - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(vortexOrbSoldEmbed);
@@ -566,10 +549,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${verdantLeafSellPrice}`)
               .addField(`Total sell price`, `${verdantLeafTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${verdantLeaf - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(verdantLeafSoldEmbed);
@@ -601,10 +580,6 @@ module.exports = {
               .addField(
                 `Total sell price`,
                 `${celestialMoonstoneTotalSellPrice}`
-              )
-              .addField(
-                `Pieces left with you`,
-                `${celestialMoonstone - amountOfPieces}`
               )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
@@ -638,10 +613,6 @@ module.exports = {
               .addField(
                 `Total sell price`,
                 `${crystallineCorestoneTotalSellPrice}`
-              )
-              .addField(
-                `Pieces left with you`,
-                `${crystallineCorestone - amountOfPieces}`
               )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
@@ -677,10 +648,6 @@ module.exports = {
                 `Total sell price`,
                 `${tomeOfEverlastingWisdomTotalSellPrice}`
               )
-              .addField(
-                `Pieces left with you`,
-                `${tomeOfEverlastingWisdom - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(tomeOfEverlastingWisdomSoldEmbed);
@@ -706,10 +673,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${rustyGearsSellPrice}`)
               .addField(`Total sell price`, `${rustyGearsTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${rustyGears - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(rustyGearsSoldEmbed);
@@ -735,7 +698,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${dustbinSellPrice}`)
               .addField(`Total sell price`, `${dustbinTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${dustbin - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(dustbinSoldEmbed);
@@ -761,7 +723,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${newspaperSellPrice}`)
               .addField(`Total sell price`, `${newspaperTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${newspaper - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(newspaperSoldEmbed);
@@ -786,8 +747,6 @@ module.exports = {
               .addField(`Item name`, "Torn cloth")
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${tornClothSellPrice}`)
-              .addField(`Total sell price`, `${tornClothTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${tornCloth - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(tornClothSoldEmbed);
@@ -813,10 +772,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${usedTissueSellPrice}`)
               .addField(`Total sell price`, `${usedTissueTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${usedTissue - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(usedTissueSoldEmbed);
@@ -843,10 +798,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${brokenStickSellPrice}`)
               .addField(`Total sell price`, `${brokenStickTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${brokenStick - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(brokenStickSoldEmbed);
@@ -872,7 +823,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${bulletSellPrice}`)
               .addField(`Total sell price`, `${bulletTotalSellPrice}`)
-              .addField(`Pieces left with you`, `${bullet - amountOfPieces}`)
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(bulletSoldEmbed);
@@ -905,10 +855,6 @@ module.exports = {
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(`Sell price per piece`, `${awakeningGemSellPrice}`)
               .addField(`Total sell price`, `${awakeningGemTotalSellPrice}`)
-              .addField(
-                `Pieces left with you`,
-                `${awakeningGem - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(awakeningGemSoldEmbed);
@@ -938,103 +884,167 @@ module.exports = {
                 `Total sell price`,
                 `${eliteAwakeningGemTotalSellPrice}`
               )
-              .addField(
-                `Pieces left with you`,
-                `${eliteAwakeningGem - amountOfPieces}`
-              )
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(eliteAwakeningGemSoldEmbed);
           }
-        }
-      }
-      if (item == "trashItems") {
-        var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
-        var rustyGearsSellPrice = prices.rustyGears / 2;
-        var tornCloth = db.fetch(`tornCloth_${tokenDB}`) || 0;
-        var tornClothSellPrice = prices.tornCloth / 2;
-        var brokenStick = db.fetch(`brokenStick_${tokenDB}`) || 0;
-        var brokenStickSellPrice = prices.brokenStick / 2;
-        var dustbin = db.fetch(`dustbin_${tokenDB}`) || 0;
-        var dustbinSellPrice = prices.dustbin / 2;
-        var newspaper = db.fetch(`newspaper_${tokenDB}`) || 0;
-        var newspaperSellPrice = prices.newspaper / 2;
-        var usedTissue = db.fetch(`usedTissue_${tokenDB}`) || 0;
-        var usedTissueSellPrice = prices.usedTissue / 2;
-        if (rustyGears > 0) {
-          db.set(`rustyGears_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, rustyGearsSellPrice * rustyGears);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            rustyGearsSellPrice * rustyGears
-          );
-        }
-        if (tornCloth > 0) {
-          db.set(`tornCloth_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, tornClothSellPrice * tornCloth);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            tornClothSellPrice * tornCloth
-          );
-        }
-        if (brokenStick > 0) {
-          db.set(`brokenStick_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, brokenStickSellPrice * brokenStick);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            brokenStickSellPrice * brokenStick
-          );
-        }
-        if (dustbin > 0) {
-          db.set(`dustbin_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, dustbinSellPrice * dustbin);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            dustbinSellPrice * dustbin
-          );
-        }
-        if (newspaper > 0) {
-          db.set(`newspaper_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, newspaperSellPrice * newspaper);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            newspaperSellPrice * newspaper
-          );
-        }
-        if (usedTissue > 0) {
-          db.set(`usedTissue_${tokenDB}`, 0);
-          db.add(`money_${tokenDB}.pocket`, usedTissueSellPrice * usedTissue);
-          db.add(
-            `trashItemsMoneyEarned_${tokenDB}`,
-            usedTissueSellPrice * usedTissue
-          );
-        }
-        if (
-          rustyGears > 0 ||
-          tornCloth > 0 ||
-          brokenStick > 0 ||
-          dustbin > 0 ||
-          newspaper > 0 ||
-          usedTissue > 0
-        ) {
-          trashItemsSellPrice =
-            db.fetch(`trashItemsMoneyEarned_${tokenDB}`) || 0;
-          trashItemsSellPrice = trashItemsSellPrice
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          const trashItemsSoldEmbed = new Discord.MessageEmbed()
-            .setTitle(`Sold Successfully`)
-            .addField(`Item name`, "All useless trash items")
-            .addField(`Total sell price`, `${trashItemsSellPrice}`)
-            .setColor("#008080");
-          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-          db.set(`trashItemsMoneyEarned_${tokenDB}`, 0);
-          message.channel.send(trashItemsSoldEmbed);
-        } else {
-          const noTrashEmbed = new Discord.MessageEmbed()
-            .setDescription(`You dont have any trash item`)
-            .setColor(`#008080`);
-          message.channel.send(noTrashEmbed);
+          if (item == "valoriumsTear") {
+            valoriumsTearSellPrice = prices.valoriumsTear / 2;
+            db.add(`valoriumsTearStoreAdd`, amountOfPieces);
+            db.subtract(`valoriumsTear_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.valoriumsTear / 2) * amountOfPieces
+            );
+            valoriumsTearSellPrice = valoriumsTearSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            valoriumsTearTotalSellPrice =
+              (prices.valoriumsTear / 2) * amountOfPieces;
+            valoriumsTearTotalSellPrice = valoriumsTearTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const valoriumsTearSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Valorium's tear")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(`Sell price per piece`, `${valoriumsTearSellPrice}`)
+              .addField(`Total sell price`, `${valoriumsTearTotalSellPrice}`)
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(valoriumsTearSoldEmbed);
+          }
+          if (item == "valoriumsEclipsianSoul") {
+            valoriumsEclipsianSoulSellPrice = prices.valoriumsEclipsianSoul / 2;
+            db.add(`valoriumsEclipsianSoulStoreAdd`, amountOfPieces);
+            db.subtract(`valoriumsEclipsianSoul_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.valoriumsEclipsianSoul / 2) * amountOfPieces
+            );
+            valoriumsEclipsianSoulSellPrice = valoriumsEclipsianSoulSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            valoriumsEclipsianSoulTotalSellPrice =
+              (prices.valoriumsEclipsianSoul / 2) * amountOfPieces;
+            valoriumsEclipsianSoulTotalSellPrice =
+              valoriumsEclipsianSoulTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const valoriumsEclipsianSoulSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Valorium's Eclipsian soul")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${valoriumsEclipsianSoulSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${valoriumsEclipsianSoulTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(valoriumsEclipsianSoulSoldEmbed);
+          }
+          if (item == "trashItems") {
+            var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
+            var rustyGearsSellPrice = prices.rustyGears / 2;
+            var tornCloth = db.fetch(`tornCloth_${tokenDB}`) || 0;
+            var tornClothSellPrice = prices.tornCloth / 2;
+            var brokenStick = db.fetch(`brokenStick_${tokenDB}`) || 0;
+            var brokenStickSellPrice = prices.brokenStick / 2;
+            var dustbin = db.fetch(`dustbin_${tokenDB}`) || 0;
+            var dustbinSellPrice = prices.dustbin / 2;
+            var newspaper = db.fetch(`newspaper_${tokenDB}`) || 0;
+            var newspaperSellPrice = prices.newspaper / 2;
+            var usedTissue = db.fetch(`usedTissue_${tokenDB}`) || 0;
+            var usedTissueSellPrice = prices.usedTissue / 2;
+            if (rustyGears > 0) {
+              db.set(`rustyGears_${tokenDB}`, 0);
+              db.add(
+                `money_${tokenDB}.pocket`,
+                rustyGearsSellPrice * rustyGears
+              );
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                rustyGearsSellPrice * rustyGears
+              );
+            }
+            if (tornCloth > 0) {
+              db.set(`tornCloth_${tokenDB}`, 0);
+              db.add(`money_${tokenDB}.pocket`, tornClothSellPrice * tornCloth);
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                tornClothSellPrice * tornCloth
+              );
+            }
+            if (brokenStick > 0) {
+              db.set(`brokenStick_${tokenDB}`, 0);
+              db.add(
+                `money_${tokenDB}.pocket`,
+                brokenStickSellPrice * brokenStick
+              );
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                brokenStickSellPrice * brokenStick
+              );
+            }
+            if (dustbin > 0) {
+              db.set(`dustbin_${tokenDB}`, 0);
+              db.add(`money_${tokenDB}.pocket`, dustbinSellPrice * dustbin);
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                dustbinSellPrice * dustbin
+              );
+            }
+            if (newspaper > 0) {
+              db.set(`newspaper_${tokenDB}`, 0);
+              db.add(`money_${tokenDB}.pocket`, newspaperSellPrice * newspaper);
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                newspaperSellPrice * newspaper
+              );
+            }
+            if (usedTissue > 0) {
+              db.set(`usedTissue_${tokenDB}`, 0);
+              db.add(
+                `money_${tokenDB}.pocket`,
+                usedTissueSellPrice * usedTissue
+              );
+              db.add(
+                `trashItemsMoneyEarned_${tokenDB}`,
+                usedTissueSellPrice * usedTissue
+              );
+            }
+            if (
+              rustyGears > 0 ||
+              tornCloth > 0 ||
+              brokenStick > 0 ||
+              dustbin > 0 ||
+              newspaper > 0 ||
+              usedTissue > 0
+            ) {
+              trashItemsSellPrice =
+                db.fetch(`trashItemsMoneyEarned_${tokenDB}`) || 0;
+              trashItemsSellPrice = trashItemsSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const trashItemsSoldEmbed = new Discord.MessageEmbed()
+                .setTitle(`Sold Successfully`)
+                .addField(`Item name`, "Trash items")
+                .addField(`Total sell price`, `${trashItemsSellPrice}`)
+                .setColor("#008080");
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.set(`trashItemsMoneyEarned_${tokenDB}`, 0);
+              message.channel.send(trashItemsSoldEmbed);
+            } else {
+              const noTrashEmbed = new Discord.MessageEmbed()
+                .setDescription(`You dont have any trash item`)
+                .setColor(`#008080`);
+              message.channel.send(noTrashEmbed);
+            }
+          }
         }
       }
     }

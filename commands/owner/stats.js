@@ -75,7 +75,7 @@ module.exports = {
         { name: " Bot Owner:", value: `\`\`\`Nawaz#4904\`\`\`` }
       )
       .setColor("3498DB")
-      .setFooter("Thx For Choosing Warrior Legends");
+      .setFooter("Thx For Choosing Valorium");
 
     message.react("✅");
     return message.channel.send(embed);

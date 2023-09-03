@@ -30,6 +30,15 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (3 SEP 2023)**        
+**+** Added soldier to loot table
+**+** Added event preview option (+event)
+**+** Added new promocode (42XOED) [gives 3 soldiers]
+-------------------------------------------
+**CONTENT UPDATE (2 SEP 2023)**        
+**+** Valorium event started
+**+** Bug fixes
+-------------------------------------------
 **CONTENT UPDATE (1 SEP 2023)**        
 **+** Added icons for each item 
 **+** Added option to sell trash items by typing (+sell trashItems)

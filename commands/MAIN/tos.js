@@ -21,19 +21,36 @@ module.exports = {
       message.channel.send(
         `${user} your Valorium token is not registered yet, type +token me to set your Valorium token`
       );
-    } else if (banned == true) {
+    } else if (banned == true && user == currentUser) {
       const banEmbed = new Discord.MessageEmbed()
-        .setTitle(user)
-        .setDescription(`This account is banned`)
+        .setTitle("Failed to access")
+        .setDescription(`Your account has been banned`)
         .addField("Reason", `${banReason}`)
         .addField("Date", `${banDate}`)
-        .setColor("#FFFF00");
+        .setColor("#8B0000");
       message.channel.send(banEmbed);
-      db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
+    } else if (banned == true && user !== currentUser) {
+      const banEmbed = new Discord.MessageEmbed()
+        .setTitle("Failed to access")
+        .setDescription(`${user.username}'s account has been banned`)
+        .addField("Reason", `${banReason}`)
+        .addField("Date", `${banDate}`)
+        .setColor("#8B0000");
+      message.channel.send(banEmbed);
+      db.add(`uselessUsageOfCommand_${currentUserToken}`, 1);
     } else if (update == true && message.author.id !== "768747976767832084") {
-      message.channel.send(
-        `You cannot use any commands right now! Bot is updating`
-      );
+      const updateInProgressEmbed = new Discord.MessageEmbed()
+        .setTitle(`Temporary Command Suspension`)
+        .setDescription(
+          `
+Sorry ${currentUser.username} , commands are disabled at the moment.
+The bot is currently undergoing an update. Please be patient!          
+`
+        )
+        .setColor("#3498db")
+        .setTimestamp();
+      message.channel.send(updateInProgressEmbed);
       db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
     } else {
       if (args[0] == "accept") {
@@ -48,8 +65,18 @@ module.exports = {
             .setTitle("TERMS OF SERVICE")
             .setDescription(
               "You have accepted the terms of service , you can now play!"
-            );
+            )
+            .setColor(`#FFFFFF`);
           message.channel.send(acceptedTOSembed);
+          setTimeout(() => {
+            const guide2Embed = new Discord.MessageEmbed()
+              .setTitle("Guide")
+              .setDescription(
+                `Type +gw to get your free weapon "Ventorian bow of ventor"`
+              )
+              .setColor(`#0000FF`);
+            message.channel.send(guide2Embed);
+          }, 1500);
         }
       } else if (!args[0]) {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);

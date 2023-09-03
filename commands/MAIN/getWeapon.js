@@ -14,13 +14,19 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
-
     if (startFunction) {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       if (db.fetch(`ventorianBow_${tokenDB}`)) {
-        message.channel.send("You already have it !");
+        const alreadyHaveEmbed = new Discord.MessageEmbed()
+          .setDescription(
+            `
+You already have it.
+  `
+          )
+          .setColor("#b10000");
+        message.channel.send(alreadyHaveEmbed);
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else {
         db.add(`ventorianBow_${tokenDB}`, 1);
@@ -30,6 +36,26 @@ module.exports = {
           .setColor("#00FF00");
         message.channel.send(ventorianBowEmbed);
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+        setTimeout(() => {
+          const guide3Embed = new Discord.MessageEmbed()
+            .setTitle("Guide")
+            .setDescription(
+              `
+Type +equip bow ventorian,
+Type +play hit to hit event boss,
+You need to hit the boss till it dies,
+example : whenever you hit the boss it will show :
+1. Total health of boss
+2. Current health of boss
+3. Your weapon damage
+Every hit boss life decreases as per your weapon damage,
+For commands list and promocodes go to our website : https://valorium8.web.app
+`
+            )
+            .setFooter(`Good luck`)
+            .setColor(`#0000FF`);
+          message.channel.send(guide3Embed);
+        }, 1500);
       }
     }
   },
