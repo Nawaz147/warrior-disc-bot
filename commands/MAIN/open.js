@@ -118,9 +118,23 @@ module.exports = {
             .setColor("#228B22");
           message.channel.send(rewardEmbed);
         }
+      } else if (args[0] == "monarchSlayerTitle") {
+        var monarchSlayerTitle = db.fetch(`monarchSlayerTitle_${tokenDB}`) || 0;
+        if (monarchSlayerTitle > 0) {
+          const rewardEmbed = new Discord.MessageEmbed()
+            .setTitle(user.username)
+            .setDescription(`You received: Monarch slayer`)
+            .setFooter(`You cannot sell it now`)
+            .setColor("#228B22");
+          message.channel.send(rewardEmbed);
+          db.set(`monarchSlayerTitleOpened_${tokenDB}`, true);
+        }
       }
       if (args[0]) {
-        if (args[0] !== "unlockedCrateOfEnergy") {
+        if (
+          args[0] !== "unlockedCrateOfEnergy" ||
+          args[0] !== "monarchSlayerTitle"
+        ) {
           message.channel.send(
             `*Invalid item name [item named **${args[0]}** does not exist*]  , Usage eg : +open unlockedCrateOfEnergy`
           );

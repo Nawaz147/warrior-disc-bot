@@ -228,10 +228,13 @@ Banned by : <@934850905273159710> |
                 var finalCoins = randomGoldCoins * goldLoot + 1;
               }
               if (ValoriumBossHealth < 0) {
+                weaponDamage = weaponDamage
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 const ValoriumBossEmbed2 = new Discord.MessageEmbed()
                   .setTitle(`${ValoriumBoss}`)
                   .setDescription(`${user} you hit ${ValoriumBoss}`)
-                  .addField(`Valorium boss`, `1280986`)
+                  .addField(`Valorium boss`, `1,280,986`)
                   .addField(`Valorium Boss current health`, `0`)
                   .addField(`Your damage`, `${weaponDamage}`)
                   .setColor("#B59410");
@@ -239,10 +242,17 @@ Banned by : <@934850905273159710> |
                 db.add(`antiBot_${tokenDB}`, 1);
               } else {
                 db.subtract(`ValoriumBossHealth_${tokenDB}`, weaponDamage);
+                weaponDamage = weaponDamage
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                ValoriumBossHealth = ValoriumBossHealth.toString().replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ","
+                );
                 const ValoriumBossEmbed = new Discord.MessageEmbed()
                   .setTitle(`${ValoriumBoss}`)
                   .setDescription(`${user} you hit ${ValoriumBoss}`)
-                  .addField(`Valorium boss`, `1280986`)
+                  .addField(`Valorium boss`, `1,280,986`)
                   .addField(
                     `Valorium Boss current health`,
                     `${ValoriumBossHealth}`
@@ -260,7 +270,7 @@ Banned by : <@934850905273159710> |
                   .setColor("#B88419");
                 message.channel.send(ValoriumBossDead);
                 db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                var chance = Math.floor(Math.random() * 225);
+                var chance = Math.floor(Math.random() * 225) + 1;
                 console.log(chance);
                 var weaponName = db.fetch(`wepName_${tokenDB}`);
                 if (weaponName == "daggerOfDeath") {

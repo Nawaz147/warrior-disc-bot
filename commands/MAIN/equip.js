@@ -21,7 +21,7 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
-      if (args[1] == "waetraBow") {
+      if (args[0] == "waetra") {
         var waetra = db.fetch(`waetra_${tokenDB}`);
         var equippedWaetra = db.fetch(`equippedWaetra_${tokenDB}`) || "False";
         if (!waetra) {
@@ -65,7 +65,7 @@ ${user.username}, you equipped Waetra the freezed bow ✔
             message.channel.send(equippedEmbed);
           }
         }
-      } else if (args[1] == "ventorianBow") {
+      } else if (args[0] == "ventorianBow") {
         var ventorianBow = db.fetch(`ventorianBow_${tokenDB}`) || "False";
         var equippedVentorianBow = db.fetch(`equippedVentorianBow_${tokenDB}`);
         if (!ventorianBow) {
@@ -157,8 +157,9 @@ ${user.username}, you equipped Rasheta the furious axe ✔
         }
       } else if (args[0] == "immortalGun") {
         var immortalGun = db.fetch(`immortalGun_${tokenDB}`);
-        var equippedRasheta = db.fetch(`equippedRasheta_${tokenDB}`) || "False";
-        if (equippedRasheta == "True") {
+        var equippedImmortalGun =
+          db.fetch(`equippedImmortalGun_${tokenDB}`) || "False";
+        if (equippedImmortalGun == "True") {
           const alreadyEquippedEmbed = new Discord.MessageEmbed()
             .setDescription(
               `
@@ -196,6 +197,55 @@ ${user.username}, you equipped Immortal gun of energy ✔
             )
             .setColor(`#00FF00`);
           message.channel.send(equippedEmbed);
+        }
+      } else if (args[0] == "title") {
+        if (args[1] == "monarchSlayer") {
+          var monarchSlayer = db.fetch(`monarchSlayer_${tokenDB}`);
+          var monarchSlayerTitleOpened =
+            db.fetch(`monarchSlayerTitleOpened_${tokenDB}`) || false;
+          var equippedmonarchSlayer =
+            db.fetch(`equippedmonarchSlayer_${tokenDB}`) || false;
+          if (equippedmonarchSlayer == "True") {
+            const alreadyEquippedEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You have already equipped it
+`
+              )
+              .setColor(`#b10000`);
+            message.channel.send(alreadyEquippedEmbed);
+          } else if (!monarchSlayer) {
+            const dontHaveItEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You dont have it.
+`
+              )
+              .setColor(`#b10000`);
+            message.channel.send(dontHaveItEmbed);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+          } else if (monarchSlayerTitleOpened == false) {
+            const notOpenedTitleEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You need to open the title to equip it
+`
+              )
+              .setColor(`#b10000`);
+            message.channel.send(notOpenedTitleEmbed);
+            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+          } else {
+            db.set(`equippedMonarchSlayerTitle_${tokenDB}`, true);
+            db.set(`title_${tokenDB}`, "Monarch slayer");
+            const equippedEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+${user.username}, you equipped the title 'Monarch slayer'    
+`
+              )
+              .setColor(`#00FF00`);
+            message.channel.send(equippedEmbed);
+          }
         }
       } else if (args[0] == "vanity") {
         if (args[1] == "goldenGhostKnightSet") {
@@ -381,49 +431,49 @@ ${user.username}, you equipped Nature daggers of superpower ✔
             .setColor(`#00FF00`);
           message.channel.send(equippedEmbed);
         }
-        if (args[1] == "daggerOfDeath") {
-          var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
-          var equippedDaggerOfDeath =
-            db.fetch(`equippedDaggerOfDeath_${tokenDB}`) || "False";
-          if (!daggerOfDeath) {
-            const dontHaveItEmbed = new Discord.MessageEmbed()
-              .setDescription(
-                `
+      }
+      if (args[0] == "daggerOfDeath") {
+        var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`);
+        var equippedDaggerOfDeath =
+          db.fetch(`equippedDaggerOfDeath_${tokenDB}`) || "False";
+        if (!daggerOfDeath) {
+          const dontHaveItEmbed = new Discord.MessageEmbed()
+            .setDescription(
+              `
   You dont have it.
   `
-              )
-              .setColor(`#b10000`);
-            message.channel.send(dontHaveItEmbed);
-            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-          } else if (equippedDaggerOfDeath == "True") {
-            const alreadyEquippedEmbed = new Discord.MessageEmbed()
-              .setDescription(
-                `
+            )
+            .setColor(`#b10000`);
+          message.channel.send(dontHaveItEmbed);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+        } else if (equippedDaggerOfDeath == "True") {
+          const alreadyEquippedEmbed = new Discord.MessageEmbed()
+            .setDescription(
+              `
 You have already equipped it
 `
-              )
-              .setColor(`#b10000`);
-            message.channel.send(alreadyEquippedEmbed);
-          } else {
-            db.set(`equippedRasheta_${tokenDB}`, "False");
-            db.set(`equippedWaetra_${tokenDB}`, "False");
-            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-            db.set(`equippedWaz_${tokenDB}`, "False");
-            db.set(`equippedTexarus_${tokenDB}`, "False");
-            db.set(`equippedDaggerOfDeath_${tokenDB}`, "True");
-            db.set(`equippedNatureDaggers_${tokenDB}`, "False");
-            db.set(`equippedVentorianBow_${tokenDB}`, "False");
-            db.set(`equippedImmortalGun_${tokenDB}`, "False");
-            db.set(`wepName_${tokenDB}`, "daggerOfDeath");
-            const equippedEmbed = new Discord.MessageEmbed()
-              .setDescription(
-                `
+            )
+            .setColor(`#b10000`);
+          message.channel.send(alreadyEquippedEmbed);
+        } else {
+          db.set(`equippedRasheta_${tokenDB}`, "False");
+          db.set(`equippedWaetra_${tokenDB}`, "False");
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+          db.set(`equippedWaz_${tokenDB}`, "False");
+          db.set(`equippedTexarus_${tokenDB}`, "False");
+          db.set(`equippedDaggerOfDeath_${tokenDB}`, "True");
+          db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+          db.set(`equippedVentorianBow_${tokenDB}`, "False");
+          db.set(`equippedImmortalGun_${tokenDB}`, "False");
+          db.set(`wepName_${tokenDB}`, "daggerOfDeath");
+          const equippedEmbed = new Discord.MessageEmbed()
+            .setDescription(
+              `
 ${user.username}, you equipped Dagger of death ✔       
 `
-              )
-              .setColor(`#00FF00`);
-            message.channel.send(equippedEmbed);
-          }
+            )
+            .setColor(`#00FF00`);
+          message.channel.send(equippedEmbed);
         }
       } else if (args[0] == "texarus") {
         var texarus = db.fetch(`texarus_${tokenDB}`);

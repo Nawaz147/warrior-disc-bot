@@ -38,7 +38,7 @@ module.exports = {
       if (platinum === undefined) platinum = "0";
       platinum = platinum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-      keys = await db.fetch(`userKeys_${tokenDB}`);
+      keys = await db.fetch(`key_${tokenDB}`);
       if (keys === null) keys = "0";
       if (keys === undefined) keys = "0";
       keys = keys.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -125,7 +125,7 @@ module.exports = {
 
       bal = db.fetch(`money_${tokenDB}.pocket`);
       platinum = db.fetch(`platinum_${tokenDB}`);
-      keys = db.fetch(`userKeys_${tokenDB}`);
+      keys = db.fetch(`key_${tokenDB}`);
     }
   },
 };

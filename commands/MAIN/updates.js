@@ -30,6 +30,15 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (5 SEP 2023)**        
+**+** Added comma values to valorium boss embed and Eldra'zur, the Abyssal Tyrant boss embed
+**+** Monarch slayer title added to loot table in premium key zone
+**+** Monarch slayer title can be opened by typing (+open monarchSlayerTitle)
+**+** Monarch slayer title can be equipped by typing (+equip title monarchSlayer)
+-------------------------------------------
+**CONTENT UPDATE (4 SEP 2023)**        
+**+** New zone added (+damage hit) , key required to enter
+-------------------------------------------
 **CONTENT UPDATE (3 SEP 2023)**        
 **+** Added soldier to loot table
 **+** Added event preview option (+event)

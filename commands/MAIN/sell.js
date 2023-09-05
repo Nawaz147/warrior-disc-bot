@@ -947,6 +947,146 @@ module.exports = {
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(valoriumsEclipsianSoulSoldEmbed);
           }
+          if (item == "abyssalCrownOfDominance") {
+            abyssalCrownOfDominanceSellPrice =
+              prices.abyssalCrownOfDominance / 2;
+            db.add(`abyssalCrownOfDominanceStoreAdd`, amountOfPieces);
+            db.subtract(`abyssalCrownOfDominance_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.abyssalCrownOfDominance / 2) * amountOfPieces
+            );
+            abyssalCrownOfDominanceSellPrice = abyssalCrownOfDominanceSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            abyssalCrownOfDominanceTotalSellPrice =
+              (prices.abyssalCrownOfDominance / 2) * amountOfPieces;
+            abyssalCrownOfDominanceTotalSellPrice =
+              abyssalCrownOfDominanceTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const abyssalCrownOfDominanceSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Abyssal crown of dominance")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${abyssalCrownOfDominanceSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${abyssalCrownOfDominanceTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(abyssalCrownOfDominanceSoldEmbed);
+          }
+          if (item == "abyssalStarcrystal") {
+            abyssalStarcrystalSellPrice = prices.abyssalStarcrystal / 2;
+            db.add(`abyssalStarcrystalStoreAdd`, amountOfPieces);
+            db.subtract(`abyssalStarcrystal_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.abyssalStarcrystal / 2) * amountOfPieces
+            );
+            abyssalStarcrystalSellPrice = abyssalStarcrystalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            abyssalStarcrystalTotalSellPrice =
+              (prices.abyssalStarcrystal / 2) * amountOfPieces;
+            abyssalStarcrystalTotalSellPrice = abyssalStarcrystalTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const abyssalStarcrystalSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Abyssal starcrystal")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${abyssalStarcrystalSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${abyssalStarcrystalTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(abyssalStarcrystalSoldEmbed);
+          }
+          if (item == "eldrazursGrimoireOfRuin") {
+            EldrazursGrimoireOfRuinSellPrice =
+              prices.EldrazursGrimoireOfRuin / 2;
+            db.add(`EldrazursGrimoireOfRuinStoreAdd`, amountOfPieces);
+            db.subtract(`EldrazursGrimoireOfRuin_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.EldrazursGrimoireOfRuin / 2) * amountOfPieces
+            );
+            EldrazursGrimoireOfRuinSellPrice =
+              EldrazursGrimoireOfRuinSellPrice.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              );
+            EldrazursGrimoireOfRuinTotalSellPrice =
+              (prices.EldrazursGrimoireOfRuin / 2) * amountOfPieces;
+            EldrazursGrimoireOfRuinTotalSellPrice =
+              EldrazursGrimoireOfRuinTotalSellPrice.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              );
+            const EldrazursGrimoireOfRuinSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Eldra'zur's grimoire of ruin")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${EldrazursGrimoireOfRuinSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${EldrazursGrimoireOfRuinTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(EldrazursGrimoireOfRuinSoldEmbed);
+          }
+          if (item == "abyssalScepterOfOblivion") {
+            AbyssalScepterOfOblivionSellPrice =
+              prices.AbyssalScepterOfOblivion / 2;
+            db.add(`AbyssalScepterOfOblivionStoreAdd`, amountOfPieces);
+            db.subtract(`AbyssalScepterOfOblivion_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.AbyssalScepterOfOblivion / 2) * amountOfPieces
+            );
+            AbyssalScepterOfOblivionSellPrice =
+              AbyssalScepterOfOblivionSellPrice.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              );
+            AbyssalScepterOfOblivionTotalSellPrice =
+              (prices.AbyssalScepterOfOblivion / 2) * amountOfPieces;
+            AbyssalScepterOfOblivionTotalSellPrice =
+              AbyssalScepterOfOblivionTotalSellPrice.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+              );
+            const AbyssalScepterOfOblivionSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Abyssal scepter of oblivion")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${AbyssalScepterOfOblivionSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${AbyssalScepterOfOblivionTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(AbyssalScepterOfOblivionSoldEmbed);
+          }
           if (item == "trashItems") {
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
             var rustyGearsSellPrice = prices.rustyGears / 2;

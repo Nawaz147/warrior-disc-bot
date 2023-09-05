@@ -28,7 +28,12 @@ module.exports = {
           item == "valoriumsTear" ||
           item == "goldBar" ||
           item == "vortexOrb" ||
-          item == "tomeOfEverlastingWisdom"
+          item == "tomeOfEverlastingWisdom" ||
+          item == "verdantLeaf" ||
+          item == "abyssalCrownOfDominance" ||
+          item == "abyssalStarcrystal" ||
+          item == "eldrazursGrimoireOfRuin" ||
+          item == "abyssalScepterOfOblivion"
         ) {
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
@@ -43,6 +48,24 @@ module.exports = {
             db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0;
           var tomeOfEverlastingWisdomStoreAdd =
             db.fetch(`tomeOfEverlastingWisdomStoreAdd`) || 0;
+          var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
+          var verdantLeafStoreAdd = db.fetch(`verdantLeafStoreAdd`) || 0;
+          var abyssalCrownOfDominance =
+            db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0;
+          var abyssalCrownOfDominanceStoreAdd =
+            db.fetch(`abyssalCrownOfDominanceStoreAdd`) || 0;
+          var abyssalStarcrystal =
+            db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0;
+          var abyssalStarcrystalStoreAdd =
+            db.fetch(`abyssalStarcrystalStoreAdd`) || 0;
+          var eldrazursGrimoireOfRuin =
+            db.fetch(`eldrazursGrimoireOfRuin_${tokenDB}`) || 0;
+          var eldrazursGrimoireOfRuinStoreAdd =
+            db.fetch(`eldrazursGrimoireOfRuinStoreAdd`) || 0;
+          var abyssalScepterOfOblivion =
+            db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0;
+          var abyssalScepterOfOblivionStoreAdd =
+            db.fetch(`abyssalScepterOfOblivionStoreAdd`) || 0;
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#ffe4e1`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
@@ -139,6 +162,105 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/9tsrqwP/tome-of-everlasting-wisdom.png`
             );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "verdantLeaf") {
+            itemInfoEmbed.setDescription(`
+            The Verdant Whisper Leaf is a rare and enigmatic treasure, often whispered about in hushed tones among adventurers and scholars. It is a coveted prize, said to be a gift from the mystical realm of nature itself. This arcane foliage is not merely an item; it is a living, breathing entity deeply connected to the natural world.
+            `);
+            itemInfoEmbed.setTitle(`Verdant whisper leaf`);
+            itemInfoEmbed.addField(`Buy cost`, `45,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `22,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${verdantLeaf}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${verdantLeafStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "verdantLeaf");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/42Gf5db/verdant-whisper-leaf.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "abyssalCrownOfDominance") {
+            itemInfoEmbed.setDescription(`
+            Forged in the heart of chaos and bathed in the essence of eternal night, this regal crown is a testament to the ultimate triumph over the abyss. Its dark, ornate design is a masterpiece of malevolent craftsmanship, crowned with an abyssal gemstone that pulses with unholy power. When placed upon one's brow, it bestows dominion over the very fabric of the abyss itself.
+            `);
+            itemInfoEmbed.setTitle(`Abyssal crown of dominance`);
+            itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${abyssalCrownOfDominance}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${abyssalCrownOfDominanceStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominance");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/JyCKBk0/crown.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "abyssalStarcrystal") {
+            itemInfoEmbed.setDescription(`
+            This rare and mesmerizing gem is a celestial anomaly, hailing from the darkest corners of the cosmos. Its core shimmers with a haunting, ever-changing radiance, reminiscent of distant stars in a bottomless void. Encased within the crystal, an enigmatic energy dances, echoing the whispers of ancient cosmic forces.
+            `);
+            itemInfoEmbed.setTitle(`Abyssal starcrystal`);
+            itemInfoEmbed.addField(`Buy cost`, `185,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `92,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${abyssalStarcrystal}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${abyssalStarcrystalStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "abyssalStarcrystal");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/FhRXV2Q/crystal.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "eldrazursGrimoireOfRuin") {
+            itemInfoEmbed.setDescription(`
+            Eldra'zur's Grimoire of Ruin is a testament to the unfathomable power of the abyss. Its dark pages hold the key to cataclysmic destruction and ultimate dominion over the arcane. Yet, with great power comes great peril, as those who dare to wield it risk becoming lost within the ever-hungry maw of Eldra'zur's malevolence.
+            `);
+            itemInfoEmbed.setTitle(`Eldra'zur's Grimoire of ruin`);
+            itemInfoEmbed.addField(`Buy cost`, `160,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `80,000,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${eldrazursGrimoireOfRuin}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${eldrazursGrimoireOfRuinStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "eldrazursGrimoireOfRuin");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/YNWQXbs/book.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "abyssalScepterOfOblivion") {
+            itemInfoEmbed.setDescription(`
+            The Abyssal Scepter of Oblivion is a harbinger of cosmic destruction and an emblem of your dominion over the infinite. It beckons with the allure of unparalleled power, yet the echoes of the abyss that resonate within its core serve as a stark reminder of the eternal struggle between mastery and madness.
+            `);
+            itemInfoEmbed.setTitle(`Abyssal scepter of oblivion`);
+            itemInfoEmbed.addField(`Buy cost`, `125,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `62,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${abyssalScepterOfOblivion}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${abyssalScepterOfOblivionStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "abyssalScepterOfOblivion");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/5GbfrkR/scepter.png`);
             message.channel.send(itemInfoEmbed);
           }
         } else {

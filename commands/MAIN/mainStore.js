@@ -13,7 +13,9 @@ module.exports = {
   run: async (client, message, args) => {
     const user = message.author;
     var totalCratePieces = db.fetch(`totalCratePieces`) || 0;
+    var totalKeyPieces = db.fetch(`totalKeyPieces`) || 0;
     let cratePieces = db.fetch(`cratePieces`) || totalCratePieces;
+    let keyPieces = db.fetch(`keyPieces`) || totalKeyPieces;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const Platinum = db.fetch(`platinum_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
@@ -43,11 +45,13 @@ module.exports = {
       ]; // Replace with actual weapon names
       const minGold = 2000;
       const maxGold = 12000;
-      const lockedCratePrice = 10; // Price of locked crate of energy in platinum
+      const lockedCratePrice = 10;
+      const keyPrice = 100;
+      // Price of locked crate of energy in platinum
 
       // Check if the user wants to buy a locked crate
       if (args[0] === "buy" && args[1] === "lockedCrateOfEnergy") {
-        timeout = 800;
+        timeout = 2000;
         var cooldown = await db.fetch(`cooldown_${tokenDB}`);
         if (cooldown !== null && timeout - (Date.now() - cooldown) > 0) {
           let time = ms(timeout - (Date.now() - cooldown));
@@ -63,14 +67,14 @@ module.exports = {
         } else {
           var currentTime = Date.now();
           var nextResetTime =
-            db.fetch(`cratePiecesResetTime`) || currentTime + crateOpenInterval;
+            db.fetch(`storeResetTime`) || currentTime + crateOpenInterval;
           var timeLeft = nextResetTime - currentTime;
           if (timeLeft < 0) {
             // If the time left is negative, it means the reset time has passed, so we set it to zero
             timeLeft = 0;
             // Update the next reset time
             nextResetTime = currentTime + crateOpenInterval;
-            db.set(`cratePiecesResetTime`, nextResetTime);
+            db.set(`storeResetTime`, nextResetTime);
             db.set(`cratePieces`, lockedCrates);
           } else if (cratePieces <= 0) {
             message.channel.send(
@@ -156,8 +160,8 @@ module.exports = {
                 .setDescription(`You received: ${reward}`)
                 .setColor("#228B22");
               message.channel.send(rewardEmbed);
-              db.set(`cratePiecesResetTime`, db.fetch(`cratePiecesResetTime`));
-              const cooldownDuration = 800;
+              db.set(`storeResetTime`, db.fetch(`storeResetTime`));
+              const cooldownDuration = 2000;
               db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
             } else {
               message.channel.send(
@@ -167,14 +171,29 @@ module.exports = {
             }
           }
         }
+      } else if (args[0] == "buy" && args[1] == "key") {
+        var platinum = db.fetch(`platinum_${tokenDB}`) || 0;
+        if (platinum == 100 || platinum > 100) {
+          const keyPurchasedEmbed = new Discord.MessageEmbed()
+            .setTitle(`Purchase successful`)
+            .setDescription(`You purchased 1x key`)
+            .setColor(`#008000`);
+          message.channel.send(keyPurchasedEmbed);
+          db.add(`key_${tokenDB}`, 1);
+          db.subtract(`platinum_${tokenDB}`, keyPrice);
+          const cooldownDuration = 2000;
+          db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
+        }
       } else {
         const currentTime = Date.now();
-        let nextResetTime = db.fetch(`cratePiecesResetTime`);
+        let nextResetTime = db.fetch(`storeResetTime`);
         if (!nextResetTime || nextResetTime <= currentTime) {
           cratePieces = 300; // Reset cratePieces to 300
           nextResetTime = currentTime + crateOpenInterval; // Set the next reset time
           db.set(`cratePieces`, cratePieces);
-          db.set(`cratePiecesResetTime`, nextResetTime);
+          db.set(`storeResetTime`, nextResetTime);
+          db.set(`keyPieces`, nextResetTime);
+          db.set(`keyPiecesResetTime`, nextResetTime);
         }
 
         // Calculate the time left until the next reset
@@ -192,8 +211,9 @@ module.exports = {
           .setTitle("Store")
           .setDescription(
             `
-    **Locked crate of energy** - ${lockedCratePrice} Platinum [ID : lockedCrateOfEnergy] (${cratePieces} / 300 left)
-    `
+**Locked crate of energy** - ${lockedCratePrice} Platinum [ID : lockedCrateOfEnergy] (${cratePieces} / 300 left)
+**Key** - ${keyPrice} Platinum [ID : key] (${keyPieces} / 300 left)
+`
           )
           .setFooter(`Pieces reset in ${timeLeftString}`)
           .setColor("#00FF00");

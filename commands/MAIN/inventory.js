@@ -40,12 +40,22 @@ module.exports = {
               db.fetch(`immortalGun_${tokenDB}`) || 0,
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
+            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+              db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0,
+            "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
+              db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
+            "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
+              db.fetch(`eldrazursGrimoireOfRuin_${tokenDB}`) || 0,
+            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
+              db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0,
             "<:vortexorb:1147066784969666600> Vortex orb":
               db.fetch(`vortexOrb_${tokenDB}`) || 0,
             "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
               db.fetch(`verdantLeaf_${tokenDB}`) || 0,
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0,
+            "<:titlelogo:1148602133445353515> Monarch slayer":
+              db.fetch(`monarchSlayerTitle_${tokenDB}`) || 0,
             "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
               db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
             "<:goldbar:1147101331534921758> Gold Bar":
@@ -182,6 +192,15 @@ module.exports = {
             "<:valoriumsTear:1147381630009364581> Valorium's tear": "Mythic",
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               "Arcane",
+            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+              "Arcane",
+            "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
+              "Arcane",
+            "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
+              "Arcane",
+            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
+              "Arcane",
+            "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
           };
           const itemsID = {
             "<:goldbar:1147101331534921758> Gold Bar": "goldBar",
@@ -243,6 +262,16 @@ module.exports = {
               "valoriumsTear",
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               "valoriumsEclipsianSoul",
+            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+              "abyssalCrownOfDominance",
+            "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
+              "abyssalStarcrystal",
+            "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
+              "eldrazursGrimoireOfRuin",
+            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
+              "abyssalScepterOfOblivion",
+            "<:titlelogo:1148602133445353515> Monarch slayer":
+              "monarchSlayerTitle",
           };
           function showCurrentPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;

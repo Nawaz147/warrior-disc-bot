@@ -212,6 +212,44 @@ module.exports = {
       ) {
         valoriumsEclipsianSoul = 0;
       }
+      var abyssalCrownOfDominance = db.fetch(
+        `abyssalCrownOfDominance_${tokenDB}`
+      );
+      if (
+        abyssalCrownOfDominance == null ||
+        abyssalCrownOfDominance == undefined ||
+        abyssalCrownOfDominance === NaN
+      ) {
+        abyssalCrownOfDominance = 0;
+      }
+      var abyssalStarcrystal = db.fetch(`abyssalStarcrystal_${tokenDB}`);
+      if (
+        abyssalStarcrystal == null ||
+        abyssalStarcrystal == undefined ||
+        abyssalStarcrystal === NaN
+      ) {
+        abyssalStarcrystal = 0;
+      }
+      var EldrazursGrimoireOfRuin = db.fetch(
+        `EldrazursGrimoireOfRuin_${tokenDB}`
+      );
+      if (
+        EldrazursGrimoireOfRuin == null ||
+        EldrazursGrimoireOfRuin == undefined ||
+        EldrazursGrimoireOfRuin === NaN
+      ) {
+        EldrazursGrimoireOfRuin = 0;
+      }
+      var abyssalScepterOfOblivion = db.fetch(
+        `abyssalScepterOfOblivion_${tokenDB}`
+      );
+      if (
+        abyssalScepterOfOblivion == null ||
+        abyssalScepterOfOblivion == undefined ||
+        abyssalScepterOfOblivion === NaN
+      ) {
+        abyssalScepterOfOblivion = 0;
+      }
       var brokenStick = db.fetch(`brokenStick_${tokenDB}`);
       if (
         brokenStick == null ||
@@ -223,6 +261,10 @@ module.exports = {
       var bullet = db.fetch(`bullet_${tokenDB}`);
       if (bullet == null || bullet == undefined || bullet === NaN) {
         bullet = 0;
+      }
+      var title = db.fetch(`title_${tokenDB}`);
+      if (title == null || title == undefined || title === NaN) {
+        title = "None";
       }
       var balance = db.fetch(`money_${tokenDB}.pocket`);
       if (balance == null || balance == undefined || balance === NaN) {
@@ -261,6 +303,10 @@ module.exports = {
         valoriumsTear * prices.valoriumsTear +
         valoriumsEclipsianSoul * prices.valoriumsEclipsianSoul +
         daggerOfDeath * prices.daggerOfDeath +
+        abyssalCrownOfDominance * prices.abyssalCrownOfDominance +
+        abyssalStarcrystal * prices.abyssalStarcrystal +
+        EldrazursGrimoireOfRuin * prices.EldrazursGrimoireOfRuin +
+        abyssalScepterOfOblivion * prices.AbyssalScepterOfOblivion +
         balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       // Replace this with your ASCII art representation
@@ -281,41 +327,46 @@ module.exports = {
         message.channel.send("ERROR");
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       }
-      const RPGCanvas = `
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃${user.username}'s Info         
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ User ID: ${user.id}
-┃ User Tag: ${user.tag}
-┃ Is Banned? ${banned ? "Yes" : "No"}
-┃ User Status: ${user.presence.status}
-┃ Bosses Killed: ${bossesKilledTotal}
-┃ Achievement Points (APS): ${achievementPoints}
-┃ Soldiers under Command: ${soldiers}
-┃ Battles Won: ${battlesWon}
-┃ Battles Lost: ${battlesLost}
-┃ War Points: ${warPoints}
-┃ Net Worth: ${netWorth}
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃ Played Duration            
-┃ ${monthsPlayed} months ${daysPlayed % 30} days     
-┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
-`;
+      const infoPairs = [
+        { name: "User ID", value: user.id },
+        { name: "User Tag", value: user.tag },
+        { name: "Is Banned", value: banned ? "Yes" : "No" },
+        { name: "Title", value: `${title}` },
+        { name: "User Status", value: user.presence.status },
+        { name: "Bosses Killed", value: bossesKilledTotal },
+        { name: "Achievement Points (APS)", value: achievementPoints },
+        { name: "Soldiers under Command", value: soldiers },
+        { name: "Battles Won", value: battlesWon },
+        { name: "Battles Lost", value: battlesLost },
+        { name: "War Points", value: warPoints },
+        { name: "Net Worth", value: `${netWorth}` },
+        {
+          name: "Played Duration",
+          value: `${monthsPlayed} months ${daysPlayed % 30} days`,
+        },
+      ];
 
-      // Send the RPGCanvas as a message
-      message.channel.send("```" + RPGCanvas + "```");
+      // Create an embed
+      const embed = new Discord.MessageEmbed()
+        .setColor("#6B4226")
+        .setTitle(`${user.username}'s Info`);
 
-      // if (banned === true) {
-      //   userInfoEmbed.addField("Ban Reason", banReason);
-      //   userInfoEmbed.addField("Ban Date", banDate);
-      // } else {
-      //   userInfoEmbed.addField(
-      //     "Played Duration",
-      //     `${monthsPlayed} months ${daysPlayed % 30} days`
-      //   );
-      // }
+      // Add information pairs to the embed in groups of 2
+      for (let i = 0; i < infoPairs.length; i += 2) {
+        const pair1 = infoPairs[i];
+        const pair2 = infoPairs[i + 1];
 
-      // message.channel.send(userInfoEmbed);
+        // Add each pair to the embed
+        embed.addField(pair1.name, pair1.value, true);
+
+        // If there's a second pair, add it as well
+        if (pair2) {
+          embed.addField(pair2.name, pair2.value, true);
+        }
+      }
+
+      // Send the embed
+      message.channel.send(embed);
     }
   },
 };
