@@ -24,7 +24,6 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       const channel = message.channel; // Replace with the channel you want to check
-
       const botPermissions = channel.permissionsFor(client.user);
       if (
         botPermissions.has("ADD_REACTIONS") &&
@@ -34,19 +33,23 @@ module.exports = {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         if (!args[0] || args[0].toLowerCase() !== "craft") {
           const items = {
+            "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
+              db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0,
+            "<a:auroraGaze:1149396676650483914> Aurora gaze":
+              db.fetch(`auroraGaze_${tokenDB}`) || 0,
             "<:daggerofdeath:1147084241516105728> Dagger of death":
               db.fetch(`daggerOfDeath_${tokenDB}`) || 0,
             "<:immortalgun:1147084130807455814> Immortal gun of energy":
               db.fetch(`immortalGun_${tokenDB}`) || 0,
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
-            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+            "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
               db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0,
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
               db.fetch(`eldrazursGrimoireOfRuin_${tokenDB}`) || 0,
-            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
+            "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
               db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0,
             "<:vortexorb:1147066784969666600> Vortex orb":
               db.fetch(`vortexOrb_${tokenDB}`) || 0,
@@ -138,6 +141,9 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<a:auroraGaze:1149396676650483914> Aurora gaze": "Heroic",
+            "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
+              "Heroic",
             "<:goldbar:1147101331534921758> Gold Bar": "Mythic",
             "<:daggerofdeath:1147084241516105728> Dagger of death": "Arcane",
             "<:bullet:1147100873164603472> Bullet": "Mythic",
@@ -192,17 +198,20 @@ module.exports = {
             "<:valoriumsTear:1147381630009364581> Valorium's tear": "Mythic",
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               "Arcane",
-            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+            "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
               "Arcane",
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               "Arcane",
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
               "Arcane",
-            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
-              "Arcane",
+            "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
+              "Heroic",
             "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
           };
           const itemsID = {
+            "<a:auroraGaze:1149396676650483914> Aurora gaze": "auroraGaze",
+            "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
+              "mysticRuneOfResilience",
             "<:goldbar:1147101331534921758> Gold Bar": "goldBar",
             "<:daggerofdeath:1147084241516105728> Dagger of death":
               "daggerOfDeath",
@@ -262,13 +271,13 @@ module.exports = {
               "valoriumsTear",
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               "valoriumsEclipsianSoul",
-            "<:abyssalcrownofdominance:1148262954706423839> Abyssal crown of dominance":
+            "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
               "abyssalCrownOfDominance",
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               "abyssalStarcrystal",
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
               "eldrazursGrimoireOfRuin",
-            "<:abyssalscepterofoblivion:1148265382352793752> Abyssal scepter of oblivion":
+            "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
               "abyssalScepterOfOblivion",
             "<:titlelogo:1148602133445353515> Monarch slayer":
               "monarchSlayerTitle",
@@ -316,7 +325,7 @@ module.exports = {
             };
 
             const collector = inventoryMessage.createReactionCollector(filter, {
-              time: 90000,
+              time: 180000,
               dispose: true,
             });
 
@@ -342,12 +351,10 @@ module.exports = {
               inventoryMessage.reactions.removeAll().catch(console.error);
             });
           } else {
-            // If the user has 7 items or less, remove the reactions (if any) from the message
             inventoryMessage.reactions.removeAll().catch(console.error);
           }
         }
       } else {
-        // The bot does not have the required permissions
         message.channel.send(
           "I don't have the necessary permissions to add reactions or edit messages with reactions in this channel."
         );

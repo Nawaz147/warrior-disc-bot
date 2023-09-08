@@ -30,10 +30,13 @@ module.exports = {
           item == "vortexOrb" ||
           item == "tomeOfEverlastingWisdom" ||
           item == "verdantLeaf" ||
-          item == "abyssalCrownOfDominance" ||
+          item == "abyssalCrownOfDominence" ||
           item == "abyssalStarcrystal" ||
           item == "eldrazursGrimoireOfRuin" ||
-          item == "abyssalScepterOfOblivion"
+          item == "abyssalScepterOfOblivion" ||
+          item == "bullet" ||
+          item == "mysticRuneOfResilience" ||
+          item == "auroraGaze"
         ) {
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
@@ -50,10 +53,10 @@ module.exports = {
             db.fetch(`tomeOfEverlastingWisdomStoreAdd`) || 0;
           var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
           var verdantLeafStoreAdd = db.fetch(`verdantLeafStoreAdd`) || 0;
-          var abyssalCrownOfDominance =
-            db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0;
-          var abyssalCrownOfDominanceStoreAdd =
-            db.fetch(`abyssalCrownOfDominanceStoreAdd`) || 0;
+          var abyssalCrownOfDominence =
+            db.fetch(`abyssalCrownOfDominence_${tokenDB}`) || 0;
+          var abyssalCrownOfDominenceStoreAdd =
+            db.fetch(`abyssalCrownOfDominenceStoreAdd`) || 0;
           var abyssalStarcrystal =
             db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0;
           var abyssalStarcrystalStoreAdd =
@@ -66,7 +69,16 @@ module.exports = {
             db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0;
           var abyssalScepterOfOblivionStoreAdd =
             db.fetch(`abyssalScepterOfOblivionStoreAdd`) || 0;
-          const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#ffe4e1`);
+          var mysticRuneOfResilience =
+            db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0;
+          var mysticRuneOfResilienceStoreAdd =
+            db.fetch(`mysticRuneOfResilienceStoreAdd`) || 0;
+          var auroraGaze = db.fetch(`auroraGaze_${tokenDB}`) || 0;
+          var auroraGazeStoreAdd = db.fetch(`auroraGazeStoreAdd`) || 0;
+          var bullet = db.fetch(`bullet_${tokenDB}`) || 0;
+          var bulletStoreAdd = db.fetch(`bulletStoreAdd`) || 0;
+          db.set(`bulletStoreAdd`, "Unlimited");
+          const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#4169E1`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
 Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow.  `);
@@ -182,25 +194,27 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `https://i.ibb.co/42Gf5db/verdant-whisper-leaf.png`
             );
             message.channel.send(itemInfoEmbed);
-          } else if (item == "abyssalCrownOfDominance") {
+          } else if (item == "abyssalCrownOfDominence") {
             itemInfoEmbed.setDescription(`
             Forged in the heart of chaos and bathed in the essence of eternal night, this regal crown is a testament to the ultimate triumph over the abyss. Its dark, ornate design is a masterpiece of malevolent craftsmanship, crowned with an abyssal gemstone that pulses with unholy power. When placed upon one's brow, it bestows dominion over the very fabric of the abyss itself.
             `);
-            itemInfoEmbed.setTitle(`Abyssal crown of dominance`);
+            itemInfoEmbed.setTitle(`Abyssal crown of Dominence`);
             itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
-              `${abyssalCrownOfDominance}`
+              `${abyssalCrownOfDominence}`
             );
             itemInfoEmbed.addField(
               `Pieces available for sale`,
-              `${abyssalCrownOfDominanceStoreAdd}`
+              `${abyssalCrownOfDominenceStoreAdd}`
             );
-            itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominance");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/JyCKBk0/crown.png`);
+            itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominence");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/mBcqtqH/abyssal-Crown-Of-Dominence.gif`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalStarcrystal") {
             itemInfoEmbed.setDescription(`
@@ -242,14 +256,63 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`ID`, "eldrazursGrimoireOfRuin");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/YNWQXbs/book.png`);
             message.channel.send(itemInfoEmbed);
+          } else if (item == "mysticRuneOfResilience") {
+            itemInfoEmbed.setDescription(`
+            The Mystic Rune of Resilience is a coveted artifact, shrouded in mystic energies and whispered legends. This ornate runic emblem, etched with ancient symbols, radiates an aura of unwavering strength and indomitable willpower. When wielded by a warrior, its true power is unveiled.
+            `);
+            itemInfoEmbed.setTitle(`Mystic rune of resilience`);
+            itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
+            itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Ability`,
+              `The Mystic Rune of Resilience endows its bearer with an exceptional augmentation, effectively doubling their military potency. It's important to note that this ability does not accumulate or stack.`
+            );
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${mysticRuneOfResilience}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${mysticRuneOfResilienceStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "mysticRuneOfResilience");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/LkbBsmH/ezgif-com-resize-1.gif`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "auroraGaze") {
+            itemInfoEmbed.setDescription(`
+            Aurora Gaze" is a mystical incantation that conjures the breathtaking beauty of the Northern Lights onto the battlefield. When activated, the caster's eyes shimmer with celestial energy, releasing a radiant aura that bathes the surroundings in a captivating, iridescent glow.
+            `);
+            itemInfoEmbed.setTitle(`Aurora gaze`);
+            itemInfoEmbed.addField(`Buy cost`, `325,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `162,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Ability`,
+              `The Aurora Gaze ability is a captivating and mystical spectacle that can be accessed using the "+info" command. When invoked, it presents a mesmerizing visual display resembling the enchanting Northern Lights, evoking a sense of wonder and fascination.`
+            );
+            itemInfoEmbed.addField(`Pieces owned by you`, `${auroraGaze}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${auroraGazeStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "auroraGaze");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/DMkpbNv/blue-gaze.gif`
+            );
+            message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalScepterOfOblivion") {
             itemInfoEmbed.setDescription(`
             The Abyssal Scepter of Oblivion is a harbinger of cosmic destruction and an emblem of your dominion over the infinite. It beckons with the allure of unparalleled power, yet the echoes of the abyss that resonate within its core serve as a stark reminder of the eternal struggle between mastery and madness.
             `);
             itemInfoEmbed.setTitle(`Abyssal scepter of oblivion`);
-            itemInfoEmbed.addField(`Buy cost`, `125,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `62,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Buy cost`, `185,700,000`);
+            itemInfoEmbed.addField(`Sell cost`, `92,850,000`);
+            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -260,7 +323,26 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `${abyssalScepterOfOblivionStoreAdd}`
             );
             itemInfoEmbed.addField(`ID`, "abyssalScepterOfOblivion");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/5GbfrkR/scepter.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/ypRBHBH/abyssal-Scepter-Of-Oblivion.gif`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "bullet") {
+            itemInfoEmbed.setDescription(`
+            Watch as the Bullet streaks through the pixelated battleground, a flash of brilliance in the night, before it collides with your opponent, shattering their soldiers and sending them reeling. It's not just a simple attack; it's a statement of power. A symbol of your RPG prowess. With the Bullet in your arsenal, you hold the fate of your enemies in your hands. Will they dodge? Will they survive? Or will they fall victim to your strategic mastery? The choice is yours, and the battlefield awaits your command!
+            `);
+            itemInfoEmbed.setTitle(`Bullet`);
+            itemInfoEmbed.addField(`Buy cost`, `35,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `17,500,000`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `military`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${bullet}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${bulletStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "bullet");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/qFHR95G/bullet.png`);
             message.channel.send(itemInfoEmbed);
           }
         } else {

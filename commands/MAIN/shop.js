@@ -167,8 +167,12 @@ module.exports = {
                   .setDescription(`You purchased ${quantity}x bullets`);
                 message.channel.send(bulletEmbed);
                 db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-                db.add(`bullet_${tokenDB}`, 1);
-                db.subtract(`money_${tokenDB}.pocket`, prices.bullet);
+                db.add(`bullet_${tokenDB}`, quantity);
+                db.add(`power.${tokenDB}`, quantity * 0.48);
+                db.subtract(
+                  `money_${tokenDB}.pocket`,
+                  prices.bullet * quantity
+                );
                 db.subtract(`bulletStoreAdd`, 1);
               }
             }

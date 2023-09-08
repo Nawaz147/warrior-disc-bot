@@ -43,15 +43,18 @@ module.exports = {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else if (!mentionedUser) {
         message.channel.send(
-          `Enter a user to attack . **e.g : +attack @user**`
+          `Mention a user to attack . **e.g : +attack @user**`
         );
       } else {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         var userSoldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
         var mentionedSoldiers =
           db.fetch(`soldiers_${mentionedUserTokenDB}`) || 0;
+        var userPower = db.fetch(`soldiers_${tokenDB}`) || 0;
+        var mentionedPower = db.fetch(`soldiers_${mentionedUserTokenDB}`) || 0;
         const soldiersDifference = userSoldiers - mentionedSoldiers;
-        const platinumReward = Math.floor(Math.random() * 801) + 200; // Random platinum between 200 and 1000
+        const randomPower = Math.floor(Math.random() * 1.2) + 0.1;
+
         const warPointsReward =
           soldiersDifference <= 10
             ? Math.floor(Math.random() * 11) // Random war points between 0 and 10
@@ -66,26 +69,16 @@ module.exports = {
         if (bullet <= 0) {
           message.channel.send("You don't have any bullets to attack!");
           return;
-        } else if (userSoldiers <= 0) {
-          message.channel.send("You cannot attack without any soldiers!");
+        } else if (userSoldiers < 25) {
+          message.channel.send("You need atleast 25 soldiers to attack");
           return;
+        } else if (mentionedSoldiers < 25 && userSoldiers < 25) {
+          message.channel.send("You and your enemy needs atleast 25 soldiers");
+        } else if (mentionedSoldiers < 25) {
+          message.channel.send("That user needs to have atleast 25 soldiers");
         } else {
           // Determine the outcome of the battle
-          if (userSoldiers > mentionedSoldiers) {
-            if (mentionedSoldiers >= 2) {
-              db.subtract(
-                `soldiers_${mentionedUserTokenDB}`,
-                mentionedSoldiers / 2
-              );
-              var mentionedSoldiers = db.fetch(
-                `soldiers_${mentionedUserTokenDB}`
-              );
-            } else if (mentionedSoldiers == 1) {
-              db.subtract(`soldiers_${mentionedUserTokenDB}`, 1);
-              var mentionedSoldiers = db.fetch(
-                `soldiers_${mentionedUserTokenDB}`
-              );
-            }
+          if (userPower > mentionedPower) {
             message.channel.send({
               embed: {
                 color: "#FF0000",
@@ -93,7 +86,6 @@ module.exports = {
                 description: `
 ${user.username} emerged victorious against ${mentionedUser}!
 ${user.username} received : ${warPointsReward} War points
-${user.username} received : ${platinumReward} Platinum
 ${mentionedUser.username}'s ${mentionedSoldiers} soldiers were killed
 `,
                 thumbnail: {
@@ -102,10 +94,10 @@ ${mentionedUser.username}'s ${mentionedSoldiers} soldiers were killed
               },
             });
             db.add(`battlesWon_${tokenDB}`, 1);
+            db.add(`power_${tokenDB}`, randomPower);
             db.add(`battlesLost_${mentionedUserTokenDB}`, 1);
             // Give rewards to the winning user
 
-            db.add(`platinum_${tokenDB}`, platinumReward);
             db.add(`warPoints_${tokenDB}`, warPointsReward);
 
             // Send a message to the mentioned user
@@ -124,7 +116,6 @@ Your ${mentionedSoldiers} soldiers were killed
               },
             });
           } else {
-            // Mentioned user wins
             message.channel.send({
               embed: {
                 color: "#FF0000",
@@ -132,7 +123,6 @@ Your ${mentionedSoldiers} soldiers were killed
                 description: `
 ${user.username} was defeated by the army of ${mentionedUser.username}.
 ${mentionedUser.username} received : ${warPointsReward} War points
-${mentionedUser.username} received : ${platinumReward} Platinum
 ${user.username}'s ${userSoldiers} soldiers were killed
 `,
                 thumbnail: {
@@ -147,7 +137,6 @@ ${user.username}'s ${userSoldiers} soldiers were killed
                 description: `
 You emerged victorious against ${user.username}!
 You received : ${warPointsReward} War points
-You received : ${platinumReward} Platinum
 ${user.username}'s ${userSoldiers} soldiers were killed
 `,
                 thumbnail: {
@@ -157,8 +146,8 @@ ${user.username}'s ${userSoldiers} soldiers were killed
             });
             db.add(`battlesWon_${mentionedUserTokenDB}`, 1);
             db.add(`battlesLost_${tokenDB}`, 1);
-            db.add(`platinum_${mentionedUserTokenDB}`, platinumReward);
             db.add(`warPoints_${mentionedUserTokenDB}`, warPointsReward);
+            db.add(`power_${mentionedUserTokenDB}`, randomPower);
           }
         }
       }

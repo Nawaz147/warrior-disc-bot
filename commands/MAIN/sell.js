@@ -806,6 +806,7 @@ module.exports = {
             bulletSellPrice = prices.bullet / 2;
             db.add(`bulletStoreAdd`, amountOfPieces);
             db.subtract(`bullet_${tokenDB}`, amountOfPieces);
+            db.subtract(`power_${tokenDB}`, 0.48 * amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
               (prices.bullet / 2) * amountOfPieces
@@ -1086,6 +1087,96 @@ module.exports = {
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(AbyssalScepterOfOblivionSoldEmbed);
+          }
+          if (item == "monarchSlayerTitle") {
+            monarchSlayerTitleSellPrice = prices.monarchSlayerTitle / 2;
+            db.add(`monarchSlayerTitleStoreAdd`, amountOfPieces);
+            db.subtract(`monarchSlayerTitle_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.monarchSlayerTitle / 2) * amountOfPieces
+            );
+            monarchSlayerTitleSellPrice = monarchSlayerTitleSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            monarchSlayerTitleTotalSellPrice =
+              (prices.monarchSlayerTitle / 2) * amountOfPieces;
+            monarchSlayerTitleTotalSellPrice = monarchSlayerTitleTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const monarchSlayerTitleSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Monarch slayer title")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${monarchSlayerTitleSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${monarchSlayerTitleTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(monarchSlayerTitleSoldEmbed);
+          }
+          if (item == "mysticRuneOfResilience") {
+            mysticRuneOfResilienceSellPrice = prices.mysticRuneOfResilience / 2;
+            db.add(`mysticRuneOfResilienceStoreAdd`, amountOfPieces);
+            db.subtract(`mysticRuneOfResilience_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.mysticRuneOfResilience / 2) * amountOfPieces
+            );
+            mysticRuneOfResilienceSellPrice = mysticRuneOfResilienceSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            mysticRuneOfResilienceTotalSellPrice =
+              (prices.mysticRuneOfResilience / 2) * amountOfPieces;
+            mysticRuneOfResilienceTotalSellPrice =
+              mysticRuneOfResilienceTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const mysticRuneOfResilienceSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Mystic rune of resilience")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${mysticRuneOfResilienceSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${mysticRuneOfResilienceTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(mysticRuneOfResilienceSoldEmbed);
+          }
+          if (item == "auroraGaze") {
+            auroraGazeSellPrice = prices.auroraGaze / 2;
+            db.add(`auroraGazeStoreAdd`, amountOfPieces);
+            db.subtract(`auroraGaze_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.auroraGaze / 2) * amountOfPieces
+            );
+            auroraGazeSellPrice = auroraGazeSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            auroraGazeTotalSellPrice = (prices.auroraGaze / 2) * amountOfPieces;
+            auroraGazeTotalSellPrice = auroraGazeTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const auroraGazeSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Aurora gaze")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(`Sell price per piece`, `${auroraGazeSellPrice}`)
+              .addField(`Total sell price`, `${auroraGazeTotalSellPrice}`)
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(auroraGazeSoldEmbed);
           }
           if (item == "trashItems") {
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;

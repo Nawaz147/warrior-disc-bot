@@ -27,12 +27,12 @@ module.exports = {
       if (user && reason) {
         db.delete(`${user.id}.oyOtoken`);
         message.channel.send(
-          `You deleted <@${user.id}>'s account from Warrior Legends for - ${reason}`
+          `You deleted <@${user.id}>'s account from Valorium discord bot for - ${reason}`
         );
         const DeletedEmbed = new Discord.MessageEmbed()
           .setTitle("ACCOUNT DELETED !!")
           .setDescription(
-            `| Your account has been deleted from Warrior Legends |
+            `| Your account has been deleted from Valorium discord bot |
              | Reason : ${reason} |
              | Deleted by : <@${message.author.id}> |
         `
@@ -43,9 +43,7 @@ module.exports = {
         user.send(DeletedEmbed);
       }
     } else {
-      message.channel.send(
-        "What the heck ? You cannot delete anyone's account from Warrior Legends"
-      );
+      return;
     }
   },
 };

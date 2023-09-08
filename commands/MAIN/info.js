@@ -262,6 +262,24 @@ module.exports = {
       if (bullet == null || bullet == undefined || bullet === NaN) {
         bullet = 0;
       }
+      var mysticRuneOfResilience = db.fetch(
+        `mysticRuneOfResilience_${tokenDB}`
+      );
+      if (
+        mysticRuneOfResilience == null ||
+        mysticRuneOfResilience == undefined ||
+        mysticRuneOfResilience === NaN
+      ) {
+        mysticRuneOfResilience = 0;
+      }
+      var auroraGaze = db.fetch(`auroraGaze_${tokenDB}`);
+      if (auroraGaze == null || auroraGaze == undefined || auroraGaze === NaN) {
+        auroraGaze = 0;
+      }
+      var power = db.fetch(`power.${tokenDB}`);
+      if (power == null || power == undefined || power === NaN) {
+        power = 0;
+      }
       var title = db.fetch(`title_${tokenDB}`);
       if (title == null || title == undefined || title === NaN) {
         title = "None";
@@ -307,9 +325,12 @@ module.exports = {
         abyssalStarcrystal * prices.abyssalStarcrystal +
         EldrazursGrimoireOfRuin * prices.EldrazursGrimoireOfRuin +
         abyssalScepterOfOblivion * prices.AbyssalScepterOfOblivion +
+        mysticRuneOfResilience * prices.mysticRuneOfResilience +
+        auroraGaze * prices.auroraGaze +
         balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      // Replace this with your ASCII art representation
+      db.set(`netWorth_${tokenDB}`, netWorth);
+      db.set(`username_${tokenDB}`, { name: user.username });
       const tokenCreationDate = db.fetch(`${user.id}.tokenCreationDate`);
       const currentDate = new Date();
       const creationDateParts = tokenCreationDate.split(".");
@@ -322,7 +343,11 @@ module.exports = {
       const timeDifference = currentDate.getTime() - creationDate.getTime();
       const daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       const monthsPlayed = Math.floor(daysPlayed / 30);
-
+      var power = soldiers * 0.08 + bullet * 0.48;
+      if (mysticRuneOfResilience > 0) {
+        var power = power * 2;
+      }
+      db.set(`power.${tokenDB}`, power);
       if (!tokenCreationDate) {
         message.channel.send("ERROR");
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
@@ -336,6 +361,7 @@ module.exports = {
         { name: "Bosses Killed", value: bossesKilledTotal },
         { name: "Achievement Points (APS)", value: achievementPoints },
         { name: "Soldiers under Command", value: soldiers },
+        { name: "Military power", value: power },
         { name: "Battles Won", value: battlesWon },
         { name: "Battles Lost", value: battlesLost },
         { name: "War Points", value: warPoints },
@@ -345,11 +371,16 @@ module.exports = {
           value: `${monthsPlayed} months ${daysPlayed % 30} days`,
         },
       ];
-
+      if (auroraGaze) {
+        thumbnailLink = "https://i.ibb.co/DMkpbNv/blue-gaze.gif";
+      } else {
+        thumbnailLink = "";
+      }
       // Create an embed
       const embed = new Discord.MessageEmbed()
         .setColor("#6B4226")
-        .setTitle(`${user.username}'s Info`);
+        .setTitle(`${user.username}'s Info`)
+        .setThumbnail(thumbnailLink);
 
       // Add information pairs to the embed in groups of 2
       for (let i = 0; i < infoPairs.length; i += 2) {
@@ -366,7 +397,30 @@ module.exports = {
       }
 
       // Send the embed
-      message.channel.send(embed);
+      message.channel.send(embed).then((sentMessage) => {
+        if (auroraGaze) {
+          setInterval(() => {
+            // Modify the color of the embed after 5 seconds
+            embed.setFooter(`😎`);
+            sentMessage.edit(embed);
+          }, 1000);
+          setInterval(() => {
+            // Modify the color of the embed after 5 seconds
+            embed.setFooter(`💪`);
+            sentMessage.edit(embed);
+          }, 2000);
+          setInterval(() => {
+            // Modify the color of the embed after 5 seconds
+            embed.setFooter(`👁`);
+            sentMessage.edit(embed);
+          }, 3000);
+          setInterval(() => {
+            // Modify the color of the embed after 5 seconds
+            embed.setFooter(`😎💪👁`);
+            sentMessage.edit(embed);
+          }, 4000);
+        }
+      });
     }
   },
 };

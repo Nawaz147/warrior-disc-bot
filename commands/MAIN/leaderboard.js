@@ -13,10 +13,10 @@
 //       client.users.cache.get(args[0]) ||
 //       message.author;
 
-//     const tokenDB = db.fetch(`${user.id}.oyOtoken`);
-//     const banned = db.fetch(`banned_${user.id}.${tokenDB}`);
-//     const banReason = db.fetch(`reasonForBan_${user.id}.${tokenDB}`);
-//     const banDate = db.fetch(`banDate_${user.id}.${tokenDB}`);
+//     const tokenDB = db.fetch(`${message.author.id}.valoriumToken`); // Use message.author.id here
+//     const banned = db.fetch(`banned_${message.author.id}.${tokenDB}`);
+//     const banReason = db.fetch(`reasonForBan_${message.author.id}.${tokenDB}`);
+//     const banDate = db.fetch(`banDate_${message.author.id}.${tokenDB}`);
 //     const update = db.fetch(`updateInProgress`);
 
 //     if (!tokenDB) {
@@ -36,51 +36,45 @@
 //         `You cannot use any commands right now! Bot is updating`
 //       );
 //     } else {
-//       // Retrieve all users from the database
-//       const allUsers = db
+//       const allUserIds = db
 //         .all()
-//         .filter((data) => data.ID.includes(".oyOtoken"))
-//         .map((data) => data.ID.split(".")[0]);
+//         .map((data) => data.ID)
+//         .filter((id) => id.startsWith("netWorth_"));
 
-//       // Create an array to store the leaderboard data
-//       const leaderboard = [];
+//       // Calculate net worth for each user and store it in an array
+//       const netWorthData = allUserIds.map((userId) => {
+//         const netWorth = db.fetch(userId);
+//         const userTokenDB = db.fetch(`${userId}.valoriumToken`); // Use a different variable name
+//         const userName = userTokenDB ? userTokenDB.name : "User Not Available"; // Use a placeholder if name is not found
 
-//       // Loop through each user and extract the event points from tokenDB
-//       for (const token of allUsers) {
-//         const eventPoints = db.fetch(`${token}.warriorEventPoints`);
-//         if (eventPoints !== null) {
-//           leaderboard.push({ token, eventPoints });
-//         }
-//       }
+//         return { userId, netWorth, userName };
+//       });
 
-//       // Sort the leaderboard array in descending order based on event points
-//       leaderboard.sort((a, b) => b.eventPoints - a.eventPoints);
+//       // Sort the data by net worth in descending order
+//       netWorthData.sort((a, b) => b.netWorth - a.netWorth);
 
-//       // Limit the number of users to display in the leaderboard (maximum 5)
-//       const maxUsersToShow = Math.min(leaderboard.length, 5);
-//       const topUsers = leaderboard.slice(0, maxUsersToShow);
+//       // Limit the leaderboard to the top 10 users
+//       const topUsers = netWorthData.slice(0, 5);
 
-//       // Create an embed to display the leaderboard
+//       // Create a leaderboard embed
 //       const leaderboardEmbed = new Discord.MessageEmbed()
-//         .setTitle("Top Leaderboard based on Event Points")
-//         .setColor("#E1B530");
+//         .setColor("#6B4226")
+//         .setTitle("Net Worth Leaderboard")
+//         .setDescription("Top 5 Users by Net Worth");
 
-//       // Add each user's data to the embed
-//       for (let i = 0; i < topUsers.length; i++) {
-//         const userData = topUsers[i];
-//         const user = await client.users.fetch(userData.token);
+//       // Add each user to the embed
+//       for (let index = 0; index < topUsers.length; index++) {
+//         const userData = topUsers[index];
+//         const userName = userData.userName || "User Not Available"; // Use a placeholder if name is not found
+
 //         leaderboardEmbed.addField(
-//           `${i + 1}. ${user.username}`,
-//           `Event Points: ${userData.eventPoints}`
+//           `${index + 1}. ${userName}`,
+//           `Net Worth: $${userData.netWorth.toLocaleString()}`
 //         );
 //       }
 
-//       // Send the embed to the channel
-//       if (leaderboard.length === 0) {
-//         return message.channel.send("No users found with event points.");
-//       } else {
-//         message.channel.send(leaderboardEmbed);
-//       }
+//       // Send the leaderboard embed to the channel
+//       message.channel.send(leaderboardEmbed);
 //     }
 //   },
 // };

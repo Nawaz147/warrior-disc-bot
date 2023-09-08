@@ -407,6 +407,7 @@ You received : Golden Ghost knight set
                   message.channel.send(
                     "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
                   );
+                  db.add(`power.${tokenDB}`, 0.08);
                 } else if (chance == 3) {
                   db.add(`platinum_${tokenDB}`, 500);
                   message.channel.send(

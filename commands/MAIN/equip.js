@@ -200,7 +200,7 @@ ${user.username}, you equipped Immortal gun of energy ✔
         }
       } else if (args[0] == "title") {
         if (args[1] == "monarchSlayer") {
-          var monarchSlayer = db.fetch(`monarchSlayer_${tokenDB}`);
+          var monarchSlayer = db.fetch(`monarchSlayerTitle_${tokenDB}`);
           var monarchSlayerTitleOpened =
             db.fetch(`monarchSlayerTitleOpened_${tokenDB}`) || false;
           var equippedmonarchSlayer =
@@ -214,16 +214,6 @@ You have already equipped it
               )
               .setColor(`#b10000`);
             message.channel.send(alreadyEquippedEmbed);
-          } else if (!monarchSlayer) {
-            const dontHaveItEmbed = new Discord.MessageEmbed()
-              .setDescription(
-                `
-You dont have it.
-`
-              )
-              .setColor(`#b10000`);
-            message.channel.send(dontHaveItEmbed);
-            db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
           } else if (monarchSlayerTitleOpened == false) {
             const notOpenedTitleEmbed = new Discord.MessageEmbed()
               .setDescription(

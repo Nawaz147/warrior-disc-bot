@@ -209,7 +209,7 @@ module.exports = {
 
                 message.channel.send(eldraZurTheAbyssalTyrantBossDeadEmbed);
                 db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                var chance = Math.floor(Math.random() * 30) + 1;
+                var chance = Math.floor(Math.random() * 35) + 1;
                 console.log(chance);
                 var weaponName = db.fetch(`wepName_${tokenDB}`);
                 if (weaponName == "daggerOfDeath") {
@@ -314,13 +314,33 @@ module.exports = {
                 if (chance == 1) {
                   message.channel.send(
                     "```" +
-                      `diff
--You received : Abyssal Crown of Dominance
+                      `json
+"You received : Mystic rune of resilience"
+` +
+                      "```"
+                  );
+                  db.add(`mysticRuneOfResilience_${tokenDB}`, 1);
+                }
+                if (chance == 2) {
+                  message.channel.send(
+                    "```" +
+                      `json
+"You received : Aurora gaze"
+` +
+                      "```"
+                  );
+                  db.add(`auroraGaze_${tokenDB}`, 1);
+                }
+                if (chance == 3) {
+                  message.channel.send(
+                    "```" +
+                      `json
+"You received : Abyssal Crown of Dominance"
 ` +
                       "```"
                   );
                   db.add(`abyssalCrownOfDominance_${tokenDB}`, 1);
-                } else if (chance == 2) {
+                } else if (chance == 5) {
                   message.channel.send(
                     "```" +
                       `diff
@@ -329,7 +349,7 @@ module.exports = {
                       "```"
                   );
                   db.add(`abyssalStarcrystal_${tokenDB}`, 1);
-                } else if (chance == 3) {
+                } else if (chance == 6) {
                   message.channel.send(
                     "```" +
                       `diff
@@ -347,7 +367,7 @@ module.exports = {
                       "```"
                   );
                   db.add(`abyssalScepterOfOblivion_${tokenDB}`, 1);
-                } else if (chance == 5) {
+                } else if (chance == 7) {
                   message.channel.send(
                     "```" +
                       `diff
