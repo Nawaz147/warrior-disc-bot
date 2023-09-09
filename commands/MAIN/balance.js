@@ -25,7 +25,6 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
-      db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       bal = await db.fetch(`money_${tokenDB}.pocket`);
       // goldenTokens = db.fetch(`goldenTokens_${tokenDB}`);
       // if (goldenTokens === null) goldenTokens = "0";
@@ -119,7 +118,7 @@ module.exports = {
       message.channel.send(
         new Discord.MessageAttachment(
           canvas.toBuffer(),
-          `${tokenDB}_Balance.png`
+          `${user.username}'s Balance.png`
         )
       );
 

@@ -30,9 +30,7 @@ module.exports = {
       const key = db.fetch(`key_${tokenDB}`) || 0;
       if (key > 0) {
         if (args[0] !== "hit") {
-          return message.channel.send(
-            "Invalid command. To play the event, use: `+play hit`"
-          );
+          return message.channel.send("Invalid command. Use: `+damage hit`");
         } else if (args[0] == "hit") {
           const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
           const natureDaggersEquipped = db.fetch(
@@ -87,9 +85,14 @@ module.exports = {
             }
           }
           if (weaponEquipped !== true) {
-            message.channel.send(
-              "**You need to equip a weapon to play this event** , if you dont have one then **type +gw** to get your free weapon"
-            );
+            const weaponEmbed = new Discord.MessageEmbed()
+              .setColor("#00A86B") // A lively green color
+              .setTitle("🗡️ Gear Up for Battle 🗡️") // A title that invokes readiness
+              .setDescription(
+                "Prepare to confront the mighty boss by arming yourself with a weapon. If you lack one, type '+gw' to claim a complimentary weapon."
+              );
+
+            message.channel.send(weaponEmbed);
           } else if (weaponEquipped == true) {
             timeout = 1000;
             var cooldown = await db.fetch(`cooldown_${tokenDB}`);
@@ -97,19 +100,52 @@ module.exports = {
               let time = ms(timeout - (Date.now() - cooldown));
 
               let timeEmbed = new Discord.MessageEmbed()
-                .setColor("#FFFFFF")
-                .setTitle(`Spamming isn't a good thing`)
+                .setColor("#FFFFFF") // A captivating orange color
+                .setTitle("🌟 Face the Monstrous Foe 🌟") // An intense title
                 .setDescription(
-                  `You need to wait ${time.seconds}s ${time.milliseconds}ms `
-                );
+                  `The monstrous foe is before you! Prepare for battle. Each strike has a cooldown of ${time.seconds} seconds and ${time.milliseconds} milliseconds. Remember, **do not spam** your attacks. Patience and strategy are your allies! ⚔️`
+                )
+                .setFooter("The fate of the realm hangs in the balance.");
+
               message.channel.send(timeEmbed);
             } else {
-              // ... (remaining existing code)
+              function createHealthBar(health, maxHealth, barLength = 20) {
+                // Ensure health and maxHealth are non-negative
+                health = Math.max(0, health);
+                maxHealth = Math.max(0, maxHealth);
 
-              // ... (remaining existing code)
+                const percentage = Math.min(100, (health / maxHealth) * 100);
+                const progressBlocks = Math.floor(
+                  (barLength * percentage) / 100
+                );
+                const remainingBlocks = barLength - progressBlocks;
+
+                const progressBar =
+                  "█".repeat(progressBlocks) + "░".repeat(remainingBlocks);
+                const formattedHealth = `${health.toLocaleString()} / ${maxHealth.toLocaleString()}`;
+
+                return `${progressBar}`;
+              }
+
               var eldraZurTheAbyssalTyrantBossHealth = db.fetch(
                 `eldrazurTheTyrantBossHealth_${tokenDB}`
               );
+              const bossHealthBar = createHealthBar(
+                eldraZurTheAbyssalTyrantBossHealth,
+                17809082,
+                20 // This should match the fixed boss health value
+              );
+              var currentBossHealth = db.fetch(
+                `eldrazurTheTyrantBossHealth_${tokenDB}`
+              );
+              currentBossHealth = currentBossHealth
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              if (currentBossHealth > "0") {
+                var bossHealthProgress = `${currentBossHealth} / 17,809,082`;
+              } else {
+                var bossHealthProgress = `0 / 17,809,082`;
+              }
               if (
                 eldraZurTheAbyssalTyrantBossHealth == null ||
                 eldraZurTheAbyssalTyrantBossHealth == undefined
@@ -136,16 +172,14 @@ module.exports = {
                     .setColor("#6A0DAD") // Deep purple color
                     .setAuthor(
                       `${eldraZurTheAbyssalTyrantBoss}`,
-                      "https://i.ibb.co/S6D2WPs/monster-img.png"
+                      "https://i.ibb.co/2vLMfcn/IMG-0345.gif"
                     ) // Add an image of Eldra'zur as the author
                     .setTitle("Prepare to Face the Abyss!")
                     .setDescription(
                       `${user}, you stand before Eldra'zur, the Abyssal Tyrant. The fate of the realm hangs in the balance.`
                     )
-                    .addField("Total Health", "17,809,082", true)
-                    .addField("Current Health", `0`, true)
-                    .addField("Your Damage", `${weaponDamage}`, true)
-                    .setImage("https://i.ibb.co/S6D2WPs/monster-img.png") // You can use another image to show the boss
+                    .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
+                    .setImage("https://i.ibb.co/2vLMfcn/IMG-0345.gif") // You can use another image to show the boss
                     .setFooter(
                       "May your courage and strength guide you to victory!"
                     );
@@ -167,20 +201,14 @@ module.exports = {
                     .setColor("#6A0DAD") // Deep purple color
                     .setAuthor(
                       `${eldraZurTheAbyssalTyrantBoss}`,
-                      "https://i.ibb.co/S6D2WPs/monster-img.png"
+                      "https://i.ibb.co/2vLMfcn/IMG-0345.gif"
                     ) // Add an image of Eldra'zur as the author
                     .setTitle("Prepare to Face the Abyss!")
                     .setDescription(
                       `${user}, you stand before Eldra'zur, the Abyssal Tyrant. The fate of the realm hangs in the balance.`
                     )
-                    .addField("Total Health", "17,809,082", true)
-                    .addField(
-                      "Current Health",
-                      `${eldraZurTheAbyssalTyrantBossHealth}`,
-                      true
-                    )
-                    .addField("Your Damage", `${weaponDamage}`, true)
-                    .setImage("https://i.ibb.co/S6D2WPs/monster-img.png") // You can use another image to show the boss
+                    .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
+                    .setImage("https://i.ibb.co/2vLMfcn/IMG-0345.gif") // You can use another image to show the boss
                     .setFooter(
                       "May your courage and strength guide you to victory!"
                     );
@@ -196,13 +224,13 @@ module.exports = {
                 db.subtract(`key_${tokenDB}`, 1);
                 const eldraZurTheAbyssalTyrantBossDeadEmbed =
                   new Discord.MessageEmbed()
-                    .setColor("#FFD700") // Gold color for celebration
+                    .setColor("#42096b") // Gold color for celebration
                     .setTitle(`**Victory Achieved!**`)
                     .setDescription(
                       `*${eldraZurTheAbyssalTyrantBoss}, has been vanquished!*`
                     )
                     .addField("Defeated by", `${user}`, true)
-                    .setImage("https://i.ibb.co/cNs8XRk/teal-color-fog.png") // You can use an image to showcase the victorious moment
+                    .setImage("https://i.ibb.co/rHc7Xjj/IMG-0347.gif")
                     .setFooter(
                       "A legendary victory that will be told for ages!"
                     );
@@ -320,8 +348,7 @@ module.exports = {
                       "```"
                   );
                   db.add(`mysticRuneOfResilience_${tokenDB}`, 1);
-                }
-                if (chance == 2) {
+                } else if (chance == 2) {
                   message.channel.send(
                     "```" +
                       `json
@@ -330,8 +357,7 @@ module.exports = {
                       "```"
                   );
                   db.add(`auroraGaze_${tokenDB}`, 1);
-                }
-                if (chance == 3) {
+                } else if (chance == 3) {
                   message.channel.send(
                     "```" +
                       `json
@@ -459,7 +485,12 @@ module.exports = {
           }
         }
       } else {
-        message.channel.send("You need key to enter the zone");
+        const keyEmbed = new Discord.MessageEmbed()
+          .setColor("#3498db")
+          .setTitle("🔑 Access Required 🔑")
+          .setDescription("You'll need a key to enter this exclusive zone.");
+
+        message.channel.send(keyEmbed);
       }
     }
   },

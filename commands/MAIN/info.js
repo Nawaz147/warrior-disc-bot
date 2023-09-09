@@ -371,7 +371,7 @@ module.exports = {
           value: `${monthsPlayed} months ${daysPlayed % 30} days`,
         },
       ];
-      if (auroraGaze) {
+      if (auroraGaze > 0) {
         thumbnailLink = "https://i.ibb.co/DMkpbNv/blue-gaze.gif";
       } else {
         thumbnailLink = "";
@@ -381,7 +381,15 @@ module.exports = {
         .setColor("#6B4226")
         .setTitle(`${user.username}'s Info`)
         .setThumbnail(thumbnailLink);
-
+      if (auroraGaze > 0) {
+        // Modify the color of the embed after 5 seconds
+        embed.setFooter(`👀`);
+      }
+      if (abyssalCrownOfDominance > 0) {
+        embed.setTitle(
+          `<a:abyssalCrownOfDominience:1149551849192575048> ${user.username}'s Info`
+        );
+      }
       // Add information pairs to the embed in groups of 2
       for (let i = 0; i < infoPairs.length; i += 2) {
         const pair1 = infoPairs[i];
@@ -397,30 +405,7 @@ module.exports = {
       }
 
       // Send the embed
-      message.channel.send(embed).then((sentMessage) => {
-        if (auroraGaze) {
-          setInterval(() => {
-            // Modify the color of the embed after 5 seconds
-            embed.setFooter(`😎`);
-            sentMessage.edit(embed);
-          }, 1000);
-          setInterval(() => {
-            // Modify the color of the embed after 5 seconds
-            embed.setFooter(`💪`);
-            sentMessage.edit(embed);
-          }, 2000);
-          setInterval(() => {
-            // Modify the color of the embed after 5 seconds
-            embed.setFooter(`👁`);
-            sentMessage.edit(embed);
-          }, 3000);
-          setInterval(() => {
-            // Modify the color of the embed after 5 seconds
-            embed.setFooter(`😎💪👁`);
-            sentMessage.edit(embed);
-          }, 4000);
-        }
-      });
+      message.channel.send(embed);
     }
   },
 };

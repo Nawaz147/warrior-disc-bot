@@ -37,20 +37,20 @@ module.exports = {
               db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0,
             "<a:auroraGaze:1149396676650483914> Aurora gaze":
               db.fetch(`auroraGaze_${tokenDB}`) || 0,
+            "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
+              db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0,
+            "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
+              db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0,
             "<:daggerofdeath:1147084241516105728> Dagger of death":
               db.fetch(`daggerOfDeath_${tokenDB}`) || 0,
             "<:immortalgun:1147084130807455814> Immortal gun of energy":
               db.fetch(`immortalGun_${tokenDB}`) || 0,
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
-            "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
-              db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0,
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
               db.fetch(`eldrazursGrimoireOfRuin_${tokenDB}`) || 0,
-            "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
-              db.fetch(`abyssalScepterOfOblivion_${tokenDB}`) || 0,
             "<:vortexorb:1147066784969666600> Vortex orb":
               db.fetch(`vortexOrb_${tokenDB}`) || 0,
             "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
@@ -199,7 +199,7 @@ module.exports = {
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
               "Arcane",
             "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
-              "Arcane",
+              "Heroic",
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               "Arcane",
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":

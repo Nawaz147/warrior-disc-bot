@@ -30,7 +30,7 @@ module.exports = {
           item == "vortexOrb" ||
           item == "tomeOfEverlastingWisdom" ||
           item == "verdantLeaf" ||
-          item == "abyssalCrownOfDominence" ||
+          item == "abyssalCrownOfDominance" ||
           item == "abyssalStarcrystal" ||
           item == "eldrazursGrimoireOfRuin" ||
           item == "abyssalScepterOfOblivion" ||
@@ -53,10 +53,10 @@ module.exports = {
             db.fetch(`tomeOfEverlastingWisdomStoreAdd`) || 0;
           var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
           var verdantLeafStoreAdd = db.fetch(`verdantLeafStoreAdd`) || 0;
-          var abyssalCrownOfDominence =
-            db.fetch(`abyssalCrownOfDominence_${tokenDB}`) || 0;
-          var abyssalCrownOfDominenceStoreAdd =
-            db.fetch(`abyssalCrownOfDominenceStoreAdd`) || 0;
+          var abyssalCrownOfDominance =
+            db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0;
+          var abyssalCrownOfDominanceStoreAdd =
+            db.fetch(`abyssalCrownOfDominanceStoreAdd`) || 0;
           var abyssalStarcrystal =
             db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0;
           var abyssalStarcrystalStoreAdd =
@@ -194,26 +194,26 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `https://i.ibb.co/42Gf5db/verdant-whisper-leaf.png`
             );
             message.channel.send(itemInfoEmbed);
-          } else if (item == "abyssalCrownOfDominence") {
+          } else if (item == "abyssalCrownOfDominance") {
             itemInfoEmbed.setDescription(`
             Forged in the heart of chaos and bathed in the essence of eternal night, this regal crown is a testament to the ultimate triumph over the abyss. Its dark, ornate design is a masterpiece of malevolent craftsmanship, crowned with an abyssal gemstone that pulses with unholy power. When placed upon one's brow, it bestows dominion over the very fabric of the abyss itself.
             `);
-            itemInfoEmbed.setTitle(`Abyssal crown of Dominence`);
+            itemInfoEmbed.setTitle(`Abyssal crown of Dominance`);
             itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
-              `${abyssalCrownOfDominence}`
+              `${abyssalCrownOfDominance}`
             );
             itemInfoEmbed.addField(
               `Pieces available for sale`,
-              `${abyssalCrownOfDominenceStoreAdd}`
+              `${abyssalCrownOfDominanceStoreAdd}`
             );
-            itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominence");
+            itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominance");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/mBcqtqH/abyssal-Crown-Of-Dominence.gif`
+              `https://i.ibb.co/mBcqtqH/abyssal-Crown-Of-Dominance.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalStarcrystal") {
