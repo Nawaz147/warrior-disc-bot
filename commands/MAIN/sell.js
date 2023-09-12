@@ -1178,6 +1178,105 @@ module.exports = {
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(auroraGazeSoldEmbed);
           }
+          if (item == "orbOfElementalMastery") {
+            orbOfElementalMasterySellPrice = prices.orbOfElementalMastery / 2;
+            db.add(`orbOfElementalMasteryStoreAdd`, amountOfPieces);
+            db.subtract(`orbOfElementalMastery_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.orbOfElementalMastery / 2) * amountOfPieces
+            );
+            orbOfElementalMasterySellPrice = orbOfElementalMasterySellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            orbOfElementalMasteryTotalSellPrice =
+              (prices.orbOfElementalMastery / 2) * amountOfPieces;
+            orbOfElementalMasteryTotalSellPrice =
+              orbOfElementalMasteryTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const orbOfElementalMasterySoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Orb of elemental mastery")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${orbOfElementalMasterySellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${orbOfElementalMasteryTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(orbOfElementalMasterySoldEmbed);
+          }
+          if (item == "shieldOfTheEarthshaker") {
+            shieldOfTheEarthshakerSellPrice = prices.shieldOfTheEarthshaker / 2;
+            db.add(`shieldOfTheEarthshakerStoreAdd`, amountOfPieces);
+            db.subtract(`shieldOfTheEarthshaker_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.shieldOfTheEarthshaker / 2) * amountOfPieces
+            );
+            shieldOfTheEarthshakerSellPrice = shieldOfTheEarthshakerSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            shieldOfTheEarthshakerTotalSellPrice =
+              (prices.shieldOfTheEarthshaker / 2) * amountOfPieces;
+            shieldOfTheEarthshakerTotalSellPrice =
+              shieldOfTheEarthshakerTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const shieldOfTheEarthshakerSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Shield of the earthshaker")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${shieldOfTheEarthshakerSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${shieldOfTheEarthshakerTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(shieldOfTheEarthshakerSoldEmbed);
+          }
+          if (item == "timekeepersChronometer") {
+            timekeepersChronometerSellPrice = prices.timekeepersChronometer / 2;
+            db.add(`timekeepersChronometerStoreAdd`, amountOfPieces);
+            db.subtract(`timekeepersChronometer_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.timekeepersChronometer / 2) * amountOfPieces
+            );
+            timekeepersChronometerSellPrice = timekeepersChronometerSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            timekeepersChronometerTotalSellPrice =
+              (prices.timekeepersChronometer / 2) * amountOfPieces;
+            timekeepersChronometerTotalSellPrice =
+              timekeepersChronometerTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const timekeepersChronometerSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Timekeeper's chronometer")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${timekeepersChronometerSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${timekeepersChronometerTotalSellPrice}`
+              )
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(timekeepersChronometerSoldEmbed);
+          }
           if (item == "trashItems") {
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
             var rustyGearsSellPrice = prices.rustyGears / 2;

@@ -30,30 +30,9 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
-**CONTENT UPDATE (5 SEP 2023)**        
-**+** Added comma values to valorium boss embed and Eldra'zur, the Abyssal Tyrant boss embed
-**+** Monarch slayer title added to loot table in premium key zone
-**+** Monarch slayer title can be opened by typing (+open monarchSlayerTitle)
-**+** Monarch slayer title can be equipped by typing (+equip title monarchSlayer)
--------------------------------------------
-**CONTENT UPDATE (4 SEP 2023)**        
-**+** New zone added (+damage hit) , key required to enter
--------------------------------------------
-**CONTENT UPDATE (3 SEP 2023)**        
-**+** Added soldier to loot table
-**+** Added event preview option (+event)
-**+** Added new promocode (42XOED) [gives 3 soldiers]
--------------------------------------------
-**CONTENT UPDATE (2 SEP 2023)**        
-**+** Valorium event started
-**+** Bug fixes
--------------------------------------------
-**CONTENT UPDATE (1 SEP 2023)**        
-**+** Added icons for each item 
-**+** Added option to sell trash items by typing (+sell trashItems)
-**+** Designed sell embed
-**+** Made Dagger of death sellable
-**+** Changed inventory reaction to icons
+**CONTENT UPDATE (12 SEP 2023)**        
+**+** Epic odyssey event started (type +play hit to play)
+**+** Type +event to check event info
 -------------------------------------------
         `
         )

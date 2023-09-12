@@ -124,7 +124,6 @@ module.exports = {
 
       bal = db.fetch(`money_${tokenDB}.pocket`);
       platinum = db.fetch(`platinum_${tokenDB}`);
-      keys = db.fetch(`key_${tokenDB}`);
     }
   },
 };

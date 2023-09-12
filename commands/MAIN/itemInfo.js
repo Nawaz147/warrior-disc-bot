@@ -327,6 +327,72 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `https://i.ibb.co/ypRBHBH/abyssal-Scepter-Of-Oblivion.gif`
             );
             message.channel.send(itemInfoEmbed);
+          } else if (item == "orbOfElementalMastery") {
+            itemInfoEmbed.setDescription(`
+            The "Elemental Orb of Mastery" is a radiant sphere that shifts in color, representing mastery over elemental forces. Possessors can harness and manipulate fire, water, earth, and air, but must wield its power wisely.
+            `);
+            itemInfoEmbed.setTitle(`Orb of elemental mastery`);
+            itemInfoEmbed.addField(`Buy cost`, `68,950,000`);
+            itemInfoEmbed.addField(`Sell cost`, `34,475,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${orbOfElementalMastery}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${orbOfElementalMasteryStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "orbOfElementalMastery");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/6NvpWHH/Orb-of-elemental-mastery.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "shieldOfTheEarthshaker") {
+            itemInfoEmbed.setDescription(`
+            The "Shield of the Earthshaker" is a formidable obsidian shield adorned with seismic patterns. It grants the wielder the power to summon an impenetrable stone barrier and create ground-shaking shockwaves, offering unparalleled protection and offensive capability on the battlefield.
+            `);
+            itemInfoEmbed.setTitle(`Shield of the earthshaker`);
+            itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
+            itemInfoEmbed.addField(`Sell cost`, `12,529,003`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${shieldOfTheEarthshaker}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${shieldOfTheEarthshakerStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "shieldOfTheEarthshaker");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/vqG8RMk/futuristic-glowing-low-polygonal-shield-with-green-leaf-isolated-dark-blue-67515-694-removebg-previe.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "timekeepersChronometer") {
+            itemInfoEmbed.setDescription(`
+            The "Timekeeper's Chronometer" is an exquisite vintage timepiece with intricate details. It possesses the ability to measure and manipulate time, allowing its wielder to slow or hasten events. A true marvel for those who seek control over the flow of time.
+            `);
+            itemInfoEmbed.setTitle(`Timekeeper's chronometer`);
+            itemInfoEmbed.addField(`Buy cost`, `14,201,590`);
+            itemInfoEmbed.addField(`Sell cost`, `7,100,795`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${timekeepersChronometer}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${timekeepersChronometerStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "timekeepersChronometer");
+            itemInfoEmbed.setThumbnail(
+              `"https://i.ibb.co/CBLMRkX/atmosphera-vintage-world-wall-clock-removebg-preview.png`
+            );
+            message.channel.send(itemInfoEmbed);
           } else if (item == "bullet") {
             itemInfoEmbed.setDescription(`
             Watch as the Bullet streaks through the pixelated battleground, a flash of brilliance in the night, before it collides with your opponent, shattering their soldiers and sending them reeling. It's not just a simple attack; it's a statement of power. A symbol of your RPG prowess. With the Bullet in your arsenal, you hold the fate of your enemies in your hands. Will they dodge? Will they survive? Or will they fall victim to your strategic mastery? The choice is yours, and the battlefield awaits your command!

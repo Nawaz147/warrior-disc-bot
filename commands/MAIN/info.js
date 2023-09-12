@@ -276,6 +276,34 @@ module.exports = {
       if (auroraGaze == null || auroraGaze == undefined || auroraGaze === NaN) {
         auroraGaze = 0;
       }
+      var orbOfElementalMastery = db.fetch(`orbOfElementalMastery_${tokenDB}`);
+      if (
+        orbOfElementalMastery == null ||
+        orbOfElementalMastery == undefined ||
+        orbOfElementalMastery === NaN
+      ) {
+        orbOfElementalMastery = 0;
+      }
+      var shieldOfTheEarthshaker = db.fetch(
+        `shieldOfTheEarthshaker_${tokenDB}`
+      );
+      if (
+        shieldOfTheEarthshaker == null ||
+        shieldOfTheEarthshaker == undefined ||
+        shieldOfTheEarthshaker === NaN
+      ) {
+        shieldOfTheEarthshaker = 0;
+      }
+      var timekeepersChronometer = db.fetch(
+        `timekeepersChronometer_${tokenDB}`
+      );
+      if (
+        timekeepersChronometer == null ||
+        timekeepersChronometer == undefined ||
+        timekeepersChronometer === NaN
+      ) {
+        timekeepersChronometer = 0;
+      }
       var power = db.fetch(`power.${tokenDB}`);
       if (power == null || power == undefined || power === NaN) {
         power = 0;
@@ -288,7 +316,10 @@ module.exports = {
       if (balance == null || balance == undefined || balance === NaN) {
         balance = 0;
       }
-
+      var power = soldiers * 0.08 + bullet * 0.48;
+      if (mysticRuneOfResilience > 0) {
+        var power = power * 2;
+      }
       var netWorth =
         goldBar * prices.goldBar +
         texarus * prices.texarus +
@@ -327,6 +358,9 @@ module.exports = {
         abyssalScepterOfOblivion * prices.AbyssalScepterOfOblivion +
         mysticRuneOfResilience * prices.mysticRuneOfResilience +
         auroraGaze * prices.auroraGaze +
+        orbOfElementalMastery * prices.orbOfElementalMastery +
+        shieldOfTheEarthshaker * prices.shieldOfTheEarthshaker +
+        timekeepersChronometer * prices.timekeepersChronometer +
         balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       db.set(`netWorth_${tokenDB}`, netWorth);
@@ -343,10 +377,7 @@ module.exports = {
       const timeDifference = currentDate.getTime() - creationDate.getTime();
       const daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       const monthsPlayed = Math.floor(daysPlayed / 30);
-      var power = soldiers * 0.08 + bullet * 0.48;
-      if (mysticRuneOfResilience > 0) {
-        var power = power * 2;
-      }
+
       db.set(`power.${tokenDB}`, power);
       if (!tokenCreationDate) {
         message.channel.send("ERROR");

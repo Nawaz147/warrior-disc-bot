@@ -47,6 +47,12 @@ module.exports = {
               db.fetch(`immortalGun_${tokenDB}`) || 0,
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
+            "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
+              db.fetch(`orbOfElementalMastery_${tokenDB}`) || 0,
+            "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
+              db.fetch(`shieldOfTheEarthshaker${tokenDB}`) || 0,
+            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
+              db.fetch(`timekeepersChronometer_${tokenDB}`) || 0,
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
@@ -141,6 +147,12 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
+              "Mythic",
+            "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
+              "Mythic",
+            "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
+              "Arcane",
             "<a:auroraGaze:1149396676650483914> Aurora gaze": "Heroic",
             "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
               "Heroic",
@@ -209,6 +221,12 @@ module.exports = {
             "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
           };
           const itemsID = {
+            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
+              "timekeepersChronometer",
+            "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
+              "shieldOfTheEarthshaker",
+            "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
+              "orbOfElementalMastery",
             "<a:auroraGaze:1149396676650483914> Aurora gaze": "auroraGaze",
             "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
               "mysticRuneOfResilience",

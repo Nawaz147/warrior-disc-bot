@@ -109,6 +109,35 @@ module.exports = {
 
               message.channel.send(timeEmbed);
             } else {
+              // Modify the boss hitting logic
+
+              function resetBossHealth() {
+                db.set(`eldrazurTheTyrantBossHealth_${tokenDB}`, 17809082);
+                db.set(`didntHitCooldown_${tokenDB}`, Date.now());
+
+                // Notify that the boss ran away
+                message.channel.send({
+                  embed: {
+                    color: 0xff0000,
+                    title: "The boss flied away!",
+                    footer: "Be quick to hit next time",
+                  },
+                });
+              }
+
+              var eldraZurTheAbyssalTyrantBossHealth = db.fetch(
+                `eldrazurTheTyrantBossHealth_${tokenDB}`
+              );
+              if (eldraZurTheAbyssalTyrantBossHealth > 0) {
+                const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
+                if (
+                  lastHitTime &&
+                  Date.now() - lastHitTime >= 120000 &&
+                  eldraZurTheAbyssalTyrantBossHealth < 17809080
+                ) {
+                  resetBossHealth();
+                }
+              }
               function createHealthBar(health, maxHealth, barLength = 20) {
                 // Ensure health and maxHealth are non-negative
                 health = Math.max(0, health);
@@ -122,6 +151,7 @@ module.exports = {
 
                 const progressBar =
                   "█".repeat(progressBlocks) + "░".repeat(remainingBlocks);
+
                 const formattedHealth = `${health.toLocaleString()} / ${maxHealth.toLocaleString()}`;
 
                 return `${progressBar}`;
@@ -170,14 +200,7 @@ module.exports = {
                 const eldraZurTheAbyssalTyrantBossEmbed2 =
                   new Discord.MessageEmbed()
                     .setColor("#6A0DAD") // Deep purple color
-                    .setAuthor(
-                      `${eldraZurTheAbyssalTyrantBoss}`,
-                      "https://i.ibb.co/2vLMfcn/IMG-0345.gif"
-                    ) // Add an image of Eldra'zur as the author
-                    .setTitle("Prepare to Face the Abyss!")
-                    .setDescription(
-                      `${user}, you stand before Eldra'zur, the Abyssal Tyrant. The fate of the realm hangs in the balance.`
-                    )
+                    .setAuthor(`${eldraZurTheAbyssalTyrantBoss}`) // Add an image of Eldra'zur as the author
                     .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
                     .setImage("https://i.ibb.co/2vLMfcn/IMG-0345.gif") // You can use another image to show the boss
                     .setFooter(
@@ -189,6 +212,7 @@ module.exports = {
                   `eldrazurTheTyrantBossHealth_${tokenDB}`,
                   weaponDamage
                 );
+                db.set(`didntHitCooldown_${tokenDB}`, Date.now());
                 weaponDamage = weaponDamage
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -199,14 +223,7 @@ module.exports = {
                 const eldraZurTheAbyssalTyrantBossEmbed =
                   new Discord.MessageEmbed()
                     .setColor("#6A0DAD") // Deep purple color
-                    .setAuthor(
-                      `${eldraZurTheAbyssalTyrantBoss}`,
-                      "https://i.ibb.co/2vLMfcn/IMG-0345.gif"
-                    ) // Add an image of Eldra'zur as the author
-                    .setTitle("Prepare to Face the Abyss!")
-                    .setDescription(
-                      `${user}, you stand before Eldra'zur, the Abyssal Tyrant. The fate of the realm hangs in the balance.`
-                    )
+                    .setAuthor(`${eldraZurTheAbyssalTyrantBoss}`) // Add an image of Eldra'zur as the author
                     .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
                     .setImage("https://i.ibb.co/2vLMfcn/IMG-0345.gif") // You can use another image to show the boss
                     .setFooter(
