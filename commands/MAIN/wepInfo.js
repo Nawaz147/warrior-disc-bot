@@ -37,7 +37,7 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
-    const daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
+    var daggerOfDeathXP = db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
     const daggerOfDeathLevel = db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
     if (daggerOfDeathLevel > 1) {
       daggerOfDeathDamage = db.fetch(`daggerOfDeathDamage_${tokenDB}`);
@@ -53,6 +53,7 @@ module.exports = {
       { threshold: 1280, level: 7 },
       { threshold: 1940, level: 8 },
       { threshold: 2642, level: 9 },
+      { threshold: 16950, level: 10 },
     ];
 
     if (startFunction) {
@@ -172,7 +173,7 @@ module.exports = {
       }
       if (args[0] === "daggerOfDeath") {
         function calculateRequiredXP(level) {
-          if (level >= 9) {
+          if (level >= 10) {
             return "Max";
           }
 
@@ -195,14 +196,15 @@ module.exports = {
         if (!equippedDaggerOfDeath) {
           var equippedDaggerOfDeath = "False";
         }
-        const requiredXP = calculateRequiredXP(daggerOfDeathLevel);
-
+        var requiredXP = calculateRequiredXP(daggerOfDeathLevel);
         let xpDisplay;
-        if (daggerOfDeathLevel === 9 && daggerOfDeathXP >= 0) {
+        if (daggerOfDeathLevel === 10 && daggerOfDeathXP >= 0) {
           xpDisplay = "Max";
+          db.set(`daggerOfDeathXP_${tokenDB}`, 0);
         } else {
           xpDisplay = `${daggerOfDeathXP} / ${requiredXP}`;
         }
+
         console.log(user.username);
         const daggerOfDeathEmbed = new Discord.MessageEmbed()
           .setColor("#A0EAEB")

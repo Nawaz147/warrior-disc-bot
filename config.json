@@ -1,5 +1,5 @@
 {
-  "prefix": "+",
+  "suffix": ".v",
   "db": "mongodb+srv://Nawaz:Nawazlinked1@cluster0.yjuzknd.mongodb.net/test",
   "color": "BLUE",
   "error": "RED",

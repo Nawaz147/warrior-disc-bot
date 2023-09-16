@@ -1,7 +1,7 @@
 const canvacord = require("canvacord");
 const { Client, Collection, Intents } = require("discord.js");
 const { config } = require("dotenv");
-const { prefix, db, token } = require("./config.json");
+const { suffix, db, token } = require("./config.json");
 const datab = require("quick.db");
 require("./server.js");
 const Discord = require("discord.js");
@@ -87,7 +87,7 @@ for (const file of player) {
 client.login(token);
 client.on("ready", () => {
   client.user
-    .setActivity(`${prefix}help`, {
+    .setActivity(`help${suffix}`, {
       type: "LISTENING",
     })
     .catch(console.error);
@@ -212,7 +212,7 @@ client.on("message", async (message) => {
   client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.guild) return;
-    const tokenDB = datab.fetch(`${message.author.id}.oyOtoken`);
+    const tokenDB = datab.fetch(`${message.author.id}.valoriumToken`);
     const tokenUser = datab.fetch(`nameofUser_${message.author}`);
 
     // if (message.content === tokenDB) {
@@ -227,7 +227,7 @@ client.on("message", async (message) => {
         var alertEmbed = new Discord.MessageEmbed()
           .setTitle(`⚠ ALERT ⚠`)
           .setDescription(
-            `You cannot share your Lustrozy token (Anyone can access your account if you share it and sharing it is strictly prohibitted)`
+            `You cannot share your token (Anyone can access your account if you share it and sharing it is strictly prohibitted)`
           )
           .setColor(`#EE4B2B`);
         message.author.send(alertEmbed);
@@ -250,13 +250,13 @@ client.on("message", async (message) => {
     //       .then((m) => m.delete({ timeout: 10000 }));
     //   }
     // }
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.content.endsWith(suffix)) return;
 
     // If message.member is uncached, cache it.
     if (!message.member)
       message.member = await message.guild.fetchMember(message);
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const args = message.content.trim().slice(0, -suffix.length).split(/ +/g);
     const cmd = args.shift().toLowerCase();
 
     if (cmd.length === 0) return;
@@ -274,17 +274,13 @@ client.on("message", async (message, member) => {
   // if (message.content.includes("changeNick")) {
   //   message.member.setNickname("😀");
   // }
-  if (message.content.startsWith("Oyo ")) {
-    message.channel.send(`Bot prefix has been changed to **+** , eg: **+bal**`);
-  } else if (message.content.startsWith(".t ")) {
-    message.channel.send(`Bot prefix has been changed to **+** , eg: **+bal**`);
-  }
+
   if (message.channel.type === "dm") {
     console.log(
       `${message.author.username}#${message.author.discriminator} said : ${message.content}`
     );
     //make all commands work both in dm and in guilds
-    if (message.content.startsWith(prefix)) {
+    if (message.content.endsWith(suffix)) {
       return message.channel.send(
         `Hi ${message.author.username} , You cant use commands in DM !`
       );

@@ -60,7 +60,7 @@ module.exports = {
         )
         .addField(`Boss name`, `Phoenix King Pyroclastor`)
         .setFooter(`Start date : 12 september 2023`)
-        .setTimestamp()
+        .setThumbnail(`https://i.ibb.co/QrK36pf/gif.gif`)
         .setColor("#191970");
       message.channel.send(eventEmbed);
     }

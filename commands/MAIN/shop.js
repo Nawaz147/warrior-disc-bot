@@ -132,404 +132,520 @@ module.exports = {
         const money = db.fetch(`money_${tokenDB}.pocket`);
         if (args[0] == "buy") {
           if (args[1] == "bullet") {
-            const quantity = parseInt(args[2]);
-
-            if (isNaN(quantity) || quantity <= 0) {
-              message.channel.send(
-                `Please provide a valid number of Bullets to buy.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (money < prices.bullet * quantity) {
-              message.channel.send(
-                `You don't have enough money to buy ${quantity} Bullet(s).`
-              );
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentioned = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentioned);
+            } else if (money < prices.bullet * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (bulletPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces of Bullet in Valorium shop.`
-              );
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (quantity > bulletPieces) {
-              message.channel.send(
-                `There are only ${bulletPieces} Bullet(s) left.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (bulletPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
-              if (money < prices.bullet) {
-                message.channel.send(`You dont have enough money to buy it`);
-                db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-              } else if (bulletPieces == 0) {
-                message.channel.send(`There are (0) pieces in Valorium shop`);
-                db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-              } else {
-                const bulletEmbed = new Discord.MessageEmbed()
-                  .setTitle(`Bullet`)
-                  .setDescription(`You purchased ${quantity}x bullets`);
-                message.channel.send(bulletEmbed);
-                db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-                db.add(`bullet_${tokenDB}`, quantity);
-                db.add(`power.${tokenDB}`, quantity * 0.48);
-                db.subtract(
-                  `money_${tokenDB}.pocket`,
-                  prices.bullet * quantity
-                );
-                db.subtract(`bulletStoreAdd`, 1);
-              }
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`bullet_${tokenDB}`, 1);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.bullet * amountOfPieces
+              );
+              db.subtract(`bulletStoreAdd`, amountOfPieces);
+              db.add(`power_${tokenDB}`, amountOfPieces * 0.48);
+              var bulletPrice = prices.bullet;
+              var bulletTotalPrice = prices.bullet * amountOfPieces;
+              bulletPrice = bulletPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              bulletTotalPrice = bulletTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const bulletEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Bullet`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${bulletPrice}`)
+                .addField(`Total buy price`, `${bulletTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(bulletEmbed);
             }
           }
           if (args[1] == "natureDaggers") {
-            if (money < prices.natureDaggers) {
-              message.channel.send(`You dont have enough money to buy it`);
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.natureDaggers * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (natureDaggersPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (natureDaggersPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`natureDaggers_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.natureDaggers * amountOfPieces
+              );
+              db.subtract(`natureDaggersStoreAdd`, amountOfPieces);
+              var natureDaggersPrice = prices.natureDaggers;
+              var natureDaggersTotalPrice =
+                prices.natureDaggers * amountOfPieces;
+              natureDaggersPrice = natureDaggersPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              natureDaggersTotalPrice = natureDaggersTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               const natureDaggersEmbed = new Discord.MessageEmbed()
-                .setTitle(`Nature daggers of superpower`)
-                .setDescription(`You purchased Nature Daggers of superpower !`);
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Nature daggers of superpower`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${natureDaggersPrice}`)
+                .addField(`Total buy price`, `${natureDaggersTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
               message.channel.send(natureDaggersEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`natureDaggers_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.natureDaggers);
-              db.subtract(`natureDaggersStoreAdd`, 1);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             }
           }
           if (args[1] == "immortalGun") {
-            if (money < prices.immortalGun) {
-              message.channel.send(`You dont have enough money to buy it`);
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.immortalGun * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (immortalGunPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (immortalGunPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
-              const immortalGunEmbed = new Discord.MessageEmbed()
-                .setTitle(`Immortal Gun of Energy`)
-                .setDescription(`You purchased Immortal Gun of Energy`);
-              message.channel.send(immortalGunEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`immortalGun_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.immortalGun);
-              db.subtract(`immortalGunStoreAdd`, 1);
+              db.add(`immortalGun_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.immortalGun * amountOfPieces
+              );
+              db.subtract(`immortalGunStoreAdd`, amountOfPieces);
+              var immortalGunPrice = prices.immortalGun;
+              var immortalGunTotalPrice = prices.immortalGun * amountOfPieces;
+              immortalGunPrice = immortalGunPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              immortalGunTotalPrice = immortalGunTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const immortalGunEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Immortal gun of energy`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${immortalGunPrice}`)
+                .addField(`Total buy price`, `${immortalGunTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(immortalGunEmbed);
             }
           }
           if (args[1] == "rasheta") {
-            if (money < prices.rasheta) {
-              message.channel.send(`You dont have enough money to buy it`);
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.rasheta * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (rashetaPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (rashetaPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
-              const rashetaEmbed = new Discord.MessageEmbed()
-                .setTitle(`Rasheta the furious axe`)
-                .setDescription(`You purchased Rasheta the furious axe !`);
-              message.channel.send(rashetaEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`rasheta_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.rasheta);
-              db.subtract(`rashetaStoreAdd`, 1);
+              db.add(`rasheta_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.rasheta * amountOfPieces
+              );
+              db.subtract(`rashetaStoreAdd`, amountOfPieces);
+              var rashetaPrice = prices.rasheta;
+              var rashetaTotalPrice = prices.rasheta * amountOfPieces;
+              rashetaPrice = rashetaPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              rashetaTotalPrice = rashetaTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const rashetaEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Rasheta the furious axe`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${rashetaPrice}`)
+                .addField(`Total buy price`, `${rashetaTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(rashetaEmbed);
             }
           }
           if (args[1] == "waetra") {
-            if (money < prices.waetra) {
-              message.channel.send(`You dont have enough money to buy it`);
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.waetra * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (waetraPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (waetraPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
-              const waetraEmbed = new Discord.MessageEmbed()
-                .setTitle(`Waetra the freezed bow`)
-                .setDescription(`You purchased Waetra the freezed bow !`);
-              message.channel.send(waetraEmbed);
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`waetra_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.waetra);
-              db.subtract(`waetraStoreAdd`, 1);
+              db.add(`waetra_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.waetra * amountOfPieces
+              );
+              db.subtract(`waetraStoreAdd`, amountOfPieces);
+              var waetraPrice = prices.waetra;
+              var waetraTotalPrice = prices.waetra * amountOfPieces;
+              waetraPrice = waetraPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              waetraTotalPrice = waetraTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const waetraEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Waetra the freezed bow`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${waetraPrice}`)
+                .addField(`Total buy price`, `${waetraTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(waetraEmbed);
             }
           }
           if (args[1] == "texarus") {
-            if (money < prices.texarus) {
-              message.channel.send(`You dont have enough money to buy it`);
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.texarus * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (texarusPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const texarusEmbed = new Discord.MessageEmbed()
-                .setTitle(`Texarus the demonished staff`)
-                .setDescription(`You purchased Texarus the demonished staff !`);
-              message.channel.send(texarusEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`texarus_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.texarus);
-              db.subtract(`texarusStoreAdd`, 1);
-            }
-          }
-          // ... your existing code ...
-
-          if (args[1] == "awakeningGem") {
-            const quantity = parseInt(args[2]);
-
-            if (isNaN(quantity) || quantity <= 0) {
-              message.channel.send(
-                `Please provide a valid number of awakening gems to buy.`
-              );
-            } else if (money < prices.awakeningGem * quantity) {
-              message.channel.send(
-                `You don't have enough money to buy ${quantity} awakening gem(s).`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (awakeningGemPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces of Awakening gem in Valorium shop.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (quantity > awakeningGemPieces) {
-              message.channel.send(
-                `There are only ${awakeningGemPieces} awakening gem(s) left.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const awakeningGemEmbed = new Discord.MessageEmbed()
-                .setTitle(`Awakening gem`)
+            } else if (texarusPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
                 .setDescription(
-                  `You purchased Awakening gem (${quantity} pieces)`
-                );
-              message.channel.send(awakeningGemEmbed);
-              db.add(`awakeningGem_${tokenDB}`, quantity);
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
+            } else {
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`texarus_${tokenDB}`, amountOfPieces);
               db.subtract(
                 `money_${tokenDB}.pocket`,
-                prices.awakeningGem * quantity
+                prices.texarus * amountOfPieces
               );
-              db.subtract(`awakeningGemStoreAdd`, quantity);
+              db.subtract(`texarusStoreAdd`, amountOfPieces);
+              var texarusPrice = prices.texarus;
+              var texarusTotalPrice = prices.texarus * amountOfPieces;
+              texarusPrice = texarusPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              texarusTotalPrice = texarusTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const texarusEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Texarus the demonished staff`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${texarusPrice}`)
+                .addField(`Total buy price`, `${texarusTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(texarusEmbed);
+            }
+          }
+          if (args[1] == "awakeningGem") {
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.awakeningGem * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (awakeningGemPieces == 0) {
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (awakeningGemPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
+            } else {
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`awakeningGem_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.awakeningGem * amountOfPieces
+              );
+              db.subtract(`awakeningGemStoreAdd`, amountOfPieces);
+              var awakeningGemPrice = prices.awakeningGem;
+              var awakeningGemTotalPrice = prices.awakeningGem * amountOfPieces;
+              awakeningGemPrice = awakeningGemPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              awakeningGemTotalPrice = awakeningGemTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const awakeningGemEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Awakening gem`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${awakeningGemPrice}`)
+                .addField(`Total buy price`, `${awakeningGemTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(awakeningGemEmbed);
             }
           }
           // ... your existing code ...
 
           if (args[1] == "eliteAwakeningGem") {
-            const quantity = parseInt(args[2]);
-
-            if (isNaN(quantity) || quantity <= 0) {
-              message.channel.send(
-                `Please provide a valid number of elite awakening gems to buy.`
-              );
-            } else if (money < prices.eliteAwakeningGem * quantity) {
-              message.channel.send(
-                `You don't have enough money to buy ${quantity} elite awakening gem(s).`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (EliteAwakeningGemPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces of Elite Awakening gem in Valorium shop.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (quantity > EliteAwakeningGemPieces) {
-              message.channel.send(
-                `There are only ${EliteAwakeningGemPieces} elite awakening gem(s) left.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const eliteAwakeningGemEmbed = new Discord.MessageEmbed()
-                .setTitle(`Elite Awakening gem`)
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
                 .setDescription(
-                  `You purchased Elite Awakening gem (${quantity} pieces)`
-                );
-              message.channel.send(eliteAwakeningGemEmbed);
-              db.add(`eliteAwakeningGem_${tokenDB}`, quantity);
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.eliteAwakeningGem * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (eliteAwakeningGemPieces == 0) {
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
+              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (eliteAwakeningGemPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
+            } else {
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`eliteAwakeningGem_${tokenDB}`, amountOfPieces);
               db.subtract(
                 `money_${tokenDB}.pocket`,
-                prices.eliteAwakeningGem * quantity
+                prices.eliteAwakeningGem * amountOfPieces
               );
-              db.subtract(`EliteAwakeningGemStoreAdd`, quantity);
+              db.subtract(`eliteAwakeningGemStoreAdd`, amountOfPieces);
+              var eliteAwakeningGemPrice = prices.eliteAwakeningGem;
+              var eliteAwakeningGemTotalPrice =
+                prices.eliteAwakeningGem * amountOfPieces;
+              eliteAwakeningGemPrice = eliteAwakeningGemPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              eliteAwakeningGemTotalPrice = eliteAwakeningGemTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              const eliteAwakeningGemEmbed = new Discord.MessageEmbed()
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Elite awakening gem`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${eliteAwakeningGemPrice}`)
+                .addField(`Total buy price`, `${eliteAwakeningGemTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
+              message.channel.send(eliteAwakeningGemEmbed);
             }
           }
           if (args[1] == "goldBar") {
-            const quantity = parseInt(args[2]);
-
-            if (isNaN(quantity) || quantity <= 0) {
-              message.channel.send(
-                `Please provide a valid number of elite awakening gems to buy.`
-              );
-            } else if (money < prices.goldBar * quantity) {
-              message.channel.send(
-                `You don't have enough money to buy ${quantity} Gold Bar(s).`
-              );
+            var amountOfPieces = args[2];
+            if (!amountOfPieces) {
+              const PiecesNotMentionedEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `Please enter valid amount of pieces [eg. shop buy (itemID).v]`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(PiecesNotMentionedEmbed);
+            } else if (money < prices.goldBar * amountOfPieces) {
+              const insufficientMoneyEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `You dont have sufficient amount of money to purchase this item`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(insufficientMoneyEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             } else if (goldBarPieces == 0) {
-              message.channel.send(
-                `There are (0) pieces of Gold Bar in Valorium shop.`
-              );
+              const zeroPiecesEmbed = new Discord.MessageEmbed()
+                .setDescription(`There are (0) pieces of it in the shop`)
+                .setColor(`#b10000`);
+              message.channel.send(zeroPiecesEmbed);
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (quantity > goldBarPieces) {
-              message.channel.send(
-                `There are only ${goldBarPieces} Gold Bar(s) left.`
-              );
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+            } else if (goldBarPieces < amountOfPieces) {
+              const amountExceededEmbed = new Discord.MessageEmbed()
+                .setDescription(
+                  `${amountOfPieces} pieces of it are not available in the shop`
+                )
+                .setColor(`#b10000`);
+              message.channel.send(amountExceededEmbed);
             } else {
+              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+              db.add(`goldBar_${tokenDB}`, amountOfPieces);
+              db.subtract(
+                `money_${tokenDB}.pocket`,
+                prices.goldBar * amountOfPieces
+              );
+              var goldBarPrice = prices.goldBar;
+              var goldBarTotalPrice = prices.goldBar * amountOfPieces;
+              goldBarPrice = goldBarPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              goldBarTotalPrice = goldBarTotalPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
               const goldBarEmbed = new Discord.MessageEmbed()
-                .setTitle(`Gold Bar`)
-                .setDescription(`You purchased Gold Bar (${quantity} pieces)`);
+                .setTitle(`Purchase successful`)
+                .addField(`Item name`, `Nature daggers of superpower`)
+                .addField(`Number of pieces`, `${amountOfPieces}`)
+                .addField(`Buy price per piece`, `${goldBarPrice}`)
+                .addField(`Total buy price`, `${goldBarTotalPrice}`)
+                .setColor(`#56FFA4`)
+                .setTimestamp();
               message.channel.send(goldBarEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`goldBar_${tokenDB}`, quantity);
-              db.subtract(`money_${tokenDB}.pocket`, prices.goldBar * quantity);
-              db.subtract(`goldBarStoreAdd`, quantity);
-            }
-          }
-          // ... your existing code ...
-
-          // ... your existing code ...
-
-          if (args[1] == "rubyOfRoyalty") {
-            if (money < prices.rubyOfRoyalty) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (rubyOfRoyaltyPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const rubyOfRoyaltyEmbed = new Discord.MessageEmbed()
-                .setTitle(`Ruby of royalty`)
-                .setDescription(`You purchased Ruby of Royalty !`);
-              message.channel.send(rubyOfRoyaltyEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`rubyOfRoyalty_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.rubyOfRoyalty);
-              db.subtract(`rubyOfRoyaltyStoreAdd`, 1);
-            }
-          }
-          if (args[1] == "goldenGloryCard") {
-            if (money < prices.goldenGloryCard) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (goldenGloryCardPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const goldenGloryCardEmbed = new Discord.MessageEmbed()
-                .setTitle(`Golden glory card`)
-                .setDescription(`You purchased Golden glory card !`);
-              message.channel.send(goldenGloryCardEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`goldenGloryCard_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.goldenGloryCard);
-              db.subtract(`goldenGloryCardStoreAdd`, 1);
-            }
-          }
-          if (args[1] == "royalStatueOfHonor") {
-            if (money < prices.royalStatueOfHonor) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (royalStatueOfHonor == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const royalStatueOfHonorEmbed = new Discord.MessageEmbed()
-                .setTitle(`Royalty Statue of Honor`)
-                .setDescription(`You purchased Royalty Statue of Honor !`);
-              message.channel.send(royalStatueOfHonorEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`royalStatueOfHonor_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.royalStatueOfHonor);
-              db.subtract(`royalStatueOfHonorStoreAdd`, 1);
-            }
-          }
-          if (args[1] == "royaltyCoin") {
-            if (money < prices.royalStatueOfHonor) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (royaltyCoinPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const royaltyCoinEmbed = new Discord.MessageEmbed()
-                .setTitle(`Royalty Coin`)
-                .setDescription(`You purchased Royalty Coin !`);
-              message.channel.send(royaltyCoinEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`royaltyCoin_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.royalStatueOfHonor);
-              db.subtract(`royaltyCoinStoreAdd`, 1);
-            }
-          }
-
-          if (args[1] == "magnificentCarpet") {
-            if (money < prices.magnificentCarpet) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (magnificentCarpetPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const magnificentCarpetEmbed = new Discord.MessageEmbed()
-                .setTitle(`Magnificent Carpet`)
-                .setDescription(`You purchased Magnificent Carpet !`);
-              message.channel.send(magnificentCarpetEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`magnificentCarpet_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.magnificentCarpet);
-              db.subtract(`magnificentCarpetStoreAdd`, 1);
-            }
-          }
-          if (args[1] == "magnificentPen") {
-            if (money < prices.magnificentPen) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (magnificentPenPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const magnificentPenEmbed = new Discord.MessageEmbed()
-                .setTitle(`Magnificent Pen`)
-                .setDescription(`You purchased Magnificent Pen !`);
-              message.channel.send(magnificentPenEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`magnificentPen_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.magnificentPen);
-              db.subtract(`magnificentPenStoreAdd`, 1);
-            }
-          }
-
-          if (args[1] == "splendidTrophy") {
-            if (money < prices.splendidTrophy) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (splendidTrophyPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const splendidTrophyEmbed = new Discord.MessageEmbed()
-                .setTitle(`Splendid Trophy`)
-                .setDescription(`You purchased Splendid Trophy !`);
-              message.channel.send(splendidTrophyEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`splendidTrophy_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.splendidTrophy);
-              db.subtract(`splendidTrophyStoreAdd`, 1);
-            }
-          }
-
-          if (args[1] == "keysSack") {
-            if (money < prices.keysSack) {
-              message.channel.send(`You dont have enough money to buy it`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else if (keysSackPieces == 0) {
-              message.channel.send(`There are (0) pieces in Valorium shop`);
-              db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
-            } else {
-              const keysSackEmbed = new Discord.MessageEmbed()
-                .setTitle(`1x 2850 keys sack`)
-                .setDescription(`You purchased 2850 keys sack !`);
-              message.channel.send(keysSackEmbed);
-              db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              db.add(`2850keys_${tokenDB}`, 1);
-              db.subtract(`money_${tokenDB}.pocket`, prices.keysSack);
-              db.subtract(`keysSackStoreAdd`, 1);
             }
           }
         }

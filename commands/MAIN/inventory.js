@@ -49,10 +49,6 @@ module.exports = {
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
             "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
               db.fetch(`orbOfElementalMastery_${tokenDB}`) || 0,
-            "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
-              db.fetch(`shieldOfTheEarthshaker${tokenDB}`) || 0,
-            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
-              db.fetch(`timekeepersChronometer_${tokenDB}`) || 0,
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
               db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
@@ -81,6 +77,10 @@ module.exports = {
               db.fetch(`rasheta_${tokenDB}`) || 0,
             "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
               db.fetch(`waetra_${tokenDB}`) || 0,
+            "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
+              db.fetch(`shieldOfTheEarthshaker${tokenDB}`) || 0,
+            "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
+              db.fetch(`timekeepersChronometer_${tokenDB}`) || 0,
             "<:vanityicon:1147071701633482773> Arcane sensei set":
               db.fetch(`arcaneSenseiSet_${tokenDB}`) || 0,
             "<:vanityicon:1147071701633482773> Super golem set":
@@ -147,7 +147,7 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
-            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
+            "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
               "Mythic",
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
               "Mythic",
@@ -221,7 +221,7 @@ module.exports = {
             "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
           };
           const itemsID = {
-            "<:timekeepersChronometer:1151190901314551898> Timekeeper's chronometer":
+            "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
               "timekeepersChronometer",
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
               "shieldOfTheEarthshaker",

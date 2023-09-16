@@ -30,6 +30,11 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (13 SEP 2023)**        
+**+** Dagger of death new level launched (level 10)!
+**+** The bot works on suffix now instead of prefix to make it unique!
+**+** The suffix is (.v) [usage eg : bal.v]
+-------------------------------------------
 **CONTENT UPDATE (12 SEP 2023)**        
 **+** Epic odyssey event started (type +play hit to play)
 **+** Type +event to check event info
@@ -37,7 +42,7 @@ module.exports = {
         `
         )
         .setColor("#ffffff")
-        .setTimestamp();
+        .setThumbnail(``);
       message.channel.send(updatesEmbed);
     }
   },

@@ -36,7 +36,10 @@ module.exports = {
           item == "abyssalScepterOfOblivion" ||
           item == "bullet" ||
           item == "mysticRuneOfResilience" ||
-          item == "auroraGaze"
+          item == "auroraGaze" ||
+          item == "orbOfElementalMastery" ||
+          item == "shieldOfTheEarthshaker" ||
+          item == "timekeepersChronometer"
         ) {
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
@@ -75,6 +78,18 @@ module.exports = {
             db.fetch(`mysticRuneOfResilienceStoreAdd`) || 0;
           var auroraGaze = db.fetch(`auroraGaze_${tokenDB}`) || 0;
           var auroraGazeStoreAdd = db.fetch(`auroraGazeStoreAdd`) || 0;
+          var orbOfElementalMastery =
+            db.fetch(`orbOfElementalMastery_${tokenDB}`) || 0;
+          var orbOfElementalMasteryStoreAdd =
+            db.fetch(`orbOfElementalMasteryStoreAdd`) || 0;
+          var shieldOfTheEarthshaker =
+            db.fetch(`shieldOfTheEarthshaker_${tokenDB}`) || 0;
+          var shieldOfTheEarthshakerStoreAdd =
+            db.fetch(`shieldOfTheEarthshakerStoreAdd`) || 0;
+          var timekeepersChronometer =
+            db.fetch(`timekeepersChronometer_${tokenDB}`) || 0;
+          var timekeepersChronometerStoreAdd =
+            db.fetch(`timekeepersChronometerStoreAdd`) || 0;
           var bullet = db.fetch(`bullet_${tokenDB}`) || 0;
           var bulletStoreAdd = db.fetch(`bulletStoreAdd`) || 0;
           db.set(`bulletStoreAdd`, "Unlimited");
@@ -351,7 +366,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             message.channel.send(itemInfoEmbed);
           } else if (item == "shieldOfTheEarthshaker") {
             itemInfoEmbed.setDescription(`
-            The "Shield of the Earthshaker" is a formidable obsidian shield adorned with seismic patterns. It grants the wielder the power to summon an impenetrable stone barrier and create ground-shaking shockwaves, offering unparalleled protection and offensive capability on the battlefield.
+            The "Shield of the Earthshaker" is a formidable obsidian shield adorned with seismic patterns.
             `);
             itemInfoEmbed.setTitle(`Shield of the earthshaker`);
             itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
