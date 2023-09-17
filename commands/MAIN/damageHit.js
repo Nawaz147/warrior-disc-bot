@@ -52,6 +52,10 @@ module.exports = {
           const daggerOfDeathEquipped = db.fetch(
             `equippedDaggerOfDeath_${tokenDB}`
           );
+          const soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
+          const bullet = db.fetch(`bullet_${tokenDB}`) || 0;
+          const mysticRuneOfResilience =
+            db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0;
           if (natureDaggersEquipped == "True") {
             var weaponDamage = natureDaggerss.Damage;
             var weaponEquipped = true;
@@ -365,6 +369,12 @@ module.exports = {
                       "```"
                   );
                   db.add(`mysticRuneOfResilience_${tokenDB}`, 1);
+                  if (mysticRuneOfResilience == 1) {
+                    db.set(
+                      `power_${tokenDB}`,
+                      soldiers * 0.08 + bullet * 0.48 * 2
+                    );
+                  }
                 } else if (chance == 2) {
                   message.channel.send(
                     "```" +

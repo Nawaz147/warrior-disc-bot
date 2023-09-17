@@ -218,7 +218,7 @@
 //                   "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
 //                 ) // You can use another image to show the boss
 //                 .setFooter(
-//                   "May your unwavering valor and indomitable might lead you to triumph!"
+//                   "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
 //                 );
 //               db.set(`infernothTheEmberwingBossSpawned_${tokenDB}`, true);
 //               const bossMessage = await message.channel.send(
@@ -266,7 +266,8 @@
 //                   function addFireSkillReaction() {
 //                     if (
 //                       !collector.ended &&
-//                       infernothTheEmberwingBossHealth > 0
+//                       infernothTheEmberwingBossHealth > 0 &&
+//                       infernothTheEmberwingBossHealth !== 740860
 //                     ) {
 //                       if (!reactedUsers.has(message.author.id)) {
 //                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -738,492 +739,474 @@
 //                           "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
 //                         )
 //                         .setFooter(
-//                           "May your unwavering valor and indomitable might lead you to triumph!"
+//                           "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
 //                         );
 //                     await bossMessage.edit(infernothTheEmberwingBossEmbed);
-//                   } else {
 //                   }
-//                   if (reaction.emoji.name == "hit") {
-//                     // Handle hitting the boss here
-//                     const currentTime = Date.now();
-//                     const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
-//                     // const bossHealthBar = createHealthBar(
-//                     //   infernothTheEmberwingBossHealth,
-//                     //   740860,
-//                     //   20
-//                     // );
-//                     // It's not on cooldown, proceed to deal damage
-//                     const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`);
-//                     var infernothTheEmberwingBossHealth =
-//                       db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
-//                       740860;
-//                     db.subtract(
+//                 }
+//                 if (reaction.emoji.name == "hit") {
+//                   // Handle hitting the boss here
+//                   const currentTime = Date.now();
+//                   const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
+//                   // const bossHealthBar = createHealthBar(
+//                   //   infernothTheEmberwingBossHealth,
+//                   //   740860,
+//                   //   20
+//                   // );
+//                   // It's not on cooldown, proceed to deal damage
+//                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
+//                   var infernothTheEmberwingBossHealth =
+//                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
+//                     740860;
+//                   db.subtract(
+//                     `infernothTheEmberwingBossHealth_${tokenDB}`,
+//                     weaponDamage / 4
+//                   );
+
+//                   if (
+//                     infernothTheEmberwingBossHealth < 0 ||
+//                     infernothTheEmberwingBossHealth == 0
+//                   ) {
+//                     // Boss defeated
+//                     infernothTheEmberwingBossHealth = 0;
+
+//                     bossMessage.reactions.removeAll();
+//                     db.set(
 //                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-//                       weaponDamage / 4
+//                       740860
+//                     );
+//                     db.set(
+//                       `infernothTheEmberwingBossSpawned_${tokenDB}`,
+//                       false
+//                     );
+//                     infernothTheEmberwingBossHealth =
+//                       infernothTheEmberwingBossHealth
+//                         .toString()
+//                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+//                     const infernothTheEmberwingBossDeadEmbed =
+//                       new Discord.MessageEmbed()
+//                         .setColor("#FF4500") // Fiery orange-red color
+//                         .setTitle(`**Infernoth, the Emberwing Defeated!**`)
+//                         .setDescription(
+//                           `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
+//                         )
+//                         .addField("Slayed by", `${user}`, true)
+//                         .setImage("https://i.ibb.co/Xp8bXrx/fire-bg.gif")
+//                         .setFooter(
+//                           "The land of Eldoria can breathe a sigh of relief."
+//                         );
+//                     db.set(
+//                       `infernothTheEmberwingBossHealth_${tokenDB}`,
+//                       740860
 //                     );
 
-//                     if (
-//                       infernothTheEmberwingBossHealth < 0 ||
-//                       infernothTheEmberwingBossHealth == 0
-//                     ) {
-//                       // Boss defeated
-//                       infernothTheEmberwingBossHealth = 0;
-
-//                       bossMessage.reactions.removeAll();
-//                       db.set(
-//                         `infernothTheEmberwingBossHealth_${tokenDB}`,
-//                         740860
-//                       );
-//                       db.set(
-//                         `infernothTheEmberwingBossSpawned_${tokenDB}`,
-//                         false
-//                       );
-//                       infernothTheEmberwingBossHealth =
-//                         infernothTheEmberwingBossHealth
-//                           .toString()
-//                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-//                       const infernothTheEmberwingBossDeadEmbed =
-//                         new Discord.MessageEmbed()
-//                           .setColor("#FF4500") // Fiery orange-red color
-//                           .setTitle(`**Infernoth, the Emberwing Defeated!**`)
-//                           .setDescription(
-//                             `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
-//                           )
-//                           .addField("Slayed by", `${user}`, true)
-//                           .setImage("https://i.ibb.co/Xp8bXrx/fire-bg.gif")
-//                           .setFooter(
-//                             "The land of Eldoria can breathe a sigh of relief."
-//                           );
-//                       db.set(
-//                         `infernothTheEmberwingBossHealth_${tokenDB}`,
-//                         740860
-//                       );
-
-//                       message.channel.send(infernothTheEmberwingBossDeadEmbed);
-//                       db.add(`bossesKilledTotal_${tokenDB}`, 1);
-//                       var chance = Math.floor(Math.random() * 175) + 1;
-//                       var weaponName = db.fetch(`wepName_${tokenDB}`);
-//                       if (weaponName == "daggerOfDeath") {
-//                         const daggerXP = Math.floor(Math.random() * 15) + 7;
-//                         if (daggerOfDeathLevel !== 10) {
-//                           db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
-//                         }
-//                         // Retrieve the current XP and level of Dagger of Death
-//                         const currentXP =
-//                           db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
-//                         var currentLevel =
-//                           db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
-
-//                         // Define the damage values for each level
-//                         const levelDamage = [
-//                           200301, 233406, 340221, 462059, 609231, 920132,
-//                           1306890, 1690530, 2049141,
-//                         ];
-//                         const xpLevels = [
-//                           { threshold: 35, level: 2 },
-//                           { threshold: 70, level: 3 },
-//                           { threshold: 156, level: 4 },
-//                           { threshold: 360, level: 5 },
-//                           { threshold: 700, level: 6 },
-//                           { threshold: 1280, level: 7 },
-//                           { threshold: 1940, level: 8 },
-//                           { threshold: 2642, level: 9 },
-//                           { threshold: 16950, level: 10 },
-//                         ];
-
-//                         for (const levelData of xpLevels) {
-//                           if (currentXP >= levelData.threshold) {
-//                             currentLevel = levelData.level;
-//                           } else {
-//                             break;
-//                           }
-//                         }
-//                         for (
-//                           let i = daggerOfDeathLevel - 1;
-//                           i < xpLevels.length;
-//                           i++
-//                         ) {
-//                           const nextLevelXP = xpLevels[i].threshold;
-//                           if (
-//                             currentXP >= nextLevelXP &&
-//                             daggerOfDeathLevel !== 10
-//                           ) {
-//                             // Level up the weapon
-//                             db.set(`daggerOfDeathXP_${tokenDB}`, 0);
-//                             db.set(
-//                               `daggerOfDeathDamage_${tokenDB}`,
-//                               levelDamage[i]
-//                             );
-
-//                             var daggerLevelupEmbed = new Discord.MessageEmbed()
-//                               .setTitle("Level up!")
-//                               .setDescription(
-//                                 `Your weapon leveled up to level ${
-//                                   daggerOfDeathLevel + 1
-//                                 }`
-//                               )
-//                               // .addField(`New damage`, `${levelDamage[i]}`)
-//                               .setColor(`#013220`);
-
-//                             message.channel.send(daggerLevelupEmbed);
-//                             db.set(
-//                               `daggerOfDeathLevel_${tokenDB}`,
-//                               daggerOfDeathLevel + 1
-//                             );
-//                             db.set(`daggerOfDeathXP_${tokenDB}`, 0);
-//                             break; // Exit the loop after leveling up
-//                           }
-//                         }
+//                     message.channel.send(infernothTheEmberwingBossDeadEmbed);
+//                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
+//                     var chance = Math.floor(Math.random() * 175) + 1;
+//                     var weaponName = db.fetch(`wepName_${tokenDB}`);
+//                     if (weaponName == "daggerOfDeath") {
+//                       const daggerXP = Math.floor(Math.random() * 15) + 7;
+//                       if (daggerOfDeathLevel !== 10) {
+//                         db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
 //                       }
-//                       if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
-//                         const SingleBossKillApsEmbed =
-//                           new Discord.MessageEmbed()
-//                             .setTitle(`ACHIEVEMENT COMPLETE - First Blood`)
-//                             .setDescription(`${user} You gained 500 aps`)
-//                             .setColor("#8B0000");
-//                         db.set(`firstBlood_${tokenDB}`, true);
-//                         db.add(`achievementPoints_${tokenDB}`, 500);
-//                         message.channel.send(SingleBossKillApsEmbed);
-//                       } else if (
-//                         db.fetch(`bossesKilledTotal_${tokenDB}`) == 10
-//                       ) {
-//                         const TenBossKillApsEmbed = new Discord.MessageEmbed()
-//                           .setTitle(
-//                             `ACHIEVEMENT COMPLETE - Decade of Annihilation`
-//                           )
-//                           .setDescription(`${user} You gained 300 aps`)
-//                           .setColor("#8B0000");
-//                         db.set(`decadeOfAnnihilation_${tokenDB}`, true);
-//                         db.add(`achievementPoints_${tokenDB}`, 300);
-//                         message.channel.send(TenBossKillApsEmbed);
-//                       } else if (
-//                         db.fetch(`bossesKilledTotal_${tokenDB}`) == 50
-//                       ) {
-//                         const FiftyBossKillApsEmbed = new Discord.MessageEmbed()
-//                           .setTitle(
-//                             `ACHIEVEMENT COMPLETE - Half-century of Destruction`
-//                           )
-//                           .setDescription(`${user} You gained 800 aps`)
-//                           .setColor("#8B0000");
-//                         db.set(`halfCenturyOfDestruction_${tokenDB}`, true);
-//                         db.add(`achievementPoints_${tokenDB}`, 800);
-//                         message.channel.send(FiftyBossKillApsEmbed);
-//                       } else if (
-//                         db.fetch(`bossesKilledTotal_${tokenDB}`) == 100
-//                       ) {
-//                         const HundredBossKillApsEmbed =
-//                           new Discord.MessageEmbed()
-//                             .setTitle(
-//                               `ACHIEVEMENT COMPLETE - Century of Slaughter`
-//                             )
-//                             .setDescription(`${user} You gained 1500 aps`)
-//                             .setColor("#8B0000");
-//                         db.set(`centuryOfSlaughter_${tokenDB}`, true);
-//                         db.add(`achievementPoints_${tokenDB}`, 1500);
-//                         message.channel.send(HundredBossKillApsEmbed);
-//                       }
-//                       db.set(`cooldown_${tokenDB}`, Date.now());
-//                       db.set(
-//                         `infernothTheEmberwingBossHealth_${tokenDB}`,
-//                         740860
-//                       );
-//                       if (chance == 1) {
-//                         message.channel.send(
-//                           "```" +
-//                             `diff
-// -You received : Eldritch flamescroll
-// ` +
-//                             "```"
-//                         );
-//                         db.add(`eldritchFlameScroll_${tokenDB}`, 1);
-//                       } else if (chance == 2) {
-//                         message.channel.send(
-//                           "```" +
-//                             `fix
-// You received : Inernoth's wrathful eye
-// ` +
-//                             "```"
-//                         );
-//                         db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
-//                       } else if (chance == 3) {
-//                         message.channel.send(
-//                           "```" +
-//                             `fix
-//   You received : Pyroclasmic gem
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`pyroclasmicGem_${tokenDB}`, 1);
-//                       } else if (chance == 4) {
-//                         message.channel.send(
-//                           "```" +
-//                             `fix
-//   You received : Pyroclasmic essence
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`pyroclasmicEssence_${tokenDB}`, 1);
-//                       } else if (chance == 5) {
-//                         message.channel.send(
-//                           "```" +
-//                             `fix
-//   You received : Magmatic torch
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`magmaticTorch_${tokenDB}`, 1);
-//                       } else if (chance == 6) {
-//                         message.channel.send(
-//                           "```" +
-//                             `tex
-//   $-You received : Eternal flame essence
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`eternalFlameEssence_${tokenDB}`, 1);
-//                       } else if (chance == 7) {
-//                         message.channel.send(
-//                           "```" +
-//                             `tex
-//   $-You received : Inernoth's ember essence
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`infernothsEmberEssence_${tokenDB}`, 1);
-//                       } else if (chance == 8) {
-//                         message.channel.send(
-//                           "```" +
-//                             `tex
-//   $-You received : Draconic fireheart essence
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`draconicFireheartEssence_${tokenDB}`, 1);
-//                       } else if (chance == 9) {
-//                         message.channel.send(
-//                           "```" +
-//                             `elm
-//   You received : Infernoth's death warrant
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`infernothsDeathWarrant_${tokenDB}`, 1);
-//                       } else if (chance == 10) {
-//                         message.channel.send(
-//                           "```" +
-//                             `elm
-//   You received : Black oil
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`blackOil_${tokenDB}`, 1);
-//                       } else if (chance == 11) {
-//                         message.channel.send(
-//                           "```" +
-//                             `css
-//   "You received : Transparent glass"
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`transparentGlass_${tokenDB}`, 1);
-//                       } else if (chance == 12) {
-//                         message.channel.send(
-//                           "```" +
-//                             `css
-//   "You received : Hot water"
-//   ` +
-//                             "```"
-//                         );
-//                         db.add(`hotWater_${tokenDB}`, 1);
-//                       } else if (chance > 7 && (chance < 30 || chance == 30)) {
-//                         db.add(`soldiers_${tokenDB}`, 1);
-//                         message.channel.send(
-//                           "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
-//                         );
-//                         db.add(`power.${tokenDB}`, 0.08);
-//                       } else if (chance > 30 && (chance < 40 || chance == 40)) {
-//                         db.add(`eliteAwakeningGem_${tokenDB}`, 1);
-//                         message.channel.send(
-//                           "```" +
-//                             `css
-//   [You received : Elite awakening gem]
-//   ` +
-//                             "```"
-//                         );
-//                       } else if (chance > 40 && (chance < 60 || chance == 60)) {
-//                         db.add(`awakeningGem_${tokenDB}`, 1);
-//                         message.channel.send(
-//                           "```" +
-//                             `
-//   You received : Awakening gem
-//   ` +
-//                             "```"
-//                         );
-//                       } else if (chance >= 50 && chance < 130) {
-//                         if (randomScrap == "Rusty gears") {
-//                           message.channel.send(
-//                             "```" + `diff\nYou received : Rusty gears\n` + "```"
-//                           );
-//                           db.add(`rustyGears_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Dustbin") {
-//                           message.channel.send(
-//                             "```" + `diff\nYou received : Dustbin\n` + "```"
-//                           );
-//                           db.add(`dustbin_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Newspaper") {
-//                           message.channel.send(
-//                             "```" + `diff\nYou received : Newspaper\n` + "```"
-//                           );
-//                           db.add(`newspaper_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Torn cloth") {
-//                           message.channel.send(
-//                             "```" + `diff\nYou received : Torn cloth\n` + "```"
-//                           );
-//                           db.add(`tornCloth_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Used tissue") {
-//                           message.channel.send(
-//                             "```" + `diff\nYou received : Used tissue\n` + "```"
-//                           );
-//                           db.add(`usedTissue_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Broken stick") {
-//                           message.channel.send(
-//                             "```" +
-//                               `diff\nYou received : Broken stick\n` +
-//                               "```"
-//                           );
-//                           db.add(`brokenStick_${tokenDB}`, 1);
-//                         } else if (randomScrap == "Awakening gem") {
-//                           message.channel.send(
-//                             "```" +
-//                               `diff\nYou received : Awakening gem\n` +
-//                               "```"
-//                           );
-//                           db.add(`awakeningGem_${tokenDB}`, 1);
-//                         }
-//                       } else {
-//                         bal = db.fetch(`money_${tokenDB}.pocket`);
-//                         if (finalCoins + bal > moneyCap.moneyCap) {
-//                           message.channel.send(
-//                             "**You cannot exceed gold limit"
-//                           );
+//                       // Retrieve the current XP and level of Dagger of Death
+//                       const currentXP =
+//                         db.fetch(`daggerOfDeathXP_${tokenDB}`) || 0;
+//                       var currentLevel =
+//                         db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 1;
+
+//                       // Define the damage values for each level
+//                       const levelDamage = [
+//                         200301, 233406, 340221, 462059, 609231, 920132, 1306890,
+//                         1690530, 2049141,
+//                       ];
+//                       const xpLevels = [
+//                         { threshold: 35, level: 2 },
+//                         { threshold: 70, level: 3 },
+//                         { threshold: 156, level: 4 },
+//                         { threshold: 360, level: 5 },
+//                         { threshold: 700, level: 6 },
+//                         { threshold: 1280, level: 7 },
+//                         { threshold: 1940, level: 8 },
+//                         { threshold: 2642, level: 9 },
+//                         { threshold: 16950, level: 10 },
+//                       ];
+
+//                       for (const levelData of xpLevels) {
+//                         if (currentXP >= levelData.threshold) {
+//                           currentLevel = levelData.level;
 //                         } else {
-//                           db.add(
-//                             `money_${tokenDB}.pocket`,
-//                             Math.floor(finalCoins)
+//                           break;
+//                         }
+//                       }
+//                       for (
+//                         let i = daggerOfDeathLevel - 1;
+//                         i < xpLevels.length;
+//                         i++
+//                       ) {
+//                         const nextLevelXP = xpLevels[i].threshold;
+//                         if (
+//                           currentXP >= nextLevelXP &&
+//                           daggerOfDeathLevel !== 10
+//                         ) {
+//                           // Level up the weapon
+//                           db.set(`daggerOfDeathXP_${tokenDB}`, 0);
+//                           db.set(
+//                             `daggerOfDeathDamage_${tokenDB}`,
+//                             levelDamage[i]
 //                           );
-//                           db.add(
-//                             `lootedGold_${tokenDB}`,
-//                             Math.floor(finalCoins)
-//                           ); // Use Math.floor() to remove decimals
-//                           // Use Math.floor() to remove decimals
-//                           const lootedGold =
-//                             db.fetch(`lootedGold_${tokenDB}`) || 0;
-//                           const apsData = [
-//                             {
-//                               amount: 100000,
-//                               aps: 100,
-//                               key: "acquiredAHeftySumOf100k",
-//                               title:
-//                                 "ACHIEVEMENT COMPLETE - Acquired a hefty sum of 100k",
-//                             },
-//                             {
-//                               amount: 500000,
-//                               aps: 200,
-//                               key: "amassedAnImpressiveHaulOf500k",
-//                               title:
-//                                 "ACHIEVEMENT COMPLETE - Amassed an impressive haul of 500k",
-//                             },
-//                             {
-//                               amount: 1000000,
-//                               aps: 500,
-//                               key: "reachedAmillionInRiches",
-//                               title:
-//                                 "ACHIEVEMENT COMPLETE - Reached a million in riches",
-//                             },
-//                             {
-//                               amount: 10000000,
-//                               aps: 1000,
-//                               key: "glorious10mPlunder",
-//                               title:
-//                                 "ACHIEVEMENT COMPLETE - Glorious 10-Million Plunder",
-//                             },
-//                             {
-//                               amount: 100000000,
-//                               aps: 1700,
-//                               key: "wealthConqueror",
-//                               title: "ACHIEVEMENT COMPLETE - Wealth Conqueror",
-//                             },
-//                           ];
 
-//                           for (const achievement of apsData) {
-//                             const achievementKey = `${achievement.key}_${tokenDB}`;
-//                             if (
-//                               lootedGold >= achievement.amount &&
-//                               !db.fetch(achievementKey)
-//                             ) {
-//                               const apsEmbed = new Discord.MessageEmbed()
-//                                 .setTitle(achievement.title)
-//                                 .setDescription(
-//                                   `${user} You gained ${achievement.aps} aps`
-//                                 )
-//                                 .setColor("#8B0000");
-//                               db.set(achievementKey, true);
-//                               db.add(
-//                                 `achievementPoints_${tokenDB}`,
-//                                 achievement.aps
-//                               );
-//                               message.channel.send(apsEmbed);
-//                             }
-//                           }
-//                           finalCoins = Math.floor(finalCoins)
-//                             .toString()
-//                             .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-//                           message.channel.send(
-//                             "```" +
-//                               `diff
-// You received : ${finalCoins} Gold Coins
-// ` +
-//                               "```"
+//                           var daggerLevelupEmbed = new Discord.MessageEmbed()
+//                             .setTitle("Level up!")
+//                             .setDescription(
+//                               `Your weapon leveled up to level ${
+//                                 daggerOfDeathLevel + 1
+//                               }`
+//                             )
+//                             // .addField(`New damage`, `${levelDamage[i]}`)
+//                             .setColor(`#013220`);
+
+//                           message.channel.send(daggerLevelupEmbed);
+//                           db.set(
+//                             `daggerOfDeathLevel_${tokenDB}`,
+//                             daggerOfDeathLevel + 1
 //                           );
+//                           db.set(`daggerOfDeathXP_${tokenDB}`, 0);
+//                           break; // Exit the loop after leveling up
 //                         }
 //                       }
 //                     }
-//                   }
-
-//                   const currentTime = Date.now();
-//                   db.set(`didntHitCooldown_${tokenDB}`, currentTime);
-//                   // Send an updated boss message
-//                   const bossHealthBar = createHealthBar(
-//                     infernothTheEmberwingBossHealth,
-//                     740860,
-//                     20
-//                   );
-//                   infernothTheEmberwingBossHealth =
-//                     infernothTheEmberwingBossHealth
-//                       .toString()
-//                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-//                   const infernothTheEmberwingBossEmbed =
-//                     new Discord.MessageEmbed()
-//                       .setColor("#8B0000")
-//                       .setAuthor("Infernoth, the Emberwing")
-//                       .addField(
-//                         `${infernothTheEmberwingBossHealth} / 740,860`,
-//                         `${bossHealthBar}`,
-//                         true
-//                       )
-//                       .setImage(
-//                         "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
-//                       )
-//                       .setFooter(
-//                         "May your unwavering valor and indomitable might lead you to triumph!"
+//                     if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 1) {
+//                       const SingleBossKillApsEmbed = new Discord.MessageEmbed()
+//                         .setTitle(`ACHIEVEMENT COMPLETE - First Blood`)
+//                         .setDescription(`${user} You gained 500 aps`)
+//                         .setColor("#8B0000");
+//                       db.set(`firstBlood_${tokenDB}`, true);
+//                       db.add(`achievementPoints_${tokenDB}`, 500);
+//                       message.channel.send(SingleBossKillApsEmbed);
+//                     } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 10) {
+//                       const TenBossKillApsEmbed = new Discord.MessageEmbed()
+//                         .setTitle(
+//                           `ACHIEVEMENT COMPLETE - Decade of Annihilation`
+//                         )
+//                         .setDescription(`${user} You gained 300 aps`)
+//                         .setColor("#8B0000");
+//                       db.set(`decadeOfAnnihilation_${tokenDB}`, true);
+//                       db.add(`achievementPoints_${tokenDB}`, 300);
+//                       message.channel.send(TenBossKillApsEmbed);
+//                     } else if (db.fetch(`bossesKilledTotal_${tokenDB}`) == 50) {
+//                       const FiftyBossKillApsEmbed = new Discord.MessageEmbed()
+//                         .setTitle(
+//                           `ACHIEVEMENT COMPLETE - Half-century of Destruction`
+//                         )
+//                         .setDescription(`${user} You gained 800 aps`)
+//                         .setColor("#8B0000");
+//                       db.set(`halfCenturyOfDestruction_${tokenDB}`, true);
+//                       db.add(`achievementPoints_${tokenDB}`, 800);
+//                       message.channel.send(FiftyBossKillApsEmbed);
+//                     } else if (
+//                       db.fetch(`bossesKilledTotal_${tokenDB}`) == 100
+//                     ) {
+//                       const HundredBossKillApsEmbed = new Discord.MessageEmbed()
+//                         .setTitle(`ACHIEVEMENT COMPLETE - Century of Slaughter`)
+//                         .setDescription(`${user} You gained 1500 aps`)
+//                         .setColor("#8B0000");
+//                       db.set(`centuryOfSlaughter_${tokenDB}`, true);
+//                       db.add(`achievementPoints_${tokenDB}`, 1500);
+//                       message.channel.send(HundredBossKillApsEmbed);
+//                     }
+//                     db.set(`cooldown_${tokenDB}`, Date.now());
+//                     db.set(
+//                       `infernothTheEmberwingBossHealth_${tokenDB}`,
+//                       740860
+//                     );
+//                     if (chance == 1) {
+//                       message.channel.send(
+//                         "```" +
+//                           `diff
+// -You received : Eldritch flamescroll
+// ` +
+//                           "```"
 //                       );
-//                   await bossMessage.edit(infernothTheEmberwingBossEmbed);
+//                       db.add(`eldritchFlameScroll_${tokenDB}`, 1);
+//                     } else if (chance == 2) {
+//                       message.channel.send(
+//                         "```" +
+//                           `fix
+// You received : Inernoth's wrathful eye
+// ` +
+//                           "```"
+//                       );
+//                       db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
+//                     } else if (chance == 3) {
+//                       message.channel.send(
+//                         "```" +
+//                           `fix
+//   You received : Pyroclasmic gem
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`pyroclasmicGem_${tokenDB}`, 1);
+//                     } else if (chance == 4) {
+//                       message.channel.send(
+//                         "```" +
+//                           `fix
+//   You received : Pyroclasmic essence
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`pyroclasmicEssence_${tokenDB}`, 1);
+//                     } else if (chance == 5) {
+//                       message.channel.send(
+//                         "```" +
+//                           `fix
+//   You received : Magmatic torch
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`magmaticTorch_${tokenDB}`, 1);
+//                     } else if (chance == 6) {
+//                       message.channel.send(
+//                         "```" +
+//                           `tex
+//   $-You received : Eternal flame essence
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`eternalFlameEssence_${tokenDB}`, 1);
+//                     } else if (chance == 7) {
+//                       message.channel.send(
+//                         "```" +
+//                           `tex
+//   $-You received : Inernoth's ember essence
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`infernothsEmberEssence_${tokenDB}`, 1);
+//                     } else if (chance == 8) {
+//                       message.channel.send(
+//                         "```" +
+//                           `tex
+//   $-You received : Draconic fireheart essence
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`draconicFireheartEssence_${tokenDB}`, 1);
+//                     } else if (chance == 9) {
+//                       message.channel.send(
+//                         "```" +
+//                           `elm
+//   You received : Infernoth's death warrant
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`infernothsDeathWarrant_${tokenDB}`, 1);
+//                     } else if (chance == 10) {
+//                       message.channel.send(
+//                         "```" +
+//                           `elm
+//   You received : Black oil
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`blackOil_${tokenDB}`, 1);
+//                     } else if (chance == 11) {
+//                       message.channel.send(
+//                         "```" +
+//                           `css
+//   "You received : Transparent glass"
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`transparentGlass_${tokenDB}`, 1);
+//                     } else if (chance == 12) {
+//                       message.channel.send(
+//                         "```" +
+//                           `css
+//   "You received : Hot water"
+//   ` +
+//                           "```"
+//                       );
+//                       db.add(`hotWater_${tokenDB}`, 1);
+//                     } else if (chance > 7 && (chance < 30 || chance == 30)) {
+//                       db.add(`soldiers_${tokenDB}`, 1);
+//                       message.channel.send(
+//                         "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
+//                       );
+//                       db.add(`power.${tokenDB}`, 0.08);
+//                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
+//                       db.add(`eliteAwakeningGem_${tokenDB}`, 1);
+//                       message.channel.send(
+//                         "```" +
+//                           `css
+//   [You received : Elite awakening gem]
+//   ` +
+//                           "```"
+//                       );
+//                     } else if (chance > 40 && (chance < 60 || chance == 60)) {
+//                       db.add(`awakeningGem_${tokenDB}`, 1);
+//                       message.channel.send(
+//                         "```" +
+//                           `
+//   You received : Awakening gem
+//   ` +
+//                           "```"
+//                       );
+//                     } else if (chance >= 50 && chance < 130) {
+//                       if (randomScrap == "Rusty gears") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Rusty gears\n` + "```"
+//                         );
+//                         db.add(`rustyGears_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Dustbin") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Dustbin\n` + "```"
+//                         );
+//                         db.add(`dustbin_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Newspaper") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Newspaper\n` + "```"
+//                         );
+//                         db.add(`newspaper_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Torn cloth") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Torn cloth\n` + "```"
+//                         );
+//                         db.add(`tornCloth_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Used tissue") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Used tissue\n` + "```"
+//                         );
+//                         db.add(`usedTissue_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Broken stick") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Broken stick\n` + "```"
+//                         );
+//                         db.add(`brokenStick_${tokenDB}`, 1);
+//                       } else if (randomScrap == "Awakening gem") {
+//                         message.channel.send(
+//                           "```" + `diff\nYou received : Awakening gem\n` + "```"
+//                         );
+//                         db.add(`awakeningGem_${tokenDB}`, 1);
+//                       }
+//                     } else {
+//                       bal = db.fetch(`money_${tokenDB}.pocket`);
+//                       if (finalCoins + bal > moneyCap.moneyCap) {
+//                         message.channel.send("**You cannot exceed gold limit");
+//                       } else {
+//                         db.add(
+//                           `money_${tokenDB}.pocket`,
+//                           Math.floor(finalCoins)
+//                         );
+//                         db.add(`lootedGold_${tokenDB}`, Math.floor(finalCoins)); // Use Math.floor() to remove decimals
+//                         // Use Math.floor() to remove decimals
+//                         const lootedGold =
+//                           db.fetch(`lootedGold_${tokenDB}`) || 0;
+//                         const apsData = [
+//                           {
+//                             amount: 100000,
+//                             aps: 100,
+//                             key: "acquiredAHeftySumOf100k",
+//                             title:
+//                               "ACHIEVEMENT COMPLETE - Acquired a hefty sum of 100k",
+//                           },
+//                           {
+//                             amount: 500000,
+//                             aps: 200,
+//                             key: "amassedAnImpressiveHaulOf500k",
+//                             title:
+//                               "ACHIEVEMENT COMPLETE - Amassed an impressive haul of 500k",
+//                           },
+//                           {
+//                             amount: 1000000,
+//                             aps: 500,
+//                             key: "reachedAmillionInRiches",
+//                             title:
+//                               "ACHIEVEMENT COMPLETE - Reached a million in riches",
+//                           },
+//                           {
+//                             amount: 10000000,
+//                             aps: 1000,
+//                             key: "glorious10mPlunder",
+//                             title:
+//                               "ACHIEVEMENT COMPLETE - Glorious 10-Million Plunder",
+//                           },
+//                           {
+//                             amount: 100000000,
+//                             aps: 1700,
+//                             key: "wealthConqueror",
+//                             title: "ACHIEVEMENT COMPLETE - Wealth Conqueror",
+//                           },
+//                         ];
 
-//                   // Remove the user's reaction
-//                   reaction.users.remove(user);
+//                         for (const achievement of apsData) {
+//                           const achievementKey = `${achievement.key}_${tokenDB}`;
+//                           if (
+//                             lootedGold >= achievement.amount &&
+//                             !db.fetch(achievementKey)
+//                           ) {
+//                             const apsEmbed = new Discord.MessageEmbed()
+//                               .setTitle(achievement.title)
+//                               .setDescription(
+//                                 `${user} You gained ${achievement.aps} aps`
+//                               )
+//                               .setColor("#8B0000");
+//                             db.set(achievementKey, true);
+//                             db.add(
+//                               `achievementPoints_${tokenDB}`,
+//                               achievement.aps
+//                             );
+//                             message.channel.send(apsEmbed);
+//                           }
+//                         }
+//                         finalCoins = Math.floor(finalCoins)
+//                           .toString()
+//                           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+//                         message.channel.send(
+//                           "```" +
+//                             `diff
+// You received : ${finalCoins} Gold Coins
+// ` +
+//                             "```"
+//                         );
+//                       }
+//                     }
+//                   }
 //                 }
+
+//                 const currentTime = Date.now();
+//                 db.set(`didntHitCooldown_${tokenDB}`, currentTime);
+//                 // Send an updated boss message
+//                 const bossHealthBar = createHealthBar(
+//                   infernothTheEmberwingBossHealth,
+//                   740860,
+//                   20
+//                 );
+//                 infernothTheEmberwingBossHealth =
+//                   infernothTheEmberwingBossHealth
+//                     .toString()
+//                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+//                 const infernothTheEmberwingBossEmbed =
+//                   new Discord.MessageEmbed()
+//                     .setColor("#8B0000")
+//                     .setAuthor("Infernoth, the Emberwing")
+//                     .addField(
+//                       `${infernothTheEmberwingBossHealth} / 740,860`,
+//                       `${bossHealthBar}`,
+//                       true
+//                     )
+//                     .setImage(
+//                       "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
+//                     )
+//                     .setFooter(
+//                       "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
+//                     );
+//                 await bossMessage.edit(infernothTheEmberwingBossEmbed);
+
+//                 // Remove the user's reaction
+//                 reaction.users.remove(user);
 //               });
 
 //               collector.on("end", () => {
@@ -1247,7 +1230,7 @@
 //                   "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
 //                 ) // You can use another image to show the boss
 //                 .setFooter(
-//                   "May your unwavering valor and indomitable might lead you to triumph!"
+//                   "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
 //                 );
 //               db.set(`infernothTheEmberwingBossSpawned_${tokenDB}`, true);
 //               const bossMessage = await message.channel.send(
@@ -1292,7 +1275,8 @@
 //                   function addFireSkillReaction() {
 //                     if (
 //                       !collector.ended &&
-//                       infernothTheEmberwingBossHealth > 0
+//                       infernothTheEmberwingBossHealth > 0 &&
+//                       infernothTheEmberwingBossHealth !== 740860
 //                     ) {
 //                       if (!reactedUsers.has(message.author.id)) {
 //                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -1771,7 +1755,7 @@
 //                           "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
 //                         )
 //                         .setFooter(
-//                           "May your unwavering valor and indomitable might lead you to triumph!"
+//                           "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
 //                         );
 //                     await bossMessage.edit(infernothTheEmberwingBossEmbed);
 //                   }
@@ -1789,7 +1773,7 @@
 //                   var infernothTheEmberwingBossHealth =
 //                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
 //                     740860;
-//                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`);
+//                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
 //                   db.subtract(
 //                     `infernothTheEmberwingBossHealth_${tokenDB}`,
 //                     weaponDamage / 4
@@ -2230,7 +2214,7 @@
 //                       "https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif"
 //                     )
 //                     .setFooter(
-//                       "May your unwavering valor and indomitable might lead you to triumph!"
+//                       "May your unshakable resolve and boundless fortitude blaze a trail to triumphant heights!"
 //                     );
 //                 await bossMessage.edit(infernothTheEmberwingBossEmbed);
 //                 // Remove the user's reaction

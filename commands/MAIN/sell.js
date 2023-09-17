@@ -19,7 +19,10 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
-
+    const soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
+    const bullet = db.fetch(`bullet_${tokenDB}`) || 0;
+    const mysticRuneOfResilience =
+      db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0;
     if (startFunction) {
       startFunction(message, args, client);
     }
@@ -1184,6 +1187,10 @@ module.exports = {
               .setTimestamp()
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            if (mysticRuneOfResilience == 0) {
+              db.set(`power_${tokenDB}`, (bullet * 0.48 + soldiers * 0.08) / 2);
+            }
+
             message.channel.send(mysticRuneOfResilienceSoldEmbed);
           }
           if (item == "auroraGaze") {

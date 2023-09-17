@@ -178,7 +178,7 @@ module.exports = {
 
             var phoenixKingPyroclastorBoss = "Phoenix King Pyroclastor";
             var randomGoldCoins = Math.floor(Math.random() * 10294) + 2035;
-            var goldLoot = db.fetch(`goldLoot_${tokenDB}`);
+            var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
             if (goldLoot == undefined || goldLoot == null) {
               goldLoot = 0;
             }
@@ -243,12 +243,10 @@ module.exports = {
               collector.on("collect", async (reaction, user) => {
                 if (reaction.emoji.name === "fireElement") {
                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
-                  setInterval(() => {
-                    db.subtract(
-                      `phoenixKingPyroclastorBossHealth_${tokenDB}`,
-                      weaponDamage / 1.54
-                    );
-                  }, 3500);
+                  db.subtract(
+                    `phoenixKingPyroclastorBossHealth_${tokenDB}`,
+                    weaponDamage / 1.54
+                  );
                   reaction.remove(user).catch(console.error);
                   var phoenixKingPyroclastorBossHealth =
                     db.fetch(`phoenixKingPyroclastorBossHealth_${tokenDB}`) ||
@@ -256,7 +254,8 @@ module.exports = {
                   function addFireSkillReaction() {
                     if (
                       !collector.ended &&
-                      phoenixKingPyroclastorBossHealth > 0
+                      phoenixKingPyroclastorBossHealth > 0 &&
+                      phoenixKingPyroclastorBossHealth !== 1850960
                     ) {
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -1043,7 +1042,8 @@ You received : ${finalCoins} Gold Coins
                   function addFireSkillReaction() {
                     if (
                       !collector.ended &&
-                      phoenixKingPyroclastorBossHealth > 0
+                      phoenixKingPyroclastorBossHealth > 0 &&
+                      phoenixKingPyroclastorBossHealth !== 1850960
                     ) {
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction

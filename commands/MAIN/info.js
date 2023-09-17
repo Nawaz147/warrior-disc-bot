@@ -316,10 +316,10 @@ module.exports = {
       if (balance == null || balance == undefined || balance === NaN) {
         balance = 0;
       }
-      if (mysticRuneOfResilience > 0) {
-        var power = power * 2;
-        db.set(`power.${tokenDB}`, [power]);
-      }
+      // if (mysticRuneOfResilience > 0) {
+      //   var power = power * 2;
+      //   db.set(`power.${tokenDB}`, [power]);
+      // }
       var netWorth =
         goldBar * prices.goldBar +
         texarus * prices.texarus +
