@@ -22,8 +22,8 @@ function startFunction(message, args, client) {
         .setDescription(
           `
 Ready to jump into the exciting world of Valorium? Hang on a moment – it appears your Valorium token hasn't been registered just yet.
-Don't worry, setting things up is a breeze! Just type +token me and unlock the gates to amazing adventures in no time. If you're curious why things seem restricted, it's all due to that token magic. Once you enter +token me, those doors will swing wide open, and your Valorium journey will begin!
-No time to waste! Type +token me like a pro and let's kickstart your adventure. See you on the heroic side! 🚀🗡️`
+Don't worry, setting things up is a breeze! Just type token me.v and unlock the gates to amazing adventures in no time. If you're curious why things seem restricted, it's all due to that token magic. Once you enter token me.v, those doors will swing wide open, and your Valorium journey will begin!
+No time to waste! Type token me.v like a pro and let's kickstart your adventure. See you on the heroic side! 🚀🗡️`
         )
         .setColor(`#6A1B9A`);
       message.channel.send(tokenEmbed);
@@ -35,7 +35,7 @@ No time to waste! Type +token me like a pro and let's kickstart your adventure. 
         .setDescription(
           `
 Attention, noble traveler!
-While your intentions are valiant, it appears that the Valorium token for this user has not yet been registered. The path to adventure remains sealed until they personally type +token me to activate their entry into the world of Valorium.
+While your intentions are valiant, it appears that the Valorium token for this user has not yet been registered. The path to adventure remains sealed until they personally type token me.v to activate their entry into the world of Valorium.
 Feel free to share this guidance with them, so they can step into their destined role as a hero and unlock the realms of possibility that await.
 Safe travels, and may the winds of fortune guide your way!      
 `

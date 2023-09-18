@@ -30,6 +30,13 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (17 SEP 2023)**        
+**+** Bug fixes
+**+** Preparing for new event
+-------------------------------------------
+**CONTENT UPDATE (16 SEP 2023)**        
+**+** React to kill boss launched !!
+-------------------------------------------
 **CONTENT UPDATE (13 SEP 2023)**        
 **+** Dagger of death new level launched (level 10)!
 **+** The bot works on suffix now instead of prefix to make it unique!

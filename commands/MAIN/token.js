@@ -12,7 +12,7 @@ module.exports = {
     var currentUser = message.author;
     var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!args[0]) {
-      message.channel.send("Usage: +token me");
+      message.channel.send("Usage: token me.v");
       return;
     } else if (update == true && message.author.id !== "768747976767832084") {
       const updateInProgressEmbed = new Discord.MessageEmbed()
@@ -65,7 +65,7 @@ The bot is currently undergoing an update. Please be patient!
           const guide1Embed = new Discord.MessageEmbed()
             .setTitle("Guide")
             .setDescription(
-              `Type +tos to check terms of service and type +tos accept to accept and get access to playing `
+              `Type tos.v to check terms of service and type tos accept.v to accept and get access to playing `
             )
             .setColor(`#0000FF`);
           message.channel.send(guide1Embed);

@@ -41,13 +41,9 @@ You already have it.
             .setTitle("Guide")
             .setDescription(
               `
-Type +equip bow ventorian,
-Type +play hit to hit event boss,
-You need to hit the boss till it dies,
-example : whenever you hit the boss it will show :
-1. Total health of boss
-2. Current health of boss
-3. Your weapon damage
+Type equip ventorianBow.v,
+Type play hit.v to play event,
+example : react down of the embed to hit boss after typing play hit.v
 Every hit boss life decreases as per your weapon damage,
 For commands list and promocodes go to our website : https://valorium8.web.app
 `

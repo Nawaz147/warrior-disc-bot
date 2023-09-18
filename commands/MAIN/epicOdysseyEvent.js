@@ -28,7 +28,7 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       if (args[0] !== "hit") {
-        return message.channel.send("Invalid command. Use: `+play hit`");
+        return message.channel.send("Invalid command. Use: `play hit.v`");
       } else if (args[0] == "hit") {
         const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
         const natureDaggersEquipped = db.fetch(
@@ -96,7 +96,7 @@ module.exports = {
             .setColor("#00A86B") // A lively green color
             .setTitle("🗡️ Gear Up for Battle 🗡️") // A title that invokes readiness
             .setDescription(
-              "Prepare to confront the mighty boss by arming yourself with a weapon. If you lack one, type '+gw' to claim a complimentary weapon."
+              "Prepare to confront the mighty boss by arming yourself with a weapon. If you lack one, type 'gw.v' to claim a complimentary weapon."
             );
 
           message.channel.send(weaponEmbed);
@@ -134,7 +134,6 @@ module.exports = {
             var phoenixKingPyroclastorBossHealth =
               db.fetch(`phoenixKingPyroclastorBossHealth_${tokenDB}`) ||
               1850960;
-
             function createHealthBar(health, maxHealth, barLength = 20) {
               // Ensure health and maxHealth are non-negative
               health = Math.max(0, health);
@@ -144,9 +143,22 @@ module.exports = {
               const progressBlocks = Math.floor((barLength * percentage) / 100);
               const remainingBlocks = barLength - progressBlocks;
 
-              const progressBar =
-                "█".repeat(progressBlocks) + "░".repeat(remainingBlocks);
-              return `${progressBar}`;
+              const filledEmoji = "<:dark:1152994342567428187>"; // Replace with your custom emoji syntax
+              const emptyEmoji = "<:light:1152993018111070328>"; // Replace with your custom emoji syntax
+
+              // Use Discord Markdown syntax to display custom emojis without spacing issues
+              const narrowFilled = filledEmoji + ""; // Zero-width joiner to reduce spacing
+              const narrowEmpty = emptyEmoji + "‌"; // Zero-width joiner to reduce spacing
+
+              let progressBar = "";
+              for (let i = 0; i < progressBlocks; i++) {
+                progressBar += narrowFilled;
+              }
+
+              for (let i = 0; i < remainingBlocks; i++) {
+                progressBar += narrowEmpty;
+              }
+              return progressBar;
             }
             var phoenixKingPyroclastorBossHealth =
               db.fetch(`phoenixKingPyroclastorBossHealth_${tokenDB}`) ||
@@ -234,7 +246,7 @@ module.exports = {
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
-                time: 120000,
+                time: 500000000,
               });
               const reactedUsers = new Set(); // Initialize an empty set to keep track of users who reacted
 
@@ -1022,7 +1034,7 @@ You received : ${finalCoins} Gold Coins
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
-                time: 120000,
+                time: 500000000,
               });
               const reactedUsers = new Set(); // Initialize an empty set to keep track of users who reacted
 
