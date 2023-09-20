@@ -28,7 +28,7 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       if (args[0] !== "hit") {
-        return message.channel.send("Invalid command. Use: `play hit.v`");
+        return message.channel.send("Invalid command. Use: `play hit.x`");
       } else if (args[0] == "hit") {
         const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
         const natureDaggersEquipped = db.fetch(

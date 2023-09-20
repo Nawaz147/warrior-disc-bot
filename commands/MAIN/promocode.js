@@ -87,13 +87,15 @@ module.exports = {
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           case "PXLTO8":
-            // Give 100 platinum to user
+            // Give 100 ruix to user
             var promocodeReedemedEmbed = new Discord.MessageEmbed()
               .setTitle("Promocode redeemed (PXLTO8)")
-              .setDescription(`You received : 100 platinum`)
+              .setDescription(
+                `You received : 100 ruix <a:ruix:1153892039742726246>`
+              )
               .setColor(`#00FF00`);
             message.channel.send(promocodeReedemedEmbed);
-            db.add(`platinum_${tokenDB}`, 100);
+            db.add(`ruix_${tokenDB}`, 100);
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             break;
           default:

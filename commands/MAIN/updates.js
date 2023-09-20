@@ -30,21 +30,21 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
+**CONTENT UPDATE (19 SEP 2023)**        
+**+** The bot suffix changed to .x (eg : bal.x)
+**+** Bot logo changed
+-------------------------------------------
+**CONTENT UPDATE (18 SEP 2023)**        
+**+** Bug fixes
+**+** Inventory reaction slight logic change
+-------------------------------------------
 **CONTENT UPDATE (17 SEP 2023)**        
 **+** Bug fixes
 **+** Preparing for new event
+**+** Vanities can now be sold for full price without affecting networth
 -------------------------------------------
 **CONTENT UPDATE (16 SEP 2023)**        
 **+** React to kill boss launched !!
--------------------------------------------
-**CONTENT UPDATE (13 SEP 2023)**        
-**+** Dagger of death new level launched (level 10)!
-**+** The bot works on suffix now instead of prefix to make it unique!
-**+** The suffix is (.v) [usage eg : bal.v]
--------------------------------------------
-**CONTENT UPDATE (12 SEP 2023)**        
-**+** Epic odyssey event started (type +play hit to play)
-**+** Type +event to check event info
 -------------------------------------------
         `
         )

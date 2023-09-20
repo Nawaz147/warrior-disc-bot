@@ -18,14 +18,14 @@ module.exports = {
           "Please mention a user account to delete from Oyo economy"
         );
       }
-      const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+      const tokenDB = db.fetch(`${user.id}.valoriumToken`);
       const reason = args[1];
       if (!reason) {
         message.channel.send("Please provide a reason");
       }
 
       if (user && reason) {
-        db.delete(`${user.id}.oyOtoken`);
+        db.delete(`${user.id}.valoriumToken`);
         message.channel.send(
           `You deleted <@${user.id}>'s account from Valorium discord bot for - ${reason}`
         );

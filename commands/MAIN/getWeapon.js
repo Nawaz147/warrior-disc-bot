@@ -41,9 +41,9 @@ You already have it.
             .setTitle("Guide")
             .setDescription(
               `
-Type equip ventorianBow.v,
-Type play hit.v to play event,
-example : react down of the embed to hit boss after typing play hit.v
+Type equip ventorianBow.x,
+Type play hit.x to play event,
+example : react down of the embed to hit boss after typing play hit.x
 Every hit boss life decreases as per your weapon damage,
 For commands list and promocodes go to our website : https://valorium8.web.app
 `

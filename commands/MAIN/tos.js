@@ -19,7 +19,7 @@ module.exports = {
 
     if (!tokenDB) {
       message.channel.send(
-        `${user} your Valorium token is not registered yet, type token me.v to set your Valorium token`
+        `${user} your Valorium token is not registered yet, type token me.x to set your Valorium token`
       );
     } else if (banned == true && user == currentUser) {
       const banEmbed = new Discord.MessageEmbed()
@@ -72,7 +72,7 @@ The bot is currently undergoing an update. Please be patient!
             const guide2Embed = new Discord.MessageEmbed()
               .setTitle("Guide")
               .setDescription(
-                `Type gw.v to get your free weapon "Ventorian bow of ventor"`
+                `Type gw.x to get your free weapon "Ventorian bow of ventor"`
               )
               .setColor(`#0000FF`);
             message.channel.send(guide2Embed);
@@ -115,7 +115,7 @@ The bot is currently undergoing an update. Please be patient!
           var tosEmbed = tosEmbed.setFooter(acceptedFooter);
           message.channel.send(tosEmbed);
         } else {
-          var acceptedFooter = `${user.username}, Type tos accept.v if you agree to abide by the Terms of Service.`;
+          var acceptedFooter = `${user.username}, Type tos accept.x if you agree to abide by the Terms of Service.`;
           var tosEmbed = tosEmbed.setFooter(acceptedFooter);
           message.channel.send(tosEmbed);
         }

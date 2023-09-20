@@ -15,7 +15,7 @@ module.exports = {
         message.mentions.users.first() || client.users.cache.get(args[0]);
       if (!user) {
         return message.channel.send(
-          "Please mention a user account to unban from Valorium economy"
+          "Please mention a user account to unban from Rune warden discord bot"
         );
       }
       const tokenDB = db.fetch(`${user.id}.valoriumToken`);
@@ -36,7 +36,7 @@ module.exports = {
             .setTitle("ACCOUNT UNBANNED !!")
             .setDescription(
               `
-🔓 Unbanned: Back to Valorium Economy
+🔓 Unbanned: Back to Rune warden Economy
 👤 Unbanned by: <@${message.author.id}>
               `
             )

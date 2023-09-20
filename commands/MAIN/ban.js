@@ -7,7 +7,7 @@ const startFunction = require("../../startCommandFunction.js");
 module.exports = {
   name: "ban",
   aliases: ["banUser", "ba", "Ban"],
-  description: "To ban someone from Valorium Discord bot",
+  description: "To ban someone from Rune warden Discord bot",
   usage: "ban",
   category: "Economy",
   run: async (client, message, args) => {
@@ -26,7 +26,7 @@ module.exports = {
       if (!user) {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
         return message.channel.send(
-          "Please mention a user account to ban from Valorium Discord bot"
+          "Please mention a user account to ban from Rune warden Discord bot"
         );
       } else if (banned == true) {
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
@@ -42,7 +42,7 @@ module.exports = {
         const bannedUserEmbed = new Discord.MessageEmbed()
           .setDescription(
             `
-You banned ${user} from Valorium discord bot
+You banned ${user} from Rune warden discord bot
 `
           )
           .setColor(`#8B0000`)
@@ -53,7 +53,7 @@ You banned ${user} from Valorium discord bot
           .setTitle("ACCOUNT BANNED !!")
           .setDescription(
             `
-You have been banned From Valorium Discord bot |
+You have been banned From Rune warden Discord bot |
 Reason : ${reason} |
 Banned by : <@${message.author.id}> |
 `

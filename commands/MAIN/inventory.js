@@ -300,6 +300,7 @@ module.exports = {
             "<:titlelogo:1148602133445353515> Monarch slayer":
               "monarchSlayerTitle",
           };
+
           function showCurrentPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = Math.min(
@@ -349,20 +350,12 @@ module.exports = {
 
             collector.on("collect", (reaction) => {
               reaction.users.remove(message.author).catch(console.error);
-
-              if (
-                reaction.emoji.name === "rightarrow" &&
-                currentPage < totalPages
-              ) {
-                currentPage++;
-                inventoryMessage.edit(showCurrentPage());
-              } else if (
-                reaction.emoji.name === "leftarrow" &&
-                currentPage > 1
-              ) {
-                currentPage--;
-                inventoryMessage.edit(showCurrentPage());
+              if (reaction.emoji.name === "rightarrow") {
+                currentPage = (currentPage % totalPages) + 1;
+              } else if (reaction.emoji.name === "leftarrow") {
+                currentPage = ((currentPage - 2 + totalPages) % totalPages) + 1;
               }
+              inventoryMessage.edit(showCurrentPage());
             });
 
             collector.on("end", () => {

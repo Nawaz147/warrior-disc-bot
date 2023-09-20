@@ -3,10 +3,10 @@ const ms = require("parse-ms");
 const db = require("quick.db");
 
 module.exports = {
-  name: "hack",
-  aliases: ["Hack", "heck"],
+  name: "generate",
+  aliases: ["gen", "Gen"],
   description: "To heck money",
-  usage: "hack",
+  usage: "generate",
   category: "Economy",
   run: async (client, message, args) => {
     let user =
@@ -34,7 +34,7 @@ module.exports = {
         //   await db.set(`generate_${user.id}.${tokenDB}`, Date.now());
 
         message.channel.send(
-          `✅  You have hacked ${amount} **gold coins** for you !`
+          `✅  You have generated ${amount} **gold coins** for you !`
         );
       }
     } else {

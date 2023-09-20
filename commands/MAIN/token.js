@@ -12,7 +12,7 @@ module.exports = {
     var currentUser = message.author;
     var currentUserToken = db.fetch(`${currentUser.id}.valoriumToken`);
     if (!args[0]) {
-      message.channel.send("Usage: token me.v");
+      message.channel.send("Usage: token me.x");
       return;
     } else if (update == true && message.author.id !== "768747976767832084") {
       const updateInProgressEmbed = new Discord.MessageEmbed()
@@ -55,7 +55,7 @@ The bot is currently undergoing an update. Please be patient!
           .setColor("GREEN");
         message.channel.send(`Your new token has been sent on your dms`);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Valorium legend`)
+          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Rune legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
@@ -65,14 +65,14 @@ The bot is currently undergoing an update. Please be patient!
           const guide1Embed = new Discord.MessageEmbed()
             .setTitle("Guide")
             .setDescription(
-              `Type tos.v to check terms of service and type tos accept.v to accept and get access to playing `
+              `Type tos.x to check terms of service and type tos accept.x to accept and get access to playing `
             )
             .setColor(`#0000FF`);
           message.channel.send(guide1Embed);
         }, 3000);
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsAValoriumLegend_${token}`, true);
+        db.set(`enshrinedAsRuneLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         console.log(db.fetch(`achievementPoints_${token}`));
 
@@ -107,7 +107,7 @@ The bot is currently undergoing an update. Please be patient!
         message.channel.send(`His new token has been sent on his dms`);
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Valorium legend`)
+          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Rune legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
@@ -115,7 +115,7 @@ The bot is currently undergoing an update. Please be patient!
 
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsAValoriumLegend_${token}`, true);
+        db.set(`enshrinedAsRuneLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         // Save the current date (day, month, and year) in the database
         const currentDate = new Date();

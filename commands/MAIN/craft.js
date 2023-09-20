@@ -32,9 +32,9 @@ module.exports = {
           .setTitle(`Craft`)
           .setDescription(
             `
-Super Golem set : (+craft superGolem)
-Frozen set : (+craft frozen)
-Dawnfire set : (+craft dawnfire)
+Super Golem set : (craft superGolem.v)
+Frozen set : (craft frozen.v)
+Dawnfire set : (craft dawnfire.v)
 `
           )
           .setColor(`#ffffff`);

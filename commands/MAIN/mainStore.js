@@ -17,7 +17,7 @@ module.exports = {
     let cratePieces = db.fetch(`cratePieces`) || totalCratePieces;
     let keyPieces = db.fetch(`keyPieces`) || totalKeyPieces;
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
-    const Platinum = db.fetch(`platinum_${tokenDB}`);
+    var ruix = db.fetch(`ruix_${tokenDB}`);
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
@@ -30,11 +30,11 @@ module.exports = {
       const lockedCrates = 300; // Number of locked crates per batch
       const crateOpenInterval = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
       const goldChance = 85; // 85% chance to get gold
-      const platinumChance = 10; // 10% chance to get platinum
+      const ruixChance = 10; // 10% chance to get ruix
       const vanityChance = 3; // 3.5% chance to get vanity
       const weaponChance = 2; // 1.5% chance to get weapons
-      const minPlatinum = 5;
-      const maxPlatinum = 25;
+      const minruix = 5;
+      const maxruix = 25;
       const weapons = [
         "Texarus the demonished staff",
         "Waetra the freezed bow",
@@ -47,7 +47,7 @@ module.exports = {
       const maxGold = 12000;
       const lockedCratePrice = 10;
       const keyPrice = 100;
-      // Price of locked crate of energy in platinum
+      // Price of locked crate of energy in ruix
 
       // Check if the user wants to buy a locked crate
       if (args[0] === "buy" && args[1] === "lockedCrateOfEnergy") {
@@ -83,12 +83,12 @@ module.exports = {
             db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             return;
           } else {
-            if (Platinum >= lockedCratePrice) {
+            if (ruix >= lockedCratePrice) {
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
-              // Deduct the price from user's platinum
-              db.subtract(`platinum_${tokenDB}`, lockedCratePrice);
+              // Deduct the price from user's ruix
+              db.subtract(`ruix_${tokenDB}`, lockedCratePrice);
 
-              // Calculate the type of reward (gold, platinum, vanity, or weapon)
+              // Calculate the type of reward (gold, ruix, vanity, or weapon)
               let reward = "";
               const rewardType = Math.floor(Math.random() * 100);
 
@@ -102,17 +102,14 @@ module.exports = {
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 reward = `${goldAmount} Gold Coins`;
-              } else if (rewardType < goldChance + platinumChance) {
-                const platinumAmount = Math.floor(
-                  Math.random() * (maxPlatinum - minPlatinum + 1) + minPlatinum
+              } else if (rewardType < goldChance + ruixChance) {
+                const ruixAmount = Math.floor(
+                  Math.random() * (maxruix - minruix + 1) + minruix
                 );
-                // Add platinum to the user's tokenDB
-                db.add(`platinum_${tokenDB}`, platinumAmount);
-                reward = `${platinumAmount} Platinum`;
-              } else if (
-                rewardType <
-                goldChance + platinumChance + vanityChance
-              ) {
+                // Add ruix to the user's tokenDB
+                db.add(`ruix_${tokenDB}`, ruixAmount);
+                reward = `${ruixAmount} ruix`;
+              } else if (rewardType < goldChance + ruixChance + vanityChance) {
                 const vanities = [
                   "Medusa set",
                   "Supreme magical set",
@@ -130,7 +127,7 @@ module.exports = {
                 reward = randomVanity;
               } else if (
                 rewardType <
-                goldChance + platinumChance + vanityChance + weaponChance
+                goldChance + ruixChance + vanityChance + weaponChance
               ) {
                 const randomWeapon =
                   weapons[Math.floor(Math.random() * weapons.length)];
@@ -165,22 +162,22 @@ module.exports = {
               db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
             } else {
               message.channel.send(
-                `${user}, you don't have enough platinum to buy the locked crate of energy.`
+                `${user}, you don't have enough ruix to buy the locked crate of energy.`
               );
               db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
             }
           }
         }
       } else if (args[0] == "buy" && args[1] == "key") {
-        var platinum = db.fetch(`platinum_${tokenDB}`) || 0;
-        if (platinum == 100 || platinum > 100) {
+        var ruix = db.fetch(`ruix_${tokenDB}`) || 0;
+        if (ruix == 100 || ruix > 100) {
           const keyPurchasedEmbed = new Discord.MessageEmbed()
             .setTitle(`Purchase successful`)
             .setDescription(`You purchased 1x key`)
             .setColor(`#008000`);
           message.channel.send(keyPurchasedEmbed);
           db.add(`key_${tokenDB}`, 1);
-          db.subtract(`platinum_${tokenDB}`, keyPrice);
+          db.subtract(`ruix_${tokenDB}`, keyPrice);
           const cooldownDuration = 2000;
           db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
         }
@@ -211,8 +208,8 @@ module.exports = {
           .setTitle("Store")
           .setDescription(
             `
-**Locked crate of energy** - ${lockedCratePrice} Platinum [ID : lockedCrateOfEnergy] (${cratePieces} / 300 left)
-**Key** - ${keyPrice} Platinum [ID : key] (${keyPieces} / 300 left)
+**Locked crate of energy** - ${lockedCratePrice} ruix [ID : lockedCrateOfEnergy] (${cratePieces} / 300 left)
+**Key** - ${keyPrice} ruix [ID : key] (${keyPieces} / 300 left)
 `
           )
           .setFooter(`Pieces reset in ${timeLeftString}`)

@@ -31,18 +31,8 @@ module.exports = {
 
     let embed = new MessageEmbed()
 
-      .setTitle(`**[Support Server]**`)
-      .setDescription(
-        `Hey My name is **${message.client.user.username}** and i am an RPG bot`
-      )
-
       .setTitle(`${message.client.user.username} Stats`)
       .addFields(
-        {
-          name: "⚙ Servers:",
-          value: `\`\`\`${servers_count}\`\`\``,
-          inline: true,
-        },
         {
           name: "👤 Users:",
           value: `\`\`\`${sum}\`\`\``,
@@ -74,8 +64,7 @@ module.exports = {
         },
         { name: " Bot Owner:", value: `\`\`\`Nawaz#4904\`\`\`` }
       )
-      .setColor("3498DB")
-      .setFooter("Thx For Choosing Valorium");
+      .setColor("3498DB");
 
     message.react("✅");
     return message.channel.send(embed);

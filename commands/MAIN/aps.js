@@ -26,10 +26,10 @@ module.exports = {
       const achievementPoints = db.fetch(`achievementPoints_${tokenDB}`) || 0;
       const allAchievements = [
         {
-          name: "Enshrined as a Valorium Legend (200 APS)",
-          description: "Register yourself with Valorium discord",
+          name: "Enshrined as a Rune Legend (200 APS)",
+          description: "Register yourself with Rune warden discord bot",
           aps: 200,
-          achieved: db.fetch(`enshrinedAsAValoriumLegend_${tokenDB}`) || false,
+          achieved: db.fetch(`enshrinedAsARuneLegend_${tokenDB}`) || false,
         },
         {
           name: "First Blood (500 APS)",
@@ -144,6 +144,7 @@ module.exports = {
         embed.setDescription(
           "Congratulations! You have completed all achievements."
         );
+        embed.setTitle(`${user.username}`);
       } else {
         for (const achievement of remainingAchievements) {
           let progress = "";

@@ -28,7 +28,7 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       if (args[0] !== "hit") {
-        return message.channel.send("Invalid command. Use: `play hit.v`");
+        return message.channel.send("Invalid command. Use: `play hit.x`");
       } else if (args[0] == "hit") {
         const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
         const natureDaggersEquipped = db.fetch(
@@ -96,7 +96,7 @@ module.exports = {
             .setColor("#00A86B") // A lively green color
             .setTitle("🗡️ Gear Up for Battle 🗡️") // A title that invokes readiness
             .setDescription(
-              "Prepare to confront the mighty boss by arming yourself with a weapon. If you lack one, type 'gw.v' to claim a complimentary weapon."
+              "Prepare to confront the mighty boss by arming yourself with a weapon. If you lack one, type 'gw.x' to claim a complimentary weapon."
             );
 
           message.channel.send(weaponEmbed);

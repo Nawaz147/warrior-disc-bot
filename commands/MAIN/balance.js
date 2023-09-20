@@ -26,16 +26,17 @@ module.exports = {
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       bal = await db.fetch(`money_${tokenDB}.pocket`);
+      platinum = await db.fetch(`platinum_${tokenDB}`);
       // goldenTokens = db.fetch(`goldenTokens_${tokenDB}`);
       // if (goldenTokens === null) goldenTokens = "0";
       // if (goldenTokens === undefined) goldenTokens = "0";
       if (bal === null) bal = "0";
       if (bal === undefined) bal = "0";
       bal = bal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      platinum = await db.fetch(`platinum_${tokenDB}`);
-      if (platinum === null) platinum = "0";
-      if (platinum === undefined) platinum = "0";
-      platinum = platinum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      ruix = await db.fetch(`ruix_${tokenDB}`);
+      if (ruix === null) ruix = "0";
+      if (ruix === undefined) ruix = "0";
+      ruix = ruix.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       keys = await db.fetch(`key_${tokenDB}`);
       if (keys === null) keys = "0";
@@ -67,7 +68,7 @@ module.exports = {
       // Add a background image
       ctx.globalAlpha = 0.5; // Adjust the opacity value here (e.g., 0.5 for 50% opacity)
       const background = await Canvas.loadImage(
-        "https://i.ibb.co/d7160bY/galaxy.jpg"
+        "https://i.ibb.co/NnD4KZk/517194.jpg"
       );
 
       ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -87,24 +88,24 @@ module.exports = {
       // Calculate the fixed position for each text
       const textYPositions = {
         goldCoins: 85,
-        platinum: 125,
+        ruix: 125,
         keys: 160,
       };
 
       // Write the other texts in their fixed positions
       ctx.fillStyle = "#E1B530";
       ctx.fillText(`Gold coins :`, 55, textYPositions.goldCoins);
-      ctx.fillStyle = "#E5E4E2";
-      ctx.fillText(`Platinum :`, 50, textYPositions.platinum);
-      ctx.fillStyle = "#FF0000";
+      ctx.fillStyle = "#00FF00";
+      ctx.fillText(`Ruix :`, 34, textYPositions.ruix);
+      ctx.fillStyle = "#00E1DF";
       ctx.fillText(`Keys :`, 34, textYPositions.keys);
 
       // Continue writing the values at their appropriate locations
       ctx.fillStyle = "#E1B530";
       ctx.fillText(bal, 150, textYPositions.goldCoins); // Adjust the x-coordinate here
-      ctx.fillStyle = "#E5E4E2";
-      ctx.fillText(platinum, 150, textYPositions.platinum); // Adjust the x-coordinate here
-      ctx.fillStyle = "#FF0000";
+      ctx.fillStyle = "#00FF00";
+      ctx.fillText(ruix, 150, textYPositions.ruix); // Adjust the x-coordinate here
+      ctx.fillStyle = "#00E1DF";
       ctx.fillText(keys, 150, textYPositions.keys); // Adjust the x-coordinate here
 
       // Continue writing the remaining text with regular font and original x-coordinate
@@ -123,7 +124,8 @@ module.exports = {
       );
 
       bal = db.fetch(`money_${tokenDB}.pocket`);
-      platinum = db.fetch(`platinum_${tokenDB}`);
+      ruix = db.fetch(`ruix_${tokenDB}`);
+      // message.channel.send(`<a:ruix:1153892039742726246>`);
     }
   },
 };
