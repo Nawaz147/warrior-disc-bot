@@ -9,6 +9,7 @@ const natureDaggerss = require("../../weaponStats/natureDaggers.json");
 const ventorianBoww = require("../../weaponStats/ventorianBow.json");
 const immortalGunn = require("../../weaponStats/immortalGun.json");
 const daggerOfDeathh = require("../../weaponStats/daggerOfDeath.json");
+const moonsShineOfMetalSwordd = require("../../weaponStats/moonsShineOfMetalSword.json");
 const moneyCap = require("../../config.json");
 const startFunction = require("../../startCommandFunction.js");
 module.exports = {
@@ -50,13 +51,18 @@ module.exports = {
         const daggerOfDeathEquipped = db.fetch(
           `equippedDaggerOfDeath_${tokenDB}`
         );
+        const moonsShineOfMetalSword = db.fetch(
+          `moonsShineOfMetalSword_${tokenDB}`
+        );
+        const moonsShineOfMetalSwordEquipped = db.fetch(
+          `equippedMoonsShineOfMetalSword_${tokenDB}`
+        );
         if (natureDaggersEquipped == "True") {
           var weaponDamage = natureDaggerss.Damage;
           db.set(`weaponDamage_${tokenDB}`, weaponDamage);
           var weaponEquipped = true;
         } else if (ventorianBowEquipped == "True") {
           var weaponDamage = ventorianBoww.Damage;
-          db.set(`weaponDamage_${tokenDB}`, weaponDamage);
           db.set(`weaponDamage_${tokenDB}`, weaponDamage);
           var weaponEquipped = true;
         } else if (waetraEquipped == "True") {
@@ -90,6 +96,10 @@ module.exports = {
             db.set(`weaponDamage_${tokenDB}`, weaponDamage);
             weaponEquipped = true;
           }
+        } else if (moonsShineOfMetalSwordEquipped == "True") {
+          var weaponDamage = moonsShineOfMetalSwordd.Damage;
+          db.set(`weaponDamage_${tokenDB}`, weaponDamage);
+          var weaponEquipped = true;
         }
         if (weaponEquipped !== true) {
           const weaponEmbed = new Discord.MessageEmbed()
@@ -121,7 +131,7 @@ module.exports = {
               function resetBossHealth() {
                 db.set(
                   `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                  13506801
+                  136905102
                 );
                 db.set(`didntHitCooldown_${tokenDB}`, Date.now());
 
@@ -138,7 +148,7 @@ module.exports = {
 
               var eldrazurTheAbyssalTyrantBossHealth =
                 db.fetch(`eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`) ||
-                13506801;
+                136905102;
               function createHealthBar(health, maxHealth, barLength = 20) {
                 // Ensure health and maxHealth are non-negative
                 health = Math.max(0, health);
@@ -169,24 +179,24 @@ module.exports = {
               }
               var eldrazurTheAbyssalTyrantBossHealth =
                 db.fetch(`eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`) ||
-                13506801;
+                136905102;
               const bossHealthBar = createHealthBar(
                 eldrazurTheAbyssalTyrantBossHealth,
-                13506801,
+                136905102,
                 20
               );
 
               var currentBossHealth =
                 db.fetch(`eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`) ||
-                13506801;
+                136905102;
 
               if (currentBossHealth > "0") {
                 currentBossHealth = currentBossHealth
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                var bossHealthProgress = `${currentBossHealth} / 13,506,801`;
+                var bossHealthProgress = `${currentBossHealth} / 136,905,102`;
               } else {
-                var bossHealthProgress = `0 / 13,506,801`;
+                var bossHealthProgress = `0 / 136,905,102`;
               }
               if (
                 eldrazurTheAbyssalTyrantBossHealth == null ||
@@ -194,7 +204,7 @@ module.exports = {
               ) {
                 db.set(
                   `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                  13506801
+                  136905102
                 );
               }
 
@@ -221,7 +231,7 @@ module.exports = {
               if (bossSpawned == true) {
                 const bossHealthBar = createHealthBar(
                   eldrazurTheAbyssalTyrantBossHealth,
-                  13506801,
+                  136905102,
                   20
                 );
                 const eldrazurTheAbyssalTyrantBossEmbed =
@@ -279,12 +289,12 @@ module.exports = {
                       var eldrazurTheAbyssalTyrantBossHealth =
                         db.fetch(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                        ) || 13506801;
+                        ) || 136905102;
                       function addOrbSkillReaction() {
                         if (
                           !collector.ended &&
                           eldrazurTheAbyssalTyrantBossHealth > 0 &&
-                          eldrazurTheAbyssalTyrantBossHealth !== 13506801
+                          eldrazurTheAbyssalTyrantBossHealth !== 136905102
                         ) {
                           if (!reactedUsers.has(message.author.id)) {
                             reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -304,10 +314,10 @@ module.exports = {
                                 var eldrazurTheAbyssalTyrantBossHealth =
                                   db.fetch(
                                     `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                                  ) || 13506801;
+                                  ) || 136905102;
                                 if (
                                   eldrazurTheAbyssalTyrantBossHealth <
-                                    13506801 &&
+                                    136905102 &&
                                   eldrazurTheAbyssalTyrantBossHealth > 0
                                 ) {
                                   db.set(`orbReactionInterval_${tokenDB}`, 0);
@@ -343,7 +353,7 @@ module.exports = {
                         bossMessage.reactions.removeAll();
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         db.set(
                           `eldrazurTheAbyssalTyrantBossSpawned_${tokenDB}`,
@@ -371,7 +381,7 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 38) + 1;
+                        var chance = Math.floor(Math.random() * 32) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -498,7 +508,7 @@ module.exports = {
                         db.set(`cooldown_${tokenDB}`, Date.now());
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         if (chance == 1) {
                           message.channel.send(
@@ -664,7 +674,7 @@ module.exports = {
                       db.set(`didntHitCooldown_${tokenDB}`, currentTime);
                       const bossHealthBar = createHealthBar(
                         eldrazurTheAbyssalTyrantBossHealth,
-                        13506801,
+                        136905102,
                         20
                       );
                       eldrazurTheAbyssalTyrantBossHealth =
@@ -677,7 +687,7 @@ module.exports = {
                           .setColor("#6A0DAD")
                           .setAuthor("Eldra'zur , the abyssal tyrant")
                           .addField(
-                            `${eldrazurTheAbyssalTyrantBossHealth} / 13,506,801`,
+                            `${eldrazurTheAbyssalTyrantBossHealth} / 136,905,102`,
                             `${bossHealthBar}`,
                             true
                           )
@@ -697,7 +707,7 @@ module.exports = {
                       );
                       // const bossHealthBar = createHealthBar(
                       //   eldrazurTheAbyssalTyrantBossHealth,
-                      //   13506801,
+                      //   136905102,
                       //   20
                       // );
                       // It's not on cooldown, proceed to deal damage
@@ -709,7 +719,7 @@ module.exports = {
                       var eldrazurTheAbyssalTyrantBossHealth =
                         db.fetch(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                        ) || 13506801;
+                        ) || 136905102;
 
                       if (
                         eldrazurTheAbyssalTyrantBossHealth < 0 ||
@@ -721,7 +731,7 @@ module.exports = {
                         bossMessage.reactions.removeAll();
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         db.set(
                           `eldrazurTheAbyssalTyrantBossSpawned_${tokenDB}`,
@@ -749,7 +759,7 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 38) + 1;
+                        var chance = Math.floor(Math.random() * 32) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -876,7 +886,7 @@ module.exports = {
                         db.set(`cooldown_${tokenDB}`, Date.now());
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         if (chance == 1) {
                           message.channel.send(
@@ -1048,7 +1058,7 @@ module.exports = {
                     // Send an updated boss message
                     const bossHealthBar = createHealthBar(
                       eldrazurTheAbyssalTyrantBossHealth,
-                      13506801,
+                      136905102,
                       20
                     );
                     eldrazurTheAbyssalTyrantBossHealth =
@@ -1061,7 +1071,7 @@ module.exports = {
                         .setColor("#6A0DAD")
                         .setAuthor("Eldra'zur , the abyssal tyrant")
                         .addField(
-                          `${eldrazurTheAbyssalTyrantBossHealth} / 13,506,801`,
+                          `${eldrazurTheAbyssalTyrantBossHealth} / 136,905,102`,
                           `${bossHealthBar}`,
                           true
                         )
@@ -1086,7 +1096,7 @@ module.exports = {
                 var orbSkill = "<a:orbSkill:1153322063306686604>";
                 const bossHealthBar = createHealthBar(
                   eldrazurTheAbyssalTyrantBossHealth,
-                  13506801,
+                  136905102,
                   20
                 );
                 const eldrazurTheAbyssalTyrantBossEmbed =
@@ -1141,12 +1151,12 @@ module.exports = {
                       var eldrazurTheAbyssalTyrantBossHealth =
                         db.fetch(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                        ) || 13506801;
+                        ) || 136905102;
                       function addOrbSkillReaction() {
                         if (
                           !collector.ended &&
                           eldrazurTheAbyssalTyrantBossHealth > 0 &&
-                          eldrazurTheAbyssalTyrantBossHealth !== 13506801
+                          eldrazurTheAbyssalTyrantBossHealth !== 136905102
                         ) {
                           if (!reactedUsers.has(message.author.id)) {
                             reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -1166,10 +1176,10 @@ module.exports = {
                                 var eldrazurTheAbyssalTyrantBossHealth =
                                   db.fetch(
                                     `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                                  ) || 13506801;
+                                  ) || 136905102;
                                 if (
                                   eldrazurTheAbyssalTyrantBossHealth <
-                                    13506801 &&
+                                    136905102 &&
                                   eldrazurTheAbyssalTyrantBossHealth > 0
                                 ) {
                                   db.set(`orbReactionInterval_${tokenDB}`, 0);
@@ -1205,7 +1215,7 @@ module.exports = {
                         bossMessage.reactions.removeAll();
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         db.set(
                           `eldrazurTheAbyssalTyrantBossSpawned_${tokenDB}`,
@@ -1233,7 +1243,7 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 38) + 1;
+                        var chance = Math.floor(Math.random() * 32) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -1360,7 +1370,7 @@ module.exports = {
                         db.set(`cooldown_${tokenDB}`, Date.now());
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         if (chance == 1) {
                           message.channel.send(
@@ -1527,7 +1537,7 @@ module.exports = {
                       db.set(`didntHitCooldown_${tokenDB}`, currentTime);
                       const bossHealthBar = createHealthBar(
                         eldrazurTheAbyssalTyrantBossHealth,
-                        13506801,
+                        136905102,
                         20
                       );
                       eldrazurTheAbyssalTyrantBossHealth =
@@ -1540,7 +1550,7 @@ module.exports = {
                           .setColor("#6A0DAD")
                           .setAuthor("Eldra'zur , the abyssal tyrant")
                           .addField(
-                            `${eldrazurTheAbyssalTyrantBossHealth} / 13,506,801`,
+                            `${eldrazurTheAbyssalTyrantBossHealth} / 136,905,102`,
                             `${bossHealthBar}`,
                             true
                           )
@@ -1561,7 +1571,7 @@ module.exports = {
                       );
                       // const bossHealthBar = createHealthBar(
                       //   eldrazurTheAbyssalTyrantBossHealth,
-                      //   13506801,
+                      //   136905102,
                       //   20
                       // );
                       // It's not on cooldown, proceed to deal damage
@@ -1573,7 +1583,7 @@ module.exports = {
                       var eldrazurTheAbyssalTyrantBossHealth =
                         db.fetch(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`
-                        ) || 13506801;
+                        ) || 136905102;
 
                       if (
                         eldrazurTheAbyssalTyrantBossHealth < 0 ||
@@ -1585,7 +1595,7 @@ module.exports = {
                         bossMessage.reactions.removeAll();
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         db.set(
                           `eldrazurTheAbyssalTyrantBossSpawned_${tokenDB}`,
@@ -1613,7 +1623,7 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 38) + 1;
+                        var chance = Math.floor(Math.random() * 32) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -1740,7 +1750,7 @@ module.exports = {
                         db.set(`cooldown_${tokenDB}`, Date.now());
                         db.set(
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
-                          13506801
+                          136905102
                         );
                         if (chance == 1) {
                           message.channel.send(
@@ -1907,7 +1917,7 @@ module.exports = {
                       // Send an updated boss message
                       const bossHealthBar = createHealthBar(
                         eldrazurTheAbyssalTyrantBossHealth,
-                        13506801,
+                        136905102,
                         20
                       );
                       eldrazurTheAbyssalTyrantBossHealth =
@@ -1920,7 +1930,7 @@ module.exports = {
                           .setColor("#6A0DAD")
                           .setAuthor("Eldra'zur , the abyssal tyrant")
                           .addField(
-                            `${eldrazurTheAbyssalTyrantBossHealth} / 13,506,801`,
+                            `${eldrazurTheAbyssalTyrantBossHealth} / 136,905,102`,
                             `${bossHealthBar}`,
                             true
                           )

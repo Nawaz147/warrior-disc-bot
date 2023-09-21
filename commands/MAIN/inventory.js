@@ -18,7 +18,6 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
-
     if (startFunction) {
       startFunction(message, args, client);
     }
@@ -33,6 +32,8 @@ module.exports = {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         if (!args[0] || args[0].toLowerCase() !== "craft") {
           const items = {
+            "<a:moonsShineOfMetalSword:1154071077954269245> Moon's shine of metal sword":
+              db.fetch(`moonsShineOfMetalSword_${tokenDB}`) || 0,
             "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
               db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0,
             "<a:auroraGaze:1149396676650483914> Aurora gaze":
@@ -47,6 +48,8 @@ module.exports = {
               db.fetch(`immortalGun_${tokenDB}`) || 0,
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
               db.fetch(`natureDaggers_${tokenDB}`) || 0,
+            "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
+              db.fetch(`eldritchFlameScroll_${tokenDB}`) || 0,
             "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
               db.fetch(`orbOfElementalMastery_${tokenDB}`) || 0,
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
@@ -61,12 +64,20 @@ module.exports = {
               db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0,
             "<:titlelogo:1148602133445353515> Monarch slayer":
               db.fetch(`monarchSlayerTitle_${tokenDB}`) || 0,
+            "<:infernothsWrathfulEye:1154412305128378499> Infernoth's wrathful eye":
+              db.fetch(`infernothsWrathfulEye_${tokenDB}`) || 0,
             "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
               db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
-            "<:goldbar:1147101331534921758> Gold Bar":
-              db.fetch(`goldBar_${tokenDB}`) || 0,
+            "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem":
+              db.fetch(`pyroclasmicGem_${tokenDB}`) || 0,
             "<:valoriumsTear:1147381630009364581> Valorium's tear":
               db.fetch(`valoriumsTear_${tokenDB}`) || 0,
+            "<:pyroclasmicEssence:1154413077807255612> Pyroclasmic essence":
+              db.fetch(`pyroclasmicEssence_${tokenDB}`) || 0,
+            "<:magmaticTorch:1154413864386052146> Magmatic torch":
+              db.fetch(`magmaticTorch_${tokenDB}`) || 0,
+            "<:goldbar:1147101331534921758> Gold Bar":
+              db.fetch(`goldBar_${tokenDB}`) || 0,
             "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
               db.fetch(`crystallineCorestone_${tokenDB}`) || 0,
             "<:bullet:1147100873164603472> Bullet":
@@ -99,10 +110,18 @@ module.exports = {
               db.fetch(`dawnfireSet_${tokenDB}`) || 0,
             "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
               db.fetch(`texarus_${tokenDB}`) || 0,
+            "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
+              db.fetch(`eternalFlameEssence_${tokenDB}`) || 0,
+            "<:blackOil:1154415835998322718> Black oil":
+              db.fetch(`blackOil_${tokenDB}`) || 0,
             "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
               db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0,
             "<:unlockedCrateOfEnergy:1147102884585017355> Unlocked crate of energy":
               db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0,
+            "<:hotWater:1154416000360525924> Hot water":
+              db.fetch(`hotWater_${tokenDB}`) || 0,
+            "<:transparentGlass:1154416282133876868> Transparent glass":
+              db.fetch(`transparentGlass_${tokenDB}`) || 0,
             "<:awakeninggem:1147071223042424902> Awakening gem":
               db.fetch(`awakeningGem_${tokenDB}`) || 0,
             "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
@@ -147,6 +166,21 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
+              "Arcane",
+            "<:infernothsWrathfulEye:1154412305128378499> Infernoth's wrathful eye":
+              "Mythic",
+            "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem": "Mythic",
+            "<:pyroclasmicEssence:1154413077807255612> Pyroclasmic essence":
+              "Mythic",
+            "<:magmaticTorch:1154413864386052146> Magmatic torch": "Mythic",
+            "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
+              "Legendary",
+            "<:blackOil:1154415835998322718> Black oil": "Epic",
+            "<:hotWater:1154416000360525924> Hot water": "Rare",
+            "<:transparentGlass:1154416282133876868> Transparent glass": "Rare",
+            "<a:moonsShineOfMetalSword:1154071077954269245> Moon's shine of metal sword":
+              "Heroic",
             "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
               "Mythic",
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
@@ -221,6 +255,24 @@ module.exports = {
             "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
           };
           const itemsID = {
+            "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
+              "eldritchFlameScroll",
+            "<:infernothsWrathfulEye:1154412305128378499> Infernoth's wrathful eye":
+              "infernothsWrathfulEye",
+            "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem":
+              "pyroclasmicGem",
+            "<:pyroclasmicEssence:1154413077807255612> Pyroclasmic essence":
+              "pyroclasmicEssence",
+            "<:magmaticTorch:1154413864386052146> Magmatic torch":
+              "magmaticTorch",
+            "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
+              "eternalFlameEssence",
+            "<:blackOil:1154415835998322718> Black oil": "blackOil",
+            "<:hotWater:1154416000360525924> Hot water": "hotWater",
+            "<:transparentGlass:1154416282133876868> Transparent glass":
+              "transparentGlass",
+            "<a:moonsShineOfMetalSword:1154071077954269245> Moon's shine of metal sword":
+              "moonsShineOfMetalSword",
             "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
               "timekeepersChronometer",
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":

@@ -41,10 +41,10 @@ module.exports = {
             } else {
               db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
               const goldChance = 0.85; // 85% chance to get gold
-              const platinumChance = 0.1; // 10% chance to get platinum
+              const RuixChance = 0.1; // 10% chance to get Ruix
               const vanityChance = 0.035; // 3.5% chance to get vanity
-              const weaponChance = 0.015; // 1.5% chance to get weaponsconst minPlatinum = 5;
-              const maxPlatinum = 25;
+              const weaponChance = 0.015; // 1.5% chance to get weaponsconst minRuix = 5;
+              const maxRuix = 25;
               const minGold = 2000;
               const maxGold = 12000;
               db.subtract(`unlockedCrateOfEnergy_${tokenDB}`, 1);
@@ -61,17 +61,14 @@ module.exports = {
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 reward = `${goldAmount} Gold Coins`;
-              } else if (rewardType < goldChance + platinumChance) {
-                const platinumAmount = Math.floor(
-                  Math.random() * (maxPlatinum - minPlatinum + 1) + minPlatinum
+              } else if (rewardType < goldChance + RuixChance) {
+                const RuixAmount = Math.floor(
+                  Math.random() * (maxRuix - minRuix + 1) + minRuix
                 );
-                // Add platinum to the user's tokenDB
-                db.add(`platinum_${tokenDB}`, platinumAmount);
-                reward = `${platinumAmount} Platinum`;
-              } else if (
-                rewardType <
-                goldChance + platinumChance + vanityChance
-              ) {
+                // Add Ruix to the user's tokenDB
+                db.add(`ruix_${tokenDB}`, RuixAmount);
+                reward = `${RuixAmount} Ruix`;
+              } else if (rewardType < goldChance + RuixChance + vanityChance) {
                 const vanities = [
                   "Medusa set",
                   "Supreme magical set",
@@ -89,7 +86,7 @@ module.exports = {
                 reward = randomVanity;
               } else if (
                 rewardType <
-                goldChance + platinumChance + vanityChance + weaponChance
+                goldChance + RuixChance + vanityChance + weaponChance
               ) {
                 const weapons = [
                   "Texarus the demonished staff",

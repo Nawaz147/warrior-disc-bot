@@ -47,6 +47,7 @@ You have already equipped it
           } else {
             db.set(`equippedWaetra_${tokenDB}`, "True");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            db.set(`equippedMoonsShineOfMetalSword_${tokenDB}`, "False");
             db.set(`equippedWaz_${tokenDB}`, "False");
             db.set(`equippedTexarus_${tokenDB}`, "False");
             db.set(`equippedRasheta_${tokenDB}`, "False");
@@ -75,7 +76,7 @@ ${user.username}, you equipped Waetra the freezed bow ✔
 You dont have it.
 `
             )
-            .setFooter(`Type +gw to get it for free`)
+            .setFooter(`Type gw.x to get it for free`)
             .setColor(`#b10000`);
           message.channel.send(dontHaveItEmbed);
           db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
@@ -91,6 +92,7 @@ You have already equipped it
             message.channel.send(alreadyEquippedEmbed);
           } else {
             db.set(`equippedVentorianBow_${tokenDB}`, "True");
+            db.set(`equippedMoonsShineOfMetalSword_${tokenDB}`, "False");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             db.set(`equippedWaz_${tokenDB}`, "False");
             db.set(`equippedTexarus_${tokenDB}`, "False");
@@ -104,6 +106,55 @@ You have already equipped it
               .setDescription(
                 `
 ${user.username}, you equipped Ventorian bow of ventor ✔       
+`
+              )
+              .setColor(`#00FF00`);
+            message.channel.send(equippedEmbed);
+          }
+        }
+      }
+      if (args[0] == "moonsShineOfMetalSword") {
+        var moonsShineOfMetalSword = db.fetch(
+          `moonsShineOfMetalSword_${tokenDB}`
+        );
+        var equippedMoonsShineOfMetalSword =
+          db.fetch(`equippedmoonsShineOfMetalSword_${tokenDB}`) || "False";
+        if (!moonsShineOfMetalSword) {
+          const dontHaveItEmbed = new Discord.MessageEmbed()
+            .setDescription(
+              `
+You dont have it.
+`
+            )
+            .setColor(`#b10000`);
+          message.channel.send(dontHaveItEmbed);
+          db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
+        } else {
+          if (equippedMoonsShineOfMetalSword == "True") {
+            const alreadyEquippedEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+You have already equipped it
+`
+              )
+              .setColor(`#b10000`);
+            message.channel.send(alreadyEquippedEmbed);
+          } else {
+            db.set(`equippedWaetra_${tokenDB}`, "False");
+            db.set(`equippedMoonsShineOfMetalSword_${tokenDB}`, "True");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            db.set(`equippedWaz_${tokenDB}`, "False");
+            db.set(`equippedTexarus_${tokenDB}`, "False");
+            db.set(`equippedRasheta_${tokenDB}`, "False");
+            db.set(`equippedNatureDaggers_${tokenDB}`, "False");
+            db.set(`equippedVentorianBow_${tokenDB}`, "False");
+            db.set(`equippedImmortalGun_${tokenDB}`, "False");
+            db.set(`equippedDaggerOfDeath_${tokenDB}`, "False");
+            db.set(`wepName_${tokenDB}`, "waetraBow");
+            const equippedEmbed = new Discord.MessageEmbed()
+              .setDescription(
+                `
+${user.username}, you equipped Moon's shine of metal sword ✔         
 `
               )
               .setColor(`#00FF00`);
@@ -137,6 +188,7 @@ You have already equipped it
           } else {
             db.set(`equippedRasheta_${tokenDB}`, "True");
             db.set(`equippedWaetra_${tokenDB}`, "False");
+            db.set(`equippedMoonsShineOfMetalSword_${tokenDB}`, "False");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             db.set(`equippedWaz_${tokenDB}`, "False");
             db.set(`equippedTexarus_${tokenDB}`, "False");
@@ -182,6 +234,7 @@ You have already equipped it
           db.set(`equippedRasheta_${tokenDB}`, "False");
           db.set(`equippedWaetra_${tokenDB}`, "False");
           db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+          db.set(`equippedMoonsShineOfMetalSword_${tokenDB}`, "False");
           db.set(`equippedWaz_${tokenDB}`, "False");
           db.set(`equippedTexarus_${tokenDB}`, "False");
           db.set(`equippedNatureDaggers_${tokenDB}`, "False");

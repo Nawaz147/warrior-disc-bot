@@ -1494,7 +1494,7 @@ module.exports = {
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             const eternalFlameEssenceSoldEmbed = new Discord.MessageEmbed()
               .setTitle(`Sold Successfully`)
-              .addField(`Item name`, "Magmatic torch")
+              .addField(`Item name`, "Eternal flame essence")
               .addField(`Number of pieces`, `${amountOfPieces}`)
               .addField(
                 `Sell price per piece`,
@@ -1508,6 +1508,79 @@ module.exports = {
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(eternalFlameEssenceSoldEmbed);
+          }
+          if (item == "blackOil") {
+            blackOilSellPrice = prices.blackOil;
+            db.add(`blackOilStoreAdd`, amountOfPieces);
+            db.subtract(`blackOil_${tokenDB}`, amountOfPieces);
+            db.add(`money_${tokenDB}.pocket`, prices.blackOil * amountOfPieces);
+            blackOilSellPrice = blackOilSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            blackOilTotalSellPrice = prices.blackOil * amountOfPieces;
+            blackOilTotalSellPrice = blackOilTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const blackOilSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Black oil")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(`Sell price per piece`, `${blackOilSellPrice}`)
+              .addField(`Total sell price`, `${blackOilTotalSellPrice}`)
+              .setTimestamp()
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(blackOilSoldEmbed);
+          }
+          if (item == "hotWater") {
+            hotWaterSellPrice = prices.hotWater;
+            db.add(`hotWaterStoreAdd`, amountOfPieces);
+            db.subtract(`hotWater_${tokenDB}`, amountOfPieces);
+            db.add(`money_${tokenDB}.pocket`, prices.hotWater * amountOfPieces);
+            hotWaterSellPrice = hotWaterSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            hotWaterTotalSellPrice = prices.hotWater * amountOfPieces;
+            hotWaterTotalSellPrice = hotWaterTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const hotWaterSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Hot water")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(`Sell price per piece`, `${hotWaterSellPrice}`)
+              .addField(`Total sell price`, `${hotWaterTotalSellPrice}`)
+              .setTimestamp()
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(hotWaterSoldEmbed);
+          }
+          if (item == "transparentGlass") {
+            transparentGlassSellPrice = prices.transparentGlass;
+            db.add(`transparentGlassStoreAdd`, amountOfPieces);
+            db.subtract(`transparentGlass_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              prices.transparentGlass * amountOfPieces
+            );
+            transparentGlassSellPrice = transparentGlassSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            transparentGlassTotalSellPrice =
+              prices.transparentGlass * amountOfPieces;
+            transparentGlassTotalSellPrice = transparentGlassTotalSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const transparentGlassSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Transparent glass")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(`Sell price per piece`, `${transparentGlassSellPrice}`)
+              .addField(`Total sell price`, `${transparentGlassTotalSellPrice}`)
+              .setTimestamp()
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(transparentGlassSoldEmbed);
           }
           if (item == "trashItems") {
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;

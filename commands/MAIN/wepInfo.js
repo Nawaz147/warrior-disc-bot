@@ -9,6 +9,7 @@ const natureDaggers = require("../../weaponStats/natureDaggers.json");
 const ventorianBow = require("../../weaponStats/ventorianBow.json");
 const immortalGun = require("../../weaponStats/immortalGun.json");
 const daggerOfDeath = require("../../weaponStats/daggerOfDeath.json");
+const moonsShineOfMetalSword = require("../../weaponStats/moonsShineOfMetalSword.json");
 const weaponNames = require("../../weapons.json");
 const startFunction = require("../../startCommandFunction.js");
 const { Message } = require("discord.js");
@@ -171,6 +172,25 @@ module.exports = {
           .setThumbnail("https://i.ibb.co/P1nw8MW/rasheta-the-furious-axe.png");
         message.channel.send(rashetaEmbed);
       }
+      if (args[0] === "moonsShineOfMetalSword") {
+        var equippedmoonsShineOfMetalSword = db.fetch(
+          `equippedmoonsShineOfMetalSword_${tokenDB}`
+        );
+        if (!equippedmoonsShineOfMetalSword) {
+          var equippedmoonsShineOfMetalSword = "False";
+          db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+        }
+        const moonsShineOfMetalSwordEmbed = new Discord.MessageEmbed()
+          .setColor("#A0EAEB")
+          .setTitle(weaponNames.moonsShineOfMetalSword)
+          .setDescription(moonsShineOfMetalSword.description)
+          .addField("Damage", moonsShineOfMetalSword.Damage)
+          .addField("Type", moonsShineOfMetalSword.type)
+          .addField("Equipped", equippedmoonsShineOfMetalSword)
+          .addField("Rarity", moonsShineOfMetalSword.rarity)
+          .setThumbnail("https://i.ibb.co/jLsjxJy/heroic-weapon.gif");
+        message.channel.send(moonsShineOfMetalSwordEmbed);
+      }
       if (args[0] === "daggerOfDeath") {
         function calculateRequiredXP(level) {
           if (level >= 10) {
@@ -227,7 +247,8 @@ module.exports = {
           args[0] !== "rasheta" &&
           args[0] !== "natureDaggers" &&
           args[0] !== "immortalGun" &&
-          args[0] !== "daggerOfDeath"
+          args[0] !== "daggerOfDeath" &&
+          args[0] !== "moonsShineOfMetalSword"
         ) {
           message.channel.send(
             `*Invalid Item name , Item named : **${args[0]}** does not exist , Usage eg : +wepInfo ventorianBow*`
@@ -237,7 +258,7 @@ module.exports = {
       }
       if (!args[0]) {
         message.channel.send(
-          `***Please enter a weapon name , eg: +wepInfo ventorianBow***`
+          `***Please enter a weapon name , eg: wepInfo ventorianBow.x***`
         );
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       }
