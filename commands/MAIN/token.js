@@ -118,6 +118,8 @@ The bot is currently undergoing an update. Please be patient!
         db.set(`${user.id}.valoriumToken`, token);
         db.set(`enshrinedAsARuneLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
+        db.set(`tokenExists_${token}`, true);
+
         // Save the current date (day, month, and year) in the database
         const currentDate = new Date();
         const formattedDate = `${currentDate.getDate()}.${

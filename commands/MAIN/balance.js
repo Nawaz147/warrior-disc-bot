@@ -21,8 +21,6 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
-    db.set(`tokenExists_${tokenDB}`, true);
-    console.log(tokenDB);
     if (startFunction) {
       startFunction(message, args, client);
     }

@@ -493,21 +493,11 @@ module.exports = {
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
                       24190210
                     );
-                    if (moonsShineOfMetalSwordChance == 1) {
-                      message.channel.send(
-                        "```" +
-                          `json
-"${user.username} received : Moons shine of metal sword"
-` +
-                          "```"
-                      );
-                      db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
-                    }
                     if (chance == 1) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
+-${user.username} acquired : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -516,7 +506,7 @@ module.exports = {
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Inernoth's wrathful eye
+${user.username} acquired : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -525,7 +515,7 @@ ${user.username} received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic gem
+${user.username} acquired : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -534,7 +524,7 @@ ${user.username} received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Waetra the freezed bow
+${user.username} acquired : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -543,7 +533,7 @@ ${user.username} received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic essence
+${user.username} acquired : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -552,7 +542,7 @@ ${user.username} received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Magmatic torch
+${user.username} acquired : Magmatic torch
 ` +
                           "```"
                       );
@@ -561,7 +551,7 @@ ${user.username} received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Eternal flame essence
+$-${user.username} acquired : Eternal flame essence
 ` +
                           "```"
                       );
@@ -570,7 +560,7 @@ $-${user.username} received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-${user.username} received : Black oil
+${user.username} acquired : Black oil
 ` +
                           "```"
                       );
@@ -579,7 +569,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Transparent glass"
+"${user.username} acquired : Transparent glass"
 ` +
                           "```"
                       );
@@ -588,7 +578,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Hot water"
+"${user.username} acquired : Hot water"
 ` +
                           "```"
                       );
@@ -597,7 +587,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Texarus the demonished staff
+$-${user.username} acquired : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -606,7 +596,7 @@ $-${user.username} received : Texarus the demonished staff
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          `diff\n🗡${user.username} acquired a Soldier🗡\n` +
                           "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
@@ -615,7 +605,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -624,7 +614,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
@@ -632,49 +622,49 @@ ${user.username} received : Awakening gem
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
+                            `diff\n${user.username} acquired : Rusty gears\n` +
                             "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
+                            `diff\n${user.username} acquired : Dustbin\n` +
                             "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
+                            `diff\n${user.username} acquired : Newspaper\n` +
                             "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
+                            `diff\n${user.username} acquired : Torn cloth\n` +
                             "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
+                            `diff\n${user.username} acquired : Used tissue\n` +
                             "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
+                            `diff\n${user.username} acquired : Broken stick\n` +
                             "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
+                            `diff\n${user.username} acquired : Awakening gem\n` +
                             "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
@@ -755,7 +745,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -970,21 +960,12 @@ ${user.username} received : ${finalCoins} Gold Coins
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
                       24190210
                     );
-                    if (moonsShineOfMetalSwordChance == 1) {
-                      message.channel.send(
-                        "```" +
-                          `json
-"${user.username} received : Moons shine of metal sword"
-` +
-                          "```"
-                      );
-                      db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
-                    }
+
                     if (chance == 1) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
+-${user.username} acquired : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -993,7 +974,7 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Inernoth's wrathful eye
+${user.username} acquired : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -1002,7 +983,7 @@ ${user.username} received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic gem
+${user.username} acquired : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -1011,7 +992,7 @@ ${user.username} received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Waetra the freezed bow
+${user.username} acquired : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -1020,7 +1001,7 @@ ${user.username} received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic essence
+${user.username} acquired : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -1029,7 +1010,7 @@ ${user.username} received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Magmatic torch
+${user.username} acquired : Magmatic torch
 ` +
                           "```"
                       );
@@ -1038,7 +1019,7 @@ ${user.username} received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Eternal flame essence
+$-${user.username} acquired : Eternal flame essence
 ` +
                           "```"
                       );
@@ -1047,7 +1028,7 @@ $-${user.username} received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-${user.username} received : Black oil
+${user.username} acquired : Black oil
 ` +
                           "```"
                       );
@@ -1056,7 +1037,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Transparent glass"
+"${user.username} acquired : Transparent glass"
 ` +
                           "```"
                       );
@@ -1065,7 +1046,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Hot water"
+"${user.username} acquired : Hot water"
 ` +
                           "```"
                       );
@@ -1074,7 +1055,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Texarus the demonished staff
+$-${user.username} acquired : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -1083,7 +1064,7 @@ $-${user.username} received : Texarus the demonished staff
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          `diff\n🗡${user.username} acquired a Soldier🗡\n` +
                           "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
@@ -1092,7 +1073,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1101,7 +1082,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
@@ -1109,49 +1090,49 @@ ${user.username} received : Awakening gem
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
+                            `diff\n${user.username} acquired : Rusty gears\n` +
                             "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
+                            `diff\n${user.username} acquired : Dustbin\n` +
                             "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
+                            `diff\n${user.username} acquired : Newspaper\n` +
                             "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
+                            `diff\n${user.username} acquired : Torn cloth\n` +
                             "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
+                            `diff\n${user.username} acquired : Used tissue\n` +
                             "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
+                            `diff\n${user.username} acquired : Broken stick\n` +
                             "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
+                            `diff\n${user.username} acquired : Awakening gem\n` +
                             "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
@@ -1232,7 +1213,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -1543,21 +1524,12 @@ ${user.username} received : ${finalCoins} Gold Coins
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
                       24190210
                     );
-                    if (moonsShineOfMetalSwordChance == 1) {
-                      message.channel.send(
-                        "```" +
-                          `json
-"${user.username} received : Moons shine of metal sword"
-` +
-                          "```"
-                      );
-                      db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
-                    }
+
                     if (chance == 1) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
+-${user.username} acquired : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -1566,7 +1538,7 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Inernoth's wrathful eye
+${user.username} acquired : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -1575,7 +1547,7 @@ ${user.username} received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic gem
+${user.username} acquired : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -1584,7 +1556,7 @@ ${user.username} received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Waetra the freezed bow
+${user.username} acquired : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -1593,7 +1565,7 @@ ${user.username} received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic essence
+${user.username} acquired : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -1602,7 +1574,7 @@ ${user.username} received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Magmatic torch
+${user.username} acquired : Magmatic torch
 ` +
                           "```"
                       );
@@ -1611,7 +1583,7 @@ ${user.username} received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Eternal flame essence
+$-${user.username} acquired : Eternal flame essence
 ` +
                           "```"
                       );
@@ -1620,7 +1592,7 @@ $-${user.username} received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-${user.username} received : Black oil
+${user.username} acquired : Black oil
 ` +
                           "```"
                       );
@@ -1629,7 +1601,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Transparent glass"
+"${user.username} acquired : Transparent glass"
 ` +
                           "```"
                       );
@@ -1638,7 +1610,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Hot water"
+"${user.username} acquired : Hot water"
 ` +
                           "```"
                       );
@@ -1647,7 +1619,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Texarus the demonished staff
+$-${user.username} acquired : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -1656,7 +1628,7 @@ $-${user.username} received : Texarus the demonished staff
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          `diff\n🗡${user.username} acquired a Soldier🗡\n` +
                           "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
@@ -1665,7 +1637,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1674,7 +1646,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
@@ -1682,49 +1654,49 @@ ${user.username} received : Awakening gem
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
+                            `diff\n${user.username} acquired : Rusty gears\n` +
                             "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
+                            `diff\n${user.username} acquired : Dustbin\n` +
                             "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
+                            `diff\n${user.username} acquired : Newspaper\n` +
                             "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
+                            `diff\n${user.username} acquired : Torn cloth\n` +
                             "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
+                            `diff\n${user.username} acquired : Used tissue\n` +
                             "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
+                            `diff\n${user.username} acquired : Broken stick\n` +
                             "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
+                            `diff\n${user.username} acquired : Awakening gem\n` +
                             "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
@@ -1805,7 +1777,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -2020,21 +1992,12 @@ ${user.username} received : ${finalCoins} Gold Coins
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
                       24190210
                     );
-                    if (moonsShineOfMetalSwordChance == 1) {
-                      message.channel.send(
-                        "```" +
-                          `json
-"${user.username} received : Moons shine of metal sword"
-` +
-                          "```"
-                      );
-                      db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
-                    }
+
                     if (chance == 1) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
+-${user.username} acquired : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -2043,7 +2006,7 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Inernoth's wrathful eye
+${user.username} acquired : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -2052,7 +2015,7 @@ ${user.username} received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic gem
+${user.username} acquired : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -2061,7 +2024,7 @@ ${user.username} received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Waetra the freezed bow
+${user.username} acquired : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -2070,7 +2033,7 @@ ${user.username} received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Pyroclasmic essence
+${user.username} acquired : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -2079,7 +2042,7 @@ ${user.username} received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-${user.username} received : Magmatic torch
+${user.username} acquired : Magmatic torch
 ` +
                           "```"
                       );
@@ -2088,7 +2051,7 @@ ${user.username} received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Eternal flame essence
+$-${user.username} acquired : Eternal flame essence
 ` +
                           "```"
                       );
@@ -2097,7 +2060,7 @@ $-${user.username} received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-${user.username} received : Black oil
+${user.username} acquired : Black oil
 ` +
                           "```"
                       );
@@ -2106,7 +2069,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Transparent glass"
+"${user.username} acquired : Transparent glass"
 ` +
                           "```"
                       );
@@ -2115,7 +2078,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"${user.username} received : Hot water"
+"${user.username} acquired : Hot water"
 ` +
                           "```"
                       );
@@ -2124,7 +2087,7 @@ ${user.username} received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-${user.username} received : Texarus the demonished staff
+$-${user.username} acquired : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -2133,7 +2096,7 @@ $-${user.username} received : Texarus the demonished staff
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          `diff\n🗡${user.username} acquired a Soldier🗡\n` +
                           "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
@@ -2142,7 +2105,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -2151,7 +2114,7 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
@@ -2159,49 +2122,49 @@ ${user.username} received : Awakening gem
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
+                            `diff\n${user.username} acquired : Rusty gears\n` +
                             "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
+                            `diff\n${user.username} acquired : Dustbin\n` +
                             "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
+                            `diff\n${user.username} acquired : Newspaper\n` +
                             "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
+                            `diff\n${user.username} acquired : Torn cloth\n` +
                             "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
+                            `diff\n${user.username} acquired : Used tissue\n` +
                             "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
+                            `diff\n${user.username} acquired : Broken stick\n` +
                             "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
                           "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
+                            `diff\n${user.username} acquired : Awakening gem\n` +
                             "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
@@ -2282,7 +2245,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );

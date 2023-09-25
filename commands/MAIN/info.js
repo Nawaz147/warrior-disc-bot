@@ -383,8 +383,8 @@ module.exports = {
         eternalFlameEssence * prices.eternalFlameEssence +
         blackOil * prices.blackOil +
         hotWater * prices.hotWater +
-        transparentGlass * prices.transparentGlass;
-      balance;
+        transparentGlass * prices.transparentGlass +
+        balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       db.set(`netWorth_${tokenDB}`, netWorth);
       db.set(`username_${tokenDB}`, { name: user.username });

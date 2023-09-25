@@ -211,7 +211,9 @@ module.exports = {
               .slice()
               .sort(() => Math.random() - 0.5);
             var randomScrap = shuffledItems[0];
-            var randomGoldCoins = Math.floor(Math.random() * 38408) + 21092;
+            var randomGoldCoins = Math.floor(Math.random() * 42150) + 28109;
+            var randomRuix = Math.floor(Math.random() * 42) + 1;
+            var highRuixRandom = Math.floor(Math.random() * 120) + 1;
 
             var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
             if (goldLoot == undefined || goldLoot == null) {
@@ -248,20 +250,20 @@ module.exports = {
                 vorgraxTheCinderspineBossEmbed
               );
               var hitBossEmoji = "<a:hit:1152285216665247844";
-              var waterSkill = "<a:laserCover:1155706736552968213";
+              var driltex = "<a:driltex:1155827244816662558";
               await bossMessage.edit(vorgraxTheCinderspineBossEmbed);
               await bossMessage.react(hitBossEmoji);
-              // await bossMessage.react(waterSkill);
+              // await bossMessage.react(driltex);
               if (
-                Date.now - db.fetch(`waterReactionInterval_${tokenDB}`) ||
+                Date.now - db.fetch(`driltexReactionInterval_${tokenDB}`) ||
                 0 == 0
               ) {
-                await bossMessage.react(waterSkill);
+                await bossMessage.react(driltex);
               }
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
                 return (
-                  ["hit", "laserCover"].includes(reaction.emoji.name) &&
+                  ["hit", "driltex"].includes(reaction.emoji.name) &&
                   user.id === message.author.id
                 );
               };
@@ -274,7 +276,7 @@ module.exports = {
               // Schedule the next addition in 3 seconds
 
               collector.on("collect", async (reaction, user) => {
-                if (reaction.emoji.name === "laserCover") {
+                if (reaction.emoji.name === "driltex") {
                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
                   db.subtract(
                     `vorgraxTheCinderspineBossHealth_${tokenDB}`,
@@ -284,7 +286,7 @@ module.exports = {
                   var vorgraxTheCinderspineBossHealth =
                     db.fetch(`vorgraxTheCinderspineBossHealth_${tokenDB}`) ||
                     46210921;
-                  function addwaterSkillReaction() {
+                  function addDriltexReaction() {
                     if (
                       !collector.ended &&
                       vorgraxTheCinderspineBossHealth > 0 &&
@@ -293,17 +295,17 @@ module.exports = {
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
                         const reactionInterval = 7500;
-                        db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                        db.set(`driltexReactionInterval_${tokenDB}`, 7500);
                         // Use setInterval to repeatedly call the function
                         const intervalId = setInterval(() => {
                           if (vorgraxTheCinderspineBossHealth <= 0) {
                             // If boss health is zero or below, clear the interval and exit
-                            db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                            db.set(`driltexReactionInterval_${tokenDB}`, 7500);
                             clearInterval(intervalId);
                             return;
                           } else {
-                            var waterReactionInterval = db.fetch(
-                              `waterReactionInterval_${tokenDB}`
+                            var driltexReactionInterval = db.fetch(
+                              `driltexReactionInterval_${tokenDB}`
                             );
                             var vorgraxTheCinderspineBossHealth =
                               db.fetch(
@@ -313,26 +315,27 @@ module.exports = {
                               vorgraxTheCinderspineBossHealth < 46210921 &&
                               vorgraxTheCinderspineBossHealth > 0
                             ) {
-                              db.set(`waterReactionInterval_${tokenDB}`, 0);
+                              db.set(`driltexReactionInterval_${tokenDB}`, 0);
                             }
-                            if (waterReactionInterval == 0) {
-                              bossMessage
-                                .react(waterSkill)
-                                .catch(console.error);
-                              db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                            if (driltexReactionInterval == 0) {
+                              bossMessage.react(driltex).catch(console.error);
+                              db.set(
+                                `driltexReactionInterval_${tokenDB}`,
+                                7500
+                              );
                               return;
                             }
-                            // db.set(`waterReactionInterval_${tokenDB}`, 0);
+                            // db.set(`driltexReactionInterval_${tokenDB}`, 0);
                           }
                         }, reactionInterval);
                       }
                     } else {
-                      db.set(`waterReactionInterval_${tokenDB}`, "x");
+                      db.set(`driltexReactionInterval_${tokenDB}`, "x");
                       return; // No need to continue if the boss health is zero or below
                     }
                   }
 
-                  addwaterSkillReaction();
+                  addDriltexReaction();
                   if (
                     vorgraxTheCinderspineBossHealth < 0 ||
                     vorgraxTheCinderspineBossHealth == 0
@@ -495,125 +498,36 @@ module.exports = {
                       message.channel.send(
                         "```" +
                           `json
-"${user.username} received : Moons shine of metal sword"
+"${user.username} acquired : Moons shine of metal sword"
 ` +
                           "```"
                       );
                       db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
                     }
-                    if (chance == 1) {
+                    if (chance > 0 && (chance < 8 || chance == 8)) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
++${user.username} acquired : ${highRuixRandom} ruix 
 ` +
                           "```"
                       );
-                      db.add(`eldritchFlameScroll_${tokenDB}`, 1);
-                    } else if (chance == 2) {
+                    }
+                    if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
-                          `fix
-${user.username} received : Inernoth's wrathful eye
+                          `diff
++${user.username} acquired : ${randomRuix} ruix 
 ` +
                           "```"
                       );
-                      db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
-                    } else if (chance == 3) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic gem
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicGem_${tokenDB}`, 1);
-                    } else if (chance == 4) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Waetra the freezed bow
-` +
-                          "```"
-                      );
-                      db.add(`waetra_${tokenDB}`, 1);
-                    } else if (chance == 5) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic essence
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicEssence_${tokenDB}`, 1);
-                    } else if (chance == 6) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Magmatic torch
-` +
-                          "```"
-                      );
-                      db.add(`magmaticTorch_${tokenDB}`, 1);
-                    } else if (chance == 7) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Eternal flame essence
-` +
-                          "```"
-                      );
-                      db.add(`eternalFlameEssence_${tokenDB}`, 1);
-                    } else if (chance == 11) {
-                      message.channel.send(
-                        "```" +
-                          `elm
-${user.username} received : Black oil
-` +
-                          "```"
-                      );
-                      db.add(`blackOil_${tokenDB}`, 1);
-                    } else if (chance == 12) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Transparent glass"
-` +
-                          "```"
-                      );
-                      db.add(`transparentGlass_${tokenDB}`, 1);
-                    } else if (chance == 13) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Hot water"
-` +
-                          "```"
-                      );
-                      db.add(`hotWater_${tokenDB}`, 1);
-                    } else if (chance == 14) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Texarus the demonished staff
-` +
-                          "```"
-                      );
-                      db.add(`texarus_${tokenDB}`, 1);
-                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
-                      db.add(`soldiers_${tokenDB}`, 1);
-                      message.channel.send(
-                        "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
-                          "```"
-                      );
-                      db.add(`power.${tokenDB}`, 0.08);
+                      db.add(`ruix_${tokenDB}`, randomRuix);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
                       db.add(`eliteAwakeningGem_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -622,61 +536,10 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
-                    } else if (chance >= 50 && chance < 130) {
-                      if (randomScrap == "Rusty gears") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
-                            "```"
-                        );
-                        db.add(`rustyGears_${tokenDB}`, 1);
-                      } else if (randomScrap == "Dustbin") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
-                            "```"
-                        );
-                        db.add(`dustbin_${tokenDB}`, 1);
-                      } else if (randomScrap == "Newspaper") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
-                            "```"
-                        );
-                        db.add(`newspaper_${tokenDB}`, 1);
-                      } else if (randomScrap == "Torn cloth") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
-                            "```"
-                        );
-                        db.add(`tornCloth_${tokenDB}`, 1);
-                      } else if (randomScrap == "Used tissue") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
-                            "```"
-                        );
-                        db.add(`usedTissue_${tokenDB}`, 1);
-                      } else if (randomScrap == "Broken stick") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
-                            "```"
-                        );
-                        db.add(`brokenStick_${tokenDB}`, 1);
-                      } else if (randomScrap == "Awakening gem") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
-                            "```"
-                        );
-                        db.add(`awakeningGem_${tokenDB}`, 1);
-                      }
                     } else {
                       bal = db.fetch(`money_${tokenDB}.pocket`);
                       if (finalCoins + bal > moneyCap.moneyCap) {
@@ -753,7 +616,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -970,125 +833,36 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `json
-"${user.username} received : Moons shine of metal sword"
+"${user.username} acquired : Moons shine of metal sword"
 ` +
                           "```"
                       );
                       db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
                     }
-                    if (chance == 1) {
+                    if (chance > 0 && (chance < 8 || chance == 8)) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
++${user.username} acquired : ${highRuixRandom} ruix 
 ` +
                           "```"
                       );
-                      db.add(`eldritchFlameScroll_${tokenDB}`, 1);
-                    } else if (chance == 2) {
+                    }
+                    if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
-                          `fix
-${user.username} received : Inernoth's wrathful eye
+                          `diff
++${user.username} acquired : ${randomRuix} ruix 
 ` +
                           "```"
                       );
-                      db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
-                    } else if (chance == 3) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic gem
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicGem_${tokenDB}`, 1);
-                    } else if (chance == 4) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Waetra the freezed bow
-` +
-                          "```"
-                      );
-                      db.add(`waetra_${tokenDB}`, 1);
-                    } else if (chance == 5) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic essence
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicEssence_${tokenDB}`, 1);
-                    } else if (chance == 6) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Magmatic torch
-` +
-                          "```"
-                      );
-                      db.add(`magmaticTorch_${tokenDB}`, 1);
-                    } else if (chance == 7) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Eternal flame essence
-` +
-                          "```"
-                      );
-                      db.add(`eternalFlameEssence_${tokenDB}`, 1);
-                    } else if (chance == 11) {
-                      message.channel.send(
-                        "```" +
-                          `elm
-${user.username} received : Black oil
-` +
-                          "```"
-                      );
-                      db.add(`blackOil_${tokenDB}`, 1);
-                    } else if (chance == 12) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Transparent glass"
-` +
-                          "```"
-                      );
-                      db.add(`transparentGlass_${tokenDB}`, 1);
-                    } else if (chance == 13) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Hot water"
-` +
-                          "```"
-                      );
-                      db.add(`hotWater_${tokenDB}`, 1);
-                    } else if (chance == 14) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Texarus the demonished staff
-` +
-                          "```"
-                      );
-                      db.add(`texarus_${tokenDB}`, 1);
-                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
-                      db.add(`soldiers_${tokenDB}`, 1);
-                      message.channel.send(
-                        "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
-                          "```"
-                      );
-                      db.add(`power.${tokenDB}`, 0.08);
+                      db.add(`ruix_${tokenDB}`, randomRuix);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
                       db.add(`eliteAwakeningGem_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1097,61 +871,10 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
-                    } else if (chance >= 50 && chance < 130) {
-                      if (randomScrap == "Rusty gears") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
-                            "```"
-                        );
-                        db.add(`rustyGears_${tokenDB}`, 1);
-                      } else if (randomScrap == "Dustbin") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
-                            "```"
-                        );
-                        db.add(`dustbin_${tokenDB}`, 1);
-                      } else if (randomScrap == "Newspaper") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
-                            "```"
-                        );
-                        db.add(`newspaper_${tokenDB}`, 1);
-                      } else if (randomScrap == "Torn cloth") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
-                            "```"
-                        );
-                        db.add(`tornCloth_${tokenDB}`, 1);
-                      } else if (randomScrap == "Used tissue") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
-                            "```"
-                        );
-                        db.add(`usedTissue_${tokenDB}`, 1);
-                      } else if (randomScrap == "Broken stick") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
-                            "```"
-                        );
-                        db.add(`brokenStick_${tokenDB}`, 1);
-                      } else if (randomScrap == "Awakening gem") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
-                            "```"
-                        );
-                        db.add(`awakeningGem_${tokenDB}`, 1);
-                      }
                     } else {
                       bal = db.fetch(`money_${tokenDB}.pocket`);
                       if (finalCoins + bal > moneyCap.moneyCap) {
@@ -1228,7 +951,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -1275,11 +998,11 @@ ${user.username} received : ${finalCoins} Gold Coins
               });
             } else {
               var hitBossEmoji = "<a:hit:1152285216665247844";
-              var waterSkill = "<a:laserCover:1155706736552968213";
+              var driltex = "<a:driltex:1155827244816662558";
               const bossHealthBar = createHealthBar(
                 vorgraxTheCinderspineBossHealth,
                 46210921,
-                15
+                18
               );
               const vorgraxTheCinderspineBossEmbed = new Discord.MessageEmbed()
                 .setColor("#953553") // Deep purple color
@@ -1295,17 +1018,17 @@ ${user.username} received : ${finalCoins} Gold Coins
               );
               await bossMessage.edit(vorgraxTheCinderspineBossEmbed);
               await bossMessage.react(hitBossEmoji);
-              // await bossMessage.react(waterSkill);
+              // await bossMessage.react(driltex);
               if (
-                Date.now - db.fetch(`waterReactionInterval_${tokenDB}`) ||
+                Date.now - db.fetch(`driltexReactionInterval_${tokenDB}`) ||
                 0 == 0
               ) {
-                await bossMessage.react(waterSkill);
+                await bossMessage.react(driltex);
               }
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
                 return (
-                  ["hit", "laserCover"].includes(reaction.emoji.name) &&
+                  ["hit", "driltex"].includes(reaction.emoji.name) &&
                   user.id === message.author.id
                 );
               };
@@ -1318,7 +1041,7 @@ ${user.username} received : ${finalCoins} Gold Coins
               // Schedule the next addition in 3 seconds
 
               collector.on("collect", async (reaction, user) => {
-                if (reaction.emoji.name === "laserCover") {
+                if (reaction.emoji.name === "driltex") {
                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
                   db.subtract(
                     `vorgraxTheCinderspineBossHealth_${tokenDB}`,
@@ -1328,7 +1051,7 @@ ${user.username} received : ${finalCoins} Gold Coins
                   var vorgraxTheCinderspineBossHealth =
                     db.fetch(`vorgraxTheCinderspineBossHealth_${tokenDB}`) ||
                     46210921;
-                  function addwaterSkillReaction() {
+                  function addDriltexReaction() {
                     if (
                       !collector.ended &&
                       vorgraxTheCinderspineBossHealth > 0 &&
@@ -1337,17 +1060,17 @@ ${user.username} received : ${finalCoins} Gold Coins
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
                         const reactionInterval = 7500;
-                        db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                        db.set(`driltexReactionInterval_${tokenDB}`, 7500);
                         // Use setInterval to repeatedly call the function
                         const intervalId = setInterval(() => {
                           if (vorgraxTheCinderspineBossHealth <= 0) {
                             // If boss health is zero or below, clear the interval and exit
-                            db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                            db.set(`driltexReactionInterval_${tokenDB}`, 7500);
                             clearInterval(intervalId);
                             return;
                           } else {
-                            var waterReactionInterval = db.fetch(
-                              `waterReactionInterval_${tokenDB}`
+                            var driltexReactionInterval = db.fetch(
+                              `driltexReactionInterval_${tokenDB}`
                             );
                             var vorgraxTheCinderspineBossHealth =
                               db.fetch(
@@ -1357,26 +1080,27 @@ ${user.username} received : ${finalCoins} Gold Coins
                               vorgraxTheCinderspineBossHealth < 46210921 &&
                               vorgraxTheCinderspineBossHealth > 0
                             ) {
-                              db.set(`waterReactionInterval_${tokenDB}`, 0);
+                              db.set(`driltexReactionInterval_${tokenDB}`, 0);
                             }
-                            if (waterReactionInterval == 0) {
-                              bossMessage
-                                .react(waterSkill)
-                                .catch(console.error);
-                              db.set(`waterReactionInterval_${tokenDB}`, 7500);
+                            if (driltexReactionInterval == 0) {
+                              bossMessage.react(driltex).catch(console.error);
+                              db.set(
+                                `driltexReactionInterval_${tokenDB}`,
+                                7500
+                              );
                               return;
                             }
-                            // db.set(`waterReactionInterval_${tokenDB}`, 0);
+                            // db.set(`driltexReactionInterval_${tokenDB}`, 0);
                           }
                         }, reactionInterval);
                       }
                     } else {
-                      db.set(`waterReactionInterval_${tokenDB}`, "x");
+                      db.set(`driltexReactionInterval_${tokenDB}`, "x");
                       return; // No need to continue if the boss health is zero or below
                     }
                   }
 
-                  addwaterSkillReaction();
+                  addDriltexReaction();
                   if (
                     vorgraxTheCinderspineBossHealth < 0 ||
                     vorgraxTheCinderspineBossHealth == 0
@@ -1539,125 +1263,36 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `json
-"${user.username} received : Moons shine of metal sword"
+"${user.username} acquired : Moons shine of metal sword"
 ` +
                           "```"
                       );
                       db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
                     }
-                    if (chance == 1) {
+                    if (chance > 0 && (chance < 8 || chance == 8)) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
++${user.username} acquired : ${highRuixRandom} ruix 
 ` +
                           "```"
                       );
-                      db.add(`eldritchFlameScroll_${tokenDB}`, 1);
-                    } else if (chance == 2) {
+                    }
+                    if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
-                          `fix
-${user.username} received : Inernoth's wrathful eye
+                          `diff
++${user.username} acquired : ${randomRuix} ruix 
 ` +
                           "```"
                       );
-                      db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
-                    } else if (chance == 3) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic gem
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicGem_${tokenDB}`, 1);
-                    } else if (chance == 4) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Waetra the freezed bow
-` +
-                          "```"
-                      );
-                      db.add(`waetra_${tokenDB}`, 1);
-                    } else if (chance == 5) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic essence
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicEssence_${tokenDB}`, 1);
-                    } else if (chance == 6) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Magmatic torch
-` +
-                          "```"
-                      );
-                      db.add(`magmaticTorch_${tokenDB}`, 1);
-                    } else if (chance == 7) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Eternal flame essence
-` +
-                          "```"
-                      );
-                      db.add(`eternalFlameEssence_${tokenDB}`, 1);
-                    } else if (chance == 11) {
-                      message.channel.send(
-                        "```" +
-                          `elm
-${user.username} received : Black oil
-` +
-                          "```"
-                      );
-                      db.add(`blackOil_${tokenDB}`, 1);
-                    } else if (chance == 12) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Transparent glass"
-` +
-                          "```"
-                      );
-                      db.add(`transparentGlass_${tokenDB}`, 1);
-                    } else if (chance == 13) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Hot water"
-` +
-                          "```"
-                      );
-                      db.add(`hotWater_${tokenDB}`, 1);
-                    } else if (chance == 14) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Texarus the demonished staff
-` +
-                          "```"
-                      );
-                      db.add(`texarus_${tokenDB}`, 1);
-                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
-                      db.add(`soldiers_${tokenDB}`, 1);
-                      message.channel.send(
-                        "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
-                          "```"
-                      );
-                      db.add(`power.${tokenDB}`, 0.08);
+                      db.add(`ruix_${tokenDB}`, randomRuix);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
                       db.add(`eliteAwakeningGem_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1666,61 +1301,10 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
-                    } else if (chance >= 50 && chance < 130) {
-                      if (randomScrap == "Rusty gears") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
-                            "```"
-                        );
-                        db.add(`rustyGears_${tokenDB}`, 1);
-                      } else if (randomScrap == "Dustbin") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
-                            "```"
-                        );
-                        db.add(`dustbin_${tokenDB}`, 1);
-                      } else if (randomScrap == "Newspaper") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
-                            "```"
-                        );
-                        db.add(`newspaper_${tokenDB}`, 1);
-                      } else if (randomScrap == "Torn cloth") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
-                            "```"
-                        );
-                        db.add(`tornCloth_${tokenDB}`, 1);
-                      } else if (randomScrap == "Used tissue") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
-                            "```"
-                        );
-                        db.add(`usedTissue_${tokenDB}`, 1);
-                      } else if (randomScrap == "Broken stick") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
-                            "```"
-                        );
-                        db.add(`brokenStick_${tokenDB}`, 1);
-                      } else if (randomScrap == "Awakening gem") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
-                            "```"
-                        );
-                        db.add(`awakeningGem_${tokenDB}`, 1);
-                      }
                     } else {
                       bal = db.fetch(`money_${tokenDB}.pocket`);
                       if (finalCoins + bal > moneyCap.moneyCap) {
@@ -1797,7 +1381,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -2014,125 +1598,36 @@ ${user.username} received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `json
-"${user.username} received : Moons shine of metal sword"
+"${user.username} acquired : Moons shine of metal sword"
 ` +
                           "```"
                       );
                       db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
                     }
-                    if (chance == 1) {
+                    if (chance > 0 && (chance < 8 || chance == 8)) {
                       message.channel.send(
                         "```" +
                           `diff
--${user.username} received : Eldritch flame scroll
++${user.username} acquired : ${highRuixRandom} ruix 
 ` +
                           "```"
                       );
-                      db.add(`eldritchFlameScroll_${tokenDB}`, 1);
-                    } else if (chance == 2) {
+                    }
+                    if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
-                          `fix
-${user.username} received : Inernoth's wrathful eye
+                          `diff
++${user.username} acquired : ${randomRuix} ruix 
 ` +
                           "```"
                       );
-                      db.add(`infernothsWrathfulEye_${tokenDB}`, 1);
-                    } else if (chance == 3) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic gem
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicGem_${tokenDB}`, 1);
-                    } else if (chance == 4) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Waetra the freezed bow
-` +
-                          "```"
-                      );
-                      db.add(`waetra_${tokenDB}`, 1);
-                    } else if (chance == 5) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Pyroclasmic essence
-` +
-                          "```"
-                      );
-                      db.add(`pyroclasmicEssence_${tokenDB}`, 1);
-                    } else if (chance == 6) {
-                      message.channel.send(
-                        "```" +
-                          `fix
-${user.username} received : Magmatic torch
-` +
-                          "```"
-                      );
-                      db.add(`magmaticTorch_${tokenDB}`, 1);
-                    } else if (chance == 7) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Eternal flame essence
-` +
-                          "```"
-                      );
-                      db.add(`eternalFlameEssence_${tokenDB}`, 1);
-                    } else if (chance == 11) {
-                      message.channel.send(
-                        "```" +
-                          `elm
-${user.username} received : Black oil
-` +
-                          "```"
-                      );
-                      db.add(`blackOil_${tokenDB}`, 1);
-                    } else if (chance == 12) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Transparent glass"
-` +
-                          "```"
-                      );
-                      db.add(`transparentGlass_${tokenDB}`, 1);
-                    } else if (chance == 13) {
-                      message.channel.send(
-                        "```" +
-                          `css
-"${user.username} received : Hot water"
-` +
-                          "```"
-                      );
-                      db.add(`hotWater_${tokenDB}`, 1);
-                    } else if (chance == 14) {
-                      message.channel.send(
-                        "```" +
-                          `tex
-$-${user.username} received : Texarus the demonished staff
-` +
-                          "```"
-                      );
-                      db.add(`texarus_${tokenDB}`, 1);
-                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
-                      db.add(`soldiers_${tokenDB}`, 1);
-                      message.channel.send(
-                        "```" +
-                          `diff\n🗡${user.username} received a Soldier🗡\n` +
-                          "```"
-                      );
-                      db.add(`power.${tokenDB}`, 0.08);
+                      db.add(`ruix_${tokenDB}`, randomRuix);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
                       db.add(`eliteAwakeningGem_${tokenDB}`, 1);
                       message.channel.send(
                         "```" +
                           `css
-[${user.username} received : Elite awakening gem]
+[${user.username} acquired : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -2141,61 +1636,10 @@ $-${user.username} received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-${user.username} received : Awakening gem
+${user.username} acquired : Awakening gem
 ` +
                           "```"
                       );
-                    } else if (chance >= 50 && chance < 130) {
-                      if (randomScrap == "Rusty gears") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Rusty gears\n` +
-                            "```"
-                        );
-                        db.add(`rustyGears_${tokenDB}`, 1);
-                      } else if (randomScrap == "Dustbin") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Dustbin\n` +
-                            "```"
-                        );
-                        db.add(`dustbin_${tokenDB}`, 1);
-                      } else if (randomScrap == "Newspaper") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Newspaper\n` +
-                            "```"
-                        );
-                        db.add(`newspaper_${tokenDB}`, 1);
-                      } else if (randomScrap == "Torn cloth") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Torn cloth\n` +
-                            "```"
-                        );
-                        db.add(`tornCloth_${tokenDB}`, 1);
-                      } else if (randomScrap == "Used tissue") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Used tissue\n` +
-                            "```"
-                        );
-                        db.add(`usedTissue_${tokenDB}`, 1);
-                      } else if (randomScrap == "Broken stick") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Broken stick\n` +
-                            "```"
-                        );
-                        db.add(`brokenStick_${tokenDB}`, 1);
-                      } else if (randomScrap == "Awakening gem") {
-                        message.channel.send(
-                          "```" +
-                            `diff\n${user.username} received : Awakening gem\n` +
-                            "```"
-                        );
-                        db.add(`awakeningGem_${tokenDB}`, 1);
-                      }
                     } else {
                       bal = db.fetch(`money_${tokenDB}.pocket`);
                       if (finalCoins + bal > moneyCap.moneyCap) {
@@ -2272,7 +1716,7 @@ ${user.username} received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-${user.username} received : ${finalCoins} Gold Coins
+${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );

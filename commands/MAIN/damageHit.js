@@ -516,7 +516,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Moons shine of metal sword"
+"You acquired : Moons shine of metal sword"
 ` +
                               "```"
                           );
@@ -526,7 +526,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Mystic rune of resilience"
+"You acquired : Mystic rune of resilience"
 ` +
                               "```"
                           );
@@ -541,7 +541,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Aurora gaze"
+"You acquired : Aurora gaze"
 ` +
                               "```"
                           );
@@ -550,7 +550,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Abyssal Crown of Dominance"
+"You acquired : Abyssal Crown of Dominance"
 ` +
                               "```"
                           );
@@ -559,7 +559,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Starcrystal
+-You acquired : Abyssal Starcrystal
 ` +
                               "```"
                           );
@@ -568,7 +568,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Eldra'zur's Grimoire of Ruin
+-You acquired : Eldra'zur's Grimoire of Ruin
 ` +
                               "```"
                           );
@@ -577,7 +577,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Scepter of Oblivion
+-You acquired : Abyssal Scepter of Oblivion
 ` +
                               "```"
                           );
@@ -586,7 +586,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Monarch slayer [title]
+-You acquired : Monarch slayer [title]
 ` +
                               "```"
                           );
@@ -595,9 +595,9 @@ module.exports = {
                           bal = db.fetch(`money_${tokenDB}.pocket`);
                           if (finalCoins + bal > moneyCap.moneyCap) {
                             message.channel.send(
-                              "**You cannot exceed gold limit , you've been given a key**"
+                              "**You cannot exceed gold limit , you've been given 10 ruix**"
                             );
-                            db.add(`key_${tokenDB}`, 1);
+                            db.add(`ruix_${tokenDB}`, 10);
                           } else {
                             db.add(
                               `money_${tokenDB}.pocket`,
@@ -674,7 +674,7 @@ module.exports = {
                             message.channel.send(
                               "```" +
                                 `diff
-+You received : ${finalCoins} Gold Coins
++You acquired : ${finalCoins} Gold Coins
 ` +
                                 "```"
                             );
@@ -906,7 +906,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Moons shine of metal sword"
+"You acquired : Moons shine of metal sword"
 ` +
                               "```"
                           );
@@ -916,7 +916,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Mystic rune of resilience"
+"You acquired : Mystic rune of resilience"
 ` +
                               "```"
                           );
@@ -931,7 +931,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Aurora gaze"
+"You acquired : Aurora gaze"
 ` +
                               "```"
                           );
@@ -940,7 +940,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Abyssal Crown of Dominance"
+"You acquired : Abyssal Crown of Dominance"
 ` +
                               "```"
                           );
@@ -949,7 +949,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Starcrystal
+-You acquired : Abyssal Starcrystal
 ` +
                               "```"
                           );
@@ -958,7 +958,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Eldra'zur's Grimoire of Ruin
+-You acquired : Eldra'zur's Grimoire of Ruin
 ` +
                               "```"
                           );
@@ -967,7 +967,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Scepter of Oblivion
+-You acquired : Abyssal Scepter of Oblivion
 ` +
                               "```"
                           );
@@ -976,7 +976,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Monarch slayer [title]
+-You acquired : Monarch slayer [title]
 ` +
                               "```"
                           );
@@ -985,9 +985,9 @@ module.exports = {
                           bal = db.fetch(`money_${tokenDB}.pocket`);
                           if (finalCoins + bal > moneyCap.moneyCap) {
                             message.channel.send(
-                              "**You cannot exceed gold limit , you've been given a key**"
+                              "**You cannot exceed gold limit , you've been given 10 ruix**"
                             );
-                            db.add(`key_${tokenDB}`, 1);
+                            db.add(`ruix_${tokenDB}`, 10);
                           } else {
                             db.add(
                               `money_${tokenDB}.pocket`,
@@ -1064,7 +1064,7 @@ module.exports = {
                             message.channel.send(
                               "```" +
                                 `diff
-+You received : ${finalCoins} Gold Coins
++You acquired : ${finalCoins} Gold Coins
 ` +
                                 "```"
                             );
@@ -1269,7 +1269,7 @@ module.exports = {
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
                         var chance = Math.floor(Math.random() * 70) + 1;
                         var moonsShineOfMetalSwordChance =
-                          Math.floor(Math.random() * 800) + 1;
+                          Math.floor(Math.random() * 500) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -1402,7 +1402,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Moons shine of metal sword"
+"You acquired : Moons shine of metal sword"
 ` +
                               "```"
                           );
@@ -1412,7 +1412,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Mystic rune of resilience"
+"You acquired : Mystic rune of resilience"
 ` +
                               "```"
                           );
@@ -1427,7 +1427,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Aurora gaze"
+"You acquired : Aurora gaze"
 ` +
                               "```"
                           );
@@ -1436,7 +1436,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Abyssal Crown of Dominance"
+"You acquired : Abyssal Crown of Dominance"
 ` +
                               "```"
                           );
@@ -1445,7 +1445,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Starcrystal
+-You acquired : Abyssal Starcrystal
 ` +
                               "```"
                           );
@@ -1454,7 +1454,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Eldra'zur's Grimoire of Ruin
+-You acquired : Eldra'zur's Grimoire of Ruin
 ` +
                               "```"
                           );
@@ -1463,7 +1463,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Scepter of Oblivion
+-You acquired : Abyssal Scepter of Oblivion
 ` +
                               "```"
                           );
@@ -1472,7 +1472,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Monarch slayer [title]
+-You acquired : Monarch slayer [title]
 ` +
                               "```"
                           );
@@ -1481,9 +1481,9 @@ module.exports = {
                           bal = db.fetch(`money_${tokenDB}.pocket`);
                           if (finalCoins + bal > moneyCap.moneyCap) {
                             message.channel.send(
-                              "**You cannot exceed gold limit , you've been given a key**"
+                              "**You cannot exceed gold limit , you've been given 10 ruix**"
                             );
-                            db.add(`key_${tokenDB}`, 1);
+                            db.add(`ruix_${tokenDB}`, 10);
                           } else {
                             db.add(
                               `money_${tokenDB}.pocket`,
@@ -1560,7 +1560,7 @@ module.exports = {
                             message.channel.send(
                               "```" +
                                 `diff
-+You received : ${finalCoins} Gold Coins
++You acquired : ${finalCoins} Gold Coins
 ` +
                                 "```"
                             );
@@ -1794,7 +1794,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Moons shine of metal sword"
+"You acquired : Moons shine of metal sword"
 ` +
                               "```"
                           );
@@ -1804,7 +1804,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Mystic rune of resilience"
+"You acquired : Mystic rune of resilience"
 ` +
                               "```"
                           );
@@ -1819,7 +1819,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Aurora gaze"
+"You acquired : Aurora gaze"
 ` +
                               "```"
                           );
@@ -1828,7 +1828,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `json
-"You received : Abyssal Crown of Dominance"
+"You acquired : Abyssal Crown of Dominance"
 ` +
                               "```"
                           );
@@ -1837,7 +1837,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Starcrystal
+-You acquired : Abyssal Starcrystal
 ` +
                               "```"
                           );
@@ -1846,7 +1846,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Eldra'zur's Grimoire of Ruin
+-You acquired : Eldra'zur's Grimoire of Ruin
 ` +
                               "```"
                           );
@@ -1855,7 +1855,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Abyssal Scepter of Oblivion
+-You acquired : Abyssal Scepter of Oblivion
 ` +
                               "```"
                           );
@@ -1864,7 +1864,7 @@ module.exports = {
                           message.channel.send(
                             "```" +
                               `diff
--You received : Monarch slayer [title]
+-You acquired : Monarch slayer [title]
 ` +
                               "```"
                           );
@@ -1873,9 +1873,9 @@ module.exports = {
                           bal = db.fetch(`money_${tokenDB}.pocket`);
                           if (finalCoins + bal > moneyCap.moneyCap) {
                             message.channel.send(
-                              "**You cannot exceed gold limit , you've been given a key**"
+                              "**You cannot exceed gold limit , you've been given 10 ruix**"
                             );
-                            db.add(`key_${tokenDB}`, 1);
+                            db.add(`ruix_${tokenDB}`, 10);
                           } else {
                             db.add(
                               `money_${tokenDB}.pocket`,
@@ -1952,7 +1952,7 @@ module.exports = {
                             message.channel.send(
                               "```" +
                                 `diff
-+You received : ${finalCoins} Gold Coins
++You acquired : ${finalCoins} Gold Coins
 ` +
                                 "```"
                             );
