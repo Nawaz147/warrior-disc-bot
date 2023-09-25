@@ -39,7 +39,16 @@ module.exports = {
           item == "auroraGaze" ||
           item == "orbOfElementalMastery" ||
           item == "shieldOfTheEarthshaker" ||
-          item == "timekeepersChronometer"
+          item == "timekeepersChronometer" ||
+          item == "eldritchFlameScroll" ||
+          item == "infernothsWrathfulEye" ||
+          item == "pyroclasmicGem" ||
+          item == "magmaticTorch" ||
+          item == "eternalFlameEssence" ||
+          item == "blackOil" ||
+          item == "hotWater" ||
+          item == "transparentGlass" ||
+          item == "pyroclasmicEssence"
         ) {
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
@@ -92,7 +101,33 @@ module.exports = {
             db.fetch(`timekeepersChronometerStoreAdd`) || 0;
           var bullet = db.fetch(`bullet_${tokenDB}`) || 0;
           var bulletStoreAdd = db.fetch(`bulletStoreAdd`) || 0;
-          db.set(`bulletStoreAdd`, "Unlimited");
+          var eldritchFlameScroll =
+            db.fetch(`eldritchFlameScroll_${tokenDB}`) || 0;
+          var eldritchFlameScrollStoreAdd =
+            db.fetch(`eldritchFlameScrollStoreAdd`) || 0;
+          var infernothsWrathfulEye =
+            db.fetch(`infernothsWrathfulEye_${tokenDB}`) || 0;
+          var infernothsWrathfulEyeStoreAdd =
+            db.fetch(`infernothsWrathfulEyeStoreAdd`) || 0;
+          var pyroclasmicGem = db.fetch(`pyroclasmicGem_${tokenDB}`) || 0;
+          var pyroclasmicGemStoreAdd = db.fetch(`pyroclasmicGemStoreAdd`) || 0;
+          var pyroclasmicEssence =
+            db.fetch(`pyroclasmicEssence_${tokenDB}`) || 0;
+          var pyroclasmicEssenceStoreAdd =
+            db.fetch(`pyroclasmicEssenceStoreAdd`) || 0;
+          var magmaticTorch = db.fetch(`magmaticTorch_${tokenDB}`) || 0;
+          var magmaticTorchStoreAdd = db.fetch(`magmaticTorchStoreAdd`) || 0;
+          var eternalFlameEssence =
+            db.fetch(`eternalFlameEssence_${tokenDB}`) || 0;
+          var eternalFlameEssenceStoreAdd =
+            db.fetch(`eternalFlameEssenceStoreAdd`) || 0;
+          var blackOil = db.fetch(`blackOil_${tokenDB}`) || 0;
+          var blackOilStoreAdd = db.fetch(`blackOilStoreAdd`) || 0;
+          var hotWater = db.fetch(`hotWater_${tokenDB}`) || 0;
+          var hotWaterStoreAdd = db.fetch(`hotWaterStoreAdd`) || 0;
+          var transparentGlass = db.fetch(`transparentGlass_${tokenDB}`) || 0;
+          var transparentGlassStoreAdd =
+            db.fetch(`transparentGlassStoreAdd`) || 0;
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#4169E1`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
@@ -424,6 +459,188 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             );
             itemInfoEmbed.addField(`ID`, "bullet");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/qFHR95G/bullet.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "eldritchFlameScroll") {
+            itemInfoEmbed.setDescription(`
+            Within the cryptic confines of this weathered parchment, ancient and mystical power lies dormant, awaiting a skilled power's touch to awaken its infernal secrets. The Eldritch Flame Scroll is a relic of dark and enigmatic origins, a testament to the boundless depths of arcane mastery.
+            `);
+            itemInfoEmbed.setTitle(`Eldritch flame scroll`);
+            itemInfoEmbed.addField(`Buy cost`, `78,950,000`);
+            itemInfoEmbed.addField(`Sell cost`, `39,475,000`);
+            itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${eldritchFlameScroll}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${eldritchFlameScrollStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "eldritchFlameScroll");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/rkjzHFK/eldritch-flame-scroll.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "infernothsWrathfulEye") {
+            itemInfoEmbed.setDescription(`
+            In the annals of ancient mythology and whispered tales of fire-wreathed realms, there exists a relic of incalculable power—the Infernoth's Wrathful Eye. This mystic artifact is as much a symbol of vengeance as it is a harbinger of cataclysmic destruction, an eye-shaped gem pulsating with the very essence of wrathful infernos.
+          `);
+            itemInfoEmbed.setTitle(`Infernoth's wrathful eye`);
+            itemInfoEmbed.addField(`Buy cost`, `41,250,000`);
+            itemInfoEmbed.addField(`Sell cost`, `20,750,000`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${infernothsWrathfulEye}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${infernothsWrathfulEyeStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "infernothsWrathfulEye");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/zh8972B/infernoths-Wrathful-Eye.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "pyroclasmicGem") {
+            itemInfoEmbed.setDescription(`
+            A Pyroclasmic Gem is a rare and mesmerizing gemstone, forged in the fiery heart of the earth during cataclysmic volcanic eruptions. Its beauty is a stark contrast to its tumultuous origin, as it captures the essence of molten fire and raw elemental power within its crystalline structure.
+          `);
+            itemInfoEmbed.setTitle(`Pyroclasmic gem`);
+            itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${pyroclasmicGem}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${pyroclasmicGemStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "pyroclasmicGem");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/CMsPT3t/pyroclasmic-Gem.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "pyroclasmicEssence") {
+            itemInfoEmbed.setDescription(`
+            Pyroclasmic Essence, in its green-hued form, is a remarkable and rare substance that defies the conventional expectations associated with fire. Born from the depths of volcanic eruptions, this enigmatic elixir captures the essence of fire in a verdant manifestation, challenging the boundaries of elemental magic.
+          `);
+            itemInfoEmbed.setTitle(`Pyroclasmic essence`);
+            itemInfoEmbed.addField(`Buy cost`, `11,111,111`);
+            itemInfoEmbed.addField(`Sell cost`, `11,111,111`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${pyroclasmicEssence}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${pyroclasmicEssenceStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "pyroclasmicEssence");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/FzL7dfJ/pyroclasmic-Essence.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "magmaticTorch") {
+            itemInfoEmbed.setDescription(`
+            The Magmatic Torch is a blazing wonder, a handheld inferno that defies the boundaries of mundane fire sources. Crafted by the skilled hands of pyromancers and alchemists, this torch is a testament to the fusion of artistry and elemental mastery.
+          `);
+            itemInfoEmbed.setTitle(`Magmatic torch`);
+            itemInfoEmbed.addField(`Buy cost`, `5,210,000`);
+            itemInfoEmbed.addField(`Sell cost`, `2,605,000`);
+            itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${magmaticTorch}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${magmaticTorchStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "magmaticTorch");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/hDjnJXj/magmatic-Torch.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "eternalFlameEssence") {
+            itemInfoEmbed.setDescription(`
+            The Eternal Flame Essence is a legendary item steeped in myth and mystery. Said to hold the very essence of unending fire, it possesses power and significance that transcends the ordinary.
+          `);
+            itemInfoEmbed.setTitle(`Eternal flame essence`);
+            itemInfoEmbed.addField(`Buy cost`, `3,250,000`);
+            itemInfoEmbed.addField(`Sell cost`, `1,625,000`);
+            itemInfoEmbed.addField(`Rarity`, `Legendary`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${eternalFlameEssence}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${eternalFlameEssenceStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "eternalFlameEssence");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/g31RPY3/eternal-Flame-Essence.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "blackOil") {
+            itemInfoEmbed.setDescription(`
+            Black Oil, is a dark and heavy substance found in the wake of dormant volcanoes. This viscous fluid exudes an earthy, smoky scent, a somber reminder of the fiery forces that once roared beneath the earth's surface.
+          `);
+            itemInfoEmbed.setTitle(`Black oil`);
+            itemInfoEmbed.addField(`Buy cost`, `456,120`);
+            itemInfoEmbed.addField(`Sell cost`, `228,060`);
+            itemInfoEmbed.addField(`Rarity`, `Rare`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${blackOil}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${blackOilStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "blackOil");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/gPgKkc7/blackOil.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "hotWater") {
+            itemInfoEmbed.setDescription(`
+            Hot water, while far from valuable, serves as a ubiquitous comfort in everyday life. It's a simple, easily attainable commodity, often taken for granted, yet cherished for its soothing warmth and myriad practical uses.
+          `);
+            itemInfoEmbed.setTitle(`Hot water`);
+            itemInfoEmbed.addField(`Buy cost`, `32,100`);
+            itemInfoEmbed.addField(`Sell cost`, `16,050`);
+            itemInfoEmbed.addField(`Rarity`, `Rare`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${hotWater}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${hotWaterStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "hotWater");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/C7J2nQG/hotWater.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "transparentGlass") {
+            itemInfoEmbed.setDescription(`
+            Transparent glass is a mundane and unremarkable material, commonly discarded without a second thought. It is a clear, see-through substance that serves as a basic building block for more intricate creations but holds little inherent value on its own.
+          `);
+            itemInfoEmbed.setTitle(`Hot water`);
+            itemInfoEmbed.addField(`Buy cost`, `18,230`);
+            itemInfoEmbed.addField(`Sell cost`, `9,115`);
+            itemInfoEmbed.addField(`Rarity`, `Rare`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${transparentGlass}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${transparentGlassStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "transparentGlass");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/kXYTJYq/transparent-Glass.png`
+            );
             message.channel.send(itemInfoEmbed);
           }
         } else {

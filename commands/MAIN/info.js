@@ -304,6 +304,19 @@ module.exports = {
       ) {
         timekeepersChronometer = 0;
       }
+      var eldritchFlameScroll = db.fetch(`eldritchFlameScroll_${tokenDB}`) || 0;
+      var moonsShineOfMetalSword =
+        db.fetch(`moonsShineOfMetalSword_${tokenDB}`) || 0;
+      var infernothsWrathfulEye =
+        db.fetch(`infernothsWrathfulEye_${tokenDB}`) || 0;
+      var pyroclasmicGem = db.fetch(`pyroclasmicGem_${tokenDB}`) || 0;
+      var pyroclasmicEssence = db.fetch(`pyroclasmicEssence_${tokenDB}`) || 0;
+      var magmaticTorch = db.fetch(`magmaticTorch_${tokenDB}`) || 0;
+      var eternalFlameEssence = db.fetch(`eternalFlameEssence_${tokenDB}`) || 0;
+      var blackOil = db.fetch(`blackOil_${tokenDB}`) || 0;
+      var hotWater = db.fetch(`hotWater_${tokenDB}`) || 0;
+      var transparentGlass = db.fetch(`transparentGlass_${tokenDB}`) || 0;
+
       var power = db.fetch(`power.${tokenDB}`);
       if (power == null || power == undefined || power === NaN) {
         power = 0;
@@ -361,7 +374,17 @@ module.exports = {
         orbOfElementalMastery * prices.orbOfElementalMastery +
         shieldOfTheEarthshaker * prices.shieldOfTheEarthshaker +
         timekeepersChronometer * prices.timekeepersChronometer +
-        balance;
+        moonsShineOfMetalSword * prices.moonsShineOfMetalSword +
+        eldritchFlameScroll * prices.eldritchFlamescroll +
+        infernothsWrathfulEye * prices.infernothsWrathfulEye +
+        pyroclasmicGem * prices.pyroclasmicGem +
+        pyroclasmicEssence * prices.pyroclasmicEssence +
+        magmaticTorch * prices.magmaticTorch +
+        eternalFlameEssence * prices.eternalFlameEssence +
+        blackOil * prices.blackOil +
+        hotWater * prices.hotWater +
+        transparentGlass * prices.transparentGlass;
+      balance;
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       db.set(`netWorth_${tokenDB}`, netWorth);
       db.set(`username_${tokenDB}`, { name: user.username });
@@ -375,8 +398,10 @@ module.exports = {
       );
 
       const timeDifference = currentDate.getTime() - creationDate.getTime();
-      const daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const monthsPlayed = Math.floor(daysPlayed / 30);
+      var daysPlayed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      var monthsPlayed = Math.floor(daysPlayed / 30);
+      daysPlayed = db.set(`daysPlayed_${tokenDB}`, daysPlayed);
+      monthsPlayed = db.set(`monthsPlayed_${tokenDB}`, monthsPlayed);
 
       db.set(`power.${tokenDB}`, power);
       if (!tokenCreationDate) {

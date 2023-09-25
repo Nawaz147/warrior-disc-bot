@@ -173,11 +173,11 @@ module.exports = {
         message.channel.send(rashetaEmbed);
       }
       if (args[0] === "moonsShineOfMetalSword") {
-        var equippedmoonsShineOfMetalSword = db.fetch(
-          `equippedmoonsShineOfMetalSword_${tokenDB}`
+        var equippedMoonsShineOfMetalSword = db.fetch(
+          `equippedMoonsShineOfMetalSword_${tokenDB}`
         );
-        if (!equippedmoonsShineOfMetalSword) {
-          var equippedmoonsShineOfMetalSword = "False";
+        if (!equippedMoonsShineOfMetalSword) {
+          var equippedMoonsShineOfMetalSword = "False";
           db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         }
         const moonsShineOfMetalSwordEmbed = new Discord.MessageEmbed()
@@ -186,7 +186,7 @@ module.exports = {
           .setDescription(moonsShineOfMetalSword.description)
           .addField("Damage", moonsShineOfMetalSword.Damage)
           .addField("Type", moonsShineOfMetalSword.type)
-          .addField("Equipped", equippedmoonsShineOfMetalSword)
+          .addField("Equipped", equippedMoonsShineOfMetalSword)
           .addField("Rarity", moonsShineOfMetalSword.rarity)
           .setThumbnail("https://i.ibb.co/jLsjxJy/heroic-weapon.gif");
         message.channel.send(moonsShineOfMetalSwordEmbed);

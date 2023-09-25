@@ -180,6 +180,8 @@ module.exports = {
           db.subtract(`ruix_${tokenDB}`, keyPrice);
           const cooldownDuration = 2000;
           db.set(`cooldown_${tokenDB}`, Date.now() + cooldownDuration);
+        } else {
+          message.channel.send(`You dont have 100 ruix`);
         }
       } else {
         const currentTime = Date.now();

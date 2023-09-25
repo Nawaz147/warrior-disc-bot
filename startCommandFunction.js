@@ -66,7 +66,8 @@ Safe travels, and may the winds of fortune guide your way!
       .setDescription(
         `
 Sorry ${currentUser.username} , commands are disabled at the moment.
-The bot is currently undergoing an update. Please be patient!          
+The bot is currently undergoing an update. Please be patient!
+Update : Implementing party system   
 `
       )
       .setColor("#3498db")

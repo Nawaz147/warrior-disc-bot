@@ -2,11 +2,15 @@
 // const { readdirSync } = require("fs");
 // const colors = require("./../../colors.json");
 // const { MessageEmbed } = require("discord.js");
-// const ownerID = "916176454679674892";
+// const fs = require("fs");
+// const { promisify } = require("util");
+// const readFileAsync = promisify(fs.readFile);
+
+// const ownerID = "768747976767832084";
 // module.exports = {
-//   name: "reloadFun",
+//   name: "reload",
 //   description: "Reload command- Dev Only",
-//   aliases: ["rfun"],
+//   aliases: ["Reload"],
 
 //   run: async (bot, message, args) => {
 //     if (message.author.id != ownerID) {
@@ -30,14 +34,31 @@
 //       let commandName = args[0].toLowerCase();
 
 //       try {
-//         delete require.cache[require.resolve(`../Fun/${commandName}.js`)];
-//         const pull = require(`../Fun/${commandName}.js`);
-//         //   bot.commands.set(pull.config.name, pull)
-//         message.channel.send(`Successfully reloaded: \`${commandName}\``);
+//         delete require.cache[require.resolve(`../MAIN/${commandName}.js`)];
+
+//         // Assuming 'newCommandCode' contains the updated code for the command
+//         const newCommandCode = `/* Your updated command code here */`;
+
+//         // Write the updated code back to the file
+//         await fs.writeFile(
+//           `../MAIN/${commandName}.js`,
+//           newCommandCode,
+//           (err) => {
+//             if (err) {
+//               console.error(err);
+//               return message.channel.send(
+//                 `Could not Reload and Save Command: ${commandName}.js Because: \n${err}`
+//               );
+//             }
+//             message.channel.send(
+//               `Successfully reloaded and saved: \`${commandName}.js\``
+//             );
+//           }
+//         );
 //       } catch (e) {
-//         console.log(e);
+//         console.error(e);
 //         return message.channel.send(
-//           `Could not Reload Command: ${commandName} From Moderation Module Because: \n${e}`
+//           `Could not Reload and Save Command: ${commandName}.js Because: \n${e}`
 //         );
 //       }
 //     }

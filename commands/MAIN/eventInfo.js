@@ -82,7 +82,7 @@ module.exports = {
 11. <:blackOil:1154415835998322718> Black Oil (Epic)
 12. <:hotWater:1154416000360525924> Hot water (Rare)
 13. <:transparentGlass:1154416282133876868> Transparent glass (Rare)
-14. <:eternalFlameEssence:1154414454155530371> Awakening gem (Common)
+14. <:awakeninggem:1147071223042424902> Awakening gem (Common)
 15. <:rustygears:1147072174264426606> Rusty gears (Common)
 16. <:torncloth:1147103370637738035> Torn cloth (Common)
 17. <:brokenstick:1147072664792485949> Broken stick (Common)
@@ -94,7 +94,6 @@ module.exports = {
         )
         .addField(`Boss name`, `Infernoth, the emberwing`)
         .setFooter(`Start date : 21 september 2023`)
-        .setFooter(`End date : Not decided`)
         .setThumbnail(`https://i.ibb.co/Hg5nsDC/infernoth-The-Emberwing.gif`)
         .setColor("#8B0000");
       message.channel.send(eventEmbed);

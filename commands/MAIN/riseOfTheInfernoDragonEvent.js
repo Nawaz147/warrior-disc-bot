@@ -128,7 +128,7 @@ module.exports = {
             message.channel.send(timeEmbed);
           } else {
             function resetBossHealth() {
-              db.set(`infernothTheEmberwingBossHealth_${tokenDB}`, 2210902);
+              db.set(`infernothTheEmberwingBossHealth_${tokenDB}`, 24190210);
               db.set(`didntHitCooldown_${tokenDB}`, Date.now());
 
               // Notify that the boss ran away
@@ -143,7 +143,8 @@ module.exports = {
             }
 
             var infernothTheEmberwingBossHealth =
-              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) || 2210902;
+              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
+              24190210;
             function createHealthBar(health, maxHealth, barLength = 20) {
               // Ensure health and maxHealth are non-negative
               health = Math.max(0, health);
@@ -169,29 +170,31 @@ module.exports = {
               return progressBar;
             }
             var infernothTheEmberwingBossHealth =
-              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) || 2210902;
+              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
+              24190210;
             const bossHealthBar = createHealthBar(
               infernothTheEmberwingBossHealth,
-              2210902,
+              24190210,
               20
             );
 
             var currentBossHealth =
-              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) || 2210902;
+              db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
+              24190210;
 
             if (currentBossHealth > "0") {
               currentBossHealth = currentBossHealth
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-              var bossHealthProgress = `${currentBossHealth} / 2,210,902`;
+              var bossHealthProgress = `${currentBossHealth} / 24,190,210`;
             } else {
-              var bossHealthProgress = `0 / 2,210,902`;
+              var bossHealthProgress = `0 / 24,190,210`;
             }
             if (
               infernothTheEmberwingBossHealth == null ||
               infernothTheEmberwingBossHealth == undefined
             ) {
-              db.set(`infernothTheEmberwingBossHealth_${tokenDB}`, 2210902);
+              db.set(`infernothTheEmberwingBossHealth_${tokenDB}`, 24190210);
             }
 
             var infernothTheEmberwingBoss = "Infernoth, the emberwing";
@@ -229,7 +232,7 @@ module.exports = {
             if (bossSpawned == true) {
               const bossHealthBar = createHealthBar(
                 infernothTheEmberwingBossHealth,
-                2210902,
+                24190210,
                 20
               );
               const infernothTheEmberwingBossEmbed = new Discord.MessageEmbed()
@@ -282,12 +285,12 @@ module.exports = {
                   reaction.remove(user).catch(console.error);
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
-                    2210902;
+                    24190210;
                   function addwaterSkillReaction() {
                     if (
                       !collector.ended &&
                       infernothTheEmberwingBossHealth > 0 &&
-                      infernothTheEmberwingBossHealth !== 2210902
+                      infernothTheEmberwingBossHealth !== 24190210
                     ) {
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -307,9 +310,9 @@ module.exports = {
                             var infernothTheEmberwingBossHealth =
                               db.fetch(
                                 `infernothTheEmberwingBossHealth_${tokenDB}`
-                              ) || 2210902;
+                              ) || 24190210;
                             if (
-                              infernothTheEmberwingBossHealth < 2210902 &&
+                              infernothTheEmberwingBossHealth < 24190210 &&
                               infernothTheEmberwingBossHealth > 0
                             ) {
                               db.set(`waterReactionInterval_${tokenDB}`, 0);
@@ -342,7 +345,7 @@ module.exports = {
                     bossMessage.reactions.removeAll();
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     db.set(
                       `infernothTheEmberwingBossSpawned_${tokenDB}`,
@@ -369,8 +372,10 @@ module.exports = {
                     message.channel.send(infernothTheEmberwingBossDeadEmbed);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
                     var chance = Math.floor(Math.random() * 175) + 1;
+                    console.log(chance);
                     var moonsShineOfMetalSwordChance =
                       Math.floor(Math.random() * 1000) + 1;
+                    console.log(moonsShineOfMetalSwordChance);
                     var weaponName = db.fetch(`wepName_${tokenDB}`);
                     if (weaponName == "daggerOfDeath") {
                       const daggerXP = Math.floor(Math.random() * 15) + 7;
@@ -385,8 +390,8 @@ module.exports = {
 
                       // Define the damage values for each level
                       const levelDamage = [
-                        200301, 233406, 340221, 462059, 609231, 920132, 1306890,
-                        1690530, 2049141,
+                        1200301, 2233406, 2740221, 3462059, 5109231, 6920132,
+                        7306890, 8690530, 10049141,
                       ];
                       const xpLevels = [
                         { threshold: 35, level: 2 },
@@ -486,13 +491,13 @@ module.exports = {
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     if (moonsShineOfMetalSwordChance == 1) {
                       message.channel.send(
                         "```" +
                           `json
-"You received : Moons shine of metal sword"
+"${user.username} received : Moons shine of metal sword"
 ` +
                           "```"
                       );
@@ -502,7 +507,7 @@ module.exports = {
                       message.channel.send(
                         "```" +
                           `diff
--You received : Eldritch flame scroll
+-${user.username} received : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -511,7 +516,7 @@ module.exports = {
                       message.channel.send(
                         "```" +
                           `fix
-You received : Inernoth's wrathful eye
+${user.username} received : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -520,7 +525,7 @@ You received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic gem
+${user.username} received : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -529,7 +534,7 @@ You received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-You received : Waetra the freezed bow
+${user.username} received : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -538,7 +543,7 @@ You received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic essence
+${user.username} received : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -547,7 +552,7 @@ You received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-You received : Magmatic torch
+${user.username} received : Magmatic torch
 ` +
                           "```"
                       );
@@ -556,7 +561,7 @@ You received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Eternal flame essence
+$-${user.username} received : Eternal flame essence
 ` +
                           "```"
                       );
@@ -565,7 +570,7 @@ $-You received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-You received : Black oil
+${user.username} received : Black oil
 ` +
                           "```"
                       );
@@ -574,7 +579,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Transparent glass"
+"${user.username} received : Transparent glass"
 ` +
                           "```"
                       );
@@ -583,7 +588,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Hot water"
+"${user.username} received : Hot water"
 ` +
                           "```"
                       );
@@ -592,7 +597,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Texarus the demonished staff
+$-${user.username} received : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -600,7 +605,9 @@ $-You received : Texarus the demonished staff
                     } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
-                        "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
+                        "```" +
+                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
@@ -608,7 +615,7 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[You received : Elite awakening gem]
+[${user.username} received : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -617,44 +624,58 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-You received : Awakening gem
+${user.username} received : Awakening gem
 ` +
                           "```"
                       );
                     } else if (chance >= 50 && chance < 130) {
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Rusty gears\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Rusty gears\n` +
+                            "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Dustbin\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Dustbin\n` +
+                            "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Newspaper\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Newspaper\n` +
+                            "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Torn cloth\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Torn cloth\n` +
+                            "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Used tissue\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Used tissue\n` +
+                            "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Broken stick\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Broken stick\n` +
+                            "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Awakening gem\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Awakening gem\n` +
+                            "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
                       }
@@ -734,7 +755,7 @@ You received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-You received : ${finalCoins} Gold Coins
+${user.username} received : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -747,7 +768,7 @@ You received : ${finalCoins} Gold Coins
                   db.set(`didntHitCooldown_${tokenDB}`, currentTime);
                   const bossHealthBar = createHealthBar(
                     infernothTheEmberwingBossHealth,
-                    2210902,
+                    24190210,
                     20
                   );
                   infernothTheEmberwingBossHealth =
@@ -760,7 +781,7 @@ You received : ${finalCoins} Gold Coins
                       .setColor("#8B0000")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
-                        `${infernothTheEmberwingBossHealth} / 2,210,902`,
+                        `${infernothTheEmberwingBossHealth} / 24,190,210`,
                         `${bossHealthBar}`,
                         true
                       )
@@ -778,7 +799,7 @@ You received : ${finalCoins} Gold Coins
                   const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
                   // const bossHealthBar = createHealthBar(
                   //   infernothTheEmberwingBossHealth,
-                  //   2210902,
+                  //   24190210,
                   //   20
                   // );
                   // It's not on cooldown, proceed to deal damage
@@ -789,7 +810,7 @@ You received : ${finalCoins} Gold Coins
                   );
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
-                    2210902;
+                    24190210;
 
                   if (
                     infernothTheEmberwingBossHealth < 0 ||
@@ -801,7 +822,7 @@ You received : ${finalCoins} Gold Coins
                     bossMessage.reactions.removeAll();
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     db.set(
                       `infernothTheEmberwingBossSpawned_${tokenDB}`,
@@ -828,8 +849,10 @@ You received : ${finalCoins} Gold Coins
                     message.channel.send(infernothTheEmberwingBossDeadEmbed);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
                     var chance = Math.floor(Math.random() * 175) + 1;
+                    console.log(chance);
                     var moonsShineOfMetalSwordChance =
                       Math.floor(Math.random() * 1000) + 1;
+                    console.log(moonsShineOfMetalSwordChance);
                     var weaponName = db.fetch(`wepName_${tokenDB}`);
                     if (weaponName == "daggerOfDeath") {
                       const daggerXP = Math.floor(Math.random() * 15) + 7;
@@ -844,8 +867,8 @@ You received : ${finalCoins} Gold Coins
 
                       // Define the damage values for each level
                       const levelDamage = [
-                        200301, 233406, 340221, 462059, 609231, 920132, 1306890,
-                        1690530, 2049141,
+                        1200301, 2233406, 2740221, 3462059, 5109231, 6920132,
+                        7306890, 8690530, 10049141,
                       ];
                       const xpLevels = [
                         { threshold: 35, level: 2 },
@@ -945,13 +968,13 @@ You received : ${finalCoins} Gold Coins
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     if (moonsShineOfMetalSwordChance == 1) {
                       message.channel.send(
                         "```" +
                           `json
-"You received : Moons shine of metal sword"
+"${user.username} received : Moons shine of metal sword"
 ` +
                           "```"
                       );
@@ -961,7 +984,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `diff
--You received : Eldritch flame scroll
+-${user.username} received : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -970,7 +993,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-You received : Inernoth's wrathful eye
+${user.username} received : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -979,7 +1002,7 @@ You received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic gem
+${user.username} received : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -988,7 +1011,7 @@ You received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-You received : Waetra the freezed bow
+${user.username} received : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -997,7 +1020,7 @@ You received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic essence
+${user.username} received : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -1006,7 +1029,7 @@ You received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-You received : Magmatic torch
+${user.username} received : Magmatic torch
 ` +
                           "```"
                       );
@@ -1015,7 +1038,7 @@ You received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Eternal flame essence
+$-${user.username} received : Eternal flame essence
 ` +
                           "```"
                       );
@@ -1024,7 +1047,7 @@ $-You received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-You received : Black oil
+${user.username} received : Black oil
 ` +
                           "```"
                       );
@@ -1033,7 +1056,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Transparent glass"
+"${user.username} received : Transparent glass"
 ` +
                           "```"
                       );
@@ -1042,7 +1065,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Hot water"
+"${user.username} received : Hot water"
 ` +
                           "```"
                       );
@@ -1051,7 +1074,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Texarus the demonished staff
+$-${user.username} received : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -1059,7 +1082,9 @@ $-You received : Texarus the demonished staff
                     } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
-                        "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
+                        "```" +
+                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
@@ -1067,7 +1092,7 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[You received : Elite awakening gem]
+[${user.username} received : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1076,44 +1101,58 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-You received : Awakening gem
+${user.username} received : Awakening gem
 ` +
                           "```"
                       );
                     } else if (chance >= 50 && chance < 130) {
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Rusty gears\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Rusty gears\n` +
+                            "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Dustbin\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Dustbin\n` +
+                            "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Newspaper\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Newspaper\n` +
+                            "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Torn cloth\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Torn cloth\n` +
+                            "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Used tissue\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Used tissue\n` +
+                            "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Broken stick\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Broken stick\n` +
+                            "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Awakening gem\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Awakening gem\n` +
+                            "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
                       }
@@ -1193,7 +1232,7 @@ You received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-You received : ${finalCoins} Gold Coins
+${user.username} received : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -1206,7 +1245,7 @@ You received : ${finalCoins} Gold Coins
                   // Send an updated boss message
                   const bossHealthBar = createHealthBar(
                     infernothTheEmberwingBossHealth,
-                    2210902,
+                    24190210,
                     20
                   );
                   infernothTheEmberwingBossHealth =
@@ -1219,7 +1258,7 @@ You received : ${finalCoins} Gold Coins
                       .setColor("#8B0000")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
-                        `${infernothTheEmberwingBossHealth} / 2,210,902`,
+                        `${infernothTheEmberwingBossHealth} / 24,190,210`,
                         `${bossHealthBar}`,
                         true
                       )
@@ -1245,7 +1284,7 @@ You received : ${finalCoins} Gold Coins
               var waterSkill = "<a:waterElement:1152278341181767821";
               const bossHealthBar = createHealthBar(
                 infernothTheEmberwingBossHealth,
-                2210902,
+                24190210,
                 20
               );
               const infernothTheEmberwingBossEmbed = new Discord.MessageEmbed()
@@ -1296,12 +1335,12 @@ You received : ${finalCoins} Gold Coins
                   reaction.remove(user).catch(console.error);
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
-                    2210902;
+                    24190210;
                   function addwaterSkillReaction() {
                     if (
                       !collector.ended &&
                       infernothTheEmberwingBossHealth > 0 &&
-                      infernothTheEmberwingBossHealth !== 2210902
+                      infernothTheEmberwingBossHealth !== 24190210
                     ) {
                       if (!reactedUsers.has(message.author.id)) {
                         reactedUsers.add(message.author.id); // Add the user to the set to track their reaction
@@ -1321,9 +1360,9 @@ You received : ${finalCoins} Gold Coins
                             var infernothTheEmberwingBossHealth =
                               db.fetch(
                                 `infernothTheEmberwingBossHealth_${tokenDB}`
-                              ) || 2210902;
+                              ) || 24190210;
                             if (
-                              infernothTheEmberwingBossHealth < 2210902 &&
+                              infernothTheEmberwingBossHealth < 24190210 &&
                               infernothTheEmberwingBossHealth > 0
                             ) {
                               db.set(`waterReactionInterval_${tokenDB}`, 0);
@@ -1356,7 +1395,7 @@ You received : ${finalCoins} Gold Coins
                     bossMessage.reactions.removeAll();
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     db.set(
                       `infernothTheEmberwingBossSpawned_${tokenDB}`,
@@ -1383,8 +1422,10 @@ You received : ${finalCoins} Gold Coins
                     message.channel.send(infernothTheEmberwingBossDeadEmbed);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
                     var chance = Math.floor(Math.random() * 175) + 1;
+                    console.log(chance);
                     var moonsShineOfMetalSwordChance =
                       Math.floor(Math.random() * 1000) + 1;
+                    console.log(moonsShineOfMetalSwordChance);
                     var weaponName = db.fetch(`wepName_${tokenDB}`);
                     if (weaponName == "daggerOfDeath") {
                       const daggerXP = Math.floor(Math.random() * 15) + 7;
@@ -1399,8 +1440,8 @@ You received : ${finalCoins} Gold Coins
 
                       // Define the damage values for each level
                       const levelDamage = [
-                        200301, 233406, 340221, 462059, 609231, 920132, 1306890,
-                        1690530, 2049141,
+                        1200301, 2233406, 2740221, 3462059, 5109231, 6920132,
+                        7306890, 8690530, 10049141,
                       ];
                       const xpLevels = [
                         { threshold: 35, level: 2 },
@@ -1500,13 +1541,13 @@ You received : ${finalCoins} Gold Coins
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     if (moonsShineOfMetalSwordChance == 1) {
                       message.channel.send(
                         "```" +
                           `json
-"You received : Moons shine of metal sword"
+"${user.username} received : Moons shine of metal sword"
 ` +
                           "```"
                       );
@@ -1516,7 +1557,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `diff
--You received : Eldritch flame scroll
+-${user.username} received : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -1525,7 +1566,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-You received : Inernoth's wrathful eye
+${user.username} received : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -1534,7 +1575,7 @@ You received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic gem
+${user.username} received : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -1543,7 +1584,7 @@ You received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-You received : Waetra the freezed bow
+${user.username} received : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -1552,7 +1593,7 @@ You received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic essence
+${user.username} received : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -1561,7 +1602,7 @@ You received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-You received : Magmatic torch
+${user.username} received : Magmatic torch
 ` +
                           "```"
                       );
@@ -1570,7 +1611,7 @@ You received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Eternal flame essence
+$-${user.username} received : Eternal flame essence
 ` +
                           "```"
                       );
@@ -1579,7 +1620,7 @@ $-You received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-You received : Black oil
+${user.username} received : Black oil
 ` +
                           "```"
                       );
@@ -1588,7 +1629,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Transparent glass"
+"${user.username} received : Transparent glass"
 ` +
                           "```"
                       );
@@ -1597,7 +1638,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Hot water"
+"${user.username} received : Hot water"
 ` +
                           "```"
                       );
@@ -1606,7 +1647,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Texarus the demonished staff
+$-${user.username} received : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -1614,7 +1655,9 @@ $-You received : Texarus the demonished staff
                     } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
-                        "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
+                        "```" +
+                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
@@ -1622,7 +1665,7 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[You received : Elite awakening gem]
+[${user.username} received : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -1631,44 +1674,58 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-You received : Awakening gem
+${user.username} received : Awakening gem
 ` +
                           "```"
                       );
                     } else if (chance >= 50 && chance < 130) {
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Rusty gears\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Rusty gears\n` +
+                            "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Dustbin\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Dustbin\n` +
+                            "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Newspaper\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Newspaper\n` +
+                            "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Torn cloth\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Torn cloth\n` +
+                            "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Used tissue\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Used tissue\n` +
+                            "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Broken stick\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Broken stick\n` +
+                            "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Awakening gem\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Awakening gem\n` +
+                            "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
                       }
@@ -1748,7 +1805,7 @@ You received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-You received : ${finalCoins} Gold Coins
+${user.username} received : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -1761,7 +1818,7 @@ You received : ${finalCoins} Gold Coins
                   db.set(`didntHitCooldown_${tokenDB}`, currentTime);
                   const bossHealthBar = createHealthBar(
                     infernothTheEmberwingBossHealth,
-                    2210902,
+                    24190210,
                     20
                   );
                   infernothTheEmberwingBossHealth =
@@ -1774,7 +1831,7 @@ You received : ${finalCoins} Gold Coins
                       .setColor("#8B0000")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
-                        `${infernothTheEmberwingBossHealth} / 2,210,902`,
+                        `${infernothTheEmberwingBossHealth} / 24,190,210`,
                         `${bossHealthBar}`,
                         true
                       )
@@ -1792,7 +1849,7 @@ You received : ${finalCoins} Gold Coins
                   const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
                   // const bossHealthBar = createHealthBar(
                   //   infernothTheEmberwingBossHealth,
-                  //   2210902,
+                  //   24190210,
                   //   20
                   // );
                   // It's not on cooldown, proceed to deal damage
@@ -1803,7 +1860,7 @@ You received : ${finalCoins} Gold Coins
                   );
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
-                    2210902;
+                    24190210;
 
                   if (
                     infernothTheEmberwingBossHealth < 0 ||
@@ -1815,7 +1872,7 @@ You received : ${finalCoins} Gold Coins
                     bossMessage.reactions.removeAll();
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     db.set(
                       `infernothTheEmberwingBossSpawned_${tokenDB}`,
@@ -1842,8 +1899,10 @@ You received : ${finalCoins} Gold Coins
                     message.channel.send(infernothTheEmberwingBossDeadEmbed);
                     db.add(`bossesKilledTotal_${tokenDB}`, 1);
                     var chance = Math.floor(Math.random() * 175) + 1;
+                    console.log(chance);
                     var moonsShineOfMetalSwordChance =
                       Math.floor(Math.random() * 1000) + 1;
+                    console.log(moonsShineOfMetalSwordChance);
                     var weaponName = db.fetch(`wepName_${tokenDB}`);
                     if (weaponName == "daggerOfDeath") {
                       const daggerXP = Math.floor(Math.random() * 15) + 7;
@@ -1858,8 +1917,8 @@ You received : ${finalCoins} Gold Coins
 
                       // Define the damage values for each level
                       const levelDamage = [
-                        200301, 233406, 340221, 462059, 609231, 920132, 1306890,
-                        1690530, 2049141,
+                        1200301, 2233406, 2740221, 3462059, 5109231, 6920132,
+                        7306890, 8690530, 10049141,
                       ];
                       const xpLevels = [
                         { threshold: 35, level: 2 },
@@ -1959,13 +2018,13 @@ You received : ${finalCoins} Gold Coins
                     db.set(`cooldown_${tokenDB}`, Date.now());
                     db.set(
                       `infernothTheEmberwingBossHealth_${tokenDB}`,
-                      2210902
+                      24190210
                     );
                     if (moonsShineOfMetalSwordChance == 1) {
                       message.channel.send(
                         "```" +
                           `json
-"You received : Moons shine of metal sword"
+"${user.username} received : Moons shine of metal sword"
 ` +
                           "```"
                       );
@@ -1975,7 +2034,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `diff
--You received : Eldritch flame scroll
+-${user.username} received : Eldritch flame scroll
 ` +
                           "```"
                       );
@@ -1984,7 +2043,7 @@ You received : ${finalCoins} Gold Coins
                       message.channel.send(
                         "```" +
                           `fix
-You received : Inernoth's wrathful eye
+${user.username} received : Inernoth's wrathful eye
 ` +
                           "```"
                       );
@@ -1993,7 +2052,7 @@ You received : Inernoth's wrathful eye
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic gem
+${user.username} received : Pyroclasmic gem
 ` +
                           "```"
                       );
@@ -2002,7 +2061,7 @@ You received : Pyroclasmic gem
                       message.channel.send(
                         "```" +
                           `fix
-You received : Waetra the freezed bow
+${user.username} received : Waetra the freezed bow
 ` +
                           "```"
                       );
@@ -2011,7 +2070,7 @@ You received : Waetra the freezed bow
                       message.channel.send(
                         "```" +
                           `fix
-You received : Pyroclasmic essence
+${user.username} received : Pyroclasmic essence
 ` +
                           "```"
                       );
@@ -2020,7 +2079,7 @@ You received : Pyroclasmic essence
                       message.channel.send(
                         "```" +
                           `fix
-You received : Magmatic torch
+${user.username} received : Magmatic torch
 ` +
                           "```"
                       );
@@ -2029,7 +2088,7 @@ You received : Magmatic torch
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Eternal flame essence
+$-${user.username} received : Eternal flame essence
 ` +
                           "```"
                       );
@@ -2038,7 +2097,7 @@ $-You received : Eternal flame essence
                       message.channel.send(
                         "```" +
                           `elm
-You received : Black oil
+${user.username} received : Black oil
 ` +
                           "```"
                       );
@@ -2047,7 +2106,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Transparent glass"
+"${user.username} received : Transparent glass"
 ` +
                           "```"
                       );
@@ -2056,7 +2115,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `css
-"You received : Hot water"
+"${user.username} received : Hot water"
 ` +
                           "```"
                       );
@@ -2065,7 +2124,7 @@ You received : Black oil
                       message.channel.send(
                         "```" +
                           `tex
-$-You received : Texarus the demonished staff
+$-${user.username} received : Texarus the demonished staff
 ` +
                           "```"
                       );
@@ -2073,7 +2132,9 @@ $-You received : Texarus the demonished staff
                     } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       db.add(`soldiers_${tokenDB}`, 1);
                       message.channel.send(
-                        "```" + `diff\n🗡You received a Soldier🗡\n` + "```"
+                        "```" +
+                          `diff\n🗡${user.username} received a Soldier🗡\n` +
+                          "```"
                       );
                       db.add(`power.${tokenDB}`, 0.08);
                     } else if (chance > 30 && (chance < 40 || chance == 40)) {
@@ -2081,7 +2142,7 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `css
-[You received : Elite awakening gem]
+[${user.username} received : Elite awakening gem]
 ` +
                           "```"
                       );
@@ -2090,44 +2151,58 @@ $-You received : Texarus the demonished staff
                       message.channel.send(
                         "```" +
                           `
-You received : Awakening gem
+${user.username} received : Awakening gem
 ` +
                           "```"
                       );
                     } else if (chance >= 50 && chance < 130) {
                       if (randomScrap == "Rusty gears") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Rusty gears\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Rusty gears\n` +
+                            "```"
                         );
                         db.add(`rustyGears_${tokenDB}`, 1);
                       } else if (randomScrap == "Dustbin") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Dustbin\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Dustbin\n` +
+                            "```"
                         );
                         db.add(`dustbin_${tokenDB}`, 1);
                       } else if (randomScrap == "Newspaper") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Newspaper\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Newspaper\n` +
+                            "```"
                         );
                         db.add(`newspaper_${tokenDB}`, 1);
                       } else if (randomScrap == "Torn cloth") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Torn cloth\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Torn cloth\n` +
+                            "```"
                         );
                         db.add(`tornCloth_${tokenDB}`, 1);
                       } else if (randomScrap == "Used tissue") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Used tissue\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Used tissue\n` +
+                            "```"
                         );
                         db.add(`usedTissue_${tokenDB}`, 1);
                       } else if (randomScrap == "Broken stick") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Broken stick\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Broken stick\n` +
+                            "```"
                         );
                         db.add(`brokenStick_${tokenDB}`, 1);
                       } else if (randomScrap == "Awakening gem") {
                         message.channel.send(
-                          "```" + `diff\nYou received : Awakening gem\n` + "```"
+                          "```" +
+                            `diff\n${user.username} received : Awakening gem\n` +
+                            "```"
                         );
                         db.add(`awakeningGem_${tokenDB}`, 1);
                       }
@@ -2207,7 +2282,7 @@ You received : Awakening gem
                         message.channel.send(
                           "```" +
                             `diff
-You received : ${finalCoins} Gold Coins
+${user.username} received : ${finalCoins} Gold Coins
 ` +
                             "```"
                         );
@@ -2219,7 +2294,7 @@ You received : ${finalCoins} Gold Coins
                   // Send an updated boss message
                   const bossHealthBar = createHealthBar(
                     infernothTheEmberwingBossHealth,
-                    2210902,
+                    24190210,
                     20
                   );
                   infernothTheEmberwingBossHealth =
@@ -2232,7 +2307,7 @@ You received : ${finalCoins} Gold Coins
                       .setColor("#8B0000")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
-                        `${infernothTheEmberwingBossHealth} / 2,210,902`,
+                        `${infernothTheEmberwingBossHealth} / 24,190,210`,
                         `${bossHealthBar}`,
                         true
                       )

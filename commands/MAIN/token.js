@@ -72,7 +72,8 @@ The bot is currently undergoing an update. Please be patient!
         }, 3000);
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsRuneLegend_${token}`, true);
+        db.set(`enshrinedAsARuneLegend_${token}`, true);
+        db.set(`tokenExists_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         console.log(db.fetch(`achievementPoints_${token}`));
 
@@ -115,7 +116,7 @@ The bot is currently undergoing an update. Please be patient!
 
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsRuneLegend_${token}`, true);
+        db.set(`enshrinedAsARuneLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         // Save the current date (day, month, and year) in the database
         const currentDate = new Date();

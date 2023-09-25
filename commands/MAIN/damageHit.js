@@ -381,7 +381,9 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 32) + 1;
+                        var chance = Math.floor(Math.random() * 70) + 1;
+                        var moonsShineOfMetalSwordChance =
+                          Math.floor(Math.random() * 800) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -510,6 +512,16 @@ module.exports = {
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
                           136905102
                         );
+                        if (moonsShineOfMetalSwordChance == 1) {
+                          message.channel.send(
+                            "```" +
+                              `json
+"You received : Moons shine of metal sword"
+` +
+                              "```"
+                          );
+                          db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
+                        }
                         if (chance == 1) {
                           message.channel.send(
                             "```" +
@@ -759,7 +771,9 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 32) + 1;
+                        var chance = Math.floor(Math.random() * 70) + 1;
+                        var moonsShineOfMetalSwordChance =
+                          Math.floor(Math.random() * 800) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -888,6 +902,16 @@ module.exports = {
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
                           136905102
                         );
+                        if (moonsShineOfMetalSwordChance == 1) {
+                          message.channel.send(
+                            "```" +
+                              `json
+"You received : Moons shine of metal sword"
+` +
+                              "```"
+                          );
+                          db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
+                        }
                         if (chance == 1) {
                           message.channel.send(
                             "```" +
@@ -1243,7 +1267,9 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 32) + 1;
+                        var chance = Math.floor(Math.random() * 70) + 1;
+                        var moonsShineOfMetalSwordChance =
+                          Math.floor(Math.random() * 800) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -1372,6 +1398,16 @@ module.exports = {
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
                           136905102
                         );
+                        if (moonsShineOfMetalSwordChance == 1) {
+                          message.channel.send(
+                            "```" +
+                              `json
+"You received : Moons shine of metal sword"
+` +
+                              "```"
+                          );
+                          db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
+                        }
                         if (chance == 1) {
                           message.channel.send(
                             "```" +
@@ -1623,7 +1659,9 @@ module.exports = {
                           eldrazurTheAbyssalTyrantBossDeadEmbed
                         );
                         db.add(`bossesKilledTotal_${tokenDB}`, 1);
-                        var chance = Math.floor(Math.random() * 32) + 1;
+                        var chance = Math.floor(Math.random() * 70) + 1;
+                        var moonsShineOfMetalSwordChance =
+                          Math.floor(Math.random() * 800) + 1;
                         var weaponName = db.fetch(`wepName_${tokenDB}`);
                         if (weaponName == "daggerOfDeath") {
                           const daggerXP =
@@ -1752,6 +1790,16 @@ module.exports = {
                           `eldrazurTheAbyssalTyrantBossHealth_${tokenDB}`,
                           136905102
                         );
+                        if (moonsShineOfMetalSwordChance == 1) {
+                          message.channel.send(
+                            "```" +
+                              `json
+"You received : Moons shine of metal sword"
+` +
+                              "```"
+                          );
+                          db.add(`moonsShineOfMetalSword_${tokenDB}`, 1);
+                        }
                         if (chance == 1) {
                           message.channel.send(
                             "```" +

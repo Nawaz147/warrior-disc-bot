@@ -1417,18 +1417,18 @@ module.exports = {
             message.channel.send(pyroclasmicGemSoldEmbed);
           }
           if (item == "pyroclasmicEssence") {
-            pyroclasmicEssenceSellPrice = prices.pyroclasmicEssence;
+            pyroclasmicEssenceSellPrice = prices.pyroclasmicEssence / 2;
             db.add(`pyroclasmicEssenceStoreAdd`, amountOfPieces);
             db.subtract(`pyroclasmicEssence_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.pyroclasmicEssence * amountOfPieces
+              (prices.pyroclasmicEssence / 2) * amountOfPieces
             );
             pyroclasmicEssenceSellPrice = pyroclasmicEssenceSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             pyroclasmicEssenceTotalSellPrice =
-              prices.pyroclasmicEssence * amountOfPieces;
+              (prices.pyroclasmicEssence / 2) * amountOfPieces;
             pyroclasmicEssenceTotalSellPrice = pyroclasmicEssenceTotalSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1450,17 +1450,18 @@ module.exports = {
             message.channel.send(pyroclasmicEssenceSoldEmbed);
           }
           if (item == "magmaticTorch") {
-            magmaticTorchSellPrice = prices.magmaticTorch;
+            magmaticTorchSellPrice = prices.magmaticTorch / 2;
             db.add(`magmaticTorchStoreAdd`, amountOfPieces);
             db.subtract(`magmaticTorch_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.magmaticTorch * amountOfPieces
+              (prices.magmaticTorch / 2) * amountOfPieces
             );
             magmaticTorchSellPrice = magmaticTorchSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            magmaticTorchTotalSellPrice = prices.magmaticTorch * amountOfPieces;
+            magmaticTorchTotalSellPrice =
+              (prices.magmaticTorch / 2) * amountOfPieces;
             magmaticTorchTotalSellPrice = magmaticTorchTotalSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1476,18 +1477,18 @@ module.exports = {
             message.channel.send(magmaticTorchSoldEmbed);
           }
           if (item == "eternalFlameEssence") {
-            eternalFlameEssenceSellPrice = prices.eternalFlameEssence;
+            eternalFlameEssenceSellPrice = prices.eternalFlameEssence / 2;
             db.add(`eternalFlameEssenceStoreAdd`, amountOfPieces);
             db.subtract(`eternalFlameEssence_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.eternalFlameEssence * amountOfPieces
+              (prices.eternalFlameEssence / 2) * amountOfPieces
             );
             eternalFlameEssenceSellPrice = eternalFlameEssenceSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             eternalFlameEssenceTotalSellPrice =
-              prices.eternalFlameEssence * amountOfPieces;
+              (prices.eternalFlameEssence / 2) * amountOfPieces;
             eternalFlameEssenceTotalSellPrice =
               eternalFlameEssenceTotalSellPrice
                 .toString()
@@ -1510,14 +1511,17 @@ module.exports = {
             message.channel.send(eternalFlameEssenceSoldEmbed);
           }
           if (item == "blackOil") {
-            blackOilSellPrice = prices.blackOil;
+            blackOilSellPrice = prices.blackOil / 2;
             db.add(`blackOilStoreAdd`, amountOfPieces);
             db.subtract(`blackOil_${tokenDB}`, amountOfPieces);
-            db.add(`money_${tokenDB}.pocket`, prices.blackOil * amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.blackOil / 2) * amountOfPieces
+            );
             blackOilSellPrice = blackOilSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            blackOilTotalSellPrice = prices.blackOil * amountOfPieces;
+            blackOilTotalSellPrice = (prices.blackOil / 2) * amountOfPieces;
             blackOilTotalSellPrice = blackOilTotalSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1533,14 +1537,17 @@ module.exports = {
             message.channel.send(blackOilSoldEmbed);
           }
           if (item == "hotWater") {
-            hotWaterSellPrice = prices.hotWater;
+            hotWaterSellPrice = prices.hotWater / 2;
             db.add(`hotWaterStoreAdd`, amountOfPieces);
             db.subtract(`hotWater_${tokenDB}`, amountOfPieces);
-            db.add(`money_${tokenDB}.pocket`, prices.hotWater * amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.hotWater / 2) * amountOfPieces
+            );
             hotWaterSellPrice = hotWaterSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            hotWaterTotalSellPrice = prices.hotWater * amountOfPieces;
+            hotWaterTotalSellPrice = (prices.hotWater / 2) * amountOfPieces;
             hotWaterTotalSellPrice = hotWaterTotalSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1556,18 +1563,18 @@ module.exports = {
             message.channel.send(hotWaterSoldEmbed);
           }
           if (item == "transparentGlass") {
-            transparentGlassSellPrice = prices.transparentGlass;
+            transparentGlassSellPrice = prices.transparentGlass / 2;
             db.add(`transparentGlassStoreAdd`, amountOfPieces);
             db.subtract(`transparentGlass_${tokenDB}`, amountOfPieces);
             db.add(
               `money_${tokenDB}.pocket`,
-              prices.transparentGlass * amountOfPieces
+              (prices.transparentGlass / 2) * amountOfPieces
             );
             transparentGlassSellPrice = transparentGlassSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             transparentGlassTotalSellPrice =
-              prices.transparentGlass * amountOfPieces;
+              (prices.transparentGlass / 2) * amountOfPieces;
             transparentGlassTotalSellPrice = transparentGlassTotalSellPrice
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1581,6 +1588,40 @@ module.exports = {
               .setColor("#008080");
             db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
             message.channel.send(transparentGlassSoldEmbed);
+          }
+          if (item == "moonsShineOfMetalSword") {
+            moonsShineOfMetalSwordSellPrice = prices.moonsShineOfMetalSword / 2;
+            db.add(`moonsShineOfMetalSwordStoreAdd`, amountOfPieces);
+            db.subtract(`moonsShineOfMetalSword_${tokenDB}`, amountOfPieces);
+            db.add(
+              `money_${tokenDB}.pocket`,
+              (prices.moonsShineOfMetalSword / 2) * amountOfPieces
+            );
+            moonsShineOfMetalSwordSellPrice = moonsShineOfMetalSwordSellPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            moonsShineOfMetalSwordTotalSellPrice =
+              (prices.moonsShineOfMetalSword / 2) * amountOfPieces;
+            moonsShineOfMetalSwordTotalSellPrice =
+              moonsShineOfMetalSwordTotalSellPrice
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const moonsShineOfMetalSwordSoldEmbed = new Discord.MessageEmbed()
+              .setTitle(`Sold Successfully`)
+              .addField(`Item name`, "Moon's shine of metal sword")
+              .addField(`Number of pieces`, `${amountOfPieces}`)
+              .addField(
+                `Sell price per piece`,
+                `${moonsShineOfMetalSwordSellPrice}`
+              )
+              .addField(
+                `Total sell price`,
+                `${moonsShineOfMetalSwordTotalSellPrice}`
+              )
+              .setTimestamp()
+              .setColor("#008080");
+            db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+            message.channel.send(moonsShineOfMetalSwordSoldEmbed);
           }
           if (item == "trashItems") {
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
