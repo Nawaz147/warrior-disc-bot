@@ -34,7 +34,33 @@ module.exports = {
       update == false &&
       banned == false
     ) {
+      const tradeCooldowns = new Map();
+      const tradeCooldown = tradeCooldowns.get(message.author.id);
+      if (tradeCooldown && tradeCooldown > Date.now()) {
+        const remainingTime = (tradeCooldown - Date.now()) / 1000;
+        message.channel.send(
+          `Please wait ${remainingTime.toFixed(
+            1
+          )} seconds before initiating another trade.`
+        );
+        return;
+      }
       const itemID = args[0];
+      let fullNameItem = itemID.charAt(0).toUpperCase() + itemID.slice(1); // Capitalize the first letter
+      fullNameItem = fullNameItem.replace(/([A-Z])/g, " $1").trim(); // Formatting
+      if (itemID == "texarus") {
+        fullNameItem = "Texarus the demonished staff";
+      } else if (itemID == "waetra") {
+        fullNameItem = "Waetra the freezed bow";
+      } else if (itemID == "rasheta") {
+        fullNameItem = "Rasheta the furious axe";
+      } else if (itemID == "verdantLeaf") {
+        fullNameItem = "Verdant whisper leaf";
+      } else if (itemID == "natureDaggers") {
+        fullNameItem = "Nature daggers of superpower";
+      } else if (itemID == "immortalGun") {
+        fullNameItem = "Immortal gun of energy";
+      }
       if (!itemID || !prices.hasOwnProperty(itemID)) {
         message.channel.send(`Invalid item ID or the item does not exist`);
         return;
@@ -43,7 +69,8 @@ module.exports = {
         itemID == "goldBar" ||
         itemID == "soldier" ||
         itemID == "trashItems" ||
-        itemID == "unlockedCrateOfEnergy"
+        itemID == "unlockedCrateOfEnergy" ||
+        itemID == "ventorianBow"
       ) {
         return message.channel.send(`You cannot trade that item`);
       }
@@ -92,6 +119,7 @@ module.exports = {
       } else {
         // Calculate the tax (5% of the money)
         var taxAmount = Math.ceil((5 / 100) * money);
+        tradeCooldowns.set(message.author.id, Date.now() + 60000);
 
         // Format the money with commas
         money = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -102,15 +130,15 @@ module.exports = {
         const tradeEmbed = new Discord.MessageEmbed()
           .setTitle(`🤝 Trade request from ${message.author.username}`)
           .setDescription(
-            `Hey ${mentionedUser} , You received a trade Request from ${message.author.username}`
+            `Hey ${mentionedUser} , You received a Trade request from ${message.author.username}`
           )
           .addField(
             `${message.author.username} offers`,
-            `${amountOfPieces}x ${itemID}`
+            `${amountOfPieces}x ${fullNameItem}`
           )
           .addField(
             mentionedUser.username + " gives ",
-            money + ` (+${taxAmount}` + " `tax`)"
+            money + " (`+" + taxAmount + " tax`)"
           )
           .addField(`${mentionedUser.username} gives total`, `${finalAmount}`)
           .setColor(`#FFFF00`)
@@ -134,52 +162,75 @@ module.exports = {
 
             collector.on("collect", (reaction) => {
               if (reaction.emoji.name === "✅") {
-                money = args[2];
-                const tradeEmbed = new Discord.MessageEmbed()
-                  .setTitle(`Trade successful`)
-                  .setDescription(
-                    `The trade between ${message.author.username} and ${mentionedUser.username} was a success!`
-                  )
-                  .addField(
-                    `${mentionedUser.username} got`,
-                    `${amountOfPieces}x ${itemID}`
-                  )
-                  .addField(`${message.author.username} got`, `${money}`)
-                  .setColor(`#4BB543`)
-                  .setTimestamp();
-                message.channel.send(tradeEmbed);
+                const itemDB = db.fetch(`${itemID}_${tokenDBUser}`) || 0;
+                const moneyDB =
+                  db.fetch(`money_${mentionedUserTokenDB}.pocket`) || 0;
 
-                // Update the trade (subtract item from the user, add item to the mentioned user)
-                var money = args[2];
-                money = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                var finalAmount = parseFloat(money) + parseFloat(taxAmount);
-                db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
-                var mentionedUserTokenDB = db.fetch(
-                  `${mentionedUser.id}.valoriumToken`
-                );
-                var money = args[2];
+                if (itemDB < amountOfPieces) {
+                  message.channel.send(
+                    `${message.author} don't have ${amountOfPieces}x ${fullNameItem}`
+                  );
+                } else if (moneyDB < finalAmount) {
+                  message.channel.send(
+                    `${mentionedUser.username}, you dont have that amount of money`
+                  );
+                } else {
+                  money = args[2];
+                  money = money
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  const tradeEmbed = new Discord.MessageEmbed()
+                    .setTitle(`Trade successful`)
+                    .setDescription(
+                      `The trade between ${message.author.username} and ${mentionedUser.username} was a success!`
+                    )
+                    .addField(
+                      `${mentionedUser.username} got`,
+                      `${amountOfPieces}x ${fullNameItem}`
+                    )
+                    .addField(`${message.author.username} got`, `${money}`)
+                    .setColor(`#4BB543`)
+                    .setTimestamp();
+                  message.channel.send(tradeEmbed);
 
-                db.add(`${itemID}_${mentionedUserTokenDB}`, amountOfPieces);
-                db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
+                  // Update the trade (subtract item from the user, add item to the mentioned user)
+                  var money = args[2];
+                  money = money
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  var mentionedUserTokenDB = db.fetch(
+                    `${mentionedUser.id}.valoriumToken`
+                  );
+                  var money = args[2];
+                  var taxAmount = Math.ceil((5 / 100) * money);
+                  var finalAmount = parseFloat(money) + parseFloat(taxAmount);
 
-                // Transfer money
-                db.add(`money_${tokenDBUser}.pocket`, money);
-                db.subtract(
-                  `money_${mentionedUserTokenDB}.pocket`,
-                  finalAmount
-                );
+                  db.add(`${itemID}_${mentionedUserTokenDB}`, amountOfPieces);
+                  db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
+
+                  // Transfer money
+                  db.add(`money_${tokenDBUser}.pocket`, money);
+                  db.subtract(
+                    `money_${mentionedUserTokenDB}.pocket`,
+                    finalAmount
+                  );
+                }
               } else if (reaction.emoji.name === "❌") {
-                message.channel.send(
-                  `Trade rejected by ${mentionedUser.username}`
-                );
+                const tradeFailEmbed = new Discord.MessageEmbed()
+                  .setTitle(`Trade Rejected`)
+                  .setDescription(
+                    `The trade between ${message.author.username} and ${mentionedUser.username} was a failure!`
+                  )
+                  .setColor(`#b10000`)
+                  .setTimestamp();
+                message.channel.send(tradeFailEmbed);
               }
             });
 
             collector.on("end", (collected, reason) => {
               if (reason === "time") {
-                message.channel.send(
-                  `Trade request of ${message.author.username} has timed out`
-                );
+                tradeEmbed.setFooter("Trade expired"); // Set the footer to "Trade expired"
+                tradeMessage.edit(tradeEmbed); // Update the message with the new footer
               }
               tradeMessage.reactions.removeAll().catch(console.error);
             });
