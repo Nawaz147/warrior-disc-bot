@@ -19,12 +19,12 @@ module.exports = {
     const mentionedUser = message.mentions.users.first(); // Mentioned user
     const tokenDBUser = db.fetch(`${message.author.id}.valoriumToken`);
     const tokenDBMentioned = db.fetch(`${mentionedUser.id}.valoriumToken`);
-    const mentionedUserMoney = db.fetch(`money_${tokenDBMentioned}.pocket`);
-    const balance = db.fetch(`money_${tokenDBUser}.pocket`);
+    const mentionedUserMoney =
+      db.fetch(`money_${tokenDBMentioned}.pocket`) || 0;
+    const balance = db.fetch(`money_${tokenDBUser}.pocket`) || 0;
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDBUser}`) || false;
     const banned = db.fetch(`banned_${tokenDBUser}`) || false;
-
     if (startFunction) {
       startFunction(message, args, client);
     }
@@ -49,9 +49,9 @@ module.exports = {
       }
       var money = args[2];
       var taxAmount = Math.ceil((5 / 100) * money);
+      var finalAmount = parseFloat(money) + parseFloat(taxAmount);
       var amountOfPieces = args[1];
       var itemDB = db.fetch(`${itemID}_${tokenDBUser}`) || 0;
-
       if (!/^\d+$/.test(money)) {
         message.channel.send(`Money must be a valid number.`);
         return;
@@ -85,7 +85,7 @@ module.exports = {
       } else if (money + balance > moneyCap.moneyCap) {
         message.channel.send(`You cannot exceed the money cap`);
         return;
-      } else if (mentionedUserMoney < money + taxAmount) {
+      } else if (mentionedUserMoney < finalAmount) {
         message.channel.send(
           `${mentionedUser} does not have that amount of money`
         );
@@ -96,9 +96,11 @@ module.exports = {
         // Format the money with commas
         money = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         taxAmount = taxAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+        finalAmount = finalAmount
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         const tradeEmbed = new Discord.MessageEmbed()
-          .setTitle(`🤝 Trade request by ${message.author.username}`)
+          .setTitle(`🤝 Trade request from ${message.author.username}`)
           .setDescription(
             `Hey ${mentionedUser} , You received a trade Request from ${message.author.username}`
           )
@@ -106,7 +108,11 @@ module.exports = {
             `${message.author.username} offers`,
             `${amountOfPieces}x ${itemID}`
           )
-          .addField("You give", `${money} (+tax [${taxAmount}])`)
+          .addField(
+            mentionedUser.username + " gives ",
+            money + ` (+${taxAmount}` + " `tax`)"
+          )
+          .addField(`${mentionedUser.username} gives total`, `${finalAmount}`)
           .setColor(`#FFFF00`)
           .setFooter(`React with ✅ to accept or ❌ to reject`)
           .setTimestamp();
@@ -128,28 +134,40 @@ module.exports = {
 
             collector.on("collect", (reaction) => {
               if (reaction.emoji.name === "✅") {
+                money = args[2];
                 const tradeEmbed = new Discord.MessageEmbed()
                   .setTitle(`Trade successful`)
+                  .setDescription(
+                    `The trade between ${message.author.username} and ${mentionedUser.username} was a success!`
+                  )
                   .addField(
                     `${mentionedUser.username} got`,
                     `${amountOfPieces}x ${itemID}`
                   )
                   .addField(`${message.author.username} got`, `${money}`)
-                  .setColor(`#FFFF00`)
+                  .setColor(`#4BB543`)
                   .setTimestamp();
                 message.channel.send(tradeEmbed);
 
                 // Update the trade (subtract item from the user, add item to the mentioned user)
+                var money = args[2];
+                money = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                var finalAmount = parseFloat(money) + parseFloat(taxAmount);
                 db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
                 var mentionedUserTokenDB = db.fetch(
                   `${mentionedUser.id}.valoriumToken`
                 );
+                var money = args[2];
+
                 db.add(`${itemID}_${mentionedUserTokenDB}`, amountOfPieces);
                 db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
 
                 // Transfer money
                 db.add(`money_${tokenDBUser}.pocket`, money);
-                db.subtract(`money_${mentionedUserTokenDB}.pocket`, money);
+                db.subtract(
+                  `money_${mentionedUserTokenDB}.pocket`,
+                  finalAmount
+                );
               } else if (reaction.emoji.name === "❌") {
                 message.channel.send(
                   `Trade rejected by ${mentionedUser.username}`
@@ -159,7 +177,9 @@ module.exports = {
 
             collector.on("end", (collected, reason) => {
               if (reason === "time") {
-                message.channel.send("Trade request timed out.");
+                message.channel.send(
+                  `Trade request of ${message.author.username} has timed out`
+                );
               }
               tradeMessage.reactions.removeAll().catch(console.error);
             });
