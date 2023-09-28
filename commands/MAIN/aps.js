@@ -26,10 +26,11 @@ module.exports = {
       const achievementPoints = db.fetch(`achievementPoints_${tokenDB}`) || 0;
       const allAchievements = [
         {
-          name: "Enshrined as a Rune Legend (200 APS)",
-          description: "Register yourself with Rune warden discord bot",
+          name: "Enshrined as a Mysterionix Legend (200 APS)",
+          description: "Register yourself with Mysterionix discord bot",
           aps: 200,
-          achieved: db.fetch(`enshrinedAsARuneLegend_${tokenDB}`) || false,
+          achieved:
+            db.fetch(`enshrinedAsAMysterionixLegend_${tokenDB}`) || false,
         },
         {
           name: "First Blood (500 APS)",

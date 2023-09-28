@@ -160,7 +160,7 @@ module.exports = {
           // Create the inventory embed
           const inventoryEmbed = new Discord.MessageEmbed()
             .setTitle(`${user.username}'s Inventory`)
-            .setColor("#FFFF00");
+            .setColor(`#F0F000`);
 
           // Check each item and add it to the inventory description if the user has it
           const itemNames = Object.keys(items);
@@ -367,7 +367,7 @@ module.exports = {
               const rarity = itemsRarity[itemName] || "ERROR";
               const itemID = itemsID[itemName] || "ERROR";
               inventoryItems.push(
-                `**${itemName}** : (${amount}) x pcs\n   Rarity: ${rarity}, ID: ${itemID}\n`
+                `**${itemName}** : (${amount}) x pcs\n  <:arrow:1156648683849383936> Rarity: ${rarity}, ID: ${itemID}\n`
               );
             }
 

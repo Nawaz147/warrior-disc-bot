@@ -11,11 +11,6 @@ module.exports = {
 
   run: async (bot, message, args) => {
     if (message.author.id == ownerid) {
-      if (!message.guild.me.hasPermission("ADMINISTRATOR"))
-        return message.channel
-          .send("I Dont Have Permissions")
-          .then((msg) => msg.delete({ timeout: 5000 }));
-
       let i0 = 0;
       let i1 = 10;
       let page = 1;

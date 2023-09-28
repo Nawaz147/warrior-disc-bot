@@ -55,7 +55,7 @@ The bot is currently undergoing an update. Please be patient!
           .setColor("GREEN");
         message.channel.send(`Your new token has been sent on your dms`);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Rune legend`)
+          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Mysterionix legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
@@ -72,7 +72,7 @@ The bot is currently undergoing an update. Please be patient!
         }, 3000);
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsARuneLegend_${token}`, true);
+        db.set(`enshrinedAsAMysterionixLegend_${token}`, true);
         db.set(`tokenExists_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         console.log(db.fetch(`achievementPoints_${token}`));
@@ -108,7 +108,7 @@ The bot is currently undergoing an update. Please be patient!
         message.channel.send(`His new token has been sent on his dms`);
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         const apsEmbed = new Discord.MessageEmbed()
-          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Rune legend`)
+          .setTitle(`ACHIEVEMENT COMPLETE - Enshrined as a Mysterionix legend`)
           .setDescription(`${user} You gained 200 aps`)
           .setColor("#00FF00");
         message.channel.send(apsEmbed);
@@ -116,7 +116,7 @@ The bot is currently undergoing an update. Please be patient!
 
         // Store the token in the database
         db.set(`${user.id}.valoriumToken`, token);
-        db.set(`enshrinedAsARuneLegend_${token}`, true);
+        db.set(`enshrinedAsAMysterionixLegend_${token}`, true);
         db.add(`achievementPoints_${token}`, 200);
         db.set(`tokenExists_${token}`, true);
 

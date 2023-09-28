@@ -52,5 +52,6 @@
     "blackOil" : 456120,
     "transparentGlass" : 18230,
     "hotWater" : 32100,
-    "moonsShineOfMetalSword" : 500000000
+    "moonsShineOfMetalSword" : 500000000,
+    "ruix" : 0
 }

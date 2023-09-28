@@ -512,8 +512,7 @@ module.exports = {
 ` +
                           "```"
                       );
-                    }
-                    if (chance > 15 && (chance < 30 || chance == 30)) {
+                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
                           `diff
@@ -659,7 +658,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
                   // const bossHealthBar = createHealthBar(
                   //   vorgraxTheCinderspineBossHealth,
                   //   46210921,
-                  //   20
+                  //   18
                   // );
                   // It's not on cooldown, proceed to deal damage
                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`);
@@ -847,8 +846,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                           "```"
                       );
-                    }
-                    if (chance > 15 && (chance < 30 || chance == 30)) {
+                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
                           `diff
@@ -1277,8 +1275,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                           "```"
                       );
-                    }
-                    if (chance > 15 && (chance < 30 || chance == 30)) {
+                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
                           `diff
@@ -1424,7 +1421,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
                   // const bossHealthBar = createHealthBar(
                   //   vorgraxTheCinderspineBossHealth,
                   //   46210921,
-                  //   20
+                  //   18
                   // );
                   // It's not on cooldown, proceed to deal damage
                   const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`);
@@ -1612,8 +1609,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 ` +
                           "```"
                       );
-                    }
-                    if (chance > 15 && (chance < 30 || chance == 30)) {
+                    } else if (chance > 15 && (chance < 30 || chance == 30)) {
                       message.channel.send(
                         "```" +
                           `diff

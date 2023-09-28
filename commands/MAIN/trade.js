@@ -133,14 +133,21 @@ module.exports = {
             `Hey ${mentionedUser} , You received a Trade request from ${message.author.username}`
           )
           .addField(
-            `${message.author.username} offers`,
-            `${amountOfPieces}x ${fullNameItem}`
+            `-> ${message.author.username} offers`,
+            `${fullNameItem} (${amountOfPieces})`
           )
           .addField(
-            mentionedUser.username + " gives ",
-            money + " (`+" + taxAmount + " tax`)"
+            " " + mentionedUser.username + " gives <-",
+            " <:goldCoin:1156621221761388676> " +
+              money +
+              " (`+" +
+              taxAmount +
+              " tax`)"
           )
-          .addField(`${mentionedUser.username} gives total`, `${finalAmount}`)
+          .addField(
+            `${mentionedUser.username} gives total <-`,
+            `<:goldCoin:1156621221761388676> ${finalAmount}`
+          )
           .setColor(`#FFFF00`)
           .setFooter(`React with ✅ to accept or ❌ to reject`)
           .setTimestamp();
@@ -185,26 +192,24 @@ module.exports = {
                       `The trade between ${message.author.username} and ${mentionedUser.username} was a success!`
                     )
                     .addField(
-                      `${mentionedUser.username} got`,
-                      `${amountOfPieces}x ${fullNameItem}`
+                      `+ ${mentionedUser.username} got`,
+                      `${fullNameItem} (${amountOfPieces})`
                     )
-                    .addField(`${message.author.username} got`, `${money}`)
+                    .addField(
+                      `+ ${message.author.username} got`,
+                      `<:goldCoin:1156621221761388676> ${money}`
+                    )
                     .setColor(`#4BB543`)
                     .setTimestamp();
                   message.channel.send(tradeEmbed);
 
                   // Update the trade (subtract item from the user, add item to the mentioned user)
-                  var money = args[2];
-                  money = money
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                   var mentionedUserTokenDB = db.fetch(
                     `${mentionedUser.id}.valoriumToken`
                   );
                   var money = args[2];
                   var taxAmount = Math.ceil((5 / 100) * money);
                   var finalAmount = parseFloat(money) + parseFloat(taxAmount);
-
                   db.add(`${itemID}_${mentionedUserTokenDB}`, amountOfPieces);
                   db.subtract(`${itemID}_${tokenDBUser}`, amountOfPieces);
 

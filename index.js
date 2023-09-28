@@ -271,9 +271,9 @@ client.on("message", async (message) => {
   });
 
 client.on("message", async (message, member) => {
-  // if (message.content.includes("changeNick")) {
-  //   message.member.setNickname("😀");
-  // }
+  console.log(
+    `In ${message.guild} , ${message.author.username} said : ${message.content}`
+  );
 
   if (message.channel.type === "dm") {
     console.log(

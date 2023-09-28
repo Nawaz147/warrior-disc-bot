@@ -262,27 +262,65 @@ module.exports = {
               }
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
-                return (
-                  ["hit", "waterElement"].includes(reaction.emoji.name) &&
-                  user.id === message.author.id
-                );
+                if (user.id === message.author.id) {
+                  return true; // The message author can always react
+                }
+
+                if (partyData.members.includes(user.id)) {
+                  return ["hit", "waterElement"].includes(reaction.emoji.name);
+                }
+
+                return false;
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
                 time: 500000000,
               });
               const reactedUsers = new Set(); // Initialize an empty set to keep track of users who reacted
-
+              var userId = message.author.id;
+              var userTokenDB = new db.table(`tokenDB_${userId}`);
               // Schedule the next addition in 3 seconds
+              // var partyData = userTokenDB.get(`party`) || {
+              //   leader: null,
+              //   members: [],
+              //   membersData: [], // Initialize an empty array for member data
+              // };
+
+              // Check if there's a party and if the user is in a party
 
               collector.on("collect", async (reaction, user) => {
                 if (reaction.emoji.name === "waterElement") {
-                  const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
+                  // const partyData = userTokenDB.get(`party`) || {
+                  //   leader: null,
+                  //   members: [],
+                  //   membersData: [],
+                  // };
+
+                  // // Find the index of the user in the party members array
+                  // const partyUserIndex = partyData.members.findIndex(
+                  //   (member) => member.userId === userId
+                  // );
+
+                  // if (partyUserIndex !== -1) {
+                  //   // User is in the party, you can access their data
+                  //   equippedWeapon =
+                  //     partyData.membersData[partyUserIndex].equippedWeapon;
+                  //   const weaponDamage =
+                  //     partyData.membersData[partyUserIndex].weaponDamage;
+
+                  //   db.subtract(
+                  //     `infernothTheEmberwingBossHealth_${tokenDB}`,
+                  //     weaponDamage / 1.54
+                  //   );
+                  //   reaction.remove(user).catch(console.error);
+                  // } else {
+                  var weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
                   db.subtract(
                     `infernothTheEmberwingBossHealth_${tokenDB}`,
                     weaponDamage / 1.54
                   );
                   reaction.remove(user).catch(console.error);
+                  // }
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
                     24190210;
@@ -1293,10 +1331,15 @@ ${user.username} acquired : ${finalCoins} Gold Coins
               }
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
-                return (
-                  ["hit", "waterElement"].includes(reaction.emoji.name) &&
-                  user.id === message.author.id
-                );
+                if (user.id === message.author.id) {
+                  return true; // The message author can always react
+                }
+
+                if (partyData.members.includes(user.id)) {
+                  return ["hit", "waterElement"].includes(reaction.emoji.name);
+                }
+
+                return false;
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
@@ -1308,12 +1351,37 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
               collector.on("collect", async (reaction, user) => {
                 if (reaction.emoji.name === "waterElement") {
-                  const weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
+                  // const partyData = userTokenDB.get(`party`) || {
+                  //   leader: null,
+                  //   members: [],
+                  //   membersData: [],
+                  // };
+
+                  // // Find the index of the user in the party members array
+                  // const partyUserIndex = partyData.members.findIndex(
+                  //   (member) => member.userId === userId
+                  // );
+
+                  // if (partyUserIndex !== -1) {
+                  //   // User is in the party, you can access their data
+                  //   equippedWeapon =
+                  //     partyData.membersData[partyUserIndex].equippedWeapon;
+                  //   const weaponDamage =
+                  //     partyData.membersData[partyUserIndex].weaponDamage;
+
+                  //   db.subtract(
+                  //     `infernothTheEmberwingBossHealth_${tokenDB}`,
+                  //     weaponDamage / 1.54
+                  //   );
+                  //   reaction.remove(user).catch(console.error);
+                  // } else {
+                  var weaponDamage = db.fetch(`weaponDamage_${tokenDB}`) || 0;
                   db.subtract(
                     `infernothTheEmberwingBossHealth_${tokenDB}`,
                     weaponDamage / 1.54
                   );
                   reaction.remove(user).catch(console.error);
+                  // }
                   var infernothTheEmberwingBossHealth =
                     db.fetch(`infernothTheEmberwingBossHealth_${tokenDB}`) ||
                     24190210;

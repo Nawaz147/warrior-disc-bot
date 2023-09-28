@@ -21,8 +21,8 @@ function startFunction(message, args, client) {
         .setTitle(`🔑 Time to Unlock Adventure: Register Your Token!`)
         .setDescription(
           `
-Ready to jump into the exciting world of Rune warden? Hang on a moment – it appears your Rune warden token hasn't been registered just yet.
-Don't worry, setting things up is a breeze! Just type token me.x and unlock the gates to amazing adventures in no time. If you're curious why things seem restricted, it's all due to that token magic. Once you enter token me.x, those doors will swing wide open, and your Rune warden journey will begin!
+Ready to jump into the exciting world of Mysterionix? Hang on a moment – it appears your Mysterionix token hasn't been registered just yet.
+Don't worry, setting things up is a breeze! Just type token me.x and unlock the gates to amazing adventures in no time. If you're curious why things seem restricted, it's all due to that token magic. Once you enter token me.x, those doors will swing wide open, and your Mysterionix journey will begin!
 No time to waste! Type token me.x like a pro and let's kickstart your adventure. See you on the heroic side! 🚀🗡️`
         )
         .setColor(`#6A1B9A`);
@@ -34,7 +34,7 @@ No time to waste! Type token me.x like a pro and let's kickstart your adventure.
         )
         .setDescription(
           `
-It appears that the Rune warden token for this user has not yet been registered. The path to adventure remains sealed until they personally type token me.x to activate their entry into the world of Rune warden.
+It appears that the Mysterionix token for this user has not yet been registered. The path to adventure remains sealed until they personally type token me.x to activate their entry into the world of Mysterionix.
 Feel free to share this guidance with them, so they can step into their destined role as a hero and unlock the realms of possibility that await.
 Safe travels, and may the winds of fortune guide your way!      
 `

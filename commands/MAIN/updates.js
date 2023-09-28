@@ -30,21 +30,8 @@ module.exports = {
         .setDescription(
           `
 -------------------------------------------
-**CONTENT UPDATE (19 SEP 2023)**        
-**+** The bot suffix changed to .x (eg : bal.x)
-**+** Bot logo changed
--------------------------------------------
-**CONTENT UPDATE (18 SEP 2023)**        
-**+** Bug fixes
-**+** Inventory reaction slight logic change
--------------------------------------------
-**CONTENT UPDATE (17 SEP 2023)**        
-**+** Bug fixes
-**+** Preparing for new event
-**+** Vanities can now be sold for full price without affecting networth
--------------------------------------------
-**CONTENT UPDATE (16 SEP 2023)**        
-**+** React to kill boss launched !!
+**CONTENT UPDATE (26 SEP 2023)**
+**+** Trade command added (trade [itemID] [amountOfItem] [moneyRequested] [mentionUserToBeTradedWith].x)
 -------------------------------------------
         `
         )

@@ -421,7 +421,6 @@ module.exports = {
         { name: "Battles Won", value: battlesWon },
         { name: "Battles Lost", value: battlesLost },
         { name: "War Points", value: warPoints },
-        { name: "Net Worth", value: `${netWorth}` },
         {
           name: "Played Duration",
           value: `${monthsPlayed} months ${daysPlayed % 30} days`,
