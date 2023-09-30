@@ -1,9 +1,9 @@
 const { MessageEmbed } = require("discord.js");
 module.exports = {
-  name: "warriorInfo",
-  description: "`Show detailed stats of bot`",
+  name: "botInfo",
+  description: "`Show detailed info of bot`",
   category: "owner",
-  aliases: ["stats"],
+  aliases: ["botInfo"],
   run: async (client, message, args, level) => {
     //command
 

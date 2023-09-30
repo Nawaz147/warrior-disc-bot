@@ -34,6 +34,10 @@ module.exports = {
     }
 
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
+        message.channel.send("I don't have the permission to manage messages.");
+        return;
+      }
       // if (message.author.id !== "768747976767832084") {
       //   const buildInProgress = new Discord.MessageEmbed()
       //     .setDescription(`This command in under construction 🚧`)

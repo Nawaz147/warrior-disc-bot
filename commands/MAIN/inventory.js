@@ -174,7 +174,7 @@ module.exports = {
               db.fetch(`newspaper_${tokenDB}`) || 0,
             "<:usedtissue:1147072375305797692> Used tissue":
               db.fetch(`usedTissue_${tokenDB}`) || 0,
-            "<:cotton:1147116559526015088>Cotton":
+            "<:cotton:1147116559526015088> Cotton":
               db.fetch(`cotton_${tokenDB}`) || 0, // Common material
             "<:supergem:1147106342427955300> Super gem":
               db.fetch(`superGem_${tokenDB}`) || 0, // Mythic material
@@ -292,12 +292,12 @@ module.exports = {
               "Collectible",
             "<:tomeofeverlastingwisdom:1147073417275773018> Tome of everlasting wisdom":
               "Collectible",
-            "<:rustygears:1147072174264426606> Rusty gears": "Trash",
-            "<:dustbin:1147071977601908767> Dustbin": "Trash",
-            "<:newspaper:1147073903068463114> Newspaper": "Trash",
-            "<:torncloth:1147103370637738035> Torn cloth": "Trash",
-            "<:usedtissue:1147072375305797692> Used tissue": "Trash",
-            "<:brokenstick:1147072664792485949> Broken stick": "Trash",
+            "<:rustygears:1147072174264426606> Rusty gears": "Sellable",
+            "<:dustbin:1147071977601908767> Dustbin": "Sellable",
+            "<:newspaper:1147073903068463114> Newspaper": "Sellable",
+            "<:torncloth:1147103370637738035> Torn cloth": "Sellable",
+            "<:usedtissue:1147072375305797692> Used tissue": "Sellable",
+            "<:brokenstick:1147072664792485949> Broken stick": "Sellable",
             "<:cotton:1147116559526015088>Cotton": "Material",
             "<:supergem:1147106342427955300> Super gem": "Material",
             "<:leather:1147104055701798933> Leather": "Material",

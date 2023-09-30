@@ -416,11 +416,6 @@ module.exports = {
         { name: "User Status", value: user.presence.status },
         { name: "Bosses Killed", value: bossesKilledTotal },
         { name: "Achievement Points (APS)", value: achievementPoints },
-        { name: "Soldiers under Command", value: soldiers },
-        { name: "Military power", value: power },
-        { name: "Battles Won", value: battlesWon },
-        { name: "Battles Lost", value: battlesLost },
-        { name: "War Points", value: warPoints },
         {
           name: "Played Duration",
           value: `${monthsPlayed} months ${daysPlayed % 30} days`,
@@ -433,7 +428,7 @@ module.exports = {
       }
       // Create an embed
       const embed = new Discord.MessageEmbed()
-        .setColor("#6B4226")
+        .setColor("#2B2D31")
         .setTitle(`${user.username}'s Info`)
         .setThumbnail(thumbnailLink);
       if (auroraGaze > 0) {

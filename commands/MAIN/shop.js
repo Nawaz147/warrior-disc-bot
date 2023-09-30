@@ -3,6 +3,7 @@ const db = require("quick.db");
 const Canvas = require("canvas");
 const prices = require("../../prices.json");
 const startFunction = require("../../startCommandFunction.js");
+const icons = require("../../itemIcons.json");
 
 module.exports = {
   name: "buy",
@@ -21,6 +22,10 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
+        message.channel.send("I don't have the permission to manage messages.");
+        return;
+      }
       var item = args[0];
       var itemDB = db.fetch(`${args[0]}_${tokenDB}`);
       var storeItemDB = db.fetch(`${args[0]}StoreAdd_${tokenDB}`);
@@ -64,7 +69,9 @@ module.exports = {
             item == "unlockedCrateOfEnergy" ||
             item == "soldier" ||
             item == "ruix" ||
-            item == "ventorianBow"
+            item == "ventorianBow" ||
+            item == "trashItems" ||
+            item == "fishes"
           ) {
             message.channel.send("You cannot buy it!");
             return;
@@ -85,7 +92,7 @@ module.exports = {
 
           const itemSoldEmbed = new Discord.MessageEmbed()
             .setTitle(`Purchase successful!`)
-            .addField(`Item name`, `${fullNameItem}`)
+            .addField(`Item name`, `${icons[item]} ${fullNameItem}`)
             .addField(`Number of pieces`, `${amountOfPieces}`)
             .addField(`Buy price per piece`, `${itemBuyPrice}`)
             .addField(`Total Buy price`, `${itemTotalBuyPrice}`)

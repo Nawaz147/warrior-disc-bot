@@ -31,6 +31,12 @@ module.exports = {
       if (args[0] !== "hit") {
         return message.channel.send("Invalid command. Use: `play hit.x`");
       } else if (args[0] == "hit") {
+        if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
+          message.channel.send(
+            "I don't have the permission to manage messages."
+          );
+          return;
+        }
         const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
         const natureDaggersEquipped = db.fetch(
           `equippedNatureDaggers_${tokenDB}`

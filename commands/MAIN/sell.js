@@ -6,6 +6,7 @@ const e = require("express");
 const prices = require("../../prices.json");
 const moneyCap = config.moneyCap;
 const startFunction = require("../../startCommandFunction.js");
+const icons = require("../../itemIcons.json");
 
 module.exports = {
   name: "sell",
@@ -27,6 +28,10 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
+        message.channel.send("I don't have the permission to manage messages.");
+        return;
+      }
       var item = args[0];
       var itemDB = db.fetch(`${args[0]}_${tokenDB}`);
       if (!item) {
@@ -107,14 +112,20 @@ module.exports = {
                   item == "unlockedCrateOfEnergy" ||
                   item == "soldier" ||
                   item == "ruix" ||
-                  item == "ventorianBow"
+                  item == "ventorianBow" ||
+                  item == "trashItems" ||
+                  item == "fishes"
                 ) {
                   message.channel.send("You cannot sell it!");
                   return;
                 }
+                confirmationItemTotalSellPrice = itemTotalSellPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
                 const confirmationMessage = new Discord.MessageEmbed()
                   .setDescription(
-                    `Are you sure you want to sell ${amountOfPieces}x ${fullNameItem} for ${itemTotalSellPrice}?`
+                    `Are you sure you want to sell ${amountOfPieces}x ${icons[item]} ${fullNameItem} for ${confirmationItemTotalSellPrice}?`
                   )
                   .setColor("#008080");
 
@@ -134,7 +145,7 @@ module.exports = {
 
                 const collector =
                   confirmationMessageSent.createReactionCollector(filter, {
-                    time: 30000,
+                    time: 60000,
                   });
 
                 collector.on("collect", async (reaction) => {
@@ -164,7 +175,7 @@ module.exports = {
 
                     const itemSoldEmbed = new Discord.MessageEmbed()
                       .setTitle(`Sold Successfully`)
-                      .addField(`Item name`, `${fullNameItem}`)
+                      .addField(`Item name`, `${icons[item]} ${fullNameItem}`)
                       .addField(`Number of pieces`, `${amountOfPieces}`)
                       .addField(`Sell price per piece`, `${itemSellPrice}`)
                       .addField(`Total sell price`, `${itemTotalSellPrice}`)
@@ -190,14 +201,9 @@ module.exports = {
                 // End collector after the specified time
                 collector.on("end", (collected, reason) => {
                   if (reason === "time") {
-                    confirmationMessageSent
-                      .delete()
-                      .catch((error) =>
-                        console.error(
-                          "Failed to delete confirmation message:",
-                          error
-                        )
-                      );
+                    message.channel.send(
+                      `${user.username}'s sell confirmation expired`
+                    );
                   }
                 });
               }
@@ -208,6 +214,9 @@ module.exports = {
             var dustbin = db.fetch(`dustbin_${tokenDB}`) || 0;
             var newspaper = db.fetch(`newspaper_${tokenDB}`) || 0;
             var usedTissue = db.fetch(`usedTissue_${tokenDB}`) || 0;
+            var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
+            var boot = db.fetch(`boot_${tokenDB}`) || 0;
+            var toiletSeatLid = db.fetch(`toiletSeatLid_${tokenDB}`) || 0;
             if (item == "trashItems") {
               if (
                 rustyGears > 0 ||
@@ -215,7 +224,10 @@ module.exports = {
                 brokenStick > 0 ||
                 dustbin > 0 ||
                 newspaper > 0 ||
-                usedTissue > 0
+                usedTissue > 0 ||
+                bottle > 0 ||
+                boot > 0 ||
+                toiletSeatLid > 0
               ) {
                 trashItemsSellPrice =
                   rustyGears * prices.rustyGears +
@@ -223,7 +235,10 @@ module.exports = {
                   brokenStick * prices.brokenStick +
                   dustbin * prices.dustbin +
                   newspaper * prices.newspaper +
-                  usedTissue * prices.usedTissue;
+                  usedTissue * prices.usedTissue +
+                  bottle * prices.bottle +
+                  boot * prices.boot +
+                  toiletSeatLid * prices.toiletSeatLid;
                 db.add(`money_${tokenDB}.pocket`, trashItemsSellPrice);
                 trashItemsSellPrice = trashItemsSellPrice
                   .toString()
@@ -241,6 +256,9 @@ module.exports = {
                 db.set(`dustbin_${tokenDB}`, 0);
                 db.set(`newspaper_${tokenDB}`, 0);
                 db.set(`usedTissue_${tokenDB}`, 0);
+                db.set(`boot_${tokenDB}`, 0);
+                db.set(`bottle_${tokenDB}`, 0);
+                db.set(`toiletSeatLid_${tokenDB}`, 0);
                 message.channel.send(trashItemsSoldEmbed);
               } else {
                 const noTrashEmbed = new Discord.MessageEmbed()
@@ -266,7 +284,6 @@ module.exports = {
             var alienAnglerfish = db.fetch(`alienAnglerfish_${tokenDB}`) || 0;
             var ninjaStarfish = db.fetch(`ninjaStarfish_${tokenDB}`) || 0;
             if (item == "fishes") {
-              console.log("hi");
               if (
                 sarcasticFringehead > 0 ||
                 salmon > 0 ||
@@ -301,67 +318,68 @@ module.exports = {
                 const fishTypes = [
                   {
                     name: "sarcasticFringehead",
-                    displayName:
-                      "<:sarcasticFringehead:1156929582335799388> Sarcastic Fringehead",
+                    emoji: "<:sarcasticFringehead:1156929582335799388> ",
+                    displayName: "Sarcastic Fringehead",
                   },
                   {
                     name: "salmon",
-                    displayName: "<:salmon:1156929627126771784> Salmon",
+                    emoji: "<:salmon:1156929627126771784>",
+                    displayName: "salmon",
                   },
                   {
                     name: "smellyFish",
-                    displayName:
-                      "<:smellyFish:1156929529894424666> Smelly Fish",
+                    emoji: "<:smellyFish:1156929529894424666>",
+                    displayName: "Smelly Fish",
                   },
                   {
                     name: "burnedFish",
-                    displayName:
-                      "<:burnedfish:1156939483267207220> Burned Fish",
+                    emoji: "<:burnedfish:1156939483267207220>",
+                    displayName: "Burned Fish",
                   },
                   {
                     name: "grumpyCatfish",
-                    displayName:
-                      "<:grumpyCatfish:1156929452056522812> Grumpy Catfish",
+                    emoji: "<:grumpyCatfish:1156929452056522812>",
+                    displayName: "Grumpy Catfish",
                   },
                   {
                     name: "pancakeFish",
-                    displayName:
-                      "<:pancakeFish:1156929418170744852> Pancake Fish",
+                    emoji: "<:pancakeFish:1156929418170744852>",
+                    displayName: "Pancake Fish",
                   },
                   {
                     name: "discoJellyfish",
-                    displayName:
-                      "<:discoJellyfish:1156929355465900133> Disco Jellyfish",
+                    emoji: "<:discoJellyfish:1156929355465900133>",
+                    displayName: "Disco Jellyfish",
                   },
                   {
                     name: "sodaCanfish",
-                    displayName:
-                      "<:sodaCanfish:1156929327817035788> Soda Canfish",
+                    emoji: "<:sodaCanfish:1156929327817035788>",
+                    displayName: "Soda Canfish",
                   },
                   {
                     name: "lavaLampEel",
-                    displayName:
-                      "<:lavaLampEel:1156939953448681472> Lava Lamp Eel",
+                    emoji: "<:lavaLampEel:1156939953448681472>",
+                    displayName: "Lava Lamp Eel",
                   },
                   {
                     name: "rubberDuckyfish",
-                    displayName:
-                      "<:rubberDuckyfish:1156938911004766240> Rubber Duckyfish",
+                    emoji: "<:rubberDuckyfish:1156938911004766240>",
+                    displayName: "Rubber Duckyfish",
                   },
                   {
                     name: "pirateParrotfish",
-                    displayName:
-                      "<:pirateParrotfish:1156938717781573733> Pirate Parrotfish",
+                    emoji: "<:pirateParrotfish:1156938717781573733>",
+                    displayName: "Pirate Parrotfish",
                   },
                   {
                     name: "alienAnglerfish",
-                    displayName:
-                      "<:alienAnglerfish:1156938740586000394> Alien Anglerfish",
+                    emoji: "<:alienAnglerfish:1156938740586000394>",
+                    displayName: "Alien Anglerfish",
                   },
                   {
                     name: "ninjaStarfish",
-                    displayName:
-                      "<:ninjaStarfish:1156938871695757432> Ninja Starfish",
+                    emoji: "<:ninjaStarfish:1156938871695757432>",
+                    displayName: "Ninja Starfish",
                   },
                 ];
 
@@ -370,18 +388,23 @@ module.exports = {
                   const quantity = db.get(`${fishType.name}_${tokenDB}`) || 0;
                   if (quantity > 0) {
                     const totalPrice = quantity * prices[fishType.name];
-                    fishesSellPrice += totalPrice;
-                    soldFishes.push(`${quantity}x ${fishType.displayName}`);
+                    console.log(totalPrice);
+                    soldFishes.push(
+                      `${quantity}x ${fishType.emoji} ${fishType.displayName}`
+                    );
                   }
                 });
 
                 // Check if any fish was sold
                 if (soldFishes.length > 0) {
+                  confirmationFishesSellPrice = fishesSellPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                   const confirmationMessage = new Discord.MessageEmbed()
                     .setDescription(
                       `Are you sure you want to sell :\n ${soldFishes.join(
                         "\n"
-                      )}?`
+                      )}\n**Total sell price** : ${confirmationFishesSellPrice} `
                     )
                     .setColor("#008080");
 
@@ -401,7 +424,7 @@ module.exports = {
 
                   const collector =
                     confirmationMessageSent.createReactionCollector(filter, {
-                      time: 30000,
+                      time: 60000,
                     });
 
                   collector.on("collect", async (reaction) => {
@@ -436,6 +459,7 @@ module.exports = {
                           }
                         });
                       }
+                      db.set(`burnedFish_${tokenDB}`, 0);
                       db.add(`money_${tokenDB}.pocket`, fishesSellPrice);
                       fishesSellPrice = fishesSellPrice
                         .toString()
@@ -470,14 +494,9 @@ module.exports = {
                   // End collector after the specified time
                   collector.on("end", (collected, reason) => {
                     if (reason === "time") {
-                      confirmationMessageSent
-                        .delete()
-                        .catch((error) =>
-                          console.error(
-                            "Failed to delete confirmation message:",
-                            error
-                          )
-                        );
+                      message.channel.send(
+                        `${user.username}'s sell confirmation expired`
+                      );
                     }
                   });
                 }

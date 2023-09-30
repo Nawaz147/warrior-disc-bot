@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 const { MessageEmbed } = require("discord.js");
 const startFunction = require("../../startCommandFunction.js");
+const prices = require("../../prices.json");
 module.exports = {
   name: "item",
   aliases: ["ItemInfo", "ii", "II"],
@@ -65,6 +66,14 @@ module.exports = {
           item == "bottle" ||
           item == "toiletSeatLid"
         ) {
+          var texarus = db.fetch(`texarus_${tokenDB}`) || 0;
+          var waetra = db.fetch(`waetra_${tokenDB}`) || 0;
+          var rasheta = db.fetch(`rasheta_${tokenDB}`) || 0;
+          var natureDaggers = db.fetch(`natureDaggers_${tokenDB}`) || 0;
+          var immortalGun = db.fetch(`immortalGun_${tokenDB}`) || 0;
+          var daggerOfDeath = db.fetch(`daggerOfDeath_${tokenDB}`) || 0;
+          var moonsShineOfMetalSword =
+            db.fetch(`moonsShineOfMetalSword_${tokenDB}`) || 0;
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
           var valoriumsEclipsianSoulStoreAdd =
@@ -180,7 +189,126 @@ module.exports = {
           var toiletSeatLidStoreAdd = db.fetch(`toiletSeatLidStoreAdd`) || 0;
           var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
           var bottleStoreAdd = db.fetch(`bottleStoreAdd`) || 0;
-          const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#4169E1`);
+          var awakeningGem = db.fetch(`awakeningGem_${tokenDB}`) || 0;
+          var eliteAwakeningGem = db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
+          var vortexOrb = db.fetch(`vortexOrb_${tokenDB}`) || 0;
+          var verdantLeaf = db.fetch(`verdantLeaf_${tokenDB}`) || 0;
+          var celestialMoonstone =
+            db.fetch(`celestialMoonstone_${tokenDB}`) || 0;
+          var crystallineCorestone =
+            db.fetch(`crystallineCorestone_${tokenDB}`) || 0;
+          var tomeOfEverlastingWisdom =
+            db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0;
+          var goldenGhostKnightSet =
+            db.fetch(`goldenGhostKnightSet_${tokenDB}`) || 0;
+          var supremeMagicalSet = db.fetch(`supremeMagicalSet_${tokenDB}`) || 0;
+          var frozenSet = db.fetch(`frozenSet_${tokenDB}`) || 0;
+          var superGolemSet = db.fetch(`superGolemSet_${tokenDB}`) || 0;
+          var arcaneSenseiSet = db.fetch(`arcaneSenseiSet_${tokenDB}`);
+          var dawnfireSet = db.fetch(`dawnfireSet_${tokenDB}`);
+          var intrepidSet = db.fetch(`intrepidSet_${tokenDB}`);
+          var medusaSet = db.fetch(`medusaSet_${tokenDB}`);
+          var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;
+          var dustbin = db.fetch(`dustbin_${tokenDB}`) || 0;
+          var newspaper = db.fetch(`newspaper_${tokenDB}`) || 0;
+          var tornCloth = db.fetch(`tornCloth_${tokenDB}`) || 0;
+          var usedTissue = db.fetch(`usedTissue_${tokenDB}`) || 0;
+          var brokenStick = db.fetch(`brokenStick_${tokenDB}`) || 0;
+          var EldrazursGrimoireOfRuin =
+            db.fetch(`EldrazursGrimoireOfRuin_${tokenDB}`) || 0;
+          var abyssalScepterOfOblivion = db.fetch(
+            `abyssalScepterOfOblivion_${tokenDB}`
+          );
+          var mysticRuneOfResilience =
+            db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0;
+          var auroraGaze = db.fetch(`auroraGaze_${tokenDB}`) || 0;
+          var orbOfElementalMastery =
+            db.fetch(`orbOfElementalMastery_${tokenDB}`) || 0;
+          var shieldOfTheEarthshaker =
+            db.fetch(`shieldOfTheEarthshaker_${tokenDB}`) || 0;
+          var timekeepersChronometer =
+            db.fetch(`timekeepersChronometer_${tokenDB}`) || 0;
+          var fishingRod = db.fetch(`fishingRod_${tokenDB}`) || 0;
+          var balance = db.fetch(`money_${tokenDB}.pocket`) || 0;
+          var netWorthTotal =
+            goldBar * prices.goldBar +
+            texarus * prices.texarus +
+            waetra * prices.waetra +
+            rasheta * prices.rasheta +
+            natureDaggers * prices.natureDaggers +
+            immortalGun * prices.immortalGun +
+            awakeningGem * prices.awakeningGem +
+            eliteAwakeningGem * prices.eliteAwakeningGem +
+            vortexOrb * prices.vortexOrb +
+            verdantLeaf * prices.verdantLeaf +
+            celestialMoonstone * prices.celestialMoonstone +
+            crystallineCorestone * prices.crystallineCorestone +
+            tomeOfEverlastingWisdom * prices.tomeOfEverlastingWisdom +
+            goldenGhostKnightSet * prices.goldenGhostKnightSet +
+            supremeMagicalSet * prices.supremeMagicalSet +
+            frozenSet * prices.frozenSet +
+            superGolemSet * prices.superGolemSet +
+            arcaneSenseiSet * prices.arcaneSenseiSet +
+            dawnfireSet * prices.dawnfireSet +
+            intrepidSet * prices.intrepidSet +
+            medusaSet * prices.medusaSet +
+            rustyGears * prices.rustyGears +
+            dustbin * prices.dustbin +
+            newspaper * prices.newspaper +
+            tornCloth * prices.tornCloth +
+            usedTissue * prices.usedTissue +
+            brokenStick * prices.brokenStick +
+            bullet * prices.bullet +
+            valoriumsTear * prices.valoriumsTear +
+            valoriumsEclipsianSoul * prices.valoriumsEclipsianSoul +
+            daggerOfDeath * prices.daggerOfDeath +
+            abyssalCrownOfDominance * prices.abyssalCrownOfDominance +
+            abyssalStarcrystal * prices.abyssalStarcrystal +
+            EldrazursGrimoireOfRuin * prices.EldrazursGrimoireOfRuin +
+            abyssalScepterOfOblivion * prices.AbyssalScepterOfOblivion +
+            mysticRuneOfResilience * prices.mysticRuneOfResilience +
+            auroraGaze * prices.auroraGaze +
+            orbOfElementalMastery * prices.orbOfElementalMastery +
+            shieldOfTheEarthshaker * prices.shieldOfTheEarthshaker +
+            timekeepersChronometer * prices.timekeepersChronometer +
+            moonsShineOfMetalSword * prices.moonsShineOfMetalSword +
+            eldritchFlameScroll * prices.eldritchFlamescroll +
+            infernothsWrathfulEye * prices.infernothsWrathfulEye +
+            pyroclasmicGem * prices.pyroclasmicGem +
+            pyroclasmicEssence * prices.pyroclasmicEssence +
+            magmaticTorch * prices.magmaticTorch +
+            eternalFlameEssence * prices.eternalFlameEssence +
+            blackOil * prices.blackOil +
+            hotWater * prices.hotWater +
+            transparentGlass * prices.transparentGlass +
+            sarcasticFringehead * prices.sarcasticFringehead +
+            salmon * prices.salmon +
+            smellyFish * prices.smellyFish +
+            burnedFish * prices.burnedFish +
+            grumpyCatfish * prices.grumpyCatfish +
+            pancakeFish * prices.pancakeFish +
+            discoJellyfish * prices.discoJellyfish +
+            sodaCanfish * prices.sodaCanfish +
+            lavaLampEel * prices.lavaLampEel +
+            rubberDuckyfish * prices.rubberDuckyfish +
+            alienAnglerfish * prices.alienAnglerfish +
+            ninjaStarfish * prices.ninjaStarfish +
+            pirateParrotfish * prices.pirateParrotfish +
+            toiletSeatLid * prices.toiletSeatLid +
+            boot * prices.boot +
+            fishingRod * prices.fishingRod +
+            bottle * prices.bottle +
+            balance;
+          var itemDB = db.fetch(`${item}_${tokenDB}`) || 0;
+          var itemDBPrice = prices[item];
+          console.log(itemDBPrice);
+          var itemNetWorthPercentage =
+            ((itemDB * itemDBPrice) / netWorthTotal) * 100;
+          if (itemNetWorthPercentage == 0.0) {
+            itemNetWorthPercentage = "0.00%";
+          }
+
+          const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#2B2D31`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
 Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow.  `);
@@ -188,6 +316,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -209,6 +343,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `12,750,000`);
             itemInfoEmbed.addField(`Sell cost`, `6,375,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${valoriumsTear}`);
             itemInfoEmbed.addField(
@@ -226,6 +366,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `10,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Economy`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${goldBar}`);
             itemInfoEmbed.addField(`Pieces available for sale`, `Unlimited`);
@@ -244,6 +390,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${vortexOrb}`);
             itemInfoEmbed.addField(
@@ -263,6 +415,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -285,6 +443,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `45,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `22,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${verdantLeaf}`);
             itemInfoEmbed.addField(
@@ -304,6 +468,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -326,6 +496,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `185,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -346,6 +522,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `160,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `80,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -366,6 +548,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Military & collectible`);
             itemInfoEmbed.addField(
               `Ability`,
@@ -392,6 +580,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `325,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `162,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Ability`,
@@ -415,6 +609,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `185,700,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,850,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -437,6 +637,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `68,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `34,475,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -459,6 +665,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
             itemInfoEmbed.addField(`Sell cost`, `12,529,003`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -481,6 +693,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `14,201,590`);
             itemInfoEmbed.addField(`Sell cost`, `7,100,795`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -503,6 +721,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `35,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `17,500,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `military`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${bullet}`);
             itemInfoEmbed.addField(
@@ -520,6 +744,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `78,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `39,475,000`);
             itemInfoEmbed.addField(`Rarity`, `Arcane`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -542,6 +772,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `41,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `20,750,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -564,6 +800,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${pyroclasmicGem}`);
             itemInfoEmbed.addField(
@@ -583,6 +825,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `11,111,111`);
             itemInfoEmbed.addField(`Sell cost`, `11,111,111`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -605,6 +853,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `5,210,000`);
             itemInfoEmbed.addField(`Sell cost`, `2,605,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${magmaticTorch}`);
             itemInfoEmbed.addField(
@@ -624,6 +878,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `3,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `1,625,000`);
             itemInfoEmbed.addField(`Rarity`, `Legendary`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -646,6 +906,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `456,120`);
             itemInfoEmbed.addField(`Sell cost`, `228,060`);
             itemInfoEmbed.addField(`Rarity`, `Rare`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${blackOil}`);
             itemInfoEmbed.addField(
@@ -663,6 +929,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `32,100`);
             itemInfoEmbed.addField(`Sell cost`, `16,050`);
             itemInfoEmbed.addField(`Rarity`, `Rare`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${hotWater}`);
             itemInfoEmbed.addField(
@@ -680,6 +952,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `18,230`);
             itemInfoEmbed.addField(`Sell cost`, `9,115`);
             itemInfoEmbed.addField(`Rarity`, `Rare`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -701,6 +979,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `26,201`);
             itemInfoEmbed.addField(`Sell cost`, `26,201`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${salmon}`);
             itemInfoEmbed.addField(
@@ -717,6 +1001,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `8,092`);
             itemInfoEmbed.addField(`Sell cost`, `8,092`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${smellyFish}`);
             itemInfoEmbed.addField(
@@ -735,6 +1025,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `12,790`);
             itemInfoEmbed.addField(`Sell cost`, `12,790`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${burnedFish}`);
             itemInfoEmbed.addField(
@@ -753,6 +1049,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `52,150`);
             itemInfoEmbed.addField(`Sell cost`, `52,150`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${grumpyCatfish}`);
             itemInfoEmbed.addField(
@@ -771,6 +1073,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `16,210`);
             itemInfoEmbed.addField(`Sell cost`, `16,210`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${pancakeFish}`);
             itemInfoEmbed.addField(
@@ -789,6 +1097,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `23,191`);
             itemInfoEmbed.addField(`Sell cost`, `23,191`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${discoJellyfish}`);
             itemInfoEmbed.addField(
@@ -807,6 +1121,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `41,092`);
             itemInfoEmbed.addField(`Sell cost`, `41,092`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${sodaCanfish}`);
             itemInfoEmbed.addField(
@@ -825,6 +1145,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `78,210`);
             itemInfoEmbed.addField(`Sell cost`, `78,210`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${lavaLampEel}`);
             itemInfoEmbed.addField(
@@ -843,6 +1169,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `9,108`);
             itemInfoEmbed.addField(`Sell cost`, `9,108`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${rubberDuckyfish}`);
             itemInfoEmbed.addField(
@@ -861,6 +1193,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `32,500`);
             itemInfoEmbed.addField(`Sell cost`, `32,500`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -882,6 +1220,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `7,100`);
             itemInfoEmbed.addField(`Sell cost`, `7,100`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${toiletSeatLid}`);
             itemInfoEmbed.addField(
@@ -900,6 +1244,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `18,029`);
             itemInfoEmbed.addField(`Sell cost`, `18,029`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
@@ -921,6 +1271,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `43,102`);
             itemInfoEmbed.addField(`Sell cost`, `43,102`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${alienAnglerfish}`);
             itemInfoEmbed.addField(
@@ -929,7 +1285,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             );
             itemInfoEmbed.addField(`ID`, "alienAnglerfish");
             itemInfoEmbed.setThumbnail(
-              `"https://i.ibb.co/523Fg9D/alien-anglerfish.png`
+              `https://i.ibb.co/523Fg9D/alien-anglerfish.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "ninjaStarfish") {
@@ -939,6 +1295,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `80,500`);
             itemInfoEmbed.addField(`Sell cost`, `80,500`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${ninjaStarfish}`);
             itemInfoEmbed.addField(
@@ -957,6 +1319,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `12,072`);
             itemInfoEmbed.addField(`Sell cost`, `12,072`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${boot}`);
             itemInfoEmbed.addField(
@@ -973,6 +1341,12 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `2,321`);
             itemInfoEmbed.addField(`Sell cost`, `2,321`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${bottle}`);
             itemInfoEmbed.addField(

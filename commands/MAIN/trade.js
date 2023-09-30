@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 const config = require("../../config.json");
 const prices = require("../../prices.json");
+const icons = require("../../itemIcons.json");
 const startFunction = require("../../startCommandFunction.js");
 const moneyCap = config.moneyCap;
 
@@ -34,6 +35,10 @@ module.exports = {
       update == false &&
       banned == false
     ) {
+      if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
+        message.channel.send("I don't have the permission to manage messages.");
+        return;
+      }
       const tradeCooldowns = new Map();
       const tradeCooldown = tradeCooldowns.get(message.author.id);
       if (tradeCooldown && tradeCooldown > Date.now()) {
@@ -71,7 +76,8 @@ module.exports = {
         itemID == "trashItems" ||
         itemID == "unlockedCrateOfEnergy" ||
         itemID == "ventorianBow" ||
-        itemID == "fishes"
+        itemID == "fishes" ||
+        itemID == "trashItems"
       ) {
         return message.channel.send(`You cannot trade that item`);
       }
@@ -135,7 +141,7 @@ module.exports = {
           )
           .addField(
             `-> ${message.author.username} offers`,
-            `${fullNameItem} (${amountOfPieces})`
+            `${amountOfPieces}x ${icons[itemID]} ${fullNameItem}`
           )
           .addField(
             " " + mentionedUser.username + " gives <-",
@@ -194,7 +200,7 @@ module.exports = {
                     )
                     .addField(
                       `+ ${mentionedUser.username} got`,
-                      `${fullNameItem} (${amountOfPieces})`
+                      `${amountOfPieces}x ${icons[itemID]} ${fullNameItem}`
                     )
                     .addField(
                       `+ ${message.author.username} got`,
