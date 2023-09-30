@@ -25,6 +25,7 @@ module.exports = {
     if (startFunction) {
       startFunction(message, args, client);
     }
+    db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
       let bal = await db.fetch(`money_${tokenDB}.pocket`);
       let ruix = await db.fetch(`ruix_${tokenDB}`);
@@ -390,9 +391,6 @@ module.exports = {
         boot * prices.boot +
         fishingRod * prices.fishingRod +
         bottle * prices.bottle;
-      netWorthInv = netWorthInv
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       var netWorthTotal =
         goldBar * prices.goldBar +
@@ -463,6 +461,15 @@ module.exports = {
         fishingRod * prices.fishingRod +
         bottle * prices.bottle +
         bal;
+      const netWorthInvPercentage = (
+        (netWorthInv / netWorthTotal) *
+        100
+      ).toFixed(2);
+      const netWorthBalPercentage = ((bal / netWorthTotal) * 100).toFixed(2);
+      netWorthInv = netWorthInv
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
       netWorthTotal = netWorthTotal
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -470,12 +477,16 @@ module.exports = {
 
       const balanceEmbed = new Discord.MessageEmbed()
         .setTitle(`${user.username}'s balance`)
-        .addField(`Gold coins`, `<:goldCoin:1156621221761388676> ${bal}`, true)
+        .addField(
+          `Gold coins`,
+          `<:goldCoin:1156621221761388676> ${bal} (${netWorthBalPercentage})`,
+          true
+        )
         .addField(`Ruix`, `<a:ruix:1153892039742726246> ${ruix}`, true)
         .addField(`Keys`, `<:key:1157324619318050906> ${keys}`, true)
         .addField(
           `Inventory net`,
-          `<:goldCoin:1156621221761388676> ${netWorthInv}`,
+          `<:goldCoin:1156621221761388676> ${netWorthInv} (${netWorthInvPercentage}%)`,
           true
         )
         .addField(
@@ -483,10 +494,8 @@ module.exports = {
           `<:goldCoin:1156621221761388676> ${netWorthTotal}`,
           true
         )
+        .setFooter(`The percentage shown is the percentage of total net worth`)
         .setTimestamp();
-      if (netWorthTotal >= 100000000) {
-        balanceEmbed.setFooter(`😎`);
-      }
       balanceEmbed.setColor(`#2B2D31`);
       message.channel.send(balanceEmbed);
       // var channel = message.guild;

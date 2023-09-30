@@ -128,6 +128,37 @@ module.exports = {
           var transparentGlass = db.fetch(`transparentGlass_${tokenDB}`) || 0;
           var transparentGlassStoreAdd =
             db.fetch(`transparentGlassStoreAdd`) || 0;
+          var salmon = db.fetch(`salmon_${tokenDB}`) || 0;
+          var salmonStoreAdd = db.fetch(`salmonStoreAdd`) || 0;
+          var smellyFish = db.fetch(`smellyFish_${tokenDB}`) || 0;
+          var smellyFishStoreAdd = db.fetch(`smellyFishStoreAdd`) || 0;
+          var burnedFish = db.fetch(`burnedFish_${tokenDB}`) || 0;
+          var burnedFishStoreAdd = db.fetch(`burnedFishStoreAdd`) || 0;
+          var grumpyCatfish = db.fetch(`grumpyCatfish_${tokenDB}`) || 0;
+          var grumpyCatfishStoreAdd = db.fetch(`grumpyCatfishStoreAdd`) || 0;
+          var pancakeFish = db.fetch(`pancakeFish_${tokenDB}`) || 0;
+          var pancakeFishStoreAdd = db.fetch(`pancakeFishStoreAdd`) || 0;
+          var discoJellyfish = db.fetch(`discoJellyfish_${tokenDB}`) || 0;
+          var discoJellyfishStoreAdd = db.fetch(`discoJellyfishStoreAdd`) || 0;
+          var sodaCanfish = db.fetch(`sodaCanfish_${tokenDB}`) || 0;
+          var sodaCanfishStoreAdd = db.fetch(`sodaCanfishStoreAdd`) || 0;
+          var lavaLampEel = db.fetch(`lavaLampEel_${tokenDB}`) || 0;
+          var lavaLampEelStoreAdd = db.fetch(`lavaLampEelStoreAdd`) || 0;
+          var rubberDuckyfish = db.fetch(`rubberDuckyfish_${tokenDB}`) || 0;
+          var rubberDuckyfishStoreAdd =
+            db.fetch(`rubberDuckyfishStoreAdd`) || 0;
+          var pirateParrotfish = db.fetch(`pirateParrotfish_${tokenDB}`) || 0;
+          var pirateParrotfishStoreAdd =
+            db.fetch(`pirateParrotfishStoreAdd`) || 0;
+          var alienAnglerfish = db.fetch(`alienAnglerfish_${tokenDB}`) || 0;
+          var alienAnglerfishStoreAdd =
+            db.fetch(`alienAnglerfishStoreAdd`) || 0;
+          var ninjaStarfish = db.fetch(`ninjaStarfish_${tokenDB}`) || 0;
+          var ninjaStarfishStoreAdd = db.fetch(`ninjaStarfishStoreAdd`) || 0;
+          var boot = db.fetch(`boot_${tokenDB}`) || 0;
+          var bootStoreAdd = db.fetch(`bootStoreAdd`) || 0;
+          var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
+          var bottleStoreAdd = db.fetch(`bottleStoreAdd`) || 0;
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#4169E1`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
@@ -174,7 +205,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `10,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Mythic`);
-            itemInfoEmbed.addField(`Type`, `currency`);
+            itemInfoEmbed.addField(`Type`, `Economy`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${goldBar}`);
             itemInfoEmbed.addField(`Pieces available for sale`, `Unlimited`);
             itemInfoEmbed.addField(
@@ -314,7 +345,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
             itemInfoEmbed.addField(`Rarity`, `Heroic`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Military & collectible`);
             itemInfoEmbed.addField(
               `Ability`,
               `The Mystic Rune of Resilience endows its bearer with an exceptional augmentation, effectively doubling their military potency. It's important to note that this ability does not accumulate or stack.`
@@ -624,7 +655,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setDescription(`
             Transparent glass is a mundane and unremarkable material, commonly discarded without a second thought. It is a clear, see-through substance that serves as a basic building block for more intricate creations but holds little inherent value on its own.
           `);
-            itemInfoEmbed.setTitle(`Hot water`);
+            itemInfoEmbed.setTitle(`Transparent glass`);
             itemInfoEmbed.addField(`Buy cost`, `18,230`);
             itemInfoEmbed.addField(`Sell cost`, `9,115`);
             itemInfoEmbed.addField(`Rarity`, `Rare`);
@@ -641,6 +672,255 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/kXYTJYq/transparent-Glass.png`
             );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "salmon") {
+            itemInfoEmbed.setDescription(`
+            The salmon, a sleek and resilient swimmer, journeys upstream, embodying determination and adaptability in its quest for survival and reproduction.          `);
+            itemInfoEmbed.setTitle(`Salmon`);
+            itemInfoEmbed.addField(`Buy cost`, `26,201`);
+            itemInfoEmbed.addField(`Sell cost`, `26,201`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${salmon}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${salmonStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "salmon");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/vZr2DZ5/salmon.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "smellyFish") {
+            itemInfoEmbed.setDescription(`
+            The smelly fish, known for its distinctive aroma, adds a pungent essence to the aquatic realm, creating a unique olfactory experience for underwater denizens.          `);
+            itemInfoEmbed.setTitle(`Smelly fish`);
+            itemInfoEmbed.addField(`Buy cost`, `8,092`);
+            itemInfoEmbed.addField(`Sell cost`, `8,092`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${smellyFish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${smellyFishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "smellyFish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/DDbxvrK/smelly-fish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "burnedFish") {
+            itemInfoEmbed.setDescription(`
+            The burned fish, once a victim of overzealous cooking attempts, now swims with a crispy exterior, bringing a unique charred flavor to the underwater world. It's a fish with a tale of culinary misadventure.          `);
+            itemInfoEmbed.setTitle(`Burned fish`);
+            itemInfoEmbed.addField(`Buy cost`, `12,790`);
+            itemInfoEmbed.addField(`Sell cost`, `12,790`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${burnedFish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${burnedFishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "burnedFish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/cxCP7Yd/burned-fish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "grumpyCatfish") {
+            itemInfoEmbed.setDescription(`
+            The grumpy fish, with its perpetually scowling expression, swims disdainfully through the waters, seemingly unimpressed by the aquatic world around it. Its gruff demeanor adds a touch of humor to the serene depths of the ocean.`);
+            itemInfoEmbed.setTitle(`Grumpy catfish`);
+            itemInfoEmbed.addField(`Buy cost`, `52,150`);
+            itemInfoEmbed.addField(`Sell cost`, `52,150`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${grumpyCatfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${grumpyCatfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "grumpyCatfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/6v0DZkh/grumpy-catfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "pancakeFish") {
+            itemInfoEmbed.setDescription(`
+            The pancake fish, with its flat and whimsical appearance, glides through the water resembling a delectable breakfast delight, adding a touch of playful charm to the aquatic environment.`);
+            itemInfoEmbed.setTitle(`Pancake fish`);
+            itemInfoEmbed.addField(`Buy cost`, `16,210`);
+            itemInfoEmbed.addField(`Sell cost`, `16,210`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${pancakeFish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${pancakeFishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "pancakeFish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/y4MzMbC/pancake-fish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "discoJellyfish") {
+            itemInfoEmbed.setDescription(`
+            The disco jellyfish, adorned with vibrant bioluminescent lights, pulses rhythmically through the ocean, turning the underwater world into a mesmerizing dance floor of colors and patterns.`);
+            itemInfoEmbed.setTitle(`Disco jellyfish`);
+            itemInfoEmbed.addField(`Buy cost`, `23,191`);
+            itemInfoEmbed.addField(`Sell cost`, `23,191`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${discoJellyfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${discoJellyfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "discoJellyfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/R3Zd6Gp/disco-jellyfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "sodaCanfish") {
+            itemInfoEmbed.setDescription(`
+            The soda canfish, a quirky creation of underwater whimsy, glides through the depths with a metallic sheen, repurposing discarded cans into a whimsical aquatic spectacle.`);
+            itemInfoEmbed.setTitle(`Soda canfish`);
+            itemInfoEmbed.addField(`Buy cost`, `41,092`);
+            itemInfoEmbed.addField(`Sell cost`, `41,092`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${sodaCanfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${sodaCanfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "sodaCanfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/7yj2FGw/soda-canfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "lavaLampEel") {
+            itemInfoEmbed.setDescription(`
+            The lava lamp eel, with its undulating movements and vibrant colors, mimics the mesmerizing flow of a lava lamp, creating an otherworldly and captivating presence in the depths of the ocean.`);
+            itemInfoEmbed.setTitle(`Lava lamp eel`);
+            itemInfoEmbed.addField(`Buy cost`, `78,210`);
+            itemInfoEmbed.addField(`Sell cost`, `78,210`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${lavaLampEel}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${lavaLampEelStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "lavaLampEel");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/nDrL7sH/lava-lamp-eel.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "rubberDuckyfish") {
+            itemInfoEmbed.setDescription(`
+            The rubber duckyfish, a delightful fusion of bath toy and aquatic charm, floats merrily through the water, bringing a playful and whimsical spirit to the underwater world.`);
+            itemInfoEmbed.setTitle(`Rubber duckyfish`);
+            itemInfoEmbed.addField(`Buy cost`, `9,108`);
+            itemInfoEmbed.addField(`Sell cost`, `9,108`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${rubberDuckyfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${rubberDuckyfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "rubberDuckyfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/NtddYkS/rubber-duckyfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "pirateParrotfish") {
+            itemInfoEmbed.setDescription(`
+            The pirate parrotfish, with its vibrant plumage and mischievous demeanor, sails through the seas embodying a swashbuckling charm, adding a touch of seafaring adventure to the underwater realm.`);
+            itemInfoEmbed.setTitle(`Pirate parrotfish`);
+            itemInfoEmbed.addField(`Buy cost`, `18,029`);
+            itemInfoEmbed.addField(`Sell cost`, `18,029`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${pirateParrotfish}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${pirateParrotfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "pirateParrotfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/vY1rLpz/pirate-parrotfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "alienAnglerfish") {
+            itemInfoEmbed.setDescription(`
+            The alien anglerfish, with its otherworldly appearance and luminescent lure, lurks in the depths like an extraterrestrial creature, casting an eerie glow in the mysterious abyss of the ocean.`);
+            itemInfoEmbed.setTitle(`Alien anglerfish`);
+            itemInfoEmbed.addField(`Buy cost`, `43,102`);
+            itemInfoEmbed.addField(`Sell cost`, `43,102`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${alienAnglerfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${alienAnglerfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "alienAnglerfish");
+            itemInfoEmbed.setThumbnail(
+              `"https://i.ibb.co/523Fg9D/alien-anglerfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "ninjaStarfish") {
+            itemInfoEmbed.setDescription(`
+            The ninja starfish, swift and stealthy, navigates the ocean floor with the precision of a ninja, using its multiple arms like throwing stars to gracefully move through the underwater shadows.`);
+            itemInfoEmbed.setTitle(`Ninja starfish`);
+            itemInfoEmbed.addField(`Buy cost`, `80,500`);
+            itemInfoEmbed.addField(`Sell cost`, `80,500`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${ninjaStarfish}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${ninjaStarfishStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "ninjaStarfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/D4MDvPQ/ninja-starfish.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "boot") {
+            itemInfoEmbed.setDescription(`
+            The boot, discarded and submerged, rests on the ocean floor, transformed into an unexpected habitat for marine life, showcasing nature's ability to adapt and repurpose even the most unlikely objects.`);
+            itemInfoEmbed.setTitle(`Boot`);
+            itemInfoEmbed.addField(`Buy cost`, `12,072`);
+            itemInfoEmbed.addField(`Sell cost`, `12,072`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${boot}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${bootStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "boot");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/fMpKnHz/boot.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "bottle") {
+            itemInfoEmbed.setDescription(`
+            The bottle, drifting through the currents, carries the stories of distant shores and oceanic adventures, becoming a symbol of both human impact and the interconnectedness of the world's waters.`);
+            itemInfoEmbed.setTitle(`Bottle`);
+            itemInfoEmbed.addField(`Buy cost`, `2,321`);
+            itemInfoEmbed.addField(`Sell cost`, `2,321`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${bottle}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${bottleStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "bottle");
+            itemInfoEmbed.setThumbnail(`https://i.ibb.co/YDL6q3j/bottle.png`);
             message.channel.send(itemInfoEmbed);
           }
         } else {

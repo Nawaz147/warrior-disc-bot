@@ -34,24 +34,23 @@ module.exports = {
     }
 
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
-      if (message.author.id !== "768747976767832084") {
-        const buildInProgress = new Discord.MessageEmbed()
-          .setDescription(`This command in under construction 🚧`)
-          .setColor("#2B2D31");
-        message.channel.send(buildInProgress);
-        return;
-      }
+      // if (message.author.id !== "768747976767832084") {
+      //   const buildInProgress = new Discord.MessageEmbed()
+      //     .setDescription(`This command in under construction 🚧`)
+      //     .setColor("#2B2D31");
+      //   message.channel.send(buildInProgress);
+      //   return;
+      // }
       var fishzoneWeaponDamage = Math.floor(Math.random() * 1210921) + 810291;
       db.set(`fishzoneWeaponDamage_${tokenDB}`, fishzoneWeaponDamage);
       const noFishingRodMessages = [
         "Seems like you left your fishing rod at home. Oops!",
         "No fishing rod in sight! Did you forget it?",
-        "Looks like you're fishing without a rod. That's a bold strategy!",
-        "Fishing without a fishing rod? You must be a true minimalist.",
-        "You're missing your fishing rod! Time to improvise with your bare hands?",
+        "Go get a fishing rod",
+        "Fishing without a fishing rod?",
+        "You're missing your fishing rod!",
         "Did a fish steal your fishing rod? It happens to the best of us.",
-        "No fishing rod? No problem! Just use your fishing charm.",
-        "You're going commando with fishing today! No fishing rod needed.",
+        "No fishing rod?.",
         "Can't find your fishing rod? Maybe the fish wanted to try it out.",
         "Your fishing rod must be on vacation. Fish responsibly!",
         "When life gives you no fishing rod, make fishy friends instead.",
@@ -60,8 +59,7 @@ module.exports = {
         "No fishing rod? No worries! Fish have a soft spot for bare-handed anglers.",
         "You forgot your fishing rod, but you've got the heart of a fisherman!",
         "Fishing rod MIA? Time for some fishy meditation.",
-        "When in doubt, fish it out... without a rod!",
-        "Fishing without a rod? You're a true fish-taming maverick!",
+        "Fishing without a rod? Get one lol",
       ];
 
       const randomMessage =
@@ -125,9 +123,9 @@ module.exports = {
 
           message.channel.send(timeEmbed);
         } else {
-          var fishzillaSeaMonsterBossHealth =
-            db.fetch(`fishzillaSeaMonsterBossHealth_${tokenDB}`) || 1210901;
-          function createHealthBar(health, maxHealth, barLength = 20) {
+          var thassormentorBossHealth =
+            db.fetch(`thassormentorBossHealth_${tokenDB}`) || 1210901;
+          function createHealthBar(health, maxHealth, barLength = 16) {
             // Ensure health and maxHealth are non-negative
             health = Math.max(0, health);
             maxHealth = Math.max(0, maxHealth);
@@ -136,8 +134,8 @@ module.exports = {
             const progressBlocks = Math.floor((barLength * percentage) / 100);
             const remainingBlocks = barLength - progressBlocks;
 
-            const filledEmoji = "<:darkRedBar:1152996193199202418>";
-            const emptyEmoji = "<:lightRedBar:1152996156067028994>";
+            const filledEmoji = "<:darkBlueBar:1157618092181049449>";
+            const emptyEmoji = "<:lightBlueBar:1157618121788620862>";
             const narrowFilled = filledEmoji + ""; // Zero-width joiner to reduce spacing
             const narrowEmpty = emptyEmoji + "‌"; // Zero-width joiner to reduce spacing
 
@@ -151,16 +149,16 @@ module.exports = {
             }
             return progressBar;
           }
-          var fishzillaSeaMonsterBossHealth =
-            db.fetch(`fishzillaSeaMonsterBossHealth_${tokenDB}`) || 1210901;
+          var thassormentorBossHealth =
+            db.fetch(`thassormentorBossHealth_${tokenDB}`) || 1210901;
           const bossHealthBar = createHealthBar(
-            fishzillaSeaMonsterBossHealth,
+            thassormentorBossHealth,
             1210901,
-            20
+            16
           );
 
           var currentBossHealth =
-            db.fetch(`fishzillaSeaMonsterBossHealth_${tokenDB}`) || 1210901;
+            db.fetch(`thassormentorBossHealth_${tokenDB}`) || 1210901;
 
           if (currentBossHealth > "0") {
             currentBossHealth = currentBossHealth
@@ -171,30 +169,28 @@ module.exports = {
             var bossHealthProgress = `0 / 1,210,901`;
           }
           if (
-            fishzillaSeaMonsterBossHealth == null ||
-            fishzillaSeaMonsterBossHealth == undefined
+            thassormentorBossHealth == null ||
+            thassormentorBossHealth == undefined
           ) {
-            db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
+            db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
           }
 
-          var fishzillaSeaMonsterBoss = "Fishzilla sea monster";
+          var thassormentorBoss = "Thasormentor sea monster";
 
           var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
           if (goldLoot == undefined || goldLoot == null) {
             goldLoot = 0;
           }
 
-          const bossSpawned = db.fetch(
-            `fishzillaSeaMonsterBossSpawned_${tokenDB}`
-          );
+          const bossSpawned = db.fetch(`thassormentorBossSpawned_${tokenDB}`);
           var lastfishingRodTime = db.fetch(`lastfishingRodTime_${tokenDB}`);
 
           if (bossSpawned == true) {
-            db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
+            db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
             const bossHealthBar = createHealthBar(
-              fishzillaSeaMonsterBossHealth,
+              thassormentorBossHealth,
               1210901,
-              20
+              16
             );
             const bossFooterTexts = [
               "May your fishing rod be the ultimate sea monster conqueror!",
@@ -213,32 +209,26 @@ module.exports = {
               bossFooterTexts[
                 Math.floor(Math.random() * bossFooterTexts.length)
               ];
-            const fishzillaSeaMonsterBossEmbed = new Discord.MessageEmbed()
+            const thassormentorBossEmbed = new Discord.MessageEmbed()
               .setColor("#2B2D31") // Deep purple color
-              .setAuthor(`${fishzillaSeaMonsterBoss}`) // Add an image of Eldra'zur as the author
+              .setAuthor(`${thassormentorBoss}`) // Add an image of Eldra'zur as the author
               .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
-              .setImage("https://i.ibb.co/qMdv4yq/fishzilla-sea-monster.gif") // You can use another image to show the boss
+              .setImage("https://i.ibb.co/CK1bcZv/thassormentor.gif") // You can use another image to show the boss
               .setFooter(randomFooterText);
-            db.set(`fishzillaSeaMonsterBossSpawned_${tokenDB}`, true);
+            db.set(`thassormentorBossSpawned_${tokenDB}`, true);
             const bossMessage = await message.channel.send(
-              fishzillaSeaMonsterBossEmbed
+              thassormentorBossEmbed
             );
             var fishingRodBossEmoji = "<a:fishingRod:1156985653867839488>";
-            await bossMessage.edit(fishzillaSeaMonsterBossEmbed);
+            await bossMessage.edit(thassormentorBossEmbed);
             await bossMessage.react(fishingRodBossEmoji);
             // await bossMessage.react(waterSkill);
 
             db.set(`cooldown_${tokenDB}`, Date.now());
             const filter = (reaction, user) => {
               if (user.id === message.author.id) {
-                return true; // The message author can always react
-              }
-
-              if (partyData.members.includes(user.id)) {
                 return ["fishingRod"].includes(reaction.emoji.name);
               }
-
-              return false;
             };
 
             const collector = bossMessage.createReactionCollector(filter, {
@@ -264,33 +254,32 @@ module.exports = {
                   `didntfishingRodCooldown_${tokenDB}`
                 );
                 // const bossHealthBar = createHealthBar(
-                //   fishzillaSeaMonsterBossHealth,
+                //   thassormentorBossHealth,
                 //   1210901,
-                //   20
+                //   16
                 // );
                 // It's not on cooldown, proceed to deal damage
                 const fishzoneWeaponDamage = db.fetch(
                   `fishzoneWeaponDamage_${tokenDB}`
                 );
                 db.subtract(
-                  `fishzillaSeaMonsterBossHealth_${tokenDB}`,
+                  `thassormentorBossHealth_${tokenDB}`,
                   fishzoneWeaponDamage / 4
                 );
-                var fishzillaSeaMonsterBossHealth =
-                  db.fetch(`fishzillaSeaMonsterBossHealth_${tokenDB}`) ||
-                  1210901;
+                var thassormentorBossHealth =
+                  db.fetch(`thassormentorBossHealth_${tokenDB}`) || 1210901;
 
                 if (
-                  fishzillaSeaMonsterBossHealth < 0 ||
-                  fishzillaSeaMonsterBossHealth == 0
+                  thassormentorBossHealth < 0 ||
+                  thassormentorBossHealth == 0
                 ) {
                   // Boss defeated
-                  fishzillaSeaMonsterBossHealth = 0;
+                  thassormentorBossHealth = 0;
 
                   bossMessage.reactions.removeAll();
-                  db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
-                  db.set(`fishzillaSeaMonsterBossSpawned_${tokenDB}`, false);
-                  fishzillaSeaMonsterBossHealth = fishzillaSeaMonsterBossHealth
+                  db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
+                  db.set(`thassormentorBossSpawned_${tokenDB}`, false);
+                  thassormentorBossHealth = thassormentorBossHealth
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -302,6 +291,8 @@ module.exports = {
                   console.log(moonsShineOfMetalSwordChance);
                   var weaponName = db.fetch(`wepName_${tokenDB}`);
                   if (weaponName == "daggerOfDeath") {
+                    var daggerOfDeathLevel =
+                      db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 0;
                     const daggerXP = Math.floor(Math.random() * 15) + 7;
                     if (daggerOfDeathLevel !== 10) {
                       db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
@@ -409,7 +400,7 @@ module.exports = {
                     message.channel.send(HundredBossKillApsEmbed);
                   }
                   db.set(`cooldown_${tokenDB}`, Date.now());
-                  db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
+                  db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
 
                   const trashFishesToGet = [
                     {
@@ -839,27 +830,25 @@ module.exports = {
                 // Update boss health and cooldown
                 // Send an updated boss message
                 const bossHealthBar = createHealthBar(
-                  fishzillaSeaMonsterBossHealth,
+                  thassormentorBossHealth,
                   1210901,
-                  20
+                  16
                 );
-                fishzillaSeaMonsterBossHealth = fishzillaSeaMonsterBossHealth
+                thassormentorBossHealth = thassormentorBossHealth
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-                const fishzillaSeaMonsterBossEmbed = new Discord.MessageEmbed()
+                const thassormentorBossEmbed = new Discord.MessageEmbed()
                   .setColor("#2B2D31")
-                  .setAuthor("Fishzilla sea monster")
+                  .setAuthor("Thasormentor sea monster")
                   .addField(
-                    `${fishzillaSeaMonsterBossHealth} / 1,210,901`,
+                    `${thassormentorBossHealth} / 1,210,901`,
                     `${bossHealthBar}`,
                     true
                   )
-                  .setImage(
-                    "https://i.ibb.co/qMdv4yq/fishzilla-sea-monster.gif"
-                  )
+                  .setImage("https://i.ibb.co/CK1bcZv/thassormentor.gif")
                   .setFooter(randomFooterText);
-                await bossMessage.edit(fishzillaSeaMonsterBossEmbed);
+                await bossMessage.edit(thassormentorBossEmbed);
 
                 // Remove the user's reaction
                 reaction.users.remove(user);
@@ -873,9 +862,9 @@ module.exports = {
           } else {
             var fishingRodBossEmoji = "<a:fishingRod:1156985653867839488>";
             const bossHealthBar = createHealthBar(
-              fishzillaSeaMonsterBossHealth,
+              thassormentorBossHealth,
               1210901,
-              20
+              16
             );
             const bossFooterTexts = [
               "May your fishing rod be the ultimate sea monster conqueror!",
@@ -894,31 +883,25 @@ module.exports = {
               bossFooterTexts[
                 Math.floor(Math.random() * bossFooterTexts.length)
               ];
-            const fishzillaSeaMonsterBossEmbed = new Discord.MessageEmbed()
+            const thassormentorBossEmbed = new Discord.MessageEmbed()
               .setColor("#2B2D31") // Deep purple color
-              .setAuthor(`${fishzillaSeaMonsterBoss}`) // Add an image of Eldra'zur as the author
+              .setAuthor(`${thassormentorBoss}`) // Add an image of Eldra'zur as the author
               .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
-              .setImage("https://i.ibb.co/qMdv4yq/fishzilla-sea-monster.gif") // You can use another image to show the boss
+              .setImage("https://i.ibb.co/CK1bcZv/thassormentor.gif") // You can use another image to show the boss
               .setFooter(randomFooterText);
-            db.set(`fishzillaSeaMonsterBossSpawned_${tokenDB}`, true);
+            db.set(`thassormentorBossSpawned_${tokenDB}`, true);
             const bossMessage = await message.channel.send(
-              fishzillaSeaMonsterBossEmbed
+              thassormentorBossEmbed
             );
-            await bossMessage.edit(fishzillaSeaMonsterBossEmbed);
+            await bossMessage.edit(thassormentorBossEmbed);
             await bossMessage.react(fishingRodBossEmoji);
             // await bossMessage.react(waterSkill);
 
             db.set(`cooldown_${tokenDB}`, Date.now());
             const filter = (reaction, user) => {
               if (user.id === message.author.id) {
-                return true; // The message author can always react
-              }
-
-              if (partyData.members.includes(user.id)) {
                 return ["fishingRod"].includes(reaction.emoji.name);
               }
-
-              return false;
             };
 
             const collector = bossMessage.createReactionCollector(filter, {
@@ -936,33 +919,32 @@ module.exports = {
                   `didntfishingRodCooldown_${tokenDB}`
                 );
                 // const bossHealthBar = createHealthBar(
-                //   fishzillaSeaMonsterBossHealth,
+                //   thassormentorBossHealth,
                 //   1210901,
-                //   20
+                //   16
                 // );
                 // It's not on cooldown, proceed to deal damage
                 const fishzoneWeaponDamage = db.fetch(
                   `fishzoneWeaponDamage_${tokenDB}`
                 );
                 db.subtract(
-                  `fishzillaSeaMonsterBossHealth_${tokenDB}`,
+                  `thassormentorBossHealth_${tokenDB}`,
                   fishzoneWeaponDamage / 4
                 );
-                var fishzillaSeaMonsterBossHealth =
-                  db.fetch(`fishzillaSeaMonsterBossHealth_${tokenDB}`) ||
-                  1210901;
+                var thassormentorBossHealth =
+                  db.fetch(`thassormentorBossHealth_${tokenDB}`) || 1210901;
 
                 if (
-                  fishzillaSeaMonsterBossHealth < 0 ||
-                  fishzillaSeaMonsterBossHealth == 0
+                  thassormentorBossHealth < 0 ||
+                  thassormentorBossHealth == 0
                 ) {
                   // Boss defeated
-                  fishzillaSeaMonsterBossHealth = 0;
+                  thassormentorBossHealth = 0;
 
                   bossMessage.reactions.removeAll();
-                  db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
-                  db.set(`fishzillaSeaMonsterBossSpawned_${tokenDB}`, false);
-                  fishzillaSeaMonsterBossHealth = fishzillaSeaMonsterBossHealth
+                  db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
+                  db.set(`thassormentorBossSpawned_${tokenDB}`, false);
+                  thassormentorBossHealth = thassormentorBossHealth
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -974,6 +956,8 @@ module.exports = {
                   console.log(moonsShineOfMetalSwordChance);
                   var weaponName = db.fetch(`wepName_${tokenDB}`);
                   if (weaponName == "daggerOfDeath") {
+                    var daggerOfDeathLevel =
+                      db.fetch(`daggerOfDeathLevel_${tokenDB}`) || 0;
                     const daggerXP = Math.floor(Math.random() * 15) + 7;
                     if (daggerOfDeathLevel !== 10) {
                       db.add(`daggerOfDeathXP_${tokenDB}`, daggerXP);
@@ -1081,7 +1065,7 @@ module.exports = {
                     message.channel.send(HundredBossKillApsEmbed);
                   }
                   db.set(`cooldown_${tokenDB}`, Date.now());
-                  db.set(`fishzillaSeaMonsterBossHealth_${tokenDB}`, 1210901);
+                  db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
 
                   const trashFishesToGet = [
                     {
@@ -1501,7 +1485,7 @@ module.exports = {
                   }
                   const fishEmbed = new Discord.MessageEmbed()
                     .addField(
-                      `You hooked a ${randomItem.name} ${randomItem.emoji}`,
+                      `${user.username} hooked a ${randomItem.name} ${randomItem.emoji}`,
                       `${randomFunnyText}`
                     )
                     .setColor("#2B2D31")
@@ -1512,27 +1496,25 @@ module.exports = {
                 // Update boss health and cooldown
                 // Send an updated boss message
                 const bossHealthBar = createHealthBar(
-                  fishzillaSeaMonsterBossHealth,
+                  thassormentorBossHealth,
                   1210901,
-                  20
+                  16
                 );
-                fishzillaSeaMonsterBossHealth = fishzillaSeaMonsterBossHealth
+                thassormentorBossHealth = thassormentorBossHealth
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-                const fishzillaSeaMonsterBossEmbed = new Discord.MessageEmbed()
+                const thassormentorBossEmbed = new Discord.MessageEmbed()
                   .setColor("#2B2D31")
-                  .setAuthor("Fishzilla sea monster")
+                  .setAuthor("Thasormentor sea monster")
                   .addField(
-                    `${fishzillaSeaMonsterBossHealth} / 1,210,901`,
+                    `${thassormentorBossHealth} / 1,210,901`,
                     `${bossHealthBar}`,
                     true
                   )
-                  .setImage(
-                    "https://i.ibb.co/qMdv4yq/fishzilla-sea-monster.gif"
-                  )
+                  .setImage("https://i.ibb.co/CK1bcZv/thassormentor.gif")
                   .setFooter(randomFooterText);
-                await bossMessage.edit(fishzillaSeaMonsterBossEmbed);
+                await bossMessage.edit(thassormentorBossEmbed);
 
                 // Remove the user's reaction
                 reaction.users.remove(user);
