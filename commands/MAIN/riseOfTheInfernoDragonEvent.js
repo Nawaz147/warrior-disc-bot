@@ -64,7 +64,6 @@ module.exports = {
         } else if (ventorianBowEquipped == "True") {
           var weaponDamage = ventorianBoww.Damage;
           db.set(`weaponDamage_${tokenDB}`, weaponDamage);
-          db.set(`weaponDamage_${tokenDB}`, weaponDamage);
           var weaponEquipped = true;
         } else if (waetraEquipped == "True") {
           var weaponDamage = waetraDamage.Damage;
@@ -230,13 +229,14 @@ module.exports = {
               resetBossHealth();
             }
             if (bossSpawned == true) {
+              db.set(`infernothTheEmberwingBossHealth_${tokenDB}`, 24190210);
               const bossHealthBar = createHealthBar(
                 infernothTheEmberwingBossHealth,
                 24190210,
                 20
               );
               const infernothTheEmberwingBossEmbed = new Discord.MessageEmbed()
-                .setColor("#8B0000") // Deep purple color
+                .setColor("#2B2D31") // Deep purple color
                 .setAuthor(`${infernothTheEmberwingBoss}`) // Add an image of Eldra'zur as the author
                 .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
                 .setImage(
@@ -263,14 +263,8 @@ module.exports = {
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
                 if (user.id === message.author.id) {
-                  return true; // The message author can always react
-                }
-
-                if (partyData.members.includes(user.id)) {
                   return ["hit", "waterElement"].includes(reaction.emoji.name);
                 }
-
-                return false;
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
@@ -396,7 +390,7 @@ module.exports = {
 
                     const infernothTheEmberwingBossDeadEmbed =
                       new Discord.MessageEmbed()
-                        .setColor("#8B0000") // Gold color for celebration
+                        .setColor("#2B2D31") // Gold color for celebration
                         .setTitle(`**Infernoth, the Emberwing Slayed!**`)
                         .setDescription(
                           `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
@@ -806,7 +800,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                   const infernothTheEmberwingBossEmbed =
                     new Discord.MessageEmbed()
-                      .setColor("#8B0000")
+                      .setColor("#2B2D31")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
                         `${infernothTheEmberwingBossHealth} / 24,190,210`,
@@ -863,7 +857,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                     const infernothTheEmberwingBossDeadEmbed =
                       new Discord.MessageEmbed()
-                        .setColor("#8B0000") // Gold color for celebration
+                        .setColor("#2B2D31") // Gold color for celebration
                         .setTitle(`**Infernoth, the Emberwing Slayed!**`)
                         .setDescription(
                           `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
@@ -1274,7 +1268,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                   const infernothTheEmberwingBossEmbed =
                     new Discord.MessageEmbed()
-                      .setColor("#8B0000")
+                      .setColor("#2B2D31")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
                         `${infernothTheEmberwingBossHealth} / 24,190,210`,
@@ -1307,7 +1301,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
                 20
               );
               const infernothTheEmberwingBossEmbed = new Discord.MessageEmbed()
-                .setColor("#8B0000") // Deep purple color
+                .setColor("#2B2D31") // Deep purple color
                 .setAuthor(`${infernothTheEmberwingBoss}`) // Add an image of Eldra'zur as the author
                 .addField(`${bossHealthProgress}`, `${bossHealthBar}`, true)
                 .setImage(
@@ -1332,14 +1326,8 @@ ${user.username} acquired : ${finalCoins} Gold Coins
               db.set(`cooldown_${tokenDB}`, Date.now());
               const filter = (reaction, user) => {
                 if (user.id === message.author.id) {
-                  return true; // The message author can always react
-                }
-
-                if (partyData.members.includes(user.id)) {
                   return ["hit", "waterElement"].includes(reaction.emoji.name);
                 }
-
-                return false;
               };
 
               const collector = bossMessage.createReactionCollector(filter, {
@@ -1457,7 +1445,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                     const infernothTheEmberwingBossDeadEmbed =
                       new Discord.MessageEmbed()
-                        .setColor("#8B0000") // Gold color for celebration
+                        .setColor("#2B2D31") // Gold color for celebration
                         .setTitle(`**Infernoth, the Emberwing Slayed!**`)
                         .setDescription(
                           `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
@@ -1868,7 +1856,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                   const infernothTheEmberwingBossEmbed =
                     new Discord.MessageEmbed()
-                      .setColor("#8B0000")
+                      .setColor("#2B2D31")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
                         `${infernothTheEmberwingBossHealth} / 24,190,210`,
@@ -1925,7 +1913,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                     const infernothTheEmberwingBossDeadEmbed =
                       new Discord.MessageEmbed()
-                        .setColor("#8B0000") // Gold color for celebration
+                        .setColor("#2B2D31") // Gold color for celebration
                         .setTitle(`**Infernoth, the Emberwing Slayed!**`)
                         .setDescription(
                           `The fiery reign of ${infernothTheEmberwingBoss} has come to an end!`
@@ -2335,7 +2323,7 @@ ${user.username} acquired : ${finalCoins} Gold Coins
 
                   const infernothTheEmberwingBossEmbed =
                     new Discord.MessageEmbed()
-                      .setColor("#8B0000")
+                      .setColor("#2B2D31")
                       .setAuthor("Infernoth, the emberwing")
                       .addField(
                         `${infernothTheEmberwingBossHealth} / 24,190,210`,

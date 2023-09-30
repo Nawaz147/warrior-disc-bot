@@ -1,5 +1,11 @@
 const canvacord = require("canvacord");
-const { Client, Collection, Intents } = require("discord.js");
+const {
+  Client,
+  Collection,
+  Intents,
+  MessageButton,
+  MessageActionRow,
+} = require("discord.js");
 const { config } = require("dotenv");
 const { suffix, db, token } = require("./config.json");
 const datab = require("quick.db");
@@ -269,12 +275,11 @@ client.on("message", async (message) => {
     // If a command is finally found, run the command
     if (command) command.run(client, message, args);
   });
+client.setMaxListeners("disconnect", 15);
 
+// Set the maximum number of listeners for the guildMemberAdd event to 15
+client.setMaxListeners("guildMemberAdd", 15);
 client.on("message", async (message, member) => {
-  console.log(
-    `In ${message.guild} , ${message.author.username} said : ${message.content}`
-  );
-
   if (message.channel.type === "dm") {
     console.log(
       `${message.author.username}#${message.author.discriminator} said : ${message.content}`
@@ -285,90 +290,90 @@ client.on("message", async (message, member) => {
         `Hi ${message.author.username} , You cant use commands in DM !`
       );
     }
-
-    // if (message.content === "next") {
-    //   const Data = await api.GetMeme({ Color: "RANDOM" });
-    //   return message.channel.send(Data);
-    // }
-
-    // if (message.content === "Next") {
-    //   const Data = await api.GetMeme({ Color: "RANDOM" });
-    //   return message.channel.send(Data);
-    // }
-    // if (message.content === "nxt") {
-    //   const Data = await api.GetMeme({ Color: "RANDOM" });
-    //   return message.channel.send(Data);
-    // }
-    // if (message.content === "Nxt") {
-    //   const Data = await api.GetMeme({ Color: "RANDOM" });
-    //   return message.channel.send(Data);
-    // }
-
-    client.on("disconnect", (event) => {
-      if (event.code !== 1000) {
-        console.log(
-          "Discord client disconnected with reason: " +
-            event.reason +
-            " (" +
-            event.code +
-            ")."
-        );
-
-        if (event.code === 4004) {
-          if (token === "your_token_here") {
-            console.log(
-              'It appears that you have not yet added a token. Please replace "your_token_here" with a valid token in the config file.'
-            );
-          } else if (token.length < 50) {
-            console.log(
-              "It appears that you have entered a client secret or other invalid string. Please ensure that you have entered a bot token and try again."
-            );
-          } else {
-            console.log(
-              "Please double-check the configured token and try again."
-            );
-          }
-          process.exit();
-          return;
-        }
-
-        console.log("Attempting to reconnect in 6s...");
-        setTimeout(() => {
-          client.login(token);
-        }, 6000);
-      }
-    });
-
-    // if db error occurs fire this
-    client.on("guildMemberAdd", async (member) => {
-      let message = `Hey ${member} welcome to ${member.guild.name}`;
-
-      let channel = await client.db.get(`channel_${member.guild.id}`);
-      const welcomeCard = new canvacord.Welcomer()
-        .setUsername(member.user.username)
-        .setDiscriminator(member.user.discriminator)
-        .setAvatar(member.user.displayAvatarURL({ format: "png" }))
-        .setColor("title", "#fff")
-        .setColor("username-box", "#293480")
-        .setColor("discriminator-box", "#293480")
-        .setColor("message-box", "#34068a")
-        .setColor("avatar", "#550dd1")
-        .setBackground("https://wallpaperaccess.com/full/360436.jpg")
-        .setMemberCount(member.guild.memberCount);
-      let attachment = new Discord.MessageAttachment(
-        await welcomeCard.build(),
-        "welcome.png"
-      );
-      // const autorole = datab.get(`autorole_${message.guild}`);
-      // if (autorole) {
-      //   member.roles.add(autorole);
-      // } else {
-      //   return;
-      // }
-      if (!channel) return;
-
-      client.channels.cache.get(channel).send(attachment);
-      client.channels.cache.get(channel).send(message);
-    });
+    if (message.type === "APPLICATION_COMMAND") return;
   }
+  // if (message.content === "next") {
+  //   const Data = await api.GetMeme({ Color: "RANDOM" });
+  //   return message.channel.send(Data);
+  // }
+
+  // if (message.content === "Next") {
+  //   const Data = await api.GetMeme({ Color: "RANDOM" });
+  //   return message.channel.send(Data);
+  // }
+  // if (message.content === "nxt") {
+  //   const Data = await api.GetMeme({ Color: "RANDOM" });
+  //   return message.channel.send(Data);
+  // }
+  // if (message.content === "Nxt") {
+  //   const Data = await api.GetMeme({ Color: "RANDOM" });
+  //   return message.channel.send(Data);
+  // }
+
+  client.on("disconnect", (event) => {
+    if (event.code !== 1000) {
+      console.log(
+        "Discord client disconnected with reason: " +
+          event.reason +
+          " (" +
+          event.code +
+          ")."
+      );
+
+      if (event.code === 4004) {
+        if (token === "your_token_here") {
+          console.log(
+            'It appears that you have not yet added a token. Please replace "your_token_here" with a valid token in the config file.'
+          );
+        } else if (token.length < 50) {
+          console.log(
+            "It appears that you have entered a client secret or other invalid string. Please ensure that you have entered a bot token and try again."
+          );
+        } else {
+          console.log(
+            "Please double-check the configured token and try again."
+          );
+        }
+        process.exit();
+        return;
+      }
+
+      console.log("Attempting to reconnect in 6s...");
+      setTimeout(() => {
+        client.login(token);
+      }, 6000);
+    }
+  });
+
+  // if db error occurs fire this
+  client.on("guildMemberAdd", async (member) => {
+    let message = `Hey ${member} welcome to ${member.guild.name}`;
+
+    let channel = await client.db.get(`channel_${member.guild.id}`);
+    const welcomeCard = new canvacord.Welcomer()
+      .setUsername(member.user.username)
+      .setDiscriminator(member.user.discriminator)
+      .setAvatar(member.user.displayAvatarURL({ format: "png" }))
+      .setColor("title", "#fff")
+      .setColor("username-box", "#293480")
+      .setColor("discriminator-box", "#293480")
+      .setColor("message-box", "#34068a")
+      .setColor("avatar", "#550dd1")
+      .setBackground("https://wallpaperaccess.com/full/360436.jpg")
+      .setMemberCount(member.guild.memberCount);
+    let attachment = new Discord.MessageAttachment(
+      await welcomeCard.build(),
+      "welcome.png"
+    );
+    // const autorole = datab.get(`autorole_${message.guild}`);
+    // if (autorole) {
+    //   member.roles.add(autorole);
+    // } else {
+    //   return;
+    // }
+    if (!channel) return;
+
+    client.channels.cache.get(channel).send(attachment);
+    client.channels.cache.get(channel).send(message);
+  });
 });

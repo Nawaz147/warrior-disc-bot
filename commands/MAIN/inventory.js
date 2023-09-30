@@ -113,6 +113,9 @@ module.exports = {
               db.fetch(`texarus_${tokenDB}`) || 0,
             "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
               db.fetch(`eternalFlameEssence_${tokenDB}`) || 0,
+            "<:fishingRod:1157537595002204260> Fishing rod": db.fetch(
+              `fishingRod_${tokenDB}`
+            ),
             "<:blackOil:1154415835998322718> Black oil":
               db.fetch(`blackOil_${tokenDB}`) || 0,
             "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
@@ -127,6 +130,38 @@ module.exports = {
               db.fetch(`awakeningGem_${tokenDB}`) || 0,
             "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
               db.fetch(`ventorianBow_${tokenDB}`) || 0,
+            "<:sarcasticFringehead:1156929582335799388> Sarcastic fringehead":
+              db.fetch(`sarcasticFringehead_${tokenDB}`) || 0,
+            "<:salmon:1156929627126771784> Salmon":
+              db.fetch(`salmon_${tokenDB}`) || 0,
+            "<:smellyFish:1156929529894424666> Smelly fish":
+              db.fetch(`smellyFish_${tokenDB}`) || 0,
+            "<:burnedfish:1156939483267207220> Burned fish":
+              db.fetch(`burnedFish_${tokenDB}`) || 0,
+            "<:grumpyCatfish:1156929452056522812> Grumpy catfish":
+              db.fetch(`grumpyCatfish_${tokenDB}`) || 0,
+            "<:pancakeFish:1156929418170744852> Pancake fish":
+              db.fetch(`pancakeFish_${tokenDB}`) || 0,
+            "<:discoJellyfish:1156929355465900133> Disco jellyfish":
+              db.fetch(`discoJellyfish_${tokenDB}`) || 0,
+            "<:sodaCanfish:1156929327817035788> Soda canfish":
+              db.fetch(`sodaCanfish_${tokenDB}`) || 0,
+            "<:lavaLampEel:1156939953448681472> Lava lamp eel":
+              db.fetch(`lavaLampEel_${tokenDB}`) || 0,
+            "<:rubberDuckyfish:1156938911004766240> Rubber duckyfish":
+              db.fetch(`rubberDuckyfish_${tokenDB}`) || 0,
+            "<:ninjaStarfish:1156938871695757432> Ninja starfish":
+              db.fetch(`ninjaStarfish_${tokenDB}`) || 0,
+            "<:alienAnglerfish:1156938740586000394> Alien anglerfish":
+              db.fetch(`alienAnglerFish_${tokenDB}`) || 0,
+            "<:pirateParrotfish:1156938717781573733> Pirate parrotfish":
+              db.fetch(`pirateParrotfish_${tokenDB}`) || 0,
+            "<:toiletSeatLid:1156938695635644506> Toilet seat lid":
+              db.fetch(`toiletSeatLid_${tokenDB}`) || 0,
+            "<:boot:1156938677176520785> Boot":
+              db.fetch(`boot_${tokenDB}`) || 0,
+            "<:bottle:1156938658667044934> Bottle":
+              db.fetch(`bottle_${tokenDB}`) || 0,
             "<:rustygears:1147072174264426606> Rusty gears":
               db.fetch(`rustyGears_${tokenDB}`) || 0,
             "<:torncloth:1147103370637738035> Torn cloth":
@@ -160,55 +195,83 @@ module.exports = {
           // Create the inventory embed
           const inventoryEmbed = new Discord.MessageEmbed()
             .setTitle(`${user.username}'s Inventory`)
-            .setColor(`#F0F000`);
+            .setColor(`#2B2D31`);
 
           // Check each item and add it to the inventory description if the user has it
           const itemNames = Object.keys(items);
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<:fishingRod:1157537595002204260> Fishing rod": "Tool",
+            "<:sarcasticFringehead:1156929582335799388> Sarcastic fringehead":
+              "Collectible",
+            "<:salmon:1156929627126771784> Salmon": "Collectible",
+            "<:smellyFish:1156929529894424666> Smelly fish": "Collectible",
+            "<:burnedfish:1156939483267207220> Burned fish": "Collectible",
+            "<:grumpyCatfish:1156929452056522812> Grumpy catfish":
+              "Collectible",
+            "<:pancakeFish:1156929418170744852> Pancake fish": "Collectible",
+            "<:discoJellyfish:1156929355465900133> Disco jellyfish":
+              "Collectible",
+            "<:sodaCanfish:1156929327817035788> Soda canfish": "Collectible",
+            "<:lavaLampEel:1156939953448681472> Lava lamp eel": "Collectible",
+            "<:rubberDuckyfish:1156938911004766240> Rubber duckyfish":
+              "Collectible",
+            "<:ninjaStarfish:1156938871695757432> Ninja starfish":
+              "Collectible",
+            "<:alienAnglerfish:1156938740586000394> Alien anglerfish":
+              "Collectible",
+            "<:pirateParrotfish:1156938717781573733> Pirate parrotfish":
+              "Collectible",
+            "<:toiletSeatLid:1156938695635644506> Toilet seat lid":
+              "Collectible",
+            "<:boot:1156938677176520785> Boot": "Collectible",
+            "<:bottle:1156938658667044934> Bottle": "Collectible",
             "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
-              "Arcane",
+              "Collectible",
             "<:infernothsWrathfulEye:1154412305128378499> Infernoth's wrathful eye":
-              "Mythic",
-            "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem": "Mythic",
+              "Collectible",
+            "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem":
+              "Collectible",
             "<:pyroclasmicEssence:1154413077807255612> Pyroclasmic essence":
-              "Mythic",
-            "<:magmaticTorch:1154413864386052146> Magmatic torch": "Mythic",
+              "Collectible",
+            "<:magmaticTorch:1154413864386052146> Magmatic torch":
+              "Collectible",
             "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
-              "Legendary",
-            "<:blackOil:1154415835998322718> Black oil": "Epic",
-            "<:hotWater:1154416000360525924> Hot water": "Rare",
-            "<:transparentGlass:1154416282133876868> Transparent glass": "Rare",
+              "Collectible",
+            "<:blackOil:1154415835998322718> Black oil": "Collectible",
+            "<:hotWater:1154416000360525924> Hot water": "Collectible",
+            "<:transparentGlass:1154416282133876868> Transparent glass":
+              "Collectible",
             "<a:moonsShineOfMetalSword:1154071077954269245> Moon's shine of metal sword":
-              "Heroic",
+              "Weapon",
             "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
-              "Mythic",
+              "Collectible",
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
-              "Mythic",
+              "Collectible",
             "<:orbOfElementalMastery:1151189114767540265> Orb of elemental mastery":
-              "Arcane",
-            "<a:auroraGaze:1149396676650483914> Aurora gaze": "Heroic",
+              "Collectible",
+            "<a:auroraGaze:1149396676650483914> Aurora gaze": "Collectible",
             "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
-              "Heroic",
-            "<:goldbar:1147101331534921758> Gold Bar": "Mythic",
-            "<:daggerofdeath:1147084241516105728> Dagger of death": "Arcane",
-            "<:bullet:1147100873164603472> Bullet": "Mythic",
-            "<:awakeninggem:1147071223042424902> Awakening gem": "Common",
+              "Collectible & Military",
+            "<:goldbar:1147101331534921758> Gold Bar": "Economy",
+            "<:daggerofdeath:1147084241516105728> Dagger of death": "Weapon",
+            "<:bullet:1147100873164603472> Bullet": "Military",
+            "<:awakeninggem:1147071223042424902> Awakening gem": "Power-up",
             "<:eliteawakeninggem:1147070929957027860> Elite awakening gem":
-              "Epic",
+              "Power-up",
             "<:ventorianbow:1147084109986930688> Ventorian bow of ventor":
-              "Common",
+              "Weapon",
             "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
-              "Legendary",
+              "Weapon",
             "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
-              "Mythic",
+              "Weapon",
             "<:rashetathefuriousaxe:1147085204779962408> Rasheta the furious axe":
-              "Mythic",
+              "Weapon",
             "<:naturedaggers:1147084151686701068> Nature daggers of superpower":
-              "Arcane",
+              "Weapon",
             "<:immortalgun:1147084130807455814> Immortal gun of energy":
-              "Arcane",
+              "Weapon",
             "<:vanityicon:1147071701633482773> Golden Ghost Knight Set":
               "Vanity",
             "<:vanityicon:1147071701633482773> Supreme magical set": "Vanity",
@@ -219,41 +282,42 @@ module.exports = {
             "<:vanityicon:1147071701633482773> Intrepid set": "Vanity",
             "<:vanityicon:1147071701633482773> Medusa set": "Vanity",
             "<:unlockedCrateOfEnergy:1147102884585017355> Unlocked crate of energy":
-              "Rare",
-            "<:vortexorb:1147066784969666600> Vortex orb": "Arcane",
+              "Chest",
+            "<:vortexorb:1147066784969666600> Vortex orb": "Collectible",
             "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
-              "Arcane",
+              "Collectible",
             "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
-              "Arcane",
+              "Collectible",
             "<:crystallinecorestone:1147068766983819275> Crystalline corestone":
-              "Mythic",
+              "Collectible",
             "<:tomeofeverlastingwisdom:1147073417275773018> Tome of everlasting wisdom":
-              "Mythic",
-            "<:rustygears:1147072174264426606> Rusty gears": "Common",
-            "<:dustbin:1147071977601908767> Dustbin": "Common",
-            "<:newspaper:1147073903068463114> Newspaper": "Common",
-            "<:torncloth:1147103370637738035> Torn cloth": "Common",
-            "<:usedtissue:1147072375305797692> Used tissue": "Common",
-            "<:brokenstick:1147072664792485949> Broken stick": "Common",
-            "<:cotton:1147116559526015088>Cotton": "Common",
-            "<:supergem:1147106342427955300> Super gem": "Mythic",
-            "<:leather:1147104055701798933> Leather": "Arcane",
-            "<:arcaneshard:1147112213073629206> Arcane shard": "Arcane",
-            "<:icecube:1147112519878590514> Ice cube": "Mythic",
-            "<:greenrock:1147112816235515954> Green rock": "Common",
-            "<:silk:1147103793058693130> Silk": "Common",
-            "<:valoriumsTear:1147381630009364581> Valorium's tear": "Mythic",
+              "Collectible",
+            "<:rustygears:1147072174264426606> Rusty gears": "Trash",
+            "<:dustbin:1147071977601908767> Dustbin": "Trash",
+            "<:newspaper:1147073903068463114> Newspaper": "Trash",
+            "<:torncloth:1147103370637738035> Torn cloth": "Trash",
+            "<:usedtissue:1147072375305797692> Used tissue": "Trash",
+            "<:brokenstick:1147072664792485949> Broken stick": "Trash",
+            "<:cotton:1147116559526015088>Cotton": "Material",
+            "<:supergem:1147106342427955300> Super gem": "Material",
+            "<:leather:1147104055701798933> Leather": "Material",
+            "<:arcaneshard:1147112213073629206> Arcane shard": "Material",
+            "<:icecube:1147112519878590514> Ice cube": "Material",
+            "<:greenrock:1147112816235515954> Green rock": "Material",
+            "<:silk:1147103793058693130> Silk": "Material",
+            "<:valoriumsTear:1147381630009364581> Valorium's tear":
+              "Collectible",
             "<:valoriumsSoul:1147382331422810132> Valorium's Eclipsian soul":
-              "Arcane",
+              "Collectible",
             "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
-              "Heroic",
+              "Collectible",
             "<:abyssalstarcrystal:1148264853060976720> Abyssal starcrystal":
-              "Arcane",
+              "Collectible",
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
-              "Arcane",
+              "Collectible",
             "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
-              "Heroic",
-            "<:titlelogo:1148602133445353515> Monarch slayer": "Arcane",
+              "Collectible",
+            "<:titlelogo:1148602133445353515> Monarch slayer": "Title",
           };
           const itemsID = {
             "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
@@ -367,7 +431,7 @@ module.exports = {
               const rarity = itemsRarity[itemName] || "ERROR";
               const itemID = itemsID[itemName] || "ERROR";
               inventoryItems.push(
-                `**${itemName}** : (${amount}) x pcs\n  <:arrow:1156648683849383936> Rarity: ${rarity}, ID: ${itemID}\n`
+                `**${itemName} -** ${amount}\n  <:arrow:1156648683849383936> ${rarity}\n`
               );
             }
 

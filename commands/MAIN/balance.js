@@ -305,7 +305,23 @@ module.exports = {
       var blackOil = db.fetch(`blackOil_${tokenDB}`) || 0;
       var hotWater = db.fetch(`hotWater_${tokenDB}`) || 0;
       var transparentGlass = db.fetch(`transparentGlass_${tokenDB}`) || 0;
-
+      var sarcasticFringehead = db.fetch(`sarcasticFringehead_${tokenDB}`) || 0;
+      var salmon = db.fetch(`salmon_${tokenDB}`) || 0;
+      var smellyFish = db.fetch(`smellyFish_${tokenDB}`) || 0;
+      var burnedFish = db.fetch(`burnedFish_${tokenDB}`) || 0;
+      var grumpyCatfish = db.fetch(`grumpyCatfish_${tokenDB}`) || 0;
+      var pancakeFish = db.fetch(`pancakeFish_${tokenDB}`) || 0;
+      var discoJellyfish = db.fetch(`discoJellyfish_${tokenDB}`) || 0;
+      var sodaCanfish = db.fetch(`sodaCanfish_${tokenDB}`) || 0;
+      var lavaLampEel = db.fetch(`lavaLampEel_${tokenDB}`) || 0;
+      var rubberDuckyfish = db.fetch(`rubberDuckyfish_${tokenDB}`) || 0;
+      var pirateParrotfish = db.fetch(`pirateParrotfish_${tokenDB}`) || 0;
+      var toiletSeatLid = db.fetch(`toiletSeatLid_${tokenDB}`) || 0;
+      var alienAnglerfish = db.fetch(`alienAnglerfish_${tokenDB}`) || 0;
+      var ninjaStarfish = db.fetch(`ninjaStarfish_${tokenDB}`) || 0;
+      var boot = db.fetch(`boot_${tokenDB}`) || 0;
+      var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
+      var fishingRod = db.fetch(`fishingRod_${tokenDB}`) || 0;
       var netWorthInv =
         goldBar * prices.goldBar +
         texarus * prices.texarus +
@@ -356,7 +372,24 @@ module.exports = {
         eternalFlameEssence * prices.eternalFlameEssence +
         blackOil * prices.blackOil +
         hotWater * prices.hotWater +
-        transparentGlass * prices.transparentGlass;
+        transparentGlass * prices.transparentGlass +
+        sarcasticFringehead * prices.sarcasticFringehead +
+        salmon * prices.salmon +
+        smellyFish * prices.smellyFish +
+        burnedFish * prices.burnedFish +
+        grumpyCatfish * prices.grumpyCatfish +
+        pancakeFish * prices.pancakeFish +
+        discoJellyfish * prices.discoJellyfish +
+        sodaCanfish * prices.sodaCanfish +
+        lavaLampEel * prices.lavaLampEel +
+        rubberDuckyfish * prices.rubberDuckyfish +
+        alienAnglerfish * prices.alienAnglerfish +
+        ninjaStarfish * prices.ninjaStarfish +
+        pirateParrotfish * prices.pirateParrotfish +
+        toiletSeatLid * prices.toiletSeatLid +
+        boot * prices.boot +
+        fishingRod * prices.fishingRod +
+        bottle * prices.bottle;
       netWorthInv = netWorthInv
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -412,6 +445,23 @@ module.exports = {
         blackOil * prices.blackOil +
         hotWater * prices.hotWater +
         transparentGlass * prices.transparentGlass +
+        sarcasticFringehead * prices.sarcasticFringehead +
+        salmon * prices.salmon +
+        smellyFish * prices.smellyFish +
+        burnedFish * prices.burnedFish +
+        grumpyCatfish * prices.grumpyCatfish +
+        pancakeFish * prices.pancakeFish +
+        discoJellyfish * prices.discoJellyfish +
+        sodaCanfish * prices.sodaCanfish +
+        lavaLampEel * prices.lavaLampEel +
+        rubberDuckyfish * prices.rubberDuckyfish +
+        alienAnglerfish * prices.alienAnglerfish +
+        ninjaStarfish * prices.ninjaStarfish +
+        pirateParrotfish * prices.pirateParrotfish +
+        toiletSeatLid * prices.toiletSeatLid +
+        boot * prices.boot +
+        fishingRod * prices.fishingRod +
+        bottle * prices.bottle +
         bal;
       netWorthTotal = netWorthTotal
         .toString()
@@ -422,7 +472,7 @@ module.exports = {
         .setTitle(`${user.username}'s balance`)
         .addField(`Gold coins`, `<:goldCoin:1156621221761388676> ${bal}`, true)
         .addField(`Ruix`, `<a:ruix:1153892039742726246> ${ruix}`, true)
-        .addField(`Keys`, `${keys}`, true)
+        .addField(`Keys`, `<:key:1157324619318050906> ${keys}`, true)
         .addField(
           `Inventory net`,
           `<:goldCoin:1156621221761388676> ${netWorthInv}`,

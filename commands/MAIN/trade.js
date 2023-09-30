@@ -70,7 +70,8 @@ module.exports = {
         itemID == "soldier" ||
         itemID == "trashItems" ||
         itemID == "unlockedCrateOfEnergy" ||
-        itemID == "ventorianBow"
+        itemID == "ventorianBow" ||
+        itemID == "fishes"
       ) {
         return message.channel.send(`You cannot trade that item`);
       }
