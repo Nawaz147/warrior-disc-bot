@@ -48,7 +48,22 @@ module.exports = {
           item == "blackOil" ||
           item == "hotWater" ||
           item == "transparentGlass" ||
-          item == "pyroclasmicEssence"
+          item == "salmon" ||
+          item == "smellyFish" ||
+          item == "burnedFish" ||
+          item == "grumpyCatfish" ||
+          item == "pancakeFish" ||
+          item == "discoJellyfish" ||
+          item == "sodaCanfish" ||
+          item == "lavaLampEel" ||
+          item == "rubberDuckyfish" ||
+          item == "pirateParrotfish" ||
+          item == "alienAnglerfish" ||
+          item == "ninjaStarfish" ||
+          item == "sarcasticFringehead" ||
+          item == "boot" ||
+          item == "bottle" ||
+          item == "toiletSeatLid"
         ) {
           var valoriumsEclipsianSoul =
             db.fetch(`valoriumsEclipsianSoul_${tokenDB}`) || 0;
@@ -157,6 +172,12 @@ module.exports = {
           var ninjaStarfishStoreAdd = db.fetch(`ninjaStarfishStoreAdd`) || 0;
           var boot = db.fetch(`boot_${tokenDB}`) || 0;
           var bootStoreAdd = db.fetch(`bootStoreAdd`) || 0;
+          var sarcasticFringehead =
+            db.fetch(`sarcasticFringehead_${tokenDB}`) || 0;
+          var sarcasticFringeheadStoreAdd =
+            db.fetch(`sarcasticFringeheadStoreAdd`) || 0;
+          var toiletSeatLid = db.fetch(`toiletSeatLid_${tokenDB}`) || 0;
+          var toiletSeatLidStoreAdd = db.fetch(`toiletSeatLidStoreAdd`) || 0;
           var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
           var bottleStoreAdd = db.fetch(`bottleStoreAdd`) || 0;
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#4169E1`);
@@ -680,7 +701,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `26,201`);
             itemInfoEmbed.addField(`Sell cost`, `26,201`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${salmon}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -696,7 +717,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `8,092`);
             itemInfoEmbed.addField(`Sell cost`, `8,092`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${smellyFish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -714,7 +735,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `12,790`);
             itemInfoEmbed.addField(`Sell cost`, `12,790`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${burnedFish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -732,7 +753,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `52,150`);
             itemInfoEmbed.addField(`Sell cost`, `52,150`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${grumpyCatfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -750,7 +771,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `16,210`);
             itemInfoEmbed.addField(`Sell cost`, `16,210`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${pancakeFish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -768,7 +789,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `23,191`);
             itemInfoEmbed.addField(`Sell cost`, `23,191`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${discoJellyfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -786,7 +807,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `41,092`);
             itemInfoEmbed.addField(`Sell cost`, `41,092`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${sodaCanfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -804,7 +825,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `78,210`);
             itemInfoEmbed.addField(`Sell cost`, `78,210`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${lavaLampEel}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -822,7 +843,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `9,108`);
             itemInfoEmbed.addField(`Sell cost`, `9,108`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${rubberDuckyfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -833,6 +854,45 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `https://i.ibb.co/NtddYkS/rubber-duckyfish.png`
             );
             message.channel.send(itemInfoEmbed);
+          } else if (item == "sarcasticFringehead") {
+            itemInfoEmbed.setDescription(`
+            The sarcastic fringehead is a small, vibrant fish with a personality as bold as its colors, known for its comically exaggerated territorial displays and confrontational behavior.`);
+            itemInfoEmbed.setTitle(`Sarcastic fringehead`);
+            itemInfoEmbed.addField(`Buy cost`, `32,500`);
+            itemInfoEmbed.addField(`Sell cost`, `32,500`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${sarcasticFringehead}`
+            );
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${sarcasticFringeheadStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "sarcasticFringehead");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/sqsxjbN/sarcastic-fringehead.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "toiletSeatLid") {
+            itemInfoEmbed.setDescription(`
+            The toilet seat lid: a humble yet essential accessory in the bathroom, diligently safeguarding against unexpected splashes and providing a temporary throne for contemplation.`);
+            itemInfoEmbed.setTitle(`Sarcastic fringehead`);
+            itemInfoEmbed.addField(`Buy cost`, `7,100`);
+            itemInfoEmbed.addField(`Sell cost`, `7,100`);
+            itemInfoEmbed.addField(`Rarity`, `Common`);
+            itemInfoEmbed.addField(`Type`, `sellable`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${toiletSeatLid}`);
+            itemInfoEmbed.addField(
+              `Pieces available for sale`,
+              `${toiletSeatLidStoreAdd}`
+            );
+            itemInfoEmbed.addField(`ID`, "toiletSeatLid");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/6WbJ4vy/toilet-seat-lid.png`
+            );
+            message.channel.send(itemInfoEmbed);
           } else if (item == "pirateParrotfish") {
             itemInfoEmbed.setDescription(`
             The pirate parrotfish, with its vibrant plumage and mischievous demeanor, sails through the seas embodying a swashbuckling charm, adding a touch of seafaring adventure to the underwater realm.`);
@@ -840,7 +900,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `18,029`);
             itemInfoEmbed.addField(`Sell cost`, `18,029`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(
               `Pieces owned by you`,
               `${pirateParrotfish}`
@@ -861,7 +921,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `43,102`);
             itemInfoEmbed.addField(`Sell cost`, `43,102`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${alienAnglerfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -879,7 +939,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `80,500`);
             itemInfoEmbed.addField(`Sell cost`, `80,500`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${ninjaStarfish}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -897,7 +957,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `12,072`);
             itemInfoEmbed.addField(`Sell cost`, `12,072`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${boot}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
@@ -913,7 +973,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Buy cost`, `2,321`);
             itemInfoEmbed.addField(`Sell cost`, `2,321`);
             itemInfoEmbed.addField(`Rarity`, `Common`);
-            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${bottle}`);
             itemInfoEmbed.addField(
               `Pieces available for sale`,
