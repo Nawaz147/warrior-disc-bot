@@ -76,7 +76,7 @@ module.exports = {
             message.channel.send("You cannot buy it!");
             return;
           }
-          if (amountOfPieces * itemTotalBuyPrice > currentGold) {
+          if (itemTotalBuyPrice > currentGold) {
             message.channel.send(`You dont have enough money!`);
             return;
           }

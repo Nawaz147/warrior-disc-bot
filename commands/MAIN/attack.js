@@ -81,7 +81,7 @@ module.exports = {
           if (userPower > mentionedPower) {
             message.channel.send({
               embed: {
-                color: "#FF0000",
+                color: "#2B2D31",
                 title: "Victory!",
                 description: `
 ${user.username} emerged victorious against ${mentionedUser}!
@@ -104,7 +104,7 @@ ${mentionedUser.username}'s ${mentionedSoldiers} soldiers were killed
             const mentionedUserDM = await mentionedUser.createDM();
             mentionedUserDM.send({
               embed: {
-                color: "#FF0000",
+                color: "#2B2D31",
                 title: "You were defeated!",
                 description: `
 You were defeated by the army of ${user.username}.
@@ -118,7 +118,7 @@ Your ${mentionedSoldiers} soldiers were killed
           } else {
             message.channel.send({
               embed: {
-                color: "#FF0000",
+                color: "#2B2D31",
                 title: "Defeat!",
                 description: `
 ${user.username} was defeated by the army of ${mentionedUser.username}.
@@ -132,7 +132,7 @@ ${user.username}'s ${userSoldiers} soldiers were killed
             });
             mentionedUserDM.send({
               embed: {
-                color: "#FF0000",
+                color: "#2B2D31",
                 title: "Victory",
                 description: `
 You emerged victorious against ${user.username}!

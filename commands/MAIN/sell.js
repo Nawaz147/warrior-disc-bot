@@ -201,9 +201,6 @@ module.exports = {
                 // End collector after the specified time
                 collector.on("end", (collected, reason) => {
                   if (reason === "time") {
-                    message.channel.send(
-                      `${user.username}'s sell confirmation expired`
-                    );
                   }
                 });
               }

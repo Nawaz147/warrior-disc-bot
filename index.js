@@ -182,6 +182,7 @@ process.stdin.on("data", (data) => {
     process.exit(0);
   }
 });
+
 client.on("messageDelete", async (message) => {
   client.snipes.set(message.channel.id, {
     content: message.content,
@@ -191,6 +192,7 @@ client.on("messageDelete", async (message) => {
       : null,
   });
 });
+
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
   if (!client.commands.has(interaction.commandName)) return;
@@ -205,57 +207,72 @@ client.on("interactionCreate", async (interaction) => {
   }
   client.guilds.cache.get(config.guild)?.commands.set(data);
 });
-//ANTI-MENTION
+
+// ANTI-MENTION
 client.on("message", async (message) => {
-  // if (message.mentions.members.array().length >= 4) {
-  //   if (message) {
-  //     await message.delete();
-  //   }
-  //   return message.reply(`You are not allow to mention mass members!`);
-  // }
   user = message.member;
-}),
-  client.on("message", async (message) => {
-    if (message.author.bot) return;
-    if (!message.guild) return;
+});
+
+// ... (your existing imports)
+
+client.on("message", async (message) => {
+  if (message.channel.type == "dm") {
+    if (message.content == "fish.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "inv.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "play hit.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "play.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "farm hit.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "farm.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "sell.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "trade.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+    if (message.content == "buy.x") {
+      message.channel.send(`This command is server limited`);
+      return;
+    }
+  }
+  if (message.author.bot) return;
+
+  // Check if the message is sent in a guild
+  if (message.guild) {
     const tokenDB = datab.fetch(`${message.author.id}.valoriumToken`);
     const tokenUser = datab.fetch(`nameofUser_${message.author}`);
 
-    // if (message.content === tokenDB) {
-    //   message.delete().then(async () => {
-    //     message.channel.send(
-    //       `${message.author} you can't share the token with others as the other user may get access to your Techz account!`
-    //     );
-    //   });
-    // }
     if (message.content.includes(tokenDB)) {
       message.delete().then(async () => {
         var alertEmbed = new Discord.MessageEmbed()
           .setTitle(`⚠ ALERT ⚠`)
           .setDescription(
-            `You cannot share your token (Anyone can access your account if you share it and sharing it is strictly prohibitted)`
+            `You cannot share your token (Anyone can access your account if you share it and sharing it is strictly prohibited)`
           )
           .setColor(`#EE4B2B`);
         message.author.send(alertEmbed);
       });
     }
-    // const randomXp = Math.floor(Math.random() * 98) + 1;
-    // if (message.guild.id == "945000582823960617") {
-    // } else {
-    //   const level = await Levels.appendXp(
-    //     message.author.id,
-    //     message.guild.id,
-    //     randomXp
-    //   );
-    //   if (level) {
-    //     const user = await Levels.fetch(message.author.id, message.guild.id);
-    //     message.channel
-    //       .send(
-    //         ` ${message.member.user.username}, You just jumped to level ${user.level}!`
-    //       )
-    //       .then((m) => m.delete({ timeout: 10000 }));
-    //   }
-    // }
+
     if (!message.content.endsWith(suffix)) return;
 
     // If message.member is uncached, cache it.
@@ -273,8 +290,46 @@ client.on("message", async (message) => {
     if (!command) command = client.commands.get(client.aliases.get(cmd));
 
     // If a command is finally found, run the command
-    if (command) command.run(client, message, args);
-  });
+    if (command) {
+      try {
+        command.run(client, message, args);
+      } catch (error) {
+        console.error(error);
+        return message.reply({
+          content: "There was an error while executing this command!",
+          ephemeral: true,
+        });
+      }
+    }
+  } else {
+    // Handle DM commands here
+    if (message.content.endsWith(suffix)) {
+      const args = message.content.trim().slice(0, -suffix.length).split(/ +/g);
+      const cmd = args.shift().toLowerCase();
+
+      if (cmd.length === 0) return;
+
+      // Get the command
+      let command = client.commands.get(cmd);
+      // If none is found, try to find it by alias
+      if (!command) command = client.commands.get(client.aliases.get(cmd));
+
+      // If a command is finally found, run the command
+      if (command) {
+        try {
+          command.run(client, message, args);
+        } catch (error) {
+          console.error(error);
+          return message.reply({
+            content: "There was an error while executing this command!",
+            ephemeral: true,
+          });
+        }
+      }
+    }
+  }
+});
+
 client.setMaxListeners("disconnect", 15);
 
 // Set the maximum number of listeners for the guildMemberAdd event to 15
@@ -284,31 +339,14 @@ client.on("message", async (message, member) => {
     console.log(
       `${message.author.username}#${message.author.discriminator} said : ${message.content}`
     );
-    //make all commands work both in dm and in guilds
+
     if (message.content.endsWith(suffix)) {
       return message.channel.send(
-        `Hi ${message.author.username} , You cant use commands in DM !`
+        `Hi ${message.author.username} , You can't use commands in DM!`
       );
     }
     if (message.type === "APPLICATION_COMMAND") return;
   }
-  // if (message.content === "next") {
-  //   const Data = await api.GetMeme({ Color: "RANDOM" });
-  //   return message.channel.send(Data);
-  // }
-
-  // if (message.content === "Next") {
-  //   const Data = await api.GetMeme({ Color: "RANDOM" });
-  //   return message.channel.send(Data);
-  // }
-  // if (message.content === "nxt") {
-  //   const Data = await api.GetMeme({ Color: "RANDOM" });
-  //   return message.channel.send(Data);
-  // }
-  // if (message.content === "Nxt") {
-  //   const Data = await api.GetMeme({ Color: "RANDOM" });
-  //   return message.channel.send(Data);
-  // }
 
   client.on("disconnect", (event) => {
     if (event.code !== 1000) {
@@ -365,12 +403,7 @@ client.on("message", async (message, member) => {
       await welcomeCard.build(),
       "welcome.png"
     );
-    // const autorole = datab.get(`autorole_${message.guild}`);
-    // if (autorole) {
-    //   member.roles.add(autorole);
-    // } else {
-    //   return;
-    // }
+
     if (!channel) return;
 
     client.channels.cache.get(channel).send(attachment);

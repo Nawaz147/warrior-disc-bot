@@ -127,8 +127,13 @@ ${elitePossibleAwakesSlot1[0]}x Gold Loot
 ${elitePossibleAwakesSlot2[0]}x Gold Loot
 ${elitePossibleAwakesSlot3[0]}x Gold Loot
 
+<:eliteawakeninggem:1147070929957027860> ${
+                eliteAwakGem - 1
+              } , <:awakeninggem:1147071223042424902> ${awakGem - 1}
 `
-            );
+            )
+            .setColor(`#2B2D31`);
+
           db.set(
             `goldLoot_${tokenDB}`,
             elitePossibleAwakesSlot1[0] +
@@ -140,25 +145,29 @@ ${elitePossibleAwakesSlot3[0]}x Gold Loot
           db.set(`awake3_${tokenDB}`, elitePossibleAwakesSlot3[0]);
           message.channel.send(eliteAwakEmbed);
           console.log(
-            elitePossibleAwakesSlot1[0] +
-              elitePossibleAwakesSlot2[0] +
-              elitePossibleAwakesSlot3[0]
+            `Awakening : `,
+            elitePossibleAwakesSlot2[0] + elitePossibleAwakesSlot3[0]
           );
         }
       } else if (args[0] == "view") {
         const awake1 = db.fetch(`awake1_${tokenDB}`);
         const awake2 = db.fetch(`awake2_${tokenDB}`);
         const awake3 = db.fetch(`awake3_${tokenDB}`);
+        const awakGem = db.fetch(`awakeningGem_${tokenDB}`);
+        const eliteAwakGem = db.fetch(`eliteAwakeningGem_${tokenDB}`);
         const viewAwakEmbed = new MessageEmbed()
-          .setTitle("Your awakenings")
+          .setTitle(`${user.username}, your awakenings`)
           .setDescription(
             `
 ${awake1}x Gold Loot
 ${awake2}x Gold Loot
 ${awake3}x Gold Loot
 
+<:eliteawakeninggem:1147070929957027860> ${eliteAwakGem} , <:awakeninggem:1147071223042424902> ${awakGem}
 `
-          );
+          )
+          .setColor(`#2B2D31`);
+
         message.channel.send(viewAwakEmbed);
       } else {
         if (awakGem == 0) {
@@ -217,8 +226,13 @@ ${normalPossibleAwakesSlot1[0]}x Gold Loot
 ${normalPossibleAwakesSlot2[0]}x Gold Loot
 ${normalPossibleAwakesSlot3[0]}x Gold Loot
 
+<:eliteawakeninggem:1147070929957027860> ${
+                eliteAwakGem - 1
+              } , <:awakeninggem:1147071223042424902> ${awakGem - 1}
 `
-            );
+            )
+            .setColor(`#2B2D31`);
+
           db.set(
             `goldLoot_${tokenDB}`,
             normalPossibleAwakesSlot1[0] +
@@ -230,6 +244,7 @@ ${normalPossibleAwakesSlot3[0]}x Gold Loot
           db.set(`awake3_${tokenDB}`, normalPossibleAwakesSlot3[0]);
           message.channel.send(normalAwakeEmbed);
           console.log(
+            `Awakening : `,
             normalPossibleAwakesSlot1[0] +
               normalPossibleAwakesSlot2[0] +
               normalPossibleAwakesSlot3[0]

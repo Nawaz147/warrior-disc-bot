@@ -34,9 +34,21 @@ module.exports = {
     }
 
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
-      if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
-        message.channel.send("I don't have the permission to manage messages.");
-        return;
+      const channel =
+        message.guild && message.guild.available
+          ? message.guild.channels.cache.get(message.channel.id)
+          : null;
+      if (channel) {
+        const botPermissions = channel.permissionsFor(client.user);
+        if (
+          !botPermissions.has("ADD_REACTIONS") ||
+          !botPermissions.has("READ_MESSAGE_HISTORY") ||
+          !botPermissions.has("MANAGE_MESSAGES")
+        ) {
+          message.channel.send(
+            `I dont have MANAGE MESSAGES PERMISSION / READ MESSAGE HISTORY PERMISSION / MANAGE MESSAGES PERMISSION`
+          );
+        }
       }
       // if (message.author.id !== "768747976767832084") {
       //   const buildInProgress = new Discord.MessageEmbed()
@@ -179,7 +191,7 @@ module.exports = {
             db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
           }
 
-          var thassormentorBoss = "Thasormentor sea monster";
+          var thassormentorBoss = "Thasormentor, the sea king";
 
           var goldLoot = db.fetch(`goldLoot_${tokenDB}`) || 0;
           if (goldLoot == undefined || goldLoot == null) {
@@ -197,16 +209,16 @@ module.exports = {
               16
             );
             const bossFooterTexts = [
-              "May your fishing rod be the ultimate sea monster conqueror!",
+              "May your fishing rod be the ultimate sea king conqueror!",
               "May the waves of fortune carry you to victory!",
               "Summon your inner fisherman and reel in victory!",
-              "Conquer the sea monster and make Neptune proud!",
-              "May the sea monster fear the might of your fishing rod!",
-              "Hook, line, and sink that sea monster to victory!",
-              "Let's show that sea monster who's the real catch!",
-              "Reel in the sea monster and make a splash in history!",
+              "Conquer the sea king and make Neptune proud!",
+              "May the sea king fear the might of your fishing rod!",
+              "Hook, line, and sink that sea king to victory!",
+              "Let's show that sea king who's the real catch!",
+              "Reel in the sea king and make a splash in history!",
               "May your fishing skills be the stuff of legends!",
-              "Fish on, and may the sea monster be your greatest trophy!",
+              "Fish on, and may the sea king be your greatest trophy!",
             ];
 
             const randomFooterText =
@@ -406,7 +418,75 @@ module.exports = {
                   db.set(`cooldown_${tokenDB}`, Date.now());
                   db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
 
-                  const trashFishesToGet = [
+                  const rareFishesToGet = [
+                    {
+                      name: "Lumina fin",
+                      emoji: "<a:luminaFin:1158034789614497813>",
+                      funnyTexts: [
+                        "You caught a LuminaFin! It lights up your fishing rod with envy.",
+                        "A LuminaFin emerges from the depths! It claims to have the brightest personality in the sea.",
+                        "You reeled in a LuminaFin. It insists on being your personal fish-sized flashlight.",
+                        "A LuminaFin is your catch! It challenges you to a glow-in-the-dark dance-off.",
+                        "You found a LuminaFin. It wants to start an underwater light show for fish.",
+                        "A LuminaFin appears! It claims to be the disco ball of the deep blue.",
+                        "You pulled out a LuminaFin. It asks if you have any spare batteries for its fin.",
+                        "You caught a LuminaFin. It insists on being the official mood lighting for your boat.",
+                        "A LuminaFin is on your hook! It challenges you to a glow-off with other sea creatures.",
+                        "You reeled in a LuminaFin. It wants to start a fishy constellation club.",
+                        "A LuminaFin emerges from the water. It claims to be the lighthouse of the ocean floor.",
+                        "You found a LuminaFin. It challenges you to a game of underwater flashlight tag.",
+                        "A LuminaFin is your catch! It tells you that fish parties are better with a glowing guest.",
+                        "You pulled out a LuminaFin. It insists on being the guiding light for lost fish.",
+                        "You caught a LuminaFin. It asks if you have any fishy sunglasses for its dazzling glow.",
+                      ],
+                    },
+                    {
+                      name: "Bubblegum Blowfish",
+                      emoji: "<a:bubblegumBlowfish:1158036690364010549>", // Replace with the actual emoji
+                      funnyTexts: [
+                        "You caught a Bubblegum Blowfish! It challenges you to a bubble-blowing contest.",
+                        "A Bubblegum Blowfish emerges from the water. It insists on being called 'Bubble Buddy.'",
+                        "You reeled in a Bubblegum Blowfish. It claims to have the stickiest bubblegum in the sea.",
+                        "A Bubblegum Blowfish is your catch! It challenges you to a bubble-popping showdown.",
+                        "You found a Bubblegum Blowfish. It wants to start a bubblegum bubblegum pop band.",
+                        "You pulled out a Bubblegum Blowfish. It insists on being the bubblegum champion of the ocean.",
+                        "You caught a Bubblegum Blowfish. It asks if you have any fish-flavored bubblegum.",
+                        "A Bubblegum Blowfish is on your hook! It challenges you to a bubblegum art competition.",
+                        "You reeled in a Bubblegum Blowfish. It insists on a bubblegum fashion show.",
+                        "You caught a Bubblegum Blowfish. It wants to start a bubblegum academy underwater.",
+                      ],
+                    },
+                    {
+                      name: "Disguised Diverfish",
+                      emoji: "<a:disguisedDiverfish:1158038321537241098>",
+                      funnyTexts: [
+                        "You caught a Disguised Diverfish! It claims to be the sneakiest fish in the sea.",
+                        "A Disguised Diverfish emerges from the water. It insists on being called 'Master of Disguise.'",
+                        "You reeled in a Disguised Diverfish. It challenges you to a fishy costume contest.",
+                        "A Disguised Diverfish is your catch! It asks if you have any spare disguises.",
+                        "You found a Disguised Diverfish. It wants to start a fishy spy agency.",
+                        "You pulled out a Disguised Diverfish. It insists on being the undercover agent of the ocean.",
+                        "You caught a Disguised Diverfish. It claims to have the best fish disguises in the sea.",
+                        "A Disguised Diverfish is on your hook! It asks if you've seen any fishy mysteries to solve.",
+                        "You reeled in a Disguised Diverfish. It insists on a fishy disguise fashion show.",
+                        "You caught a Disguised Diverfish. It wants to start a fishy disguise party underwater.",
+                      ],
+                    },
+                    // Add more rare fishes with funnyTexts here if needed
+                  ];
+                  const randomRareFishes =
+                    rareFishesToGet[
+                      Math.floor(Math.random() * rareFishesToGet.length)
+                    ];
+
+                  // Select a random funny text associated with the item
+                  const rareFunnyText =
+                    randomRareFishes.funnyTexts[
+                      Math.floor(
+                        Math.random() * randomRareFishes.funnyTexts.length
+                      )
+                    ];
+                  const commonFishesToGet = [
                     {
                       name: "Sarcastic fringehead",
                       emoji: "<:sarcasticFringehead:1156929582335799388>",
@@ -760,8 +840,8 @@ module.exports = {
                   ];
                   // Select a random item from the array
                   const randomItem =
-                    trashFishesToGet[
-                      Math.floor(Math.random() * trashFishesToGet.length)
+                    commonFishesToGet[
+                      Math.floor(Math.random() * commonFishesToGet.length)
                     ];
 
                   // Select a random funny text associated with the item
@@ -818,11 +898,25 @@ module.exports = {
                   // Select a random footer text
                   const randomFooterText =
                     footerTexts[Math.floor(Math.random() * footerTexts.length)];
-
+                  const formattedRareItemName = formatName(
+                    randomRareFishes.name
+                  );
                   // Create an embed to show the result
+                  if (chance > 0 && chance < 5) {
+                    const rareFishEmbed = new Discord.MessageEmbed()
+                      .addField(
+                        `${user.username} found a ${randomRareFishes.name} ${randomRareFishes.emoji}`,
+                        `${rareFunnyText}`
+                      )
+                      .setColor("#2B2D31")
+                      .setFooter(randomFooterText);
+                    db.add(`${formattedRareItemName}_${tokenDB}`, 1);
+                    message.channel.send(rareFishEmbed);
+                    return;
+                  } // Create an embed to show the result
                   const fishEmbed = new Discord.MessageEmbed()
                     .addField(
-                      `You hooked a ${randomItem.name} ${randomItem.emoji}`,
+                      `${user.username} hooked a ${randomItem.name} ${randomItem.emoji}`,
                       `You've just reeled in a remarkable ${randomItem.name}! ${randomFunnyText}`
                     )
                     .setColor("#2B2D31")
@@ -844,7 +938,7 @@ module.exports = {
 
                 const thassormentorBossEmbed = new Discord.MessageEmbed()
                   .setColor("#2B2D31")
-                  .setAuthor("Thasormentor sea monster")
+                  .setAuthor("Thasormentor, the sea king")
                   .addField(
                     `${thassormentorBossHealth} / 1,210,901`,
                     `${bossHealthBar}`,
@@ -871,16 +965,16 @@ module.exports = {
               16
             );
             const bossFooterTexts = [
-              "May your fishing rod be the ultimate sea monster conqueror!",
+              "May your fishing rod be the ultimate sea king conqueror!",
               "May the waves of fortune carry you to victory!",
               "Summon your inner fisherman and reel in victory!",
-              "Conquer the sea monster and make Neptune proud!",
-              "May the sea monster fear the might of your fishing rod!",
-              "Hook, line, and sink that sea monster to victory!",
-              "Let's show that sea monster who's the real catch!",
-              "Reel in the sea monster and make a splash in history!",
+              "Conquer the sea king and make Neptune proud!",
+              "May the sea king fear the might of your fishing rod!",
+              "Hook, line, and sink that sea king to victory!",
+              "Let's show that sea king who's the real catch!",
+              "Reel in the sea king and make a splash in history!",
               "May your fishing skills be the stuff of legends!",
-              "Fish on, and may the sea monster be your greatest trophy!",
+              "Fish on, and may the sea king be your greatest trophy!",
             ];
 
             const randomFooterText =
@@ -1070,8 +1164,75 @@ module.exports = {
                   }
                   db.set(`cooldown_${tokenDB}`, Date.now());
                   db.set(`thassormentorBossHealth_${tokenDB}`, 1210901);
+                  const rareFishesToGet = [
+                    {
+                      name: "LuminaFin",
+                      emoji: "<a:luminaFish:1158034789614497813>",
+                      funnyTexts: [
+                        "You caught a LuminaFin! It lights up your fishing rod with envy.",
+                        "A LuminaFin emerges from the depths! It claims to have the brightest personality in the sea.",
+                        "You reeled in a LuminaFin. It insists on being your personal fish-sized flashlight.",
+                        "A LuminaFin is your catch! It challenges you to a glow-in-the-dark dance-off.",
+                        "You found a LuminaFin. It wants to start an underwater light show for fish.",
+                        "A LuminaFin appears! It claims to be the disco ball of the deep blue.",
+                        "You pulled out a LuminaFin. It asks if you have any spare batteries for its fin.",
+                        "You caught a LuminaFin. It insists on being the official mood lighting for your boat.",
+                        "A LuminaFin is on your hook! It challenges you to a glow-off with other sea creatures.",
+                        "You reeled in a LuminaFin. It wants to start a fishy constellation club.",
+                        "A LuminaFin emerges from the water. It claims to be the lighthouse of the ocean floor.",
+                        "You found a LuminaFin. It challenges you to a game of underwater flashlight tag.",
+                        "A LuminaFin is your catch! It tells you that fish parties are better with a glowing guest.",
+                        "You pulled out a LuminaFin. It insists on being the guiding light for lost fish.",
+                        "You caught a LuminaFin. It asks if you have any fishy sunglasses for its dazzling glow.",
+                      ],
+                    },
+                    {
+                      name: "Bubblegum Blowfish",
+                      emoji: "<a:bubblegumBlowfish:1158036690364010549>", // Replace with the actual emoji
+                      funnyTexts: [
+                        "You caught a Bubblegum Blowfish! It challenges you to a bubble-blowing contest.",
+                        "A Bubblegum Blowfish emerges from the water. It insists on being called 'Bubble Buddy.'",
+                        "You reeled in a Bubblegum Blowfish. It claims to have the stickiest bubblegum in the sea.",
+                        "A Bubblegum Blowfish is your catch! It challenges you to a bubble-popping showdown.",
+                        "You found a Bubblegum Blowfish. It wants to start a bubblegum bubblegum pop band.",
+                        "You pulled out a Bubblegum Blowfish. It insists on being the bubblegum champion of the ocean.",
+                        "You caught a Bubblegum Blowfish. It asks if you have any fish-flavored bubblegum.",
+                        "A Bubblegum Blowfish is on your hook! It challenges you to a bubblegum art competition.",
+                        "You reeled in a Bubblegum Blowfish. It insists on a bubblegum fashion show.",
+                        "You caught a Bubblegum Blowfish. It wants to start a bubblegum academy underwater.",
+                      ],
+                    },
+                    {
+                      name: "Disguised Diverfish",
+                      emoji: "<a:disguisedDiverfish:1158038321537241098>",
+                      funnyTexts: [
+                        "You caught a Disguised Diverfish! It claims to be the sneakiest fish in the sea.",
+                        "A Disguised Diverfish emerges from the water. It insists on being called 'Master of Disguise.'",
+                        "You reeled in a Disguised Diverfish. It challenges you to a fishy costume contest.",
+                        "A Disguised Diverfish is your catch! It asks if you have any spare disguises.",
+                        "You found a Disguised Diverfish. It wants to start a fishy spy agency.",
+                        "You pulled out a Disguised Diverfish. It insists on being the undercover agent of the ocean.",
+                        "You caught a Disguised Diverfish. It claims to have the best fish disguises in the sea.",
+                        "A Disguised Diverfish is on your hook! It asks if you've seen any fishy mysteries to solve.",
+                        "You reeled in a Disguised Diverfish. It insists on a fishy disguise fashion show.",
+                        "You caught a Disguised Diverfish. It wants to start a fishy disguise party underwater.",
+                      ],
+                    },
+                    // Add more rare fishes with funnyTexts here if needed
+                  ];
+                  const randomRareFishes =
+                    rareFishesToGet[
+                      Math.floor(Math.random() * rareFishesToGet.length)
+                    ];
 
-                  const trashFishesToGet = [
+                  // Select a random funny text associated with the item
+                  const rareFunnyText =
+                    randomRareFishes.funnyTexts[
+                      Math.floor(
+                        Math.random() * randomRareFishes.funnyTexts.length
+                      )
+                    ];
+                  const commonFishesToGet = [
                     {
                       name: "Sarcastic fringehead",
                       emoji: "<:sarcasticFringehead:1156929582335799388>",
@@ -1425,8 +1586,8 @@ module.exports = {
                   ];
                   // Select a random item from the array
                   const randomItem =
-                    trashFishesToGet[
-                      Math.floor(Math.random() * trashFishesToGet.length)
+                    commonFishesToGet[
+                      Math.floor(Math.random() * commonFishesToGet.length)
                     ];
 
                   // Select a random funny text associated with the item
@@ -1446,6 +1607,9 @@ module.exports = {
                       .join("");
                   }
                   const formattedItemName = formatName(randomItem.name);
+                  const formattedRareItemName = formatName(
+                    randomRareFishes.name
+                  );
                   console.log(formattedItemName);
 
                   const footerTexts = [
@@ -1485,7 +1649,17 @@ module.exports = {
                     footerTexts[Math.floor(Math.random() * footerTexts.length)];
 
                   // Create an embed to show the result
-                  if (chance == 1 || (chance > 1 && chance < 15)) {
+                  if (chance > 0 && chance < 3) {
+                    const rareFishEmbed = new Discord.MessageEmbed()
+                      .addField(
+                        `${user.username} found a ${randomRareFishes.name} ${randomRareFishes.emoji}`,
+                        `${rareFunnyText}`
+                      )
+                      .setColor("#2B2D31")
+                      .setFooter(randomFooterText);
+                    db.add(`${formattedRareItemName}_${tokenDB}`, 1);
+                    message.channel.send(rareFishEmbed);
+                    return;
                   }
                   const fishEmbed = new Discord.MessageEmbed()
                     .addField(
@@ -1510,7 +1684,7 @@ module.exports = {
 
                 const thassormentorBossEmbed = new Discord.MessageEmbed()
                   .setColor("#2B2D31")
-                  .setAuthor("Thasormentor sea monster")
+                  .setAuthor("Thasormentor, the sea king")
                   .addField(
                     `${thassormentorBossHealth} / 1,210,901`,
                     `${bossHealthBar}`,

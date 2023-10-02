@@ -110,10 +110,12 @@ module.exports = {
       var warPoints = db.fetch(`warPoints_${tokenDB}`) || 0;
       var soldiers = db.fetch(`soldiers_${tokenDB}`) || 0;
       var bullet = db.fetch(`bullet_${tokenDB}`) || 0;
+      var goldLoot = db.fetch(`goldLoot_${tokenDB}`).toFixed(2) || 0;
       var militaryPower = db.fetch(`power.${tokenDB}`) || 0;
       const statsEmbed = new Discord.MessageEmbed()
         .setTitle(`${user.username}'s stats`)
         .addField(`Weapon Damage`, weaponDamage)
+        .addField(`Gold loot`, `${goldLoot}x`)
         .addField(`Soldiers`, soldiers)
         .addField(`Bullet`, bullet)
         .addField(`Military power`, militaryPower)

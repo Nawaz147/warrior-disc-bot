@@ -152,6 +152,9 @@ module.exports = {
       var boot = db.fetch(`boot_${tokenDB}`) || 0;
       var bottle = db.fetch(`bottle_${tokenDB}`) || 0;
       var fishingRod = db.fetch(`fishingRod_${tokenDB}`) || 0;
+      var luminaFin = db.fetch(`luminaFin_${tokenDB}`) || 0;
+      var bubblegumBlowfish = db.fetch(`bubblegumBlowfish_${tokenDB}`) || 0;
+      var disguisedDiverfish = db.fetch(`disguisedDiverfish_${tokenDB}`) || 0;
       var netWorthInv =
         goldBar * prices.goldBar +
         texarus * prices.texarus +
@@ -219,6 +222,9 @@ module.exports = {
         toiletSeatLid * prices.toiletSeatLid +
         boot * prices.boot +
         fishingRod * prices.fishingRod +
+        luminaFin * prices.luminaFin +
+        disguisedDiverfish * prices.disguisedDiverfish +
+        bubblegumBlowfish * prices.bubblegumBlowfish +
         bottle * prices.bottle;
 
       var netWorthTotal =
@@ -288,6 +294,9 @@ module.exports = {
         toiletSeatLid * prices.toiletSeatLid +
         boot * prices.boot +
         fishingRod * prices.fishingRod +
+        luminaFin * prices.luminaFin +
+        disguisedDiverfish * prices.disguisedDiverfish +
+        bubblegumBlowfish * prices.bubblegumBlowfish +
         bottle * prices.bottle +
         bal;
       const netWorthInvPercentage = (

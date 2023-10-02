@@ -26,7 +26,7 @@ module.exports = {
       const tosEmbed = new Discord.MessageEmbed()
         .setTitle("Help")
         .setDescription(
-          `For getting command list and promocodes , go on : https://valorium8.web.app`
+          `For getting command list and promocodes , go on : https://mysterionix6.web.app`
         )
         .setColor("#ffff00");
       message.channel.send(tosEmbed);

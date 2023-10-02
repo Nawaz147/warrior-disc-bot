@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Old+Standard+TT:wght@700&family=Press+Start+2P&display=swap');
 body {
     margin: 0;
-    background: #743816;
+    background: #ffffff;
     font-family: "MedievalSharp";
     
 }
@@ -9,18 +9,22 @@ body {
 header {
     font-size: 50px;
     font-family: "MedievalSharp";
-    background: #b66038;
-    padding: 30px;
-    border: 2px solid rgb(173, 123, 66);
+    background: #a9a2af;
+    padding: 20px;
+    border: 2px dashed rgb(227, 219, 236);
     color: white;
     display: flex; /* Use flexbox to align items */
     justify-content: space-between; /* Align the items at the start and end of the header */
     align-items: center; /* Center the items vertically in the header */
 }
-
+span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 button {
-    background-color: #f08e4d;
-    color: white;
+    background-color: #ffffff;
+    color: black;
     border: none;
     padding: 16px 30px;
     border-radius: 50px;
@@ -31,12 +35,15 @@ button {
     transition: 0.4s;
 }
 button:hover{
-background-color: #cf7940;
+background-color: #e2e0e0;
 }
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
+}
+img{
+    margin-right: 20px;
 }
 main {
     display: flex;
@@ -49,8 +56,11 @@ main {
 }
 
 .commands-container,
-.promo-container {
-    background-color: #b66038;
+.promo-container,
+.serverInfo,
+.itemInfos
+{
+    background-color: #746e6b;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -77,7 +87,9 @@ li {
     margin-bottom: 10px;
     font-size: 20px;
 }
-
+a{
+    color: white;
+}
 .promo-container p {
     margin: 10px 0;
     font-size: 20px;

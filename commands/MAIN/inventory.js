@@ -87,8 +87,14 @@ module.exports = {
               db.fetch(`tomeOfEverlastingWisdom_${tokenDB}`) || 0,
             "<:rashetathefuriousaxe:1147085204779962408> Rasheta the furious axe":
               db.fetch(`rasheta_${tokenDB}`) || 0,
+            "<a:disguisedDiverfish:1158038321537241098> Disguised diverfish":
+              db.fetch(`disguisedDiverfish_${tokenDB}`) || 0,
+            "<a:luminaFin:1158034789614497813> Lumina fin":
+              db.fetch(`luminaFin_${tokenDB}`) || 0,
             "<:waetrathefreezedbow:1147084610279325706> Waetra the freezed bow":
               db.fetch(`waetra_${tokenDB}`) || 0,
+            "<a:bubblegumBlowfish:1158036690364010549> Bubblegum blowfish":
+              db.fetch(`bubblegumBlowfish_${tokenDB}`) || 0,
             "<:shieldOfTheEarthshaker:1151190097924980867> Shield of the earthshaker":
               db.fetch(`shieldOfTheEarthshaker${tokenDB}`) || 0,
             "<:timekeepersChronometer:1152603999074263050> Timekeeper's chronometer":
@@ -202,31 +208,32 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<a:disguisedDiverfish:1158038321537241098> Disguised diverfish":
+              "Collectible",
+            "<a:luminaFin:1158034789614497813> Lumina fin": "Collectible",
+            "<a:bubblegumBlowfish:1158036690364010549> Bubblegum blowfish":
+              "Collectible",
             "<:fishingRod:1157537595002204260> Fishing rod": "Tool",
             "<:sarcasticFringehead:1156929582335799388> Sarcastic fringehead":
-              "Collectible",
-            "<:salmon:1156929627126771784> Salmon": "Collectible",
-            "<:smellyFish:1156929529894424666> Smelly fish": "Collectible",
-            "<:burnedfish:1156939483267207220> Burned fish": "Collectible",
-            "<:grumpyCatfish:1156929452056522812> Grumpy catfish":
-              "Collectible",
-            "<:pancakeFish:1156929418170744852> Pancake fish": "Collectible",
-            "<:discoJellyfish:1156929355465900133> Disco jellyfish":
-              "Collectible",
-            "<:sodaCanfish:1156929327817035788> Soda canfish": "Collectible",
-            "<:lavaLampEel:1156939953448681472> Lava lamp eel": "Collectible",
+              "Sellable",
+            "<:salmon:1156929627126771784> Salmon": "Sellable",
+            "<:smellyFish:1156929529894424666> Smelly fish": "Sellable",
+            "<:burnedfish:1156939483267207220> Burned fish": "Sellable",
+            "<:grumpyCatfish:1156929452056522812> Grumpy catfish": "Sellable",
+            "<:pancakeFish:1156929418170744852> Pancake fish": "Sellable",
+            "<:discoJellyfish:1156929355465900133> Disco jellyfish": "Sellable",
+            "<:sodaCanfish:1156929327817035788> Soda canfish": "Sellable",
+            "<:lavaLampEel:1156939953448681472> Lava lamp eel": "Sellable",
             "<:rubberDuckyfish:1156938911004766240> Rubber duckyfish":
-              "Collectible",
-            "<:ninjaStarfish:1156938871695757432> Ninja starfish":
-              "Collectible",
+              "Sellable",
+            "<:ninjaStarfish:1156938871695757432> Ninja starfish": "Sellable",
             "<:alienAnglerfish:1156938740586000394> Alien anglerfish":
-              "Collectible",
+              "Sellable",
             "<:pirateParrotfish:1156938717781573733> Pirate parrotfish":
-              "Collectible",
-            "<:toiletSeatLid:1156938695635644506> Toilet seat lid":
-              "Collectible",
-            "<:boot:1156938677176520785> Boot": "Collectible",
-            "<:bottle:1156938658667044934> Bottle": "Collectible",
+              "Sellable",
+            "<:toiletSeatLid:1156938695635644506> Toilet seat lid": "Sellable",
+            "<:boot:1156938677176520785> Boot": "Sellable",
+            "<:bottle:1156938658667044934> Bottle": "Sellable",
             "<:eldritchFlameScroll:1154411820283613275> Eldritch flame scroll":
               "Collectible",
             "<:infernothsWrathfulEye:1154412305128378499> Infernoth's wrathful eye":
@@ -298,7 +305,7 @@ module.exports = {
             "<:torncloth:1147103370637738035> Torn cloth": "Sellable",
             "<:usedtissue:1147072375305797692> Used tissue": "Sellable",
             "<:brokenstick:1147072664792485949> Broken stick": "Sellable",
-            "<:cotton:1147116559526015088>Cotton": "Material",
+            "<:cotton:1147116559526015088> Cotton": "Material",
             "<:supergem:1147106342427955300> Super gem": "Material",
             "<:leather:1147104055701798933> Leather": "Material",
             "<:arcaneshard:1147112213073629206> Arcane shard": "Material",
@@ -461,7 +468,7 @@ module.exports = {
             };
 
             const collector = inventoryMessage.createReactionCollector(filter, {
-              time: 180000,
+              time: 604800000,
               dispose: true,
             });
 

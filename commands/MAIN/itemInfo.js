@@ -64,7 +64,13 @@ module.exports = {
           item == "sarcasticFringehead" ||
           item == "boot" ||
           item == "bottle" ||
-          item == "toiletSeatLid"
+          item == "toiletSeatLid" ||
+          item == "luminaFin" ||
+          item == "disguisedDiverfish" ||
+          item == "bubblegumBlowfish" ||
+          item == "fishingRod" ||
+          item == "eliteAwakeningGem" ||
+          item == "awakeningGem"
         ) {
           var texarus = db.fetch(`texarus_${tokenDB}`) || 0;
           var waetra = db.fetch(`waetra_${tokenDB}`) || 0;
@@ -228,6 +234,10 @@ module.exports = {
             db.fetch(`shieldOfTheEarthshaker_${tokenDB}`) || 0;
           var timekeepersChronometer =
             db.fetch(`timekeepersChronometer_${tokenDB}`) || 0;
+          var luminaFin = db.fetch(`luminaFin_${tokenDB}`) || 0;
+          var bubblegumBlowfish = db.fetch(`bubblegumBlowfish_${tokenDB}`) || 0;
+          var disguisedDiverfish =
+            db.fetch(`disguisedDiverfish_${tokenDB}`) || 0;
           var fishingRod = db.fetch(`fishingRod_${tokenDB}`) || 0;
           var balance = db.fetch(`money_${tokenDB}.pocket`) || 0;
           var netWorthTotal =
@@ -297,6 +307,9 @@ module.exports = {
             toiletSeatLid * prices.toiletSeatLid +
             boot * prices.boot +
             fishingRod * prices.fishingRod +
+            luminaFin * prices.luminaFin +
+            disguisedDiverfish * prices.disguisedDiverfish +
+            bubblegumBlowfish * prices.bubblegumBlowfish +
             bottle * prices.bottle +
             balance;
           var itemDB = db.fetch(`${item}_${tokenDB}`) || 0;
@@ -315,7 +328,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Valorium's eclipsian soul`);
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -327,10 +339,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${valoriumsEclipsianSoul}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${valoriumsEclipsianSoulStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "valoriumsEclipsianSoul");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/RgW8bYt/capture-2.png`
@@ -342,7 +351,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Valorium's Tear`);
             itemInfoEmbed.addField(`Buy cost`, `12,750,000`);
             itemInfoEmbed.addField(`Sell cost`, `6,375,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -351,10 +359,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${valoriumsTear}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${valoriumsTearStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "valoriumsTear");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/QXVjQ0y/Capture.png`);
             message.channel.send(itemInfoEmbed);
@@ -365,7 +370,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Gold bar`);
             itemInfoEmbed.addField(`Buy cost`, `10,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -384,12 +388,10 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             message.channel.send(itemInfoEmbed);
           } else if (item == "vortexOrb") {
             itemInfoEmbed.setDescription(`
-            The Vortex Orb is a mesmerizing, collectible item of arcane rarity, said to possess the very essence of the Archon Vortanax, a formidable and enigmatic boss within the world of RPG. This rare artifact is as elusive as it is powerful, sought after by adventurers and collectors alike for its mysterious properties.
             `);
             itemInfoEmbed.setTitle(`Vortex orb`);
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -398,10 +400,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${vortexOrb}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${vortexOrbStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "vortexOrb");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/nrbZ3v3/vortex-orb.png`
@@ -414,7 +413,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Tome of everlasting wisdom`);
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -426,10 +424,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${tomeOfEverlastingWisdom}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${tomeOfEverlastingWisdomStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "tomeOfEverlastingWisdom");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/9tsrqwP/tome-of-everlasting-wisdom.png`
@@ -442,7 +437,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Verdant whisper leaf`);
             itemInfoEmbed.addField(`Buy cost`, `45,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `22,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -451,10 +445,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${verdantLeaf}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${verdantLeafStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "verdantLeaf");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/42Gf5db/verdant-whisper-leaf.png`
@@ -467,7 +458,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Abyssal crown of Dominance`);
             itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -479,10 +469,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${abyssalCrownOfDominance}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${abyssalCrownOfDominanceStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominance");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/mBcqtqH/abyssal-Crown-Of-Dominance.gif`
@@ -495,7 +482,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Abyssal starcrystal`);
             itemInfoEmbed.addField(`Buy cost`, `185,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -507,10 +493,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${abyssalStarcrystal}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${abyssalStarcrystalStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "abyssalStarcrystal");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/FhRXV2Q/crystal.png`);
             message.channel.send(itemInfoEmbed);
@@ -521,7 +504,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Eldra'zur's Grimoire of ruin`);
             itemInfoEmbed.addField(`Buy cost`, `160,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `80,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -533,10 +515,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${eldrazursGrimoireOfRuin}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${eldrazursGrimoireOfRuinStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "eldrazursGrimoireOfRuin");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/YNWQXbs/book.png`);
             message.channel.send(itemInfoEmbed);
@@ -547,7 +526,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Mystic rune of resilience`);
             itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -563,10 +541,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${mysticRuneOfResilience}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${mysticRuneOfResilienceStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "mysticRuneOfResilience");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/LkbBsmH/ezgif-com-resize-1.gif`
@@ -579,7 +554,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Aurora gaze`);
             itemInfoEmbed.addField(`Buy cost`, `325,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `162,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -592,10 +566,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `The Aurora Gaze ability is a captivating and mystical spectacle that can be accessed using the "+info" command. When invoked, it presents a mesmerizing visual display resembling the enchanting Northern Lights, evoking a sense of wonder and fascination.`
             );
             itemInfoEmbed.addField(`Pieces owned by you`, `${auroraGaze}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${auroraGazeStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "auroraGaze");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/DMkpbNv/blue-gaze.gif`
@@ -608,7 +579,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Abyssal scepter of oblivion`);
             itemInfoEmbed.addField(`Buy cost`, `185,700,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,850,000`);
-            itemInfoEmbed.addField(`Rarity`, `Heroic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -620,10 +590,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${abyssalScepterOfOblivion}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${abyssalScepterOfOblivionStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "abyssalScepterOfOblivion");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/ypRBHBH/abyssal-Scepter-Of-Oblivion.gif`
@@ -636,7 +603,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Orb of elemental mastery`);
             itemInfoEmbed.addField(`Buy cost`, `68,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `34,475,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -648,10 +614,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${orbOfElementalMastery}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${orbOfElementalMasteryStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "orbOfElementalMastery");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/6NvpWHH/Orb-of-elemental-mastery.png`
@@ -664,7 +627,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Shield of the earthshaker`);
             itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
             itemInfoEmbed.addField(`Sell cost`, `12,529,003`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -676,10 +638,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${shieldOfTheEarthshaker}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${shieldOfTheEarthshakerStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "shieldOfTheEarthshaker");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/vqG8RMk/futuristic-glowing-low-polygonal-shield-with-green-leaf-isolated-dark-blue-67515-694-removebg-previe.png`
@@ -692,7 +651,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Timekeeper's chronometer`);
             itemInfoEmbed.addField(`Buy cost`, `14,201,590`);
             itemInfoEmbed.addField(`Sell cost`, `7,100,795`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -704,10 +662,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${timekeepersChronometer}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${timekeepersChronometerStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "timekeepersChronometer");
             itemInfoEmbed.setThumbnail(
               `"https://i.ibb.co/CBLMRkX/atmosphera-vintage-world-wall-clock-removebg-preview.png`
@@ -720,7 +675,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Bullet`);
             itemInfoEmbed.addField(`Buy cost`, `35,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `17,500,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -729,10 +683,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `military`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${bullet}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${bulletStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "bullet");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/qFHR95G/bullet.png`);
             message.channel.send(itemInfoEmbed);
@@ -743,7 +694,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Eldritch flame scroll`);
             itemInfoEmbed.addField(`Buy cost`, `78,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `39,475,000`);
-            itemInfoEmbed.addField(`Rarity`, `Arcane`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -755,10 +705,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${eldritchFlameScroll}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${eldritchFlameScrollStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "eldritchFlameScroll");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/rkjzHFK/eldritch-flame-scroll.png`
@@ -771,7 +718,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Infernoth's wrathful eye`);
             itemInfoEmbed.addField(`Buy cost`, `41,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `20,750,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -783,10 +729,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${infernothsWrathfulEye}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${infernothsWrathfulEyeStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "infernothsWrathfulEye");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/zh8972B/infernoths-Wrathful-Eye.png`
@@ -799,7 +742,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Pyroclasmic gem`);
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -808,10 +750,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${pyroclasmicGem}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${pyroclasmicGemStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "pyroclasmicGem");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/CMsPT3t/pyroclasmic-Gem.png`
@@ -824,7 +763,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Pyroclasmic essence`);
             itemInfoEmbed.addField(`Buy cost`, `11,111,111`);
             itemInfoEmbed.addField(`Sell cost`, `11,111,111`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -836,10 +774,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${pyroclasmicEssence}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${pyroclasmicEssenceStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "pyroclasmicEssence");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/FzL7dfJ/pyroclasmic-Essence.png`
@@ -852,7 +787,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Magmatic torch`);
             itemInfoEmbed.addField(`Buy cost`, `5,210,000`);
             itemInfoEmbed.addField(`Sell cost`, `2,605,000`);
-            itemInfoEmbed.addField(`Rarity`, `Mythic`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -861,10 +795,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${magmaticTorch}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${magmaticTorchStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "magmaticTorch");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/hDjnJXj/magmatic-Torch.png`
@@ -877,7 +808,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Eternal flame essence`);
             itemInfoEmbed.addField(`Buy cost`, `3,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `1,625,000`);
-            itemInfoEmbed.addField(`Rarity`, `Legendary`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -889,10 +819,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${eternalFlameEssence}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${eternalFlameEssenceStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "eternalFlameEssence");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/g31RPY3/eternal-Flame-Essence.png`
@@ -905,7 +832,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Black oil`);
             itemInfoEmbed.addField(`Buy cost`, `456,120`);
             itemInfoEmbed.addField(`Sell cost`, `228,060`);
-            itemInfoEmbed.addField(`Rarity`, `Rare`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -914,10 +840,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${blackOil}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${blackOilStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "blackOil");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/gPgKkc7/blackOil.png`);
             message.channel.send(itemInfoEmbed);
@@ -928,7 +851,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Hot water`);
             itemInfoEmbed.addField(`Buy cost`, `32,100`);
             itemInfoEmbed.addField(`Sell cost`, `16,050`);
-            itemInfoEmbed.addField(`Rarity`, `Rare`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -937,10 +859,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${hotWater}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${hotWaterStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "hotWater");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/C7J2nQG/hotWater.png`);
             message.channel.send(itemInfoEmbed);
@@ -951,7 +870,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Transparent glass`);
             itemInfoEmbed.addField(`Buy cost`, `18,230`);
             itemInfoEmbed.addField(`Sell cost`, `9,115`);
-            itemInfoEmbed.addField(`Rarity`, `Rare`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -963,10 +881,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${transparentGlass}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${transparentGlassStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "transparentGlass");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/kXYTJYq/transparent-Glass.png`
@@ -978,7 +893,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Salmon`);
             itemInfoEmbed.addField(`Buy cost`, `26,201`);
             itemInfoEmbed.addField(`Sell cost`, `26,201`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -987,10 +901,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${salmon}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${salmonStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "salmon");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/vZr2DZ5/salmon.png`);
             message.channel.send(itemInfoEmbed);
@@ -1000,7 +911,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Smelly fish`);
             itemInfoEmbed.addField(`Buy cost`, `8,092`);
             itemInfoEmbed.addField(`Sell cost`, `8,092`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1009,10 +919,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${smellyFish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${smellyFishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "smellyFish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/DDbxvrK/smelly-fish.png`
@@ -1024,7 +931,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Burned fish`);
             itemInfoEmbed.addField(`Buy cost`, `12,790`);
             itemInfoEmbed.addField(`Sell cost`, `12,790`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1033,10 +939,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${burnedFish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${burnedFishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "burnedFish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/cxCP7Yd/burned-fish.png`
@@ -1048,7 +951,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Grumpy catfish`);
             itemInfoEmbed.addField(`Buy cost`, `52,150`);
             itemInfoEmbed.addField(`Sell cost`, `52,150`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1057,10 +959,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${grumpyCatfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${grumpyCatfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "grumpyCatfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/6v0DZkh/grumpy-catfish.png`
@@ -1072,7 +971,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Pancake fish`);
             itemInfoEmbed.addField(`Buy cost`, `16,210`);
             itemInfoEmbed.addField(`Sell cost`, `16,210`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1081,10 +979,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${pancakeFish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${pancakeFishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "pancakeFish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/y4MzMbC/pancake-fish.png`
@@ -1096,7 +991,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Disco jellyfish`);
             itemInfoEmbed.addField(`Buy cost`, `23,191`);
             itemInfoEmbed.addField(`Sell cost`, `23,191`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1105,10 +999,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${discoJellyfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${discoJellyfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "discoJellyfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/R3Zd6Gp/disco-jellyfish.png`
@@ -1120,7 +1011,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Soda canfish`);
             itemInfoEmbed.addField(`Buy cost`, `41,092`);
             itemInfoEmbed.addField(`Sell cost`, `41,092`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1129,10 +1019,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${sodaCanfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${sodaCanfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "sodaCanfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/7yj2FGw/soda-canfish.png`
@@ -1144,7 +1031,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Lava lamp eel`);
             itemInfoEmbed.addField(`Buy cost`, `78,210`);
             itemInfoEmbed.addField(`Sell cost`, `78,210`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1153,10 +1039,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${lavaLampEel}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${lavaLampEelStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "lavaLampEel");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/nDrL7sH/lava-lamp-eel.png`
@@ -1168,7 +1051,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Rubber duckyfish`);
             itemInfoEmbed.addField(`Buy cost`, `9,108`);
             itemInfoEmbed.addField(`Sell cost`, `9,108`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1177,10 +1059,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${rubberDuckyfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${rubberDuckyfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "rubberDuckyfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/NtddYkS/rubber-duckyfish.png`
@@ -1192,7 +1071,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Sarcastic fringehead`);
             itemInfoEmbed.addField(`Buy cost`, `32,500`);
             itemInfoEmbed.addField(`Sell cost`, `32,500`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1204,10 +1082,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${sarcasticFringehead}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${sarcasticFringeheadStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "sarcasticFringehead");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/sqsxjbN/sarcastic-fringehead.png`
@@ -1216,10 +1091,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
           } else if (item == "toiletSeatLid") {
             itemInfoEmbed.setDescription(`
             The toilet seat lid: a humble yet essential accessory in the bathroom, diligently safeguarding against unexpected splashes and providing a temporary throne for contemplation.`);
-            itemInfoEmbed.setTitle(`Sarcastic fringehead`);
+            itemInfoEmbed.setTitle(`Toilet seat lid`);
             itemInfoEmbed.addField(`Buy cost`, `7,100`);
             itemInfoEmbed.addField(`Sell cost`, `7,100`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1228,10 +1102,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${toiletSeatLid}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${toiletSeatLidStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "toiletSeatLid");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/6WbJ4vy/toilet-seat-lid.png`
@@ -1243,7 +1114,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Pirate parrotfish`);
             itemInfoEmbed.addField(`Buy cost`, `18,029`);
             itemInfoEmbed.addField(`Sell cost`, `18,029`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1255,10 +1125,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `Pieces owned by you`,
               `${pirateParrotfish}`
             );
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${pirateParrotfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "pirateParrotfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/vY1rLpz/pirate-parrotfish.png`
@@ -1270,7 +1137,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Alien anglerfish`);
             itemInfoEmbed.addField(`Buy cost`, `43,102`);
             itemInfoEmbed.addField(`Sell cost`, `43,102`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1279,10 +1145,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${alienAnglerfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${alienAnglerfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "alienAnglerfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/523Fg9D/alien-anglerfish.png`
@@ -1294,7 +1157,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Ninja starfish`);
             itemInfoEmbed.addField(`Buy cost`, `80,500`);
             itemInfoEmbed.addField(`Sell cost`, `80,500`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1303,10 +1165,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${ninjaStarfish}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${ninjaStarfishStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "ninjaStarfish");
             itemInfoEmbed.setThumbnail(
               `https://i.ibb.co/D4MDvPQ/ninja-starfish.png`
@@ -1318,7 +1177,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Boot`);
             itemInfoEmbed.addField(`Buy cost`, `12,072`);
             itemInfoEmbed.addField(`Sell cost`, `12,072`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1327,10 +1185,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${boot}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${bootStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "boot");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/fMpKnHz/boot.png`);
             message.channel.send(itemInfoEmbed);
@@ -1340,7 +1195,6 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setTitle(`Bottle`);
             itemInfoEmbed.addField(`Buy cost`, `2,321`);
             itemInfoEmbed.addField(`Sell cost`, `2,321`);
-            itemInfoEmbed.addField(`Rarity`, `Common`);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1349,12 +1203,136 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             }
             itemInfoEmbed.addField(`Type`, `Sellable`);
             itemInfoEmbed.addField(`Pieces owned by you`, `${bottle}`);
-            itemInfoEmbed.addField(
-              `Pieces available for sale`,
-              `${bottleStoreAdd}`
-            );
+
             itemInfoEmbed.addField(`ID`, "bottle");
             itemInfoEmbed.setThumbnail(`https://i.ibb.co/YDL6q3j/bottle.png`);
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "fishingRod") {
+            itemInfoEmbed.setDescription(`
+            The Fishing Rod is a versatile and robust instrument designed for anglers seeking the thrill of underwater exploration. Crafted from high-quality materials, it strikes a perfect balance between strength and sensitivity. The ergonomic handle provides a comfortable grip for long hours of fishing, and the precision reel ensures smooth casting and efficient line retrieval. Whether you're a seasoned fisherman or a novice adventurer, the Fishing Rod is your essential tool for reeling in aquatic treasures from the depths of the sea.`);
+            itemInfoEmbed.setTitle(`Fishing rod`);
+            itemInfoEmbed.addField(`Buy cost`, `1,000,000`);
+            itemInfoEmbed.addField(`Sell cost`, `500,000`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `Tool`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${fishingRod}`);
+
+            itemInfoEmbed.addField(`ID`, "fishingRod");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/2vMz2LB/fishing-rod.png`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "disguisedDiverfish") {
+            itemInfoEmbed.setDescription(`
+            The Disguised Diverfish is a cunning underwater artist, using its shimmering scales to blend seamlessly into its surroundings. A true master of aquatic illusion, this fish keeps you on your toes as it playfully evades capture beneath the waves.`);
+            itemInfoEmbed.setTitle(`Disguised diverfish`);
+            itemInfoEmbed.addField(`Buy cost`, `39,211,040`);
+            itemInfoEmbed.addField(`Sell cost`, `19,605,520`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${disguisedDiverfish}`
+            );
+
+            itemInfoEmbed.addField(`ID`, "disguisedDiverfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/b6yGR46/disguised-diverfish.gif`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "luminaFin") {
+            itemInfoEmbed.setDescription(`
+            The Lumina Fin, a radiant marvel of the deep sea. Its scales shimmer with an ethereal glow, casting a soft and enchanting light in the underwater world. A rare and graceful swimmer, the Lumina Fin is a captivating catch for those who seek the mystical beauty of the ocean.`);
+            itemInfoEmbed.setTitle(`Lumina fin`);
+            itemInfoEmbed.addField(`Buy cost`, `32,109,214`);
+            itemInfoEmbed.addField(`Sell cost`, `16,054,607`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${luminaFin}`);
+
+            itemInfoEmbed.addField(`ID`, "luminaFin");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/Lrn73WF/lumina-fin.gif`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "bubblegumBlowfish") {
+            itemInfoEmbed.setDescription(`
+            The Bubblegum Blowfish, a delightfully quirky resident of the ocean depths. With a vibrant palette of bubblegum hues, this cheerful fish adds a pop of color to the underwater landscape. Known for its amusing habit of blowing bubbles, the Bubblegum Blowfish is both a playful companion and a whimsical catch for adventurous anglers.`);
+            itemInfoEmbed.setTitle(`Bubblegum blowfish`);
+            itemInfoEmbed.addField(`Buy cost`, `22,150,900`);
+            itemInfoEmbed.addField(`Sell cost`, `11,075,450`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `collectible`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${bubblegumBlowfish}`
+            );
+
+            itemInfoEmbed.addField(`ID`, "bubblegumBlowfish");
+            itemInfoEmbed.setThumbnail(
+              `https://i.ibb.co/Bww1Xv6/bubblegum-blowfish.gif`
+            );
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "eliteAwakeningGem") {
+            itemInfoEmbed.setDescription(`
+            The Elite Awakening Gem is a prestigious and powerful item within the Discord bot , allowing players to transcend their current limits and attain gold-tier loot awakens.`);
+            itemInfoEmbed.setTitle(`Elite awakening gem`);
+            itemInfoEmbed.addField(`Buy cost`, `126,920`);
+            itemInfoEmbed.addField(`Sell cost`, `63,460`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `Power-up`);
+            itemInfoEmbed.addField(
+              `Pieces owned by you`,
+              `${eliteAwakeningGem}`
+            );
+
+            itemInfoEmbed.addField(`ID`, "eliteAwakeningGem");
+            message.channel.send(itemInfoEmbed);
+          } else if (item == "awakeningGem") {
+            itemInfoEmbed.setDescription(`
+            The Awakening Gem is a prestigious and powerful item within the Discord bot , allowing players to transcend their current limits and attain gold-tier loot awakens.`);
+            itemInfoEmbed.setTitle(`Awakening gem`);
+            itemInfoEmbed.addField(`Buy cost`, `17,850`);
+            itemInfoEmbed.addField(`Sell cost`, `8,925`);
+            if (itemDB > 0) {
+              itemInfoEmbed.addField(
+                `Occupying net worth`,
+                `${itemNetWorthPercentage}%`
+              );
+            }
+            itemInfoEmbed.addField(`Type`, `Power-up`);
+            itemInfoEmbed.addField(`Pieces owned by you`, `${awakeningGem}`);
+            itemInfoEmbed.addField(
+              `NOTE`,
+              `Elite awakening gem exceeds the max limit of normal awakening gem ie, elite awakening gem gives better awakes than this (normal awakening gem)`
+            );
+
+            itemInfoEmbed.addField(`ID`, "awakeningGem");
             message.channel.send(itemInfoEmbed);
           }
         } else {

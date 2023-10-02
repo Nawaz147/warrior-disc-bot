@@ -38,14 +38,14 @@ You already have it.
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         setTimeout(() => {
           const guide3Embed = new Discord.MessageEmbed()
-            .setTitle("Guide")
+            .setTitle("Last guide")
             .setDescription(
               `
 Type equip ventorianBow.x,
 Type play hit.x to play event,
 example : react down of the embed to hit boss after typing play hit.x
 Every hit boss life decreases as per your weapon damage,
-For commands list and promocodes go to our website : https://valorium8.web.app
+For commands list and promocodes go to our website : https://mysterionix6.web.app
 `
             )
             .setFooter(`Good luck`)
