@@ -3,6 +3,7 @@ const db = require("quick.db");
 const { MessageEmbed } = require("discord.js");
 const startFunction = require("../../startCommandFunction.js");
 const prices = require("../../prices.json");
+const { link } = require("fs");
 module.exports = {
   name: "item",
   aliases: ["ItemInfo", "ii", "II"],
@@ -18,6 +19,7 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
+
     if (startFunction) {
       startFunction(message, args, client);
     }
@@ -324,8 +326,11 @@ module.exports = {
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#2B2D31`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
-Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow.  `);
+Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow`);
             itemInfoEmbed.setTitle(`Valorium's eclipsian soul`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
             if (itemDB > 0) {
@@ -342,13 +347,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "valoriumsEclipsianSoul");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/RgW8bYt/capture-2.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "valoriumsTear") {
             itemInfoEmbed.setDescription(`
           This crystalline teardrop, radiant with an ethereal, bluish glow, is believed to be a manifestation of Valorium's sorrow and regret. It shimmers like a fallen star, holding within it a piece of the boss's inner turmoil.`);
             itemInfoEmbed.setTitle(`Valorium's Tear`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `12,750,000`);
             itemInfoEmbed.addField(`Sell cost`, `6,375,000`);
             if (itemDB > 0) {
@@ -361,13 +369,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${valoriumsTear}`);
 
             itemInfoEmbed.addField(`ID`, "valoriumsTear");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/QXVjQ0y/Capture.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "goldBar") {
             itemInfoEmbed.setDescription(`
             A gleaming, rectangular ingot of pure, radiant gold. Its surface is smooth and polished to perfection, reflecting the ambient light with a warm, lustrous glow. Embossed with intricate engravings of ancient symbols, the gold bar exudes an aura of opulence and wealth.
             `);
             itemInfoEmbed.setTitle(`Gold bar`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `10,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             if (itemDB > 0) {
@@ -384,12 +397,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
               `The Gold Bar serves as a valuable investment for adventurers seeking to expand their wealth beyond the confines of a mere coin purse. Each of these bars has an intrinsic value of 10 million gold coins, making it a portable storehouse of immense riches. Owning a Gold Bar allows you to increase your gold cap, enabling you to hoard even more treasure and achieve unparalleled financial power within the realm.`
             );
             itemInfoEmbed.addField(`ID`, "goldBar");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/4YT7qzN/gold-bar.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "vortexOrb") {
-            itemInfoEmbed.setDescription(`
-            `);
+            itemInfoEmbed.setDescription(`A rare orb`);
             itemInfoEmbed.setTitle(`Vortex orb`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
             if (itemDB > 0) {
@@ -403,7 +420,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "vortexOrb");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/nrbZ3v3/vortex-orb.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "tomeOfEverlastingWisdom") {
@@ -411,6 +428,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The Tome of Everlasting Wisdom is an extraordinary relic of unparalleled significance, whispered to be the ultimate source of knowledge and arcane power. This coveted treasure is only granted to those who have vanquished the formidable Archon Vortanax, an achievement held in awe by adventurers throughout your RPG Discord bot's world.
             `);
             itemInfoEmbed.setTitle(`Tome of everlasting wisdom`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             if (itemDB > 0) {
@@ -427,7 +447,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "tomeOfEverlastingWisdom");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/9tsrqwP/tome-of-everlasting-wisdom.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "verdantLeaf") {
@@ -435,6 +455,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The Verdant Whisper Leaf is a rare and enigmatic treasure, often whispered about in hushed tones among adventurers and scholars. It is a coveted prize, said to be a gift from the mystical realm of nature itself. This arcane foliage is not merely an item; it is a living, breathing entity deeply connected to the natural world.
             `);
             itemInfoEmbed.setTitle(`Verdant whisper leaf`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `45,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `22,500,000`);
             if (itemDB > 0) {
@@ -448,7 +471,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "verdantLeaf");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/42Gf5db/verdant-whisper-leaf.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalCrownOfDominance") {
@@ -456,6 +479,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             Forged in the heart of chaos and bathed in the essence of eternal night, this regal crown is a testament to the ultimate triumph over the abyss. Its dark, ornate design is a masterpiece of malevolent craftsmanship, crowned with an abyssal gemstone that pulses with unholy power. When placed upon one's brow, it bestows dominion over the very fabric of the abyss itself.
             `);
             itemInfoEmbed.setTitle(`Abyssal crown of Dominance`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
             if (itemDB > 0) {
@@ -472,7 +498,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "abyssalCrownOfDominance");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/mBcqtqH/abyssal-Crown-Of-Dominance.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalStarcrystal") {
@@ -480,6 +506,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             This rare and mesmerizing gem is a celestial anomaly, hailing from the darkest corners of the cosmos. Its core shimmers with a haunting, ever-changing radiance, reminiscent of distant stars in a bottomless void. Encased within the crystal, an enigmatic energy dances, echoing the whispers of ancient cosmic forces.
             `);
             itemInfoEmbed.setTitle(`Abyssal starcrystal`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `185,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,500,000`);
             if (itemDB > 0) {
@@ -495,13 +524,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             );
 
             itemInfoEmbed.addField(`ID`, "abyssalStarcrystal");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/FhRXV2Q/crystal.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "eldrazursGrimoireOfRuin") {
             itemInfoEmbed.setDescription(`
             Eldra'zur's Grimoire of Ruin is a testament to the unfathomable power of the abyss. Its dark pages hold the key to cataclysmic destruction and ultimate dominion over the arcane. Yet, with great power comes great peril, as those who dare to wield it risk becoming lost within the ever-hungry maw of Eldra'zur's malevolence.
             `);
             itemInfoEmbed.setTitle(`Eldra'zur's Grimoire of ruin`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `160,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `80,000,000`);
             if (itemDB > 0) {
@@ -517,13 +551,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             );
 
             itemInfoEmbed.addField(`ID`, "eldrazursGrimoireOfRuin");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/YNWQXbs/book.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "mysticRuneOfResilience") {
             itemInfoEmbed.setDescription(`
             The Mystic Rune of Resilience is a coveted artifact, shrouded in mystic energies and whispered legends. This ornate runic emblem, etched with ancient symbols, radiates an aura of unwavering strength and indomitable willpower. When wielded by a warrior, its true power is unveiled.
             `);
             itemInfoEmbed.setTitle(`Mystic rune of resilience`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
             if (itemDB > 0) {
@@ -544,7 +583,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "mysticRuneOfResilience");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/LkbBsmH/ezgif-com-resize-1.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "auroraGaze") {
@@ -552,6 +591,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             Aurora Gaze" is a mystical incantation that conjures the breathtaking beauty of the Northern Lights onto the battlefield. When activated, the caster's eyes shimmer with celestial energy, releasing a radiant aura that bathes the surroundings in a captivating, iridescent glow.
             `);
             itemInfoEmbed.setTitle(`Aurora gaze`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `325,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `162,500,000`);
             if (itemDB > 0) {
@@ -563,13 +605,13 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Type`, `collectible`);
             itemInfoEmbed.addField(
               `Ability`,
-              `The Aurora Gaze ability is a captivating and mystical spectacle that can be accessed using the "+info" command. When invoked, it presents a mesmerizing visual display resembling the enchanting Northern Lights, evoking a sense of wonder and fascination.`
+              `The Aurora Gaze ability is a captivating and mystical spectacle that can be accessed using the "info.x" command. When invoked, it presents a mesmerizing visual display resembling the enchanting Northern Lights, evoking a sense of wonder and fascination.`
             );
             itemInfoEmbed.addField(`Pieces owned by you`, `${auroraGaze}`);
 
             itemInfoEmbed.addField(`ID`, "auroraGaze");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/DMkpbNv/blue-gaze.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "abyssalScepterOfOblivion") {
@@ -577,6 +619,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The Abyssal Scepter of Oblivion is a harbinger of cosmic destruction and an emblem of your dominion over the infinite. It beckons with the allure of unparalleled power, yet the echoes of the abyss that resonate within its core serve as a stark reminder of the eternal struggle between mastery and madness.
             `);
             itemInfoEmbed.setTitle(`Abyssal scepter of oblivion`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `185,700,000`);
             itemInfoEmbed.addField(`Sell cost`, `92,850,000`);
             if (itemDB > 0) {
@@ -593,7 +638,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "abyssalScepterOfOblivion");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/ypRBHBH/abyssal-Scepter-Of-Oblivion.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "orbOfElementalMastery") {
@@ -601,6 +646,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The "Elemental Orb of Mastery" is a radiant sphere that shifts in color, representing mastery over elemental forces. Possessors can harness and manipulate fire, water, earth, and air, but must wield its power wisely.
             `);
             itemInfoEmbed.setTitle(`Orb of elemental mastery`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `68,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `34,475,000`);
             if (itemDB > 0) {
@@ -617,7 +665,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "orbOfElementalMastery");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/6NvpWHH/Orb-of-elemental-mastery.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "shieldOfTheEarthshaker") {
@@ -625,6 +673,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The "Shield of the Earthshaker" is a formidable obsidian shield adorned with seismic patterns.
             `);
             itemInfoEmbed.setTitle(`Shield of the earthshaker`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
             itemInfoEmbed.addField(`Sell cost`, `12,529,003`);
             if (itemDB > 0) {
@@ -641,7 +692,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "shieldOfTheEarthshaker");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/vqG8RMk/futuristic-glowing-low-polygonal-shield-with-green-leaf-isolated-dark-blue-67515-694-removebg-previe.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "timekeepersChronometer") {
@@ -649,6 +700,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The "Timekeeper's Chronometer" is an exquisite vintage timepiece with intricate details. It possesses the ability to measure and manipulate time, allowing its wielder to slow or hasten events. A true marvel for those who seek control over the flow of time.
             `);
             itemInfoEmbed.setTitle(`Timekeeper's chronometer`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `14,201,590`);
             itemInfoEmbed.addField(`Sell cost`, `7,100,795`);
             if (itemDB > 0) {
@@ -665,7 +719,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "timekeepersChronometer");
             itemInfoEmbed.setThumbnail(
-              `"https://i.ibb.co/CBLMRkX/atmosphera-vintage-world-wall-clock-removebg-preview.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "bullet") {
@@ -673,6 +727,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             Watch as the Bullet streaks through the pixelated battleground, a flash of brilliance in the night, before it collides with your opponent, shattering their soldiers and sending them reeling. It's not just a simple attack; it's a statement of power. A symbol of your RPG prowess. With the Bullet in your arsenal, you hold the fate of your enemies in your hands. Will they dodge? Will they survive? Or will they fall victim to your strategic mastery? The choice is yours, and the battlefield awaits your command!
             `);
             itemInfoEmbed.setTitle(`Bullet`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `35,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `17,500,000`);
             if (itemDB > 0) {
@@ -685,13 +742,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${bullet}`);
 
             itemInfoEmbed.addField(`ID`, "bullet");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/qFHR95G/bullet.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "eldritchFlameScroll") {
             itemInfoEmbed.setDescription(`
             Within the cryptic confines of this weathered parchment, ancient and mystical power lies dormant, awaiting a skilled power's touch to awaken its infernal secrets. The Eldritch Flame Scroll is a relic of dark and enigmatic origins, a testament to the boundless depths of arcane mastery.
             `);
             itemInfoEmbed.setTitle(`Eldritch flame scroll`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `78,950,000`);
             itemInfoEmbed.addField(`Sell cost`, `39,475,000`);
             if (itemDB > 0) {
@@ -708,7 +770,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "eldritchFlameScroll");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/rkjzHFK/eldritch-flame-scroll.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "infernothsWrathfulEye") {
@@ -716,6 +778,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             In the annals of ancient mythology and whispered tales of fire-wreathed realms, there exists a relic of incalculable power—the Infernoth's Wrathful Eye. This mystic artifact is as much a symbol of vengeance as it is a harbinger of cataclysmic destruction, an eye-shaped gem pulsating with the very essence of wrathful infernos.
           `);
             itemInfoEmbed.setTitle(`Infernoth's wrathful eye`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `41,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `20,750,000`);
             if (itemDB > 0) {
@@ -732,7 +797,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "infernothsWrathfulEye");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/zh8972B/infernoths-Wrathful-Eye.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "pyroclasmicGem") {
@@ -740,6 +805,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             A Pyroclasmic Gem is a rare and mesmerizing gemstone, forged in the fiery heart of the earth during cataclysmic volcanic eruptions. Its beauty is a stark contrast to its tumultuous origin, as it captures the essence of molten fire and raw elemental power within its crystalline structure.
           `);
             itemInfoEmbed.setTitle(`Pyroclasmic gem`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
             if (itemDB > 0) {
@@ -753,7 +821,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "pyroclasmicGem");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/CMsPT3t/pyroclasmic-Gem.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "pyroclasmicEssence") {
@@ -761,6 +829,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             Pyroclasmic Essence, in its green-hued form, is a remarkable and rare substance that defies the conventional expectations associated with fire. Born from the depths of volcanic eruptions, this enigmatic elixir captures the essence of fire in a verdant manifestation, challenging the boundaries of elemental magic.
           `);
             itemInfoEmbed.setTitle(`Pyroclasmic essence`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `11,111,111`);
             itemInfoEmbed.addField(`Sell cost`, `11,111,111`);
             if (itemDB > 0) {
@@ -777,7 +848,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "pyroclasmicEssence");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/FzL7dfJ/pyroclasmic-Essence.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "magmaticTorch") {
@@ -785,6 +856,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The Magmatic Torch is a blazing wonder, a handheld inferno that defies the boundaries of mundane fire sources. Crafted by the skilled hands of pyromancers and alchemists, this torch is a testament to the fusion of artistry and elemental mastery.
           `);
             itemInfoEmbed.setTitle(`Magmatic torch`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `5,210,000`);
             itemInfoEmbed.addField(`Sell cost`, `2,605,000`);
             if (itemDB > 0) {
@@ -798,7 +872,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "magmaticTorch");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/hDjnJXj/magmatic-Torch.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "eternalFlameEssence") {
@@ -806,6 +880,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             The Eternal Flame Essence is a legendary item steeped in myth and mystery. Said to hold the very essence of unending fire, it possesses power and significance that transcends the ordinary.
           `);
             itemInfoEmbed.setTitle(`Eternal flame essence`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `3,250,000`);
             itemInfoEmbed.addField(`Sell cost`, `1,625,000`);
             if (itemDB > 0) {
@@ -822,7 +899,7 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "eternalFlameEssence");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/g31RPY3/eternal-Flame-Essence.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "blackOil") {
@@ -830,6 +907,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             Black Oil, is a dark and heavy substance found in the wake of dormant volcanoes. This viscous fluid exudes an earthy, smoky scent, a somber reminder of the fiery forces that once roared beneath the earth's surface.
           `);
             itemInfoEmbed.setTitle(`Black oil`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `456,120`);
             itemInfoEmbed.addField(`Sell cost`, `228,060`);
             if (itemDB > 0) {
@@ -842,13 +922,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${blackOil}`);
 
             itemInfoEmbed.addField(`ID`, "blackOil");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/gPgKkc7/blackOil.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "hotWater") {
             itemInfoEmbed.setDescription(`
             Hot water, while far from valuable, serves as a ubiquitous comfort in everyday life. It's a simple, easily attainable commodity, often taken for granted, yet cherished for its soothing warmth and myriad practical uses.
           `);
             itemInfoEmbed.setTitle(`Hot water`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `32,100`);
             itemInfoEmbed.addField(`Sell cost`, `16,050`);
             if (itemDB > 0) {
@@ -861,13 +946,18 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${hotWater}`);
 
             itemInfoEmbed.addField(`ID`, "hotWater");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/C7J2nQG/hotWater.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "transparentGlass") {
             itemInfoEmbed.setDescription(`
             Transparent glass is a mundane and unremarkable material, commonly discarded without a second thought. It is a clear, see-through substance that serves as a basic building block for more intricate creations but holds little inherent value on its own.
           `);
             itemInfoEmbed.setTitle(`Transparent glass`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `18,230`);
             itemInfoEmbed.addField(`Sell cost`, `9,115`);
             if (itemDB > 0) {
@@ -884,13 +974,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "transparentGlass");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/kXYTJYq/transparent-Glass.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "salmon") {
             itemInfoEmbed.setDescription(`
             The salmon, a sleek and resilient swimmer, journeys upstream, embodying determination and adaptability in its quest for survival and reproduction.          `);
             itemInfoEmbed.setTitle(`Salmon`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `26,201`);
             itemInfoEmbed.addField(`Sell cost`, `26,201`);
             if (itemDB > 0) {
@@ -903,12 +996,17 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${salmon}`);
 
             itemInfoEmbed.addField(`ID`, "salmon");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/vZr2DZ5/salmon.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "smellyFish") {
             itemInfoEmbed.setDescription(`
             The smelly fish, known for its distinctive aroma, adds a pungent essence to the aquatic realm, creating a unique olfactory experience for underwater denizens.          `);
             itemInfoEmbed.setTitle(`Smelly fish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `8,092`);
             itemInfoEmbed.addField(`Sell cost`, `8,092`);
             if (itemDB > 0) {
@@ -922,13 +1020,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "smellyFish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/DDbxvrK/smelly-fish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "burnedFish") {
             itemInfoEmbed.setDescription(`
             The burned fish, once a victim of overzealous cooking attempts, now swims with a crispy exterior, bringing a unique charred flavor to the underwater world. It's a fish with a tale of culinary misadventure.          `);
             itemInfoEmbed.setTitle(`Burned fish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `12,790`);
             itemInfoEmbed.addField(`Sell cost`, `12,790`);
             if (itemDB > 0) {
@@ -942,13 +1043,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "burnedFish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/cxCP7Yd/burned-fish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "grumpyCatfish") {
             itemInfoEmbed.setDescription(`
             The grumpy fish, with its perpetually scowling expression, swims disdainfully through the waters, seemingly unimpressed by the aquatic world around it. Its gruff demeanor adds a touch of humor to the serene depths of the ocean.`);
             itemInfoEmbed.setTitle(`Grumpy catfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `52,150`);
             itemInfoEmbed.addField(`Sell cost`, `52,150`);
             if (itemDB > 0) {
@@ -962,13 +1066,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "grumpyCatfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/6v0DZkh/grumpy-catfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "pancakeFish") {
             itemInfoEmbed.setDescription(`
             The pancake fish, with its flat and whimsical appearance, glides through the water resembling a delectable breakfast delight, adding a touch of playful charm to the aquatic environment.`);
             itemInfoEmbed.setTitle(`Pancake fish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `16,210`);
             itemInfoEmbed.addField(`Sell cost`, `16,210`);
             if (itemDB > 0) {
@@ -982,13 +1089,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "pancakeFish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/y4MzMbC/pancake-fish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "discoJellyfish") {
             itemInfoEmbed.setDescription(`
             The disco jellyfish, adorned with vibrant bioluminescent lights, pulses rhythmically through the ocean, turning the underwater world into a mesmerizing dance floor of colors and patterns.`);
             itemInfoEmbed.setTitle(`Disco jellyfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `23,191`);
             itemInfoEmbed.addField(`Sell cost`, `23,191`);
             if (itemDB > 0) {
@@ -1002,13 +1112,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "discoJellyfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/R3Zd6Gp/disco-jellyfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "sodaCanfish") {
             itemInfoEmbed.setDescription(`
             The soda canfish, a quirky creation of underwater whimsy, glides through the depths with a metallic sheen, repurposing discarded cans into a whimsical aquatic spectacle.`);
             itemInfoEmbed.setTitle(`Soda canfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `41,092`);
             itemInfoEmbed.addField(`Sell cost`, `41,092`);
             if (itemDB > 0) {
@@ -1022,13 +1135,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "sodaCanfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/7yj2FGw/soda-canfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "lavaLampEel") {
             itemInfoEmbed.setDescription(`
             The lava lamp eel, with its undulating movements and vibrant colors, mimics the mesmerizing flow of a lava lamp, creating an otherworldly and captivating presence in the depths of the ocean.`);
             itemInfoEmbed.setTitle(`Lava lamp eel`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `78,210`);
             itemInfoEmbed.addField(`Sell cost`, `78,210`);
             if (itemDB > 0) {
@@ -1042,13 +1158,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "lavaLampEel");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/nDrL7sH/lava-lamp-eel.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "rubberDuckyfish") {
             itemInfoEmbed.setDescription(`
             The rubber duckyfish, a delightful fusion of bath toy and aquatic charm, floats merrily through the water, bringing a playful and whimsical spirit to the underwater world.`);
             itemInfoEmbed.setTitle(`Rubber duckyfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `9,108`);
             itemInfoEmbed.addField(`Sell cost`, `9,108`);
             if (itemDB > 0) {
@@ -1062,13 +1181,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "rubberDuckyfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/NtddYkS/rubber-duckyfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "sarcasticFringehead") {
             itemInfoEmbed.setDescription(`
             The sarcastic fringehead is a small, vibrant fish with a personality as bold as its colors, known for its comically exaggerated territorial displays and confrontational behavior.`);
             itemInfoEmbed.setTitle(`Sarcastic fringehead`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `32,500`);
             itemInfoEmbed.addField(`Sell cost`, `32,500`);
             if (itemDB > 0) {
@@ -1085,13 +1207,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "sarcasticFringehead");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/sqsxjbN/sarcastic-fringehead.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "toiletSeatLid") {
             itemInfoEmbed.setDescription(`
             The toilet seat lid: a humble yet essential accessory in the bathroom, diligently safeguarding against unexpected splashes and providing a temporary throne for contemplation.`);
             itemInfoEmbed.setTitle(`Toilet seat lid`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `7,100`);
             itemInfoEmbed.addField(`Sell cost`, `7,100`);
             if (itemDB > 0) {
@@ -1105,13 +1230,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "toiletSeatLid");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/6WbJ4vy/toilet-seat-lid.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "pirateParrotfish") {
             itemInfoEmbed.setDescription(`
             The pirate parrotfish, with its vibrant plumage and mischievous demeanor, sails through the seas embodying a swashbuckling charm, adding a touch of seafaring adventure to the underwater realm.`);
             itemInfoEmbed.setTitle(`Pirate parrotfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `18,029`);
             itemInfoEmbed.addField(`Sell cost`, `18,029`);
             if (itemDB > 0) {
@@ -1128,13 +1256,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "pirateParrotfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/vY1rLpz/pirate-parrotfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "alienAnglerfish") {
             itemInfoEmbed.setDescription(`
             The alien anglerfish, with its otherworldly appearance and luminescent lure, lurks in the depths like an extraterrestrial creature, casting an eerie glow in the mysterious abyss of the ocean.`);
             itemInfoEmbed.setTitle(`Alien anglerfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `43,102`);
             itemInfoEmbed.addField(`Sell cost`, `43,102`);
             if (itemDB > 0) {
@@ -1148,13 +1279,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "alienAnglerfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/523Fg9D/alien-anglerfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "ninjaStarfish") {
             itemInfoEmbed.setDescription(`
             The ninja starfish, swift and stealthy, navigates the ocean floor with the precision of a ninja, using its multiple arms like throwing stars to gracefully move through the underwater shadows.`);
             itemInfoEmbed.setTitle(`Ninja starfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `80,500`);
             itemInfoEmbed.addField(`Sell cost`, `80,500`);
             if (itemDB > 0) {
@@ -1168,13 +1302,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "ninjaStarfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/D4MDvPQ/ninja-starfish.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "boot") {
             itemInfoEmbed.setDescription(`
             The boot, discarded and submerged, rests on the ocean floor, transformed into an unexpected habitat for marine life, showcasing nature's ability to adapt and repurpose even the most unlikely objects.`);
             itemInfoEmbed.setTitle(`Boot`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `12,072`);
             itemInfoEmbed.addField(`Sell cost`, `12,072`);
             if (itemDB > 0) {
@@ -1187,12 +1324,17 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${boot}`);
 
             itemInfoEmbed.addField(`ID`, "boot");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/fMpKnHz/boot.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "bottle") {
             itemInfoEmbed.setDescription(`
             The bottle, drifting through the currents, carries the stories of distant shores and oceanic adventures, becoming a symbol of both human impact and the interconnectedness of the world's waters.`);
             itemInfoEmbed.setTitle(`Bottle`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `2,321`);
             itemInfoEmbed.addField(`Sell cost`, `2,321`);
             if (itemDB > 0) {
@@ -1205,12 +1347,17 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.addField(`Pieces owned by you`, `${bottle}`);
 
             itemInfoEmbed.addField(`ID`, "bottle");
-            itemInfoEmbed.setThumbnail(`https://i.ibb.co/YDL6q3j/bottle.png`);
+            itemInfoEmbed.setThumbnail(
+              `https://mysterionix6.web.app/images/${item}.png`
+            );
             message.channel.send(itemInfoEmbed);
           } else if (item == "fishingRod") {
             itemInfoEmbed.setDescription(`
             The Fishing Rod is a versatile and robust instrument designed for anglers seeking the thrill of underwater exploration. Crafted from high-quality materials, it strikes a perfect balance between strength and sensitivity. The ergonomic handle provides a comfortable grip for long hours of fishing, and the precision reel ensures smooth casting and efficient line retrieval. Whether you're a seasoned fisherman or a novice adventurer, the Fishing Rod is your essential tool for reeling in aquatic treasures from the depths of the sea.`);
             itemInfoEmbed.setTitle(`Fishing rod`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `1,000,000`);
             itemInfoEmbed.addField(`Sell cost`, `500,000`);
             if (itemDB > 0) {
@@ -1224,13 +1371,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "fishingRod");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/2vMz2LB/fishing-rod.png`
+              `https://mysterionix6.web.app/images/${item}.png`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "disguisedDiverfish") {
             itemInfoEmbed.setDescription(`
             The Disguised Diverfish is a cunning underwater artist, using its shimmering scales to blend seamlessly into its surroundings. A true master of aquatic illusion, this fish keeps you on your toes as it playfully evades capture beneath the waves.`);
             itemInfoEmbed.setTitle(`Disguised diverfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `39,211,040`);
             itemInfoEmbed.addField(`Sell cost`, `19,605,520`);
             if (itemDB > 0) {
@@ -1247,13 +1397,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "disguisedDiverfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/b6yGR46/disguised-diverfish.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "luminaFin") {
             itemInfoEmbed.setDescription(`
             The Lumina Fin, a radiant marvel of the deep sea. Its scales shimmer with an ethereal glow, casting a soft and enchanting light in the underwater world. A rare and graceful swimmer, the Lumina Fin is a captivating catch for those who seek the mystical beauty of the ocean.`);
             itemInfoEmbed.setTitle(`Lumina fin`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `32,109,214`);
             itemInfoEmbed.addField(`Sell cost`, `16,054,607`);
             if (itemDB > 0) {
@@ -1267,13 +1420,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "luminaFin");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/Lrn73WF/lumina-fin.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "bubblegumBlowfish") {
             itemInfoEmbed.setDescription(`
             The Bubblegum Blowfish, a delightfully quirky resident of the ocean depths. With a vibrant palette of bubblegum hues, this cheerful fish adds a pop of color to the underwater landscape. Known for its amusing habit of blowing bubbles, the Bubblegum Blowfish is both a playful companion and a whimsical catch for adventurous anglers.`);
             itemInfoEmbed.setTitle(`Bubblegum blowfish`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `22,150,900`);
             itemInfoEmbed.addField(`Sell cost`, `11,075,450`);
             if (itemDB > 0) {
@@ -1290,13 +1446,16 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
 
             itemInfoEmbed.addField(`ID`, "bubblegumBlowfish");
             itemInfoEmbed.setThumbnail(
-              `https://i.ibb.co/Bww1Xv6/bubblegum-blowfish.gif`
+              `https://mysterionix6.web.app/images/${item}.gif`
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "eliteAwakeningGem") {
             itemInfoEmbed.setDescription(`
             The Elite Awakening Gem is a prestigious and powerful item within the Discord bot , allowing players to transcend their current limits and attain gold-tier loot awakens.`);
             itemInfoEmbed.setTitle(`Elite awakening gem`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `126,920`);
             itemInfoEmbed.addField(`Sell cost`, `63,460`);
             if (itemDB > 0) {
@@ -1317,6 +1476,9 @@ Legend has it that this shimmering, obsidian gem contains a fragment of the very
             itemInfoEmbed.setDescription(`
             The Awakening Gem is a prestigious and powerful item within the Discord bot , allowing players to transcend their current limits and attain gold-tier loot awakens.`);
             itemInfoEmbed.setTitle(`Awakening gem`);
+            itemInfoEmbed.setURL(
+              "https://mysterionix6.web.app/itemInfos.html#" + item
+            );
             itemInfoEmbed.addField(`Buy cost`, `17,850`);
             itemInfoEmbed.addField(`Sell cost`, `8,925`);
             if (itemDB > 0) {

@@ -339,12 +339,6 @@ client.on("message", async (message, member) => {
     console.log(
       `${message.author.username}#${message.author.discriminator} said : ${message.content}`
     );
-
-    if (message.content.endsWith(suffix)) {
-      return message.channel.send(
-        `Hi ${message.author.username} , You can't use commands in DM!`
-      );
-    }
     if (message.type === "APPLICATION_COMMAND") return;
   }
 
@@ -384,29 +378,4 @@ client.on("message", async (message, member) => {
   });
 
   // if db error occurs fire this
-  client.on("guildMemberAdd", async (member) => {
-    let message = `Hey ${member} welcome to ${member.guild.name}`;
-
-    let channel = await client.db.get(`channel_${member.guild.id}`);
-    const welcomeCard = new canvacord.Welcomer()
-      .setUsername(member.user.username)
-      .setDiscriminator(member.user.discriminator)
-      .setAvatar(member.user.displayAvatarURL({ format: "png" }))
-      .setColor("title", "#fff")
-      .setColor("username-box", "#293480")
-      .setColor("discriminator-box", "#293480")
-      .setColor("message-box", "#34068a")
-      .setColor("avatar", "#550dd1")
-      .setBackground("https://wallpaperaccess.com/full/360436.jpg")
-      .setMemberCount(member.guild.memberCount);
-    let attachment = new Discord.MessageAttachment(
-      await welcomeCard.build(),
-      "welcome.png"
-    );
-
-    if (!channel) return;
-
-    client.channels.cache.get(channel).send(attachment);
-    client.channels.cache.get(channel).send(message);
-  });
 });

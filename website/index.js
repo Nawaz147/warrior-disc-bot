@@ -13,5 +13,5 @@ promoCodesBtn.onclick = function () {
 };
 const itemInfosBtn = document.querySelector(".itemInfosBtn");
 itemInfosBtn.onclick = function () {
-  alert("This section is under progress1");
+  window.location = "./itemInfos.html";
 };

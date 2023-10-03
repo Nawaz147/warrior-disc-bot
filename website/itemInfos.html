@@ -3,12 +3,835 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable = no">
-    <title>My App</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Item info</title>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+    <link rel="icon" href="./bot_logo.png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #searchContainer {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f80c0c;
+            /* Change the background color as needed */
+            display: flex;
+            align-items: center;
+            height: 50px;
+            z-index: 1000;
+            /* Set a high z-index to make sure it's on top of other elements */
+        }
+
+        #searchInput {
+            padding: 10px;
+            font-size: 16px;
+            flex: 1;
+            border: none;
+            /* Remove border */
+            border-radius: 0;
+            /* Remove border radius */
+            outline: none;
+        }
+
+        #searchButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #d83e23;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        #searchButton:hover {
+            opacity: 75%;
+        }
+
+        #result-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1;
+        }
+
+        #suggestions .suggestion {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #suggestions .suggestion:last-child {
+            border-bottom: none;
+        }
+
+        #suggestions .suggestion:hover {
+            background-color: #d2d7d8;
+        }
+
+        .search-result {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            max-width: 600px;
+            text-align: left;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .search-result:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .text-content {
+            flex: 1;
+            user-select: none;
+        }
+
+        .text-content h2 {
+            margin-bottom: 10px;
+        }
+
+        .text-content p {
+            margin-bottom: 15px;
+        }
+
+        .search-result img {
+            max-width: 150px;
+            height: auto;
+            margin-left: auto;
+            user-select: none;
+        }
+
+        #no-results {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .additional-info {
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+
 </head>
 
 <body>
+    <div id="searchContainer">
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton" onclick="search()">Search</button>
+    </div>
 
+    <div id="result-container">
+        <p id="no-results">Search something to display</p>
+    </div>
+
+    <!-- Suggestions container -->
+    <div id="suggestions"></div>
+
+    <script>
+        const itemData = {
+            valoriumsEclipsianSoul: {
+                title: "Valorium's Eclipsian Soul",
+                description: "Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow. Those who possess this rare artifact are said to inherit a portion of Valorium's elusive power.",
+                image: "./images/valoriumsEclipsianSoul.png",
+                buyPrice: "50,000,000",
+                sellPrice: "25,000,000",
+                itemID: "valoriumsEclipsianSoul",
+                type: "collectible"
+            },
+            valoriumsTear: {
+                title: "Valorium's Tear",
+                description: "This crystalline teardrop, radiant with an ethereal, bluish glow, is believed to be a manifestation of Valorium's sorrow and regret. It shimmers like a fallen star, holding within it a piece of the boss's inner turmoil. Those who carry Valorium's Tear are said to be blessed with resilience, as the gem imparts a sense of the boss's emotional fortitude.",
+                image: "./images/valoriumsTear.png",
+                buyPrice: "12,750,000",
+                sellPrice: "6,375,000",
+                itemID: "valoriumsTear",
+                type: "collectible"
+            },
+            goldBar: {
+                title: "Gold Bar",
+                description: "A gleaming, rectangular ingot of pure, radiant gold. Its surface is smooth and polished to perfection, reflecting the ambient light with a warm, lustrous glow. Embossed with intricate engravings of ancient symbols, the gold bar exudes an aura of opulence and wealth. Possession of this gold bar is a symbol of affluence and financial prowess.",
+                image: "./images/goldBar.png",
+                buyPrice: "10,000,000",
+                sellPrice: "10,000,000",
+                itemID: "goldBar",
+                type: "Sellable"
+            },
+            vortexOrb: {
+                title: "Vortex Orb",
+                description: "An enigmatic sphere of swirling cosmic energies, the Vortex Orb is a mysterious artifact with untold powers. Legends speak of its ability to manipulate the very fabric of space and time. The orb emits an otherworldly hum, captivating all who encounter it. Those who master its use gain access to unparalleled arcane abilities.",
+                image: "./images/vortexOrb.png",
+                buyPrice: "50,000,000",
+                sellPrice: "25,000,000",
+                itemID: "vortexOrb",
+                type: "collectible"
+            },
+            tomeOfEverlastingWisdom: {
+                title: "Tome of Everlasting Wisdom",
+                description: "The Tome of Everlasting Wisdom is an extraordinary relic of unparalleled significance, whispered to be the ultimate source of knowledge and arcane power. This coveted treasure is only granted to those who have vanquished the formidable Archon Vortanax, an achievement held in awe by adventurers throughout your RPG Discord bot's world. The tome is said to radiate wisdom and grants its possessor access to ancient, forbidden knowledge.",
+                image: "./images/tomeOfEverlastingWisdom.png",
+                buyPrice: "20,000,000",
+                sellPrice: "10,000,000",
+                itemID: "tomeOfEverlastingWisdom",
+                type: "collectible"
+            },
+            verdantWhisperLeaf: {
+                title: "Verdant Whisper Leaf",
+                description: "The Verdant Whisper Leaf is a rare and enigmatic treasure, often whispered about in hushed tones among adventurers and scholars. It is a coveted prize, said to be a gift from the mystical realm of nature itself. This arcane foliage is not merely an item; it is a living, breathing entity deeply connected to the natural world. Those who possess the Verdant Whisper Leaf are rumored to have the favor of nature and its elemental forces.",
+                image: "./images/verdantWhisperLeaf.png",
+                buyPrice: "45,000,000",
+                sellPrice: "22,500,000",
+                itemID: "verdantWhisperLeaf",
+                type: "collectible"
+            },
+            abyssalCrownOfDominance: {
+                title: "Abyssal Crown of Dominance",
+                description: "Forged in the heart of chaos and bathed in the essence of eternal night, this regal crown is a testament to the ultimate triumph over the abyss. Its dark, ornate design is a masterpiece of malevolent craftsmanship, crowned with an abyssal gemstone that pulses with unholy power. When placed upon one's brow, it bestows dominion over the very fabric of the abyss itself. The wearer of the Abyssal Crown of Dominance is said to command the shadows and bend the will of the abyssal creatures to their bidding.",
+                image: "./images/abyssalCrownOfDominance.gif",
+                buyPrice: "225,000,000",
+                sellPrice: "112,500,000",
+                itemID: "abyssalCrownOfDominance",
+                type: "collectible"
+            },
+            abyssalStarcrystal: {
+                title: "Abyssal Starcrystal",
+                description: "This rare and mesmerizing gem is a celestial anomaly. Its crystalline structure captures the essence of the abyss and the distant stars. Legends claim that the Abyssal Starcrystal can channel cosmic energies, unleashing powerful arcane forces upon the wielder's enemies. Possession of this crystal is both a blessing and a curse, as its powers come with the risk of losing oneself to the abyssal void.",
+                buyPrice: "185,000,000",
+                sellPrice: "92,500,000",
+                itemID: "abyssalStarcrystal",
+                type: "collectible",
+                image: "./images/abyssalStarcrystal.png",
+            },
+
+            eldrazursGrimoireOfRuin: {
+                title: "Eldra'zur's Grimoire of Ruin",
+                description: "Eldra'zur's Grimoire of Ruin is a testament to the unfathomable power of the abyss. The grimoire is bound in the hides of otherworldly creatures and inscribed with runes of ancient power. It is said to contain dark rituals and forbidden knowledge that can unravel the fabric of reality. Possession of this grimoire is not for the faint of heart, as its secrets come at a cost to both body and soul.",
+                buyPrice: "160,000,000",
+                sellPrice: "80,000,000",
+                type: "collectible",
+                image: "./images/eldrazursGrimoireOfRuin.png",
+                itemID: "eldrazursGrimoireOfRuin",
+            },
+
+            mysticRuneOfResilience: {
+                title: "Mystic Rune of Resilience",
+                description: "The Mystic Rune of Resilience is a coveted artifact, shrouded in mystic energies and whispered legends. The rune is said to have been forged by ancient beings with the essence of resilience itself. When wielded, it forms a protective barrier around the bearer, deflecting attacks and granting enhanced endurance. Those who possess the Mystic Rune of Resilience are said to be nearly invincible in the face of adversity.",
+                buyPrice: "380,000,000",
+                sellPrice: "190,000,000",
+                type: "Military & collectible",
+                ability: "The Mystic Rune of Resilience endows its bearer with an exceptional augmentation, reinforcing their physical and mental fortitude.",
+                image: "./images/mysticRuneOfResilience.gif",
+                itemID: "mysticRuneOfResilience",
+            },
+
+            abyssalScepterOfOblivion: {
+                title: "Abyssal Scepter of Oblivion",
+                description: "The Abyssal Scepter of Oblivion is a harbinger of cosmic destruction and an emblem of your dominion over the infinite. This rare and mesmerizing gem is a celestial anomaly. Its dark energies resonate with the void, allowing its wielder to channel destructive forces. The scepter is adorned with abyssal engravings that glow with an otherworldly light. Possession of the Abyssal Scepter of Oblivion marks its owner as a master of cosmic forces.",
+                buyPrice: "185,700,000",
+                sellPrice: "92,850,000",
+                itemID: "abyssalScepterOfOblivion",
+                type: "collectible",
+                image: "./images/abyssalScepterOfOblivion.gif",
+            },
+
+            orbOfElementalMastery: {
+                title: "Orb of Elemental Mastery",
+                description: "The Orb of Elemental Mastery is a radiant sphere that shifts in color, representing mastery over elemental forces. Legends speak of its creation by ancient elementalists who harnessed the raw power of the elements. Possession of the orb grants the ability to manipulate and control elemental energies. The orb's enchanting glow is a testament to the elemental prowess of its owner.",
+                buyPrice: "68,950,000",
+                sellPrice: "34,475,000",
+                itemID: "orbOfElementalMastery",
+                type: "collectible",
+                image: "./images/orbOfElementalMastery.png",
+            },
+            auroraGaze: {
+                title: "Aurora Gaze",
+                description: "The Aurora Gaze is a phenomenon captured in crystalline form, radiating the mesmerizing lights of the aurora borealis. Legends claim that this enchanting gem holds the essence of the northern lights, and those who possess it are said to gain a connection to the magic of the polar skies. The Aurora Gaze's soothing glow is both captivating and mysterious, offering a sense of tranquility to its bearer.",
+                buyPrice: "120,000,000",
+                sellPrice: "60,000,000",
+                itemID: "auroraGaze",
+                type: "collectible",
+                image: "./images/auroraGaze.gif",
+            },
+            shieldOfTheEarthshaker: {
+                title: "Shield of the Earthshaker",
+                description: "The Shield of the Earthshaker is a formidable obsidian shield adorned with seismic patterns.",
+                image: "./images/shieldOfTheEarthshaker.png",
+                buyPrice: "25,058,006",
+                sellPrice: "12,529,003",
+                itemID: "shieldOfTheEarthshaker",
+                type: "collectible"
+            },
+            timekeepersChronometer: {
+                title: "Timekeeper's Chronometer",
+                description: "The Timekeeper's Chronometer is an exquisite vintage timepiece with intricate details. It possesses the ability to measure and manipulate time, allowing its wielder to slow or hasten events. A true marvel for those who seek control over the flow of time.",
+                image: "./images/timekeepersChronometer.png",
+                buyPrice: "14,201,590",
+                sellPrice: "7,100,795",
+                itemID: "timekeepersChronometer",
+                type: "collectible"
+            },
+            bullet: {
+                title: "Bullet",
+                description: "Watch as the Bullet streaks through the pixelated battleground, a flash of brilliance in the night, before it collides with your opponent, shattering their soldiers and sending them reeling. It's not just a simple attack; it's a statement of power. A symbol of your RPG prowess. With the Bullet in your arsenal, you hold the fate of your enemies in your hands. Will they dodge? Will they survive? Or will they fall victim to your strategic mastery? The choice is yours, and the battlefield awaits your command!",
+                image: "./images/bullet.png",
+                buyPrice: "35,000,000",
+                sellPrice: "17,500,000",
+                itemID: "bullet",
+                type: "military"
+            },
+            eldritchFlameScroll: {
+                title: "Eldritch Flame Scroll",
+                description: "Within the cryptic confines of this weathered parchment, ancient and mystical power lies dormant, awaiting a skilled power's touch to awaken its infernal secrets. The Eldritch Flame Scroll is a relic of dark and enigmatic origins, a testament to the boundless depths of arcane mastery.",
+                image: "./images/eldritchFlameScroll.png",
+                buyPrice: "78,950,000",
+                sellPrice: "39,475,000",
+                itemID: "eldritchFlameScroll",
+                type: "collectible"
+            },
+            infernothsWrathfulEye: {
+                title: "Infernoth's Wrathful Eye",
+                description: "In the annals of ancient mythology and whispered tales of fire-wreathed realms, there exists a relic of incalculable power—the Infernoth's Wrathful Eye. This mystic artifact is as much a symbol of vengeance as it is a harbinger of cataclysmic destruction, an eye-shaped gem pulsating with the very essence of wrathful infernos.",
+                image: "./images/infernothsWrathfulEye.png",
+                buyPrice: "41,250,000",
+                sellPrice: "20,750,000",
+                itemID: "infernothsWrathfulEye",
+                type: "collectible"
+            },
+            pyroclasmicGem: {
+                title: "Pyroclasmic Gem",
+                description: "A Pyroclasmic Gem is a rare and mesmerizing gemstone, forged in the fiery heart of the earth during cataclysmic volcanic eruptions. Its beauty is a stark contrast to its tumultuous origin, as it captures the essence of molten fire and raw elemental power within its crystalline structure.",
+                image: "./images/pyroclasmicGem.png",
+                buyPrice: "20,000,000",
+                sellPrice: "10,000,000",
+                itemID: "pyroclasmicGem",
+                type: "collectible"
+            },
+            pyroclasmicEssence: {
+                title: "Pyroclasmic Essence",
+                description: "Pyroclasmic Essence, in its green-hued form, is a remarkable and rare substance that defies the conventional expectations associated with fire. Born from the depths of volcanic eruptions, this enigmatic elixir captures the essence of fire in a verdant manifestation, challenging the boundaries of elemental magic.",
+                image: "./images/pyroclasmicEssence.png",
+                buyPrice: "11,111,111",
+                sellPrice: "11,111,111",
+                itemID: "pyroclasmicEssence",
+                type: "collectible"
+            },
+            magmaticTorch: {
+                title: "Magmatic Torch",
+                description: "The Magmatic Torch is a blazing wonder, a handheld inferno that defies the boundaries of mundane fire sources. Crafted by the skilled hands of pyromancers and alchemists, this torch is a testament to the fusion of artistry and elemental mastery.",
+                image: "./images/magmaticTorch.png",
+                buyPrice: "5,210,000",
+                sellPrice: "2,605,000",
+                itemID: "magmaticTorch",
+                type: "collectible"
+            },
+            eternalFlameEssence: {
+                title: "Eternal Flame Essence",
+                description: "The Eternal Flame Essence is a legendary item steeped in myth and mystery. Said to hold the very essence of unending fire, it possesses power and significance that transcends the ordinary.",
+                image: "./images/eternalFlameEssence.png",
+                buyPrice: "3,250,000",
+                sellPrice: "1,625,000",
+                itemID: "eternalFlameEssence",
+                type: "collectible"
+            },
+            blackOil: {
+                title: "Black Oil",
+                description: "Black Oil, is a dark and heavy substance found in the wake of dormant volcanoes. This viscous fluid exudes an earthy, smoky scent, a somber reminder of the fiery forces that once roared beneath the earth's surface.",
+                image: "./images/blackOil.png",
+                buyPrice: "456,120",
+                sellPrice: "228,060",
+                itemID: "blackOil",
+                type: "collectible"
+            },
+            hotWater: {
+                title: "Hot Water",
+                description: "Hot water, while far from valuable, serves as a ubiquitous comfort in everyday life. It's a simple, easily attainable commodity, often taken for granted, yet cherished for its soothing warmth and myriad practical uses.",
+                image: "./images/hotWater.png",
+                buyPrice: "32,100",
+                sellPrice: "16,050",
+                itemID: "hotWater",
+                type: "collectible"
+            },
+            transparentGlass: {
+                title: "Transparent Glass",
+                description: "Transparent glass is a mundane and unremarkable material, commonly discarded without a second thought. It is a clear, see-through substance that serves as a basic building block for more intricate creations but holds little inherent value on its own.",
+                image: "./images/transparentGlass.png",
+                buyPrice: "18,230",
+                sellPrice: "9,115",
+                itemID: "transparentGlass",
+                type: "collectible"
+            },
+            salmon: {
+                title: "Salmon",
+                description: "The salmon, a sleek and resilient swimmer, journeys upstream, embodying determination and adaptability in its quest for survival and reproduction.",
+                image: "./images/salmon.png",
+                buyPrice: "26,201",
+                sellPrice: "26,201",
+                itemID: "salmon",
+                type: "Sellable"
+            },
+            smellyFish: {
+                title: "Smelly Fish",
+                description: "The smelly fish, known for its distinctive aroma, adds a pungent essence to the aquatic realm, creating a unique olfactory experience for underwater denizens.",
+                image: "./images/smellyFish.png",
+                buyPrice: "8,092",
+                sellPrice: "8,092",
+                itemID: "smellyFish",
+                type: "Sellable"
+            },
+            burnedFish: {
+                title: "Burned Fish",
+                description: "The burned fish, once a victim of overzealous cooking attempts, now swims with a crispy exterior, bringing a unique charred flavor to the underwater world. It's a fish with a tale of culinary misadventure.",
+                image: "./images/burnedFish.png",
+                buyPrice: "12,790",
+                sellPrice: "12,790",
+                itemID: "burnedFish",
+                type: "Sellable"
+            },
+            grumpyCatfish: {
+                title: "Grumpy Catfish",
+                description: "The grumpy fish, with its perpetually scowling expression, swims disdainfully through the waters, seemingly unimpressed by the aquatic world around it. Its gruff demeanor adds a touch of humor to the serene depths of the ocean.",
+                image: "./images/grumpyCatfish.png",
+                buyPrice: "52, 150",
+                sellPrice: "52, 150",
+                itemID: "grumpyCatfish",
+                type: "Sellable",
+            },
+            pancakeFish: {
+                title: "Pancake Fish",
+                description: "The pancake fish, with its flat and whimsical appearance, glides through the water resembling a delectable breakfast delight, adding a touch of playful charm to the aquatic environment.",
+                image: "./images/pancakeFish.png",
+                buyPrice: "16, 210",
+                sellPrice: "16, 210",
+                itemID: "pancakeFish",
+                type: "Sellable",
+            },
+            discoJellyfish: {
+                title: "Disco Jellyfish",
+                description: "The disco jellyfish, adorned with vibrant bioluminescent lights, pulses rhythmically through the ocean, turning the underwater world into a mesmerizing dance floor of colors and patterns.",
+                image: "./images/discoJellyfish.png",
+                buyPrice: "23, 191",
+                sellPrice: "23, 191",
+                itemID: "discoJellyfish",
+                type: "Sellable",
+            },
+            sodaCanfish: {
+                title: "Soda Canfish",
+                description: "The soda canfish, a quirky creation of underwater whimsy, glides through the depths with a metallic sheen, repurposing discarded cans into a whimsical aquatic spectacle.",
+                image: "./images/sodaCanfish",
+                buyPrice: "41,092",
+                sellPrice: "41,092",
+                itemID: "sodaCanfish",
+                type: "Sellable",
+            },
+            disguisedDiverfish: {
+                title: "Disguised Diverfish",
+                description: "The Disguised Diverfish is a cunning underwater artist, using its shimmering scales to blend seamlessly into its surroundings. A true master of aquatic illusion, this fish keeps you on your toes as it playfully evades capture beneath the waves.",
+                image: "./images/disguisedDiverfish.gif",
+                buyPrice: "39, 211,040",
+                sellPrice: "19, 605, 520",
+                itemID: "disguisedDiverfish",
+                type: "Collectible",
+            },
+            luminaFin: {
+                title: "Lumina Fin",
+                description: "The Lumina Fin, a radiant marvel of the deep sea. Its scales shimmer with an ethereal glow, casting a soft and enchanting light in the underwater world. A rare and graceful swimmer, the Lumina Fin is a captivating catch for those who seek the mystical beauty of the ocean.",
+                image: "./images/luminaFin.gif",
+                buyPrice: "32, 109, 214",
+                sellPrice: "16,054, 607",
+                itemID: "luminaFin",
+                type: "Collectible",
+            },
+            bubblegumBlowfish: {
+                title: "Bubblegum Blowfish",
+                description: "The Bubblegum Blowfish, a delightfully quirky resident of the ocean depths. With a vibrant palette of bubblegum hues, this cheerful fish adds a pop of color to the underwater landscape. Known for its amusing habit of blowing bubbles, the Bubblegum Blowfish is both a playful companion and a whimsical catch for adventurous anglers.",
+                image: "./images/bubblegumBlowfish",
+                buyPrice: "22, 150, 900",
+                sellPrice: "11,075, 450",
+                itemID: "bubblegumBlowfish",
+                type: "Collectible",
+            },
+            eliteAwakeningGem: {
+                title: "Elite Awakening Gem",
+                description: "The Elite Awakening Gem is a prestigious and powerful item within the Discord bot, allowing players to transcend their current limits and attain gold-tier loot awakens.",
+                buyPrice: "126, 920",
+                sellPrice: "63, 460",
+                type: "Power-up",
+                itemID: "eliteAwakeningGem",
+            },
+            awakeningGem: {
+                title: "Awakening Gem",
+                description: "The Awakening Gem is a prestigious and powerful item within the Discord bot, allowing players to transcend their current limits and attain gold-tier loot awakens.",
+                buyPrice: "17, 850",
+                sellPrice: "8, 925",
+                type: "Power-up",
+                itemID: "awakeningGem",
+                note: "Elite awakening gem exceeds the max limit of normal awakening gem ie, elite awakening gem gives better awakes than this (normal awakening gem)",
+            },
+            lavaLampEel: {
+                description: "The lava lamp eel, with its undulating movements and vibrant colors, mimics the mesmerizing flow of a lava lamp, creating an otherworldly and captivating presence in the depths of the ocean.",
+                title: "Lava lamp eel",
+                buyPrice: "78,210",
+                sellPrice: "78,210",
+                type: "Sellable",
+                itemID: "lavaLampEel",
+                image: "./images/lavaLampEel.png"
+            },
+            rubberDuckyfish: {
+                description: "The rubber duckyfish, a delightful fusion of bath toy and aquatic charm, floats merrily through the water, bringing a playful and whimsical spirit to the underwater world.",
+                title: "Rubber duckyfish",
+                buyPrice: "9,108",
+                sellPrice: "9,108",
+                type: "Sellable",
+                itemID: "rubberDuckyfish",
+                image: "./images/rubberDuckyfish.png"
+            },
+            sarcasticFringehead: {
+                description: "The sarcastic fringehead is a small, vibrant fish with a personality as bold as its colors, known for its comically exaggerated territorial displays and confrontational behavior.",
+                title: "Sarcastic fringehead",
+                buyPrice: "32,500",
+                sellPrice: "32,500",
+                type: "Sellable",
+                itemID: "sarcasticFringehead",
+                image: "./images/sarcasticFringehead.png"
+            },
+            toiletSeatLid: {
+                description: "The toilet seat lid: a humble yet essential accessory in the bathroom, diligently safeguarding against unexpected splashes and providing a temporary throne for contemplation.",
+                title: "Toilet seat lid",
+                buyPrice: "7,100",
+                sellPrice: "7,100",
+                type: "sellable",
+                itemID: "toiletSeatLid",
+                image: "./images/toiletSeatLid.png"
+            },
+            pirateParrotfish: {
+                description: "The pirate parrotfish, with its vibrant plumage and mischievous demeanor, sails through the seas embodying a swashbuckling charm, adding a touch of seafaring adventure to the underwater realm.",
+                title: "Pirate parrotfish",
+                buyPrice: "18,029",
+                sellPrice: "18,029",
+                type: "Sellable",
+                itemID: "pirateParrotfish",
+                image: "./images/pirateParrotfish.png"
+            },
+            alienAnglerfish: {
+                description: "The alien anglerfish, with its otherworldly appearance and luminescent lure, lurks in the depths like an extraterrestrial creature, casting an eerie glow in the mysterious abyss of the ocean.",
+                title: "Alien anglerfish",
+                buyPrice: "43,102",
+                sellPrice: "43,102",
+                type: "Sellable",
+                itemID: "alienAnglerfish",
+                image: "./images/alienAnglerfish.png"
+            },
+            ninjaStarfish: {
+                description: "The ninja starfish, swift and stealthy, navigates the ocean floor with the precision of a ninja, using its multiple arms like throwing stars to gracefully move through the underwater shadows.",
+                title: "Ninja starfish",
+                buyPrice: "80,500",
+                sellPrice: "80,500",
+                type: "Sellable",
+                itemID: "ninjaStarfish",
+                image: "./images/ninjaStarfish.png"
+            },
+            boot: {
+                description: "The boot, discarded and submerged, rests on the ocean floor, transformed into an unexpected habitat for marine life, showcasing nature's ability to adapt and repurpose even the most unlikely objects.",
+                title: "Boot",
+                buyPrice: "12,072",
+                sellPrice: "12,072",
+                type: "Sellable",
+                itemID: "boot",
+                image: "./images/boot.png"
+            },
+            bottle: {
+                description: "The bottle, drifting through the currents, carries the stories of distant shores and oceanic adventures, becoming a symbol of both human impact and the interconnectedness of the world's waters.",
+                title: "Bottle",
+                buyPrice: "2,321",
+                sellPrice: "2,321",
+                type: "Sellable",
+                itemID: "bottle",
+                image: "./images/bottle.png"
+            },
+            fishingRod: {
+                description: "The Fishing Rod is a versatile and robust instrument designed for anglers seeking the thrill of underwater exploration. Crafted from high-quality materials, it strikes a perfect balance between strength and sensitivity. The ergonomic handle provides a comfortable grip for long hours of fishing, and the precision reel ensures smooth casting and efficient line retrieval. Whether you're a seasoned fisherman or a novice adventurer, the Fishing Rod is your essential tool for reeling in aquatic treasures from the depths of the sea.",
+                title: "Fishing rod",
+                buyPrice: "1,000,000",
+                sellPrice: "500,000",
+                type: "Tool",
+                itemID: "fishingRod",
+                image: "./images/fishingRod.png"
+            },
+        };
+
+        let currentSearchTerm = "";
+
+        function search() {
+            var searchTerm = document.getElementById("searchInput").value;
+            var resultContainer = document.getElementById("result-container");
+            var suggestionsContainer = document.getElementById("suggestions");
+
+            resultContainer.innerHTML = ""; // Clear previous results
+            suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+
+            // If the search term is different, update suggestions
+            if (currentSearchTerm !== searchTerm) {
+                showSuggestions(searchTerm);
+                currentSearchTerm = searchTerm;
+                return;
+            }
+
+            // Fuzzy search options
+            var fuseOptions = {
+                keys: ["itemID"],
+                threshold: 0.4, // Adjust the threshold based on your preferences
+            };
+
+            var fuse = new Fuse(Object.values(itemData), fuseOptions);
+            var searchResults = fuse.search(searchTerm);
+
+            if (searchResults.length > 0) {
+                // Display the closest match
+                var closestMatch = searchResults[0].item;
+                displayResult(closestMatch);
+
+                // Update the URL with the closest match
+                window.location.hash = "#" + closestMatch.itemID;
+            } else {
+                // No exact match, show suggestions
+                showSuggestions(searchTerm);
+            }
+        }
+
+        function handleInput() {
+            var searchTerm = document.getElementById("searchInput").value;
+            var suggestionsContainer = document.getElementById("suggestions");
+            var resultContainer = document.getElementById("result-container");
+
+            // Show/hide suggestions based on input
+            if (searchTerm.trim() !== "") {
+                showSuggestions(searchTerm);
+            } else {
+                suggestionsContainer.style.display = "none";
+                resultContainer.style.marginTop = "20px";
+            }
+        }
+
+        function showSuggestions(searchTerm) {
+            var suggestionsContainer = document.getElementById("suggestions");
+            var searchInput = document.getElementById("searchInput");
+            var fuseOptions = {
+                keys: ["itemID"],
+                threshold: 0.4,
+            };
+
+            var fuse = new Fuse(Object.values(itemData), fuseOptions);
+            var searchResults = fuse.search(searchTerm);
+
+            suggestionsContainer.innerHTML = ""; // Clear previous suggestions
+
+            if (searchResults.length > 0) {
+                // Filter suggestions to show only if the search term matches the beginning
+                var filteredResults = searchResults.filter(result => result.item.itemID.toLowerCase().startsWith(searchTerm.toLowerCase()));
+
+                if (filteredResults.length > 0) {
+                    // Display suggestions
+                    suggestionsContainer.style.display = "block";
+                    suggestionsContainer.style.width = searchInput.offsetWidth + "px"; // Set width
+
+                    var suggestionDiv = document.createElement("div");
+
+                    filteredResults.forEach(result => {
+                        var suggestionP = document.createElement("p");
+                        suggestionP.classList.add("suggestion");
+
+                        // Bold the matched characters
+                        var regex = new RegExp(`(${searchTerm})`, 'i');
+                        suggestionP.innerHTML = result.item.itemID.replace(regex, '<strong>$1</strong>');
+
+                        suggestionP.addEventListener("click", function () {
+                            searchInput.value = result.item.itemID;
+                            suggestionsContainer.style.display = "none";
+                            search();
+                        });
+                        suggestionDiv.appendChild(suggestionP);
+                    });
+
+                    suggestionsContainer.appendChild(suggestionDiv);
+
+                    // Position the suggestions below the search input
+                    var rect = searchInput.getBoundingClientRect();
+                    suggestionsContainer.style.left = rect.left + "px";
+                    suggestionsContainer.style.top = rect.bottom + "px";
+                } else {
+                    suggestionsContainer.style.display = "none";
+                }
+            } else {
+                suggestionsContainer.style.display = "none";
+            }
+        }
+
+        function displayResult(item) {
+            var resultContainer = document.getElementById("result-container");
+            var resultDiv = document.createElement("div");
+            resultDiv.classList.add("search-result");
+
+            var textContentDiv = document.createElement("div");
+            textContentDiv.classList.add("text-content");
+
+            var titleElement = document.createElement("h2");
+            titleElement.textContent = item.title;
+
+            var descriptionElement = document.createElement("p");
+            descriptionElement.textContent = item.description;
+
+            var additionalInfoDiv = document.createElement("div");
+            additionalInfoDiv.classList.add("additional-info");
+
+            var buyPriceElement = document.createElement("p");
+            buyPriceElement.textContent = "Buy Price: " + item.buyPrice;
+
+            var sellPriceElement = document.createElement("p");
+            sellPriceElement.textContent = "Sell Price: " + item.sellPrice;
+
+            var typeElement = document.createElement("p");
+            typeElement.textContent = "Type: " + item.type;
+
+            var itemIDElement = document.createElement("p");
+            itemIDElement.textContent = "Item ID: " + item.itemID;
+
+            additionalInfoDiv.appendChild(buyPriceElement);
+            additionalInfoDiv.appendChild(sellPriceElement);
+            additionalInfoDiv.appendChild(typeElement); // Adding the type information
+            additionalInfoDiv.appendChild(itemIDElement);
+
+            textContentDiv.appendChild(titleElement);
+            textContentDiv.appendChild(descriptionElement);
+            textContentDiv.appendChild(additionalInfoDiv);
+
+            var imageElement = document.createElement("img");
+            imageElement.src = item.image;
+            imageElement.alt = item.title;
+            imageElement.draggable = false;
+
+            resultDiv.appendChild(textContentDiv);
+            resultDiv.appendChild(imageElement);
+
+            resultContainer.appendChild(resultDiv);
+
+            document.getElementById("no-results").style.display = "none";
+        }
+
+
+        document.getElementById("searchInput").addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                search();
+                console.log(closestMatch.itemID);
+                searchInput.textContent = ""
+            } else {
+                // Show suggestions while typing
+                showSuggestions(this.value);
+            }
+        });
+
+        // Check for hash in the URL and show item info if present
+        window.onload = function () {
+            var hash = window.location.hash.substr(1);
+            if (hash && itemData.hasOwnProperty(hash)) {
+                displayResult(itemData[hash]);
+            }
+        };
+
+        // Update the URL on search
+        function updateURL(searchTerm) {
+            window.location.hash = "#" + searchTerm;
+        }
+        document.getElementById("searchInput").addEventListener("keydown", function (event) {
+            var suggestionsContainer = document.getElementById("suggestions");
+            var currentSearchTerm = "";
+            var selectedSuggestionIndex = -1;
+
+            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                event.preventDefault(); // Prevents the cursor from moving in the input field
+                handleArrowKeyPress(event.key);
+            } else if (event.key === "Enter") {
+                event.preventDefault(); // Prevents the form from being submitted
+                handleEnterKeyPress();
+            }
+        });
+
+        function handleArrowKeyPress(key) {
+            var suggestionsContainer = document.getElementById("suggestions");
+            var suggestionElements = suggestionsContainer.children;
+
+            if (suggestionElements.length === 0) {
+                return;
+            }
+
+            if (key === "ArrowDown") {
+                selectedSuggestionIndex = (selectedSuggestionIndex + 1) % suggestionElements.length;
+            } else if (key === "ArrowUp") {
+                selectedSuggestionIndex = (selectedSuggestionIndex - 1 + suggestionElements.length) % suggestionElements.length;
+            }
+
+            highlightSelectedSuggestion();
+            scrollSuggestionIntoView();
+        }
+
+        function scrollSuggestionIntoView() {
+            var suggestionsContainer = document.getElementById("suggestions");
+            var suggestionElements = suggestionsContainer.children;
+
+            if (selectedSuggestionIndex !== -1) {
+                var selectedSuggestion = suggestionElements[selectedSuggestionIndex];
+                selectedSuggestion.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                });
+            }
+        }
+
+        // Rest of the code remains unchanged
+
+        function highlightSelectedSuggestion() {
+            var suggestionsContainer = document.getElementById("suggestions");
+
+            var suggestionElements = suggestionsContainer.children;
+
+            for (var i = 0; i < suggestionElements.length; i++) {
+                suggestionElements[i].classList.remove("selected");
+            }
+            var currentSearchTerm = "";
+            var selectedSuggestionIndex = -1
+            if (selectedSuggestionIndex !== -1) {
+                suggestionElements[selectedSuggestionIndex].classList.add("selected");
+            }
+        }
+    </script>
 </body>
 
 </html>

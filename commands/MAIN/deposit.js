@@ -14,20 +14,20 @@
 //       client.users.cache.get(args[0]) ||
 //       message.author;
 //     let amount = args[0];
-//     const tokenDB = db.fetch(`${user.id}.oyOtoken`);
+//     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
 //     if (!tokenDB) {
 //       message.channel.send(
 //         `${user} your Oyo token is not registered yet , type Oyo token me to set your Oyo token`
 //       );
 //     } else {
-//       let money = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
-//       let moneyBank = await db.fetch(`money_${user.id}.${tokenDB}.bank`);
+//       let money = await db.fetch(`money_${tokenDB}.pocket`);
+//       let moneyBank = await db.fetch(`money_${tokenDB}.bank`);
 //       // put comma in numbers
 //       if (amount == "max") {
 //         if (money > moneyCap.moneyCap) {
 //           message.channel.send(`${user} you cannot deposit that much !`);
 //         } else {
-//           money = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
+//           money = await db.fetch(`money_${tokenDB}.pocket`);
 
 //           let embedbank = new Discord.MessageEmbed()
 //             .setColor("#FFFFFF")
@@ -36,8 +36,8 @@
 //           if (money === 0 || money === null)
 //             return message.channel.send(embedbank);
 
-//           await db.add(`money_${user.id}.${tokenDB}.bank`, money);
-//           await db.subtract(`money_${user.id}.${tokenDB}.pocket`, money);
+//           await db.add(`money_${tokenDB}.bank`, money);
+//           await db.subtract(`money_${tokenDB}.pocket`, money);
 //           let embed5 = new Discord.MessageEmbed()
 //             .setColor("#FFFFFF")
 //             .setDescription(
@@ -47,11 +47,11 @@
 //         }
 //       } else if (moneyBank == moneyCap.moneyCap) {
 //         message.channel.send(
-//           `You cannot put more money in your bank more than the limit of 1,500,000,000`
+//           `You cannot put more money in your bank more than the max limit`
 //         );
 //       } else if (moneyBank + amount > moneyCap.moneyCap) {
 //         message.channel.send(
-//           `You cannot put more money in your bank more than the limit of 1,500,000,000`
+//           `You cannot put more money in your bank more than the max limit`
 //         );
 //       } else {
 //         let embed2 = new Discord.MessageEmbed()
@@ -84,8 +84,8 @@
 //             )} __**oyons**__ <:Oyon:949194574344114196> into your bank`
 //           );
 
-//         db.subtract(`money_${user.id}.${tokenDB}.pocket`, parseInt(amount));
-//         db.add(`money_${user.id}.${tokenDB}.bank`, parseInt(amount));
+//         db.subtract(`money_${tokenDB}.pocket`, parseInt(amount));
+//         db.add(`money_${tokenDB}.bank`, parseInt(amount));
 
 //         message.channel.send(embed5);
 //       }

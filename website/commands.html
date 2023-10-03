@@ -45,6 +45,7 @@
             padding: 8px;
             /* Adjusted padding */
             border-radius: 5px;
+            cursor: pointer;
             background-color: #dcdcdc;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s ease;
@@ -164,6 +165,48 @@
                 /* Adjusted font size */
             }
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: red;
+            background: #000;
+            width: 40px;
+            height: 30px;
+            /* Set the close button color to red */
+        }
+
+        .close:hover {
+            color: darkred;
+            /* Change color on hover if desired */
+        }
     </style>
 </head>
 
@@ -171,35 +214,105 @@
     <div class="commands-container">
         <h1>COMMANDS LIST</h1>
         <ol>
-            <li>1. token me.x</li>
-            <li>2. gw.x</li>
-            <li>3. equip [weaponID].x</li>
-            <li>4. play hit.x</li>
-            <li>5. farm hit.x</li>
-            <li>6. awaken.x</li>
-            <li>7. awaken elite.x</li>
-            <li>8. buy [itemID].x</li>
-            <li>9. stats.x</li>
-            <li>10. bal.x</li>
-            <li>11. aps.x</li>
-            <li>12. info.x</li>
-            <li>13. updates.x</li>
-            <li>14. inv.x</li>
-            <li>16. wepInfo [weaponID].x</li>
-            <li>17. craft.x</li>
-            <li>18. craft [itemID].x</li>
-            <li>19. promocode [code here].x</li>
-            <li>20. store.x</li>
-            <li>21. store buy [itemID].x</li>
-            <li>22. attack [user].x</li>
-            <li>23. tos.x</li>
-            <li>24. tos accept.x</li>
-            <li>25. sell trashItems.x</li>
-            <li>26. event.x</li>
-            <li>27. damage hit.x</li>
-            <li>28. fish.x</li>
+            <li
+                onclick="showModal('Command info (token me.x)', 'If you are not registered to the mysterionix discord bot then it registers you to it and sends you a bot generated token . It saves most of your bot data in your token . If you are not registered then you cannot use any of the bot commands. And if you are registered then it just simply sends your token to your dms')">
+                1. token me.x</li>
+            <li onclick="showModal('Command info (gw.x)', 'Using this command grants you a free weapon!')">
+                2. gw.x</li>
+            <li
+                onclick="showModal('Command info (equip.x)', 'You can equip any equippable thing such as weapon/vanity . Command usage : equip [itemID].x')">
+                3. equip.x</li>
+            <li
+                onclick="showModal('Command info (play hit.x)', 'Use this command to spawn ongoing event boss and kill the boss by reacting down of the embed.')">
+                4. play hit.x</li>
+            <li
+                onclick="showModal('Command info (farm hit.x)', 'Use this command to farm stuff (like ruix , materials etc..)')">
+                5. farm hit.x</li>
+            <li
+                onclick="showModal('Command info (awaken.x)', 'Use this command to awaken (not a weapon , its like just awaken for your account. Requires an awakening gem.)')">
+                6. awaken.x</li>
+            <li
+                onclick="showModal('Command info (elite awaken.x)', 'Use this command to awaken (not a weapon , its like just awaken for your account) gives better awakenings than normal gem. Requires an elite awakening gem.')">
+                7. elite awaken.x</li>
+            <li
+                onclick="showModal('Command info (buy.x)', 'Use this command to buy an item in the discord bot . Command usage : buy [itemID] [numberOfPieces].x')">
+                8. buy.x</li>
+            <li
+                onclick="showModal('Command info (stats.x)', 'Use this command to check your stats (eg. weapon damage , military power , your awakening etc..)')">
+                9. stats.x</li>
+            <li
+                onclick="showModal('Command info (bal.x)', 'Use this command to check your balance , inventory net worth and total net worth')">
+                10. bal.x</li>
+            <li
+                onclick="showModal('Command info (aps.x)', 'Use this command to check your unaccomplished achievements and their progress!')">
+                11. aps.x</li>
+            <li
+                onclick="showModal('Command info (info.x)', 'Use this command to check your info (Eg. bosses killed, title , aps etc..)')">
+                12. info.x</li>
+            <li
+                onclick="showModal('Command info (updates.x)', 'Use this command to check recent updates done to the bot')">
+                13. updates.x</li>
+            <li
+                onclick="showModal('Command info (inv.x)', 'Use this command to check your inventory (8 items per page) then you can click on the arrows to go next page and previous page')">
+                14. inv.x</li>
+            <li
+                onclick="showModal('Command info (wepInfo.x)', 'Use this command to check a weapon info. Usage example : wepInfo [weaponID].x')">
+                15. wepInfo.x</li>
+            <li
+                onclick="showModal('Command info (craft.x)', 'Use this command to craft an item . Usage example : craft [itemID].x')">
+                16. craft.x</li>
+            <li
+                onclick="showModal('Command info (promocode.x)', 'Use this command to redeem a promo code . Usage example : promocode [code here].x')">
+                17. promocode.x</li>
+            <li
+                onclick="showModal('Command info (store.x)', 'Use this command to check the premium store (ruix) . command usage : store buy [itemID] [numberOfPieces].x . NOTE : number of pieces is sometimes not required')">
+                18. store.x</li>
+            <li
+                onclick="showModal('Command info (attack.x)', 'Use this command to attack a user . The opponent and you should have atleast 25 soldiers and you should have a bullet too , the one who has higher military power wins and gets 1 victory and war points. Usage example : attack [mentionUser].x')">
+                19. attack.x</li>
+            <li
+                onclick="showModal('Command info (tos.x)', 'Use this command to check terms of service for using the bot and use the command tos accept.x to accept the tos and start playing!')">
+                20. tos.x</li>
+            <li
+                onclick="showModal('Command info (sell trashItems.x)', 'Use this command to sell all the trash items in your inventory')">
+                21. sell trashItems.x</li>
+            <li onclick="showModal('Command info (event.x)', 'Use this command to check event info')">
+                22. event.x</li>
+            <li
+                onclick="showModal('Command info (damage hit.x)', 'Use this command to play in the premium zone with the most powerful monster ever exists in the discord bot (requires a each time you wanna play). Has a good chance to drop a good item')">
+                23. damage hit.x</li>
+            <li
+                onclick="showModal('Command info (fish.x)', 'Use this command to play fishing mode (requires a fishing rod [one time cost])')">
+                24. fish.x</li>
         </ol>
-    </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="hideModal()">&times;</span>
+                <h2 id="modalTitle"></h2>
+                <p id="modalText"></p>
+            </div>
+
+        </div>
+
+        <script>
+            // JavaScript functions
+            function showModal(title, text) {
+                document.getElementById("modalTitle").innerHTML = title;
+                document.getElementById("modalText").innerHTML = text;
+                document.getElementById("myModal").style.display = "flex";
+            }
+
+            function hideModal() {
+                document.getElementById("myModal").style.display = "none";
+            }
+
+            // Close the modal if the user clicks outside the modal content
+            window.onclick = function (event) {
+                if (event.target == document.getElementById("myModal")) {
+                    hideModal();
+                }
+            };
+        </script>
 </body>
 
 </html>

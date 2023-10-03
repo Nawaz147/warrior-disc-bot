@@ -4,6 +4,7 @@ const config = require("../../config.json");
 const prices = require("../../prices.json");
 const startFunction = require("../../startCommandFunction.js");
 const moneyCap = config.moneyCap;
+const icons = require("../../itemIcons.json");
 
 module.exports = {
   name: "award",
@@ -59,9 +60,10 @@ module.exports = {
       const tradeEmbed = new Discord.MessageEmbed()
         .setTitle(`Awarded`)
         .setDescription(
-          `Hey ${mentionedUser} , you have been awarded [${fullNameItem} x ${amountOfPieces}] by <@768747976767832084>`
+          `Hey ${mentionedUser} , you have been awarded [${amountOfPieces}x ${icons[itemID]} ${fullNameItem}] by <@768747976767832084>`
         )
-        .setTimestamp();
+        .setTimestamp()
+        .setColor(`#2B2D31`);
       db.add(`${itemID}_${tokenDBMentioned}`, amountOfPieces);
 
       message.channel.send(tradeEmbed);

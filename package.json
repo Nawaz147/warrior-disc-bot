@@ -66,6 +66,7 @@
     "sourcebin_js": "^0.0.2",
     "srod-v2": "^1.0.2",
     "srod-v3": "^1.0.2",
+    "string-similarity": "^4.0.4",
     "superagent": "^7.1.1",
     "tech-tip-cyber": "^1.2.3",
     "tinyurl": "^1.1.7",
