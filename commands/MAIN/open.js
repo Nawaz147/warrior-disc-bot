@@ -23,7 +23,8 @@ module.exports = {
       if (args[0]) {
         if (
           args[0] == "unlockedCrateOfEnergy" ||
-          args[0] == "monarchSlayerTitle"
+          args[0] == "monarchSlayerTitle" ||
+          args[0] == "mysterionixPro"
         ) {
           const unlockedCrateOfEnergy =
             db.fetch(`unlockedCrateOfEnergy_${tokenDB}`) || 0;
@@ -135,6 +136,18 @@ module.exports = {
               message.channel.send(rewardEmbed);
               db.set(`monarchSlayerTitleOpened_${tokenDB}`, true);
               db.subtract(`monarchSlayerTitle_${tokenDB}`, 1);
+            }
+          } else if (args[0] == "mysterionixPro") {
+            var mysterionixPro = db.fetch(`mysterionixPro_${tokenDB}`) || 0;
+            if (mysterionixPro > 0) {
+              const rewardEmbed = new Discord.MessageEmbed()
+                .setTitle(user.username)
+                .setDescription(`Mysterionix pro activated`)
+                .setFooter(`You cannot sell it now`)
+                .setColor("#228B22");
+              message.channel.send(rewardEmbed);
+              db.set(`mysterionixProActivated_${tokenDB}`, true);
+              db.subtract(`mysterionixPro_${tokenDB}`, 1);
             }
           }
         } else {

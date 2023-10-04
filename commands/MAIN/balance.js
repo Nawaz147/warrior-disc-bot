@@ -27,6 +27,14 @@ module.exports = {
     }
     db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      var balancePrivate = db.fetch(`balancePrivate_${tokenDB}`) || false;
+      if (balancePrivate == true && message.mentions.users.first()) {
+        const balancePrivateEmbed = new Discord.MessageEmbed()
+          .setDescription(`${user.username}'s balance is private!`)
+          .setColor(`#2B2D31`);
+        message.channel.send(balancePrivateEmbed);
+        return;
+      }
       let bal = await db.fetch(`money_${tokenDB}.pocket`);
       let ruix = await db.fetch(`ruix_${tokenDB}`);
       let keys = await db.fetch(`key_${tokenDB}`);
@@ -312,91 +320,110 @@ module.exports = {
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       bal = bal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      var mysterionixProActivated =
+        db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
+      if (mysterionixProActivated == true) {
+        var channel = message.guild;
+        const displayName = user.username;
 
-      const balanceEmbed = new Discord.MessageEmbed()
-        .setTitle(`${user.username}'s balance`)
-        .addField(
-          `Gold coins`,
-          `<:goldCoin:1156621221761388676> ${bal} (${netWorthBalPercentage}%)`,
-          true
-        )
-        .addField(`Ruix`, `<a:ruix:1153892039742726246> ${ruix}`, true)
-        .addField(`Keys`, `<:key:1157324619318050906> ${keys}`, true)
-        .addField(
-          `Inventory net`,
-          `<:goldCoin:1156621221761388676> ${netWorthInv} (${netWorthInvPercentage}%)`,
-          true
-        )
-        .addField(
-          `Total net`,
-          `<:goldCoin:1156621221761388676> ${netWorthTotal}`,
-          true
-        )
-        .setFooter(`The percentage shown is the percentage of total net worth`)
-        .setTimestamp();
-      balanceEmbed.setColor(`#2B2D31`);
-      message.channel.send(balanceEmbed);
-      // var channel = message.guild;
-      // const displayName = user.username;
+        const nameFontSize = Math.min(35, 400 / displayName.length);
 
-      // const nameFontSize = Math.min(35, 400 / displayName.length);
+        let canvas = Canvas.createCanvas(400, 200);
+        let ctx = canvas.getContext("2d");
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // let canvas = Canvas.createCanvas(400, 200);
-      // let ctx = canvas.getContext("2d");
-      // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 0.5;
+        const background = await Canvas.loadImage(
+          "https://i.ibb.co/NnD4KZk/517194.jpg"
+        );
 
-      // ctx.globalAlpha = 0.5;
-      // const background = await Canvas.loadImage(
-      //   "https://i.ibb.co/NnD4KZk/517194.jpg"
-      // );
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1;
 
-      // ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      // ctx.globalAlpha = 1;
+        ctx.font = `${nameFontSize}px Impact`;
+        ctx.fillStyle = "#99DF26";
+        ctx.textAlign = "center";
+        ctx.fillText(`${displayName}'s Balance`, canvas.width / 2, 40);
 
-      // ctx.font = `${nameFontSize}px Impact`;
-      // ctx.fillStyle = "#99DF26";
-      // ctx.textAlign = "center";
-      // ctx.fillText(`${displayName}'s Balance`, canvas.width / 2, 40);
+        ctx.font = "23px Kelpt A1";
+        ctx.fillStyle = "#E1B530";
 
-      // ctx.font = "23px Kelpt A1";
-      // ctx.fillStyle = "#E1B530";
+        const textYPositions = {
+          goldCoins: 85,
+          ruix: 125,
+          keys: 160,
+        };
 
-      // const textYPositions = {
-      //   goldCoins: 85,
-      //   ruix: 125,
-      //   keys: 160,
-      // };
+        ctx.fillStyle = "#E1B530";
+        ctx.fillText(`Gold coins :`, 55, textYPositions.goldCoins);
+        ctx.fillStyle = "#00FF00";
+        ctx.fillText(`Ruix :`, 34, textYPositions.ruix);
+        ctx.fillStyle = "#00E1DF";
+        ctx.fillText(`Keys :`, 34, textYPositions.keys);
 
-      // ctx.fillStyle = "#E1B530";
-      // ctx.fillText(`Gold coins :`, 55, textYPositions.goldCoins);
-      // ctx.fillStyle = "#00FF00";
-      // ctx.fillText(`Ruix :`, 34, textYPositions.ruix);
-      // ctx.fillStyle = "#00E1DF";
-      // ctx.fillText(`Keys :`, 34, textYPositions.keys);
+        ctx.fillStyle = "#E1B530";
+        ctx.fillText(bal, 150, textYPositions.goldCoins);
+        ctx.fillStyle = "#00FF00";
+        ctx.fillText(ruix, 150, textYPositions.ruix);
+        ctx.fillStyle = "#00E1DF";
+        ctx.fillText(keys, 150, textYPositions.keys);
 
-      // ctx.fillStyle = "#E1B530";
-      // ctx.fillText(bal, 150, textYPositions.goldCoins);
-      // ctx.fillStyle = "#00FF00";
-      // ctx.fillText(ruix, 150, textYPositions.ruix);
-      // ctx.fillStyle = "#00E1DF";
-      // ctx.fillText(keys, 150, textYPositions.keys);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "16px Montserrat";
 
-      // ctx.fillStyle = "#ffffff";
-      // ctx.font = "16px Montserrat";
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let fullDate = `${day}.${month}.${year}.`;
 
-      // let date = new Date();
-      // let day = date.getDate();
-      // let month = date.getMonth() + 1;
-      // let year = date.getFullYear();
-      // let fullDate = `${day}.${month}.${year}.`;
+        ctx.fillText(`Date: ${fullDate}`, canvas.width / 1.2, 190);
 
-      // ctx.fillText(`Date: ${fullDate}`, canvas.width / 1.2, 190);
+        const balanceMessage = new Discord.MessageEmbed()
+          .setTitle(`Requested by ${message.author.username}`)
+          .setColor("#00FF00")
+          .attachFiles([{ attachment: canvas.toBuffer(), name: "balance.png" }])
+          .setImage("attachment://balance.png")
+          .addField(
+            `Inventory net`,
+            `<:goldCoin:1156621221761388676> ${netWorthInv} (${netWorthInvPercentage}%)`,
+            true
+          )
+          .addField(
+            `Total net`,
+            `<:goldCoin:1156621221761388676> ${netWorthTotal}`,
+            true
+          )
+          .setTimestamp();
 
-      // const balanceMessage = new Discord.MessageEmbed()
-      //   .setTitle(`Requested by ${message.author.username}`)
-      //   .setColor("#00FF00")
-      //   .attachFiles([{ attachment: canvas.toBuffer(), name: "balance.png" }])
-      //   .setImage("attachment://balance.png");
+        message.channel.send(balanceMessage);
+      } else {
+        const balanceEmbed = new Discord.MessageEmbed()
+          .setTitle(`${user.username}'s balance`)
+          .addField(
+            `Gold coins`,
+            `<:goldCoin:1156621221761388676> ${bal} (${netWorthBalPercentage}%)`,
+            true
+          )
+          .addField(`Ruix`, `<a:ruix:1153892039742726246> ${ruix}`, true)
+          .addField(`Keys`, `<:key:1157324619318050906> ${keys}`, true)
+          .addField(
+            `Inventory net`,
+            `<:goldCoin:1156621221761388676> ${netWorthInv} (${netWorthInvPercentage}%)`,
+            true
+          )
+          .addField(
+            `Total net`,
+            `<:goldCoin:1156621221761388676> ${netWorthTotal}`,
+            true
+          )
+          .setFooter(
+            `The percentage shown is the percentage of total net worth`
+          )
+          .setTimestamp();
+        balanceEmbed.setColor(`#2B2D31`);
+        message.channel.send(balanceEmbed);
+      }
 
       // Cache the balance data for this user for a limited time (e.g., 5 minutes)
     }

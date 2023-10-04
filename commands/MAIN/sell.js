@@ -199,10 +199,6 @@ module.exports = {
                 });
 
                 // End collector after the specified time
-                collector.on("end", (collected, reason) => {
-                  if (reason === "time") {
-                  }
-                });
               }
             }
             var rustyGears = db.fetch(`rustyGears_${tokenDB}`) || 0;

@@ -326,7 +326,7 @@ module.exports = {
           const itemInfoEmbed = new Discord.MessageEmbed().setColor(`#2B2D31`);
           if (item == "valoriumsEclipsianSoul") {
             itemInfoEmbed.setDescription(`
-Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow`);
+            Legend has it that this shimmering, obsidian gem contains a fragment of the very essence of Valorium, the ancient and enigmatic boss who once ruled the shadows. The Eclipsian Soul radiates an eerie, otherworldly aura, and its surface seems to ripple with a faint, celestial glow`);
             itemInfoEmbed.setTitle(`Valorium's eclipsian soul`);
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item

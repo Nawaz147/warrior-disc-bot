@@ -33,6 +33,8 @@ module.exports = {
         db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
         if (!args[0] || args[0].toLowerCase() !== "craft") {
           const items = {
+            "<a:mysterionixPro:1159100552299429908> Mysterionix pro":
+              db.fetch(`mysterionixPro_${tokenDB}`) || 0,
             "<a:moonsShineOfMetalSword:1154071077954269245> Moon's shine of metal sword":
               db.fetch(`moonsShineOfMetalSword_${tokenDB}`) || 0,
             "<a:mysticRuneOfResilience:1149382045911494738> Mystic rune of resilience":
@@ -208,6 +210,7 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<a:mysterionixPro:1159100552299429908> Mysterionix pro": "Premium",
             "<a:disguisedDiverfish:1158038321537241098> Disguised diverfish":
               "Collectible",
             "<a:luminaFin:1158034789614497813> Lumina fin": "Collectible",

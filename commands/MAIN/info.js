@@ -23,6 +23,14 @@ module.exports = {
       startFunction(message, args, client);
     }
     if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+      var infoPrivate = db.fetch(`infoPrivate_${tokenDB}`) || false;
+      if (infoPrivate == true && message.mentions.users.first()) {
+        const infoPrivateEmbed = new Discord.MessageEmbed()
+          .setDescription(`${user.username}'s info is private!`)
+          .setColor(`#2B2D31`);
+        message.channel.send(infoPrivateEmbed);
+        return;
+      }
       db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
       var bossesKilledTotal = db.fetch(`bossesKilledTotal_${tokenDB}`);
       if (bossesKilledTotal == null || bossesKilledTotal == undefined || NaN) {
@@ -426,34 +434,68 @@ module.exports = {
       } else {
         thumbnailLink = "";
       }
-      // Create an embed
-      const embed = new Discord.MessageEmbed()
-        .setColor("#2B2D31")
-        .setTitle(`${user.username}'s Info`)
-        .setThumbnail(thumbnailLink);
-      if (auroraGaze > 0) {
-        // Modify the color of the embed after 5 seconds
-        embed.setFooter(`👀`);
-      }
-      if (abyssalCrownOfDominance > 0) {
-        embed.setTitle(
-          `<a:abyssalCrownOfDominience:1149551849192575048> ${user.username}'s Info`
-        );
-      }
-      // Add information pairs to the embed in groups of 2
-      for (let i = 0; i < infoPairs.length; i += 2) {
-        const pair1 = infoPairs[i];
-        const pair2 = infoPairs[i + 1];
+      const mysterionixProActivated =
+        db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
+      if (mysterionixProActivated == true) {
+        const embed = new Discord.MessageEmbed()
+          .setColor("#3498db")
+          .setTitle(`${user.username}'s Info`)
+          .setThumbnail(thumbnailLink)
+          .setFooter(auroraGaze > 0 ? "👀" : "")
+          .setDescription(
+            "Here's a detailed overview of your account information. Explore and conquer!"
+          );
 
-        // Add each pair to the embed
-        embed.addField(pair1.name, pair1.value, true);
+        // Add information pairs to the embed in groups of 2
+        for (let i = 0; i < infoPairs.length; i += 2) {
+          const pair1 = infoPairs[i];
+          const pair2 = infoPairs[i + 1];
 
-        // If there's a second pair, add it as well
-        if (pair2) {
-          embed.addField(pair2.name, pair2.value, true);
+          // Add each pair to the embed
+          embed.addField(
+            pair1.name,
+            pair1.value === undefined ? "N/A" : pair1.value,
+            true
+          );
+
+          // If there's a second pair, add it as well
+          if (pair2) {
+            embed.addField(
+              pair2.name,
+              pair2.value === undefined ? "N/A" : pair2.value,
+              true
+            );
+          }
+        }
+      } else {
+        // Create an embed
+        const embed = new Discord.MessageEmbed()
+          .setColor("#2B2D31")
+          .setTitle(`${user.username}'s Info`)
+          .setThumbnail(thumbnailLink);
+        if (auroraGaze > 0) {
+          // Modify the color of the embed after 5 seconds
+          embed.setFooter(`👀`);
+        }
+        if (abyssalCrownOfDominance > 0) {
+          embed.setTitle(
+            `<a:abyssalCrownOfDominience:1149551849192575048> ${user.username}'s Info`
+          );
+        }
+        // Add information pairs to the embed in groups of 2
+        for (let i = 0; i < infoPairs.length; i += 2) {
+          const pair1 = infoPairs[i];
+          const pair2 = infoPairs[i + 1];
+
+          // Add each pair to the embed
+          embed.addField(pair1.name, pair1.value, true);
+
+          // If there's a second pair, add it as well
+          if (pair2) {
+            embed.addField(pair2.name, pair2.value, true);
+          }
         }
       }
-
       // Send the embed
       message.channel.send(embed);
     }
