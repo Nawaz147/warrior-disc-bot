@@ -132,9 +132,13 @@ module.exports = {
       };
 
       const embed = new Discord.MessageEmbed()
-        .setTitle(`${user.username}'s Unaccomplished Achievements`)
-        .setColor("#00FF00")
-        .setFooter(`APS - ${achievementPoints} / 8390`);
+        .setTitle(`🏆 ${user.username}'s Achievements`)
+        .setColor("#3498db")
+        .setDescription(
+          `**Achievement Points (APS):** ${achievementPoints.toLocaleString()} / 8390`
+        )
+        .setFooter("Mysterionix Achievements System")
+        .setTimestamp();
 
       // Filter out the achieved achievements
       const remainingAchievements = allAchievements.filter(

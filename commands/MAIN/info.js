@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 const prices = require("../../prices.json");
 const startFunction = require("../../startCommandFunction.js");
+const token = require("./token");
 
 module.exports = {
   name: "info",
@@ -396,7 +397,8 @@ module.exports = {
       netWorth = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       db.set(`netWorth_${tokenDB}`, netWorth);
       db.set(`username_${tokenDB}`, { name: user.username });
-      const tokenCreationDate = db.fetch(`${user.id}.tokenCreationDate`);
+      const tokenCreationDate =
+        db.fetch(`tokenCreationDate_${tokenDB}`) || "error";
       const currentDate = new Date();
       const creationDateParts = tokenCreationDate.split(".");
       const creationDate = new Date(
@@ -495,9 +497,9 @@ module.exports = {
             embed.addField(pair2.name, pair2.value, true);
           }
         }
+        message.channel.send(embed);
       }
       // Send the embed
-      message.channel.send(embed);
     }
   },
 };

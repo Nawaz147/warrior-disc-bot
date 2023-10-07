@@ -1,4 +1,6 @@
 const canvacord = require("canvacord");
+const axios = require("axios");
+
 const {
   Client,
   Collection,
@@ -6,6 +8,8 @@ const {
   MessageButton,
   MessageActionRow,
 } = require("discord.js");
+//sk-bDum7CqaRGM2tEeVjgdRT3BlbkFJh74o1hT2BXIJ7EwU3neXz
+
 const { config } = require("dotenv");
 const { suffix, db, token } = require("./config.json");
 const datab = require("quick.db");
@@ -20,6 +24,10 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MEMBERS,
   ],
+});
+const OpenAI = require("openai");
+const openai = new OpenAI({
+  apiKey: "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",
 });
 const api = require("srod-v2");
 const { Player } = require("discord-player");
@@ -214,8 +222,46 @@ client.on("message", async (message) => {
 });
 
 // ... (your existing imports)
+const RiveScript = require("rivescript");
 
+const rs = new RiveScript();
+rs.loadFile([
+  "./brain.rive", // Add your own RiveScript files here
+])
+  .then(() => {
+    console.log("RiveScript files loaded!");
+  })
+  .catch((err) => {
+    console.error("Error loading RiveScript files:", err);
+  });
 client.on("message", async (message) => {
+  // Load your RiveScript files (you can customize these files for your responses)
+  if (message.content.startsWith(".ai ")) {
+    const tokenDB = datab.fetch(`${message.author.id}.valoriumToken`);
+    const mysterionixProActivated =
+      datab.fetch(`mysterionixProActivated_${tokenDB}`) || false;
+    if (mysterionixProActivated == true) {
+      const userMessage = message.content.slice(".ai ".length).trim();
+      rs.sortReplies();
+      const botReply = await rs.reply("user", userMessage);
+
+      console.log(`User: ${userMessage}`);
+      console.log(`Bot: ${botReply}`);
+
+      // Reply to the user
+      message.reply(botReply);
+    } else {
+      const premiumUserEmbed = new Discord.MessageEmbed()
+        .setTitle("Premium Command")
+        .setDescription(
+          `This ai is only for premium users. Upgrade to Mysterionix Pro for exclusive benefits!`
+        )
+        .setColor("#ffd700")
+        .setThumbnail("https://i.ibb.co/SwtWtK5/mysterionix-pro-final.gif");
+      message.channel.send(premiumUserEmbed);
+    }
+  }
+
   if (message.channel.type == "dm") {
     if (message.content == "fish.x") {
       message.channel.send(`This command is server limited`);
@@ -260,7 +306,6 @@ client.on("message", async (message) => {
   if (message.guild) {
     const tokenDB = datab.fetch(`${message.author.id}.valoriumToken`);
     const tokenUser = datab.fetch(`nameofUser_${message.author}`);
-
     if (message.content.includes(tokenDB)) {
       message.delete().then(async () => {
         var alertEmbed = new Discord.MessageEmbed()
@@ -304,6 +349,7 @@ client.on("message", async (message) => {
   } else {
     // Handle DM commands here
     if (message.content.endsWith(suffix)) {
+      console.log("yo");
       const args = message.content.trim().slice(0, -suffix.length).split(/ +/g);
       const cmd = args.shift().toLowerCase();
 

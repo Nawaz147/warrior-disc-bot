@@ -90,7 +90,15 @@ module.exports = {
           }
         }
       } else {
-        message.channel.send(`This command is only for premium users`);
+        const premiumUserEmbed = new Discord.MessageEmbed()
+          .setTitle("Premium Command")
+          .setDescription(
+            `This command is only for premium users. Upgrade to Mysterionix Pro for exclusive benefits!`
+          )
+          .setColor("#ffd700")
+          .setThumbnail("https://i.ibb.co/SwtWtK5/mysterionix-pro-final.gif");
+        message.channel.send(premiumUserEmbed);
+        return;
       }
     }
   },

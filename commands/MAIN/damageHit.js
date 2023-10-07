@@ -273,7 +273,6 @@ module.exports = {
                 if (reaction.emoji.name === "orbSkill") {
                   var mysterionixProActivated =
                     db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
-                  var key = db.fetch(`key_${tokenDB}`) || 0;
                   if (mysterionixProActivated == true) {
                     const weaponDamage =
                       db.fetch(`weaponDamage_${tokenDB}`) || 0;
@@ -369,7 +368,6 @@ module.exports = {
                           .setFooter(
                             "A legendary victory that will be told for ages!"
                           );
-                      db.subtract(`key_${tokenDB}`, 1);
                       message.channel.send(
                         eldrazurTheAbyssalTyrantBossDeadEmbed
                       );
@@ -701,7 +699,6 @@ module.exports = {
                 if (reaction.emoji.name == "hit") {
                   var mysterionixProActivated =
                     db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
-                  var key = db.fetch(`key_${tokenDB}`) || 0;
                   if (mysterionixProActivated == true) {
                     const currentTime = Date.now();
                     const lastHitTime = db.fetch(`didntHitCooldown_${tokenDB}`);
@@ -754,7 +751,6 @@ module.exports = {
                           .setFooter(
                             "A legendary victory that will be told for ages!"
                           );
-                      db.subtract(`key_${tokenDB}`, 1);
                       message.channel.send(
                         eldrazurTheAbyssalTyrantBossDeadEmbed
                       );
@@ -1055,7 +1051,16 @@ module.exports = {
                       }
                     }
                   } else {
-                    message.channel.send(`You need a key to enter this zone`);
+                    const premiumUserEmbed = new Discord.MessageEmbed()
+                      .setTitle("Premium Command")
+                      .setDescription(
+                        `This command is only for premium users. Upgrade to Mysterionix Pro for exclusive benefits!`
+                      )
+                      .setColor("#ffd700")
+                      .setThumbnail(
+                        "https://i.ibb.co/SwtWtK5/mysterionix-pro-final.gif"
+                      );
+                    message.channel.send(premiumUserEmbed);
                   }
                   // Handle hitting the boss here
 
@@ -1148,7 +1153,6 @@ module.exports = {
                 if (reaction.emoji.name === "orbSkill") {
                   var mysterionixProActivated =
                     db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
-                  var key = db.fetch(`key_${tokenDB}`) || 0;
                   if (mysterionixProActivated == true) {
                     const weaponDamage =
                       db.fetch(`weaponDamage_${tokenDB}`) || 0;
@@ -1244,7 +1248,6 @@ module.exports = {
                           .setFooter(
                             "A legendary victory that will be told for ages!"
                           );
-                      db.subtract(`key_${tokenDB}`, 1);
                       message.channel.send(
                         eldrazurTheAbyssalTyrantBossDeadEmbed
                       );
@@ -1577,7 +1580,6 @@ module.exports = {
                 if (reaction.emoji.name == "hit") {
                   var mysterionixProActivated =
                     db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
-                  var key = db.fetch(`key_${tokenDB}`) || 0;
                   if (mysterionixProActivated == true) {
                     // Handle hitting the boss here
                     const currentTime = Date.now();
@@ -1631,7 +1633,6 @@ module.exports = {
                           .setFooter(
                             "A legendary victory that will be told for ages!"
                           );
-                      db.subtract(`key_${tokenDB}`, 1);
                       message.channel.send(
                         eldrazurTheAbyssalTyrantBossDeadEmbed
                       );

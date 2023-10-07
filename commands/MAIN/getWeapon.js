@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 const colors = require("../../colors.json");
 const startFunction = require("../../startCommandFunction.js");
+const token = require("./token");
 module.exports = {
   name: "getWeapon",
   aliases: ["GW", "gw", "Gw", "gW"],
@@ -29,7 +30,25 @@ You already have it.
         message.channel.send(alreadyHaveEmbed);
         db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
       } else {
-        db.add(`ventorianBow_${tokenDB}`, 1);
+        // db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
+        // db.set(`firstBlood_${tokenDB}`, true);
+        // db.set(`decadeOfAnnihilation_${tokenDB}`, true);
+        // db.set(`halfCenturyOfDestruction_${tokenDB}`, true);
+        // db.set(`centuryOfSlaughter_${tokenDB}`, true);
+        // db.set(`acquiredAHeftySumOf100k_${tokenDB}`, true);
+        // db.set(`amassedAnImpressiveHaulOf500k_${tokenDB}`, true);
+        // db.set(`reachedAmillionInRiches_${tokenDB}`, true);
+        // db.set(`glorious10mPlunder_${tokenDB}`, true);
+        // db.set(`wealthConqueror_${tokenDB}`, true);
+        // db.set(`emergingAwareness_${tokenDB}`, true);
+        // db.set(`tenthEnlightenment_${tokenDB}`, true);
+        // db.set(`ascendedFifty_${tokenDB}`, true);
+        // db.set(`centennialEpiphany_${tokenDB}`, true);
+        // db.set(`lootedGold_${tokenDB}`, 100000000) || 0;
+        // db.add(`achievementPoints_${tokenDB}`, 8390);
+
+        // db.set(`totalAwakenings_${tokenDB}`, 100);
+        db.set(`ventorianBow_${tokenDB}`, 1);
         const ventorianBowEmbed = new Discord.MessageEmbed()
           .setTitle("Your free weapon")
           .setDescription("You received : Ventorian bow of ventor !")
