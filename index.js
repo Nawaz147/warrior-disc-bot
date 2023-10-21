@@ -349,7 +349,6 @@ client.on("message", async (message) => {
   } else {
     // Handle DM commands here
     if (message.content.endsWith(suffix)) {
-      console.log("yo");
       const args = message.content.trim().slice(0, -suffix.length).split(/ +/g);
       const cmd = args.shift().toLowerCase();
 

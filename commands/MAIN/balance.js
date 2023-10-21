@@ -38,6 +38,8 @@ module.exports = {
       let bal = await db.fetch(`money_${tokenDB}.pocket`);
       let ruix = await db.fetch(`ruix_${tokenDB}`);
       let keys = await db.fetch(`key_${tokenDB}`);
+      let hallowcharmToken =
+        (await db.fetch(`hallowcharmToken_${tokenDB}`)) || 0;
       if (bal === null) bal = "0";
       if (bal === undefined) bal = "0";
       if (ruix === null) ruix = "0";
@@ -311,7 +313,8 @@ module.exports = {
         (netWorthInv / netWorthTotal) *
         100
       ).toFixed(2);
-      const netWorthBalPercentage = ((bal / netWorthTotal) * 100).toFixed(2);
+      const netWorthBalPercentage =
+        ((bal / netWorthTotal) * 100).toFixed(2) || 0;
       netWorthInv = netWorthInv
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -320,6 +323,9 @@ module.exports = {
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       bal = bal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      hallowcharmToken = hallowcharmToken
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       var mysterionixProActivated =
         db.fetch(`mysterionixProActivated_${tokenDB}`) || false;
       if (mysterionixProActivated == true) {
@@ -406,6 +412,11 @@ module.exports = {
             true
           )
           .addField(`Ruix`, `<a:ruix:1153892039742726246> ${ruix}`, true)
+          .addField(
+            `Hallowcharm token`,
+            `<a:hallowcharmToken:1164785382517395547> ${hallowcharmToken}`,
+            true
+          )
           .addField(`Keys`, `<:key:1157324619318050906> ${keys}`, true)
           .addField(
             `Inventory net`,

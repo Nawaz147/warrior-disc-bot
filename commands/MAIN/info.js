@@ -426,10 +426,6 @@ module.exports = {
         { name: "User Status", value: user.presence.status },
         { name: "Bosses Killed", value: bossesKilledTotal },
         { name: "Achievement Points (APS)", value: achievementPoints },
-        {
-          name: "Played Duration",
-          value: `${monthsPlayed} months ${daysPlayed % 30} days`,
-        },
       ];
       if (auroraGaze > 0) {
         thumbnailLink = "https://i.ibb.co/DMkpbNv/blue-gaze.gif";

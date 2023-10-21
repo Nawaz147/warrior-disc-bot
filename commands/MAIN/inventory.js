@@ -41,6 +41,8 @@ module.exports = {
               db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0,
             "<a:auroraGaze:1149396676650483914> Aurora gaze":
               db.fetch(`auroraGaze_${tokenDB}`) || 0,
+            "<a:theCursedPumpkin:1165123196647915590> The cursed pumpkin":
+              db.fetch(`theCursedPumpkin_${tokenDB}`) || 0,
             "<a:abyssalCrownOfDominience:1149551849192575048> Abyssal crown of dominance":
               db.fetch(`abyssalCrownOfDominance_${tokenDB}`) || 0,
             "<a:abyssalScepterOfOblivion:1149541562523603004> Abyssal scepter of oblivion":
@@ -59,6 +61,8 @@ module.exports = {
               db.fetch(`abyssalStarcrystal_${tokenDB}`) || 0,
             "<:eldrazursgrimoireofruin:1148265284478709922> Eldra'zur's grimoire of ruin":
               db.fetch(`eldrazursGrimoireOfRuin_${tokenDB}`) || 0,
+            "<a:witchsBrewCauldron:1165123805702799471> Witch's brew cauldron":
+              db.fetch(`witchsBrewCauldron_${tokenDB}`) || 0,
             "<:vortexorb:1147066784969666600> Vortex orb":
               db.fetch(`vortexOrb_${tokenDB}`) || 0,
             "<:verdantwhisperleaf:1147068073619226684> Verdant Whisper leaf":
@@ -71,8 +75,12 @@ module.exports = {
               db.fetch(`infernothsWrathfulEye_${tokenDB}`) || 0,
             "<:celestialmoonstone:1147070214987583519> Celestial Moonstone":
               db.fetch(`celestialMoonStone_${tokenDB}`) || 0,
+            "<a:shadowveilReflectoscope:1165126192685396029> Shadowveil reflectoscope":
+              db.fetch(`shadowveilReflectoscope_${tokenDB}`) || 0,
             "<:pyroclasmicGem:1154412690870108261> Pyroclasmic gem":
               db.fetch(`pyroclasmicGem_${tokenDB}`) || 0,
+            "<a:ebonrosePerfume:1165124754148184145> Ebonrose perfume":
+              db.fetch(`ebonrosePerfume_${tokenDB}`) || 0,
             "<:valoriumsTear:1147381630009364581> Valorium's tear":
               db.fetch(`valoriumsTear_${tokenDB}`) || 0,
             "<:pyroclasmicEssence:1154413077807255612> Pyroclasmic essence":
@@ -117,6 +125,8 @@ module.exports = {
               db.fetch(`frozenSet_${tokenDB}`) || 0,
             "<:vanityicon:1147071701633482773> Dawnfire set":
               db.fetch(`dawnfireSet_${tokenDB}`) || 0,
+            "<:darkElixir:1165133946170921063> Dark elixir":
+              db.fetch(`darkElixir_${tokenDB}`) || 0,
             "<:texarusthedemonishedstaff:1147083583899586661> Texarus the demonished staff":
               db.fetch(`texarus_${tokenDB}`) || 0,
             "<:eternalFlameEssence:1154414454155530371> Eternal flame essence":
@@ -160,6 +170,8 @@ module.exports = {
               db.fetch(`rubberDuckyfish_${tokenDB}`) || 0,
             "<:ninjaStarfish:1156938871695757432> Ninja starfish":
               db.fetch(`ninjaStarfish_${tokenDB}`) || 0,
+            "<a:poison:1165135865555730442> Poison":
+              db.fetch(`poison_${tokenDB}`) || 0,
             "<:alienAnglerfish:1156938740586000394> Alien anglerfish":
               db.fetch(`alienAnglerFish_${tokenDB}`) || 0,
             "<:pirateParrotfish:1156938717781573733> Pirate parrotfish":
@@ -168,6 +180,12 @@ module.exports = {
               db.fetch(`toiletSeatLid_${tokenDB}`) || 0,
             "<:boot:1156938677176520785> Boot":
               db.fetch(`boot_${tokenDB}`) || 0,
+            "<:chocolateBar:1165136414850158633> Chocolate bar":
+              db.fetch(`chocolateBar_${tokenDB}`) || 0,
+            "<:wraithScraps:1165134206729465896> Wraith scraps":
+              db.fetch(`wraithScraps_${tokenDB}`) || 0,
+            "<:candy:1165135237790052477> Candy":
+              db.fetch(`candy_${tokenDB}`) || 0,
             "<:bottle:1156938658667044934> Bottle":
               db.fetch(`bottle_${tokenDB}`) || 0,
             "<:rustygears:1147072174264426606> Rusty gears":
@@ -178,8 +196,12 @@ module.exports = {
               db.fetch(`brokenStick_${tokenDB}`) || 0,
             "<:dustbin:1147071977601908767> Dustbin":
               db.fetch(`dustbin_${tokenDB}`) || 0,
+            "<:blackRock:1165136924541980744> Black rock":
+              db.fetch(`blackRock_${tokenDB}`) || 0,
             "<:newspaper:1147073903068463114> Newspaper":
               db.fetch(`newspaper_${tokenDB}`) || 0,
+            "<:spoiledPumpkin:1165136740248461332> Spoiled pumpkin":
+              db.fetch(`spoiledPumpkin_${tokenDB}`) || 0,
             "<:usedtissue:1147072375305797692> Used tissue":
               db.fetch(`usedTissue_${tokenDB}`) || 0,
             "<:cotton:1147116559526015088> Cotton":
@@ -210,6 +232,21 @@ module.exports = {
           const itemsPerPage = 8;
           let currentPage = 1;
           const itemsRarity = {
+            "<:chocolateBar:1165136414850158633> Chocolate bar": "Consumable",
+            "<:spoiledPumpkin:1165136740248461332> Spoiled pumpkin": "Sellable",
+            "<:blackRock:1165136924541980744> Black rock": "Sellable",
+            "<a:poison:1165135865555730442> Poison": "Consumable",
+            "<:candy:1165135237790052477> Candy": "Consumable",
+            "<:wraithScraps:1165134206729465896> Wraith scraps": "Sellable",
+            "<:darkElixir:1165133946170921063> Dark elixir": "Collectible",
+            "<a:shadowveilReflectoscope:1165126192685396029> Shadowveil reflectoscope":
+              "Collectible",
+            "<a:ebonrosePerfume:1165124754148184145> Ebonrose perfume":
+              "Consumable",
+            "<a:witchsBrewCauldron:1165123805702799471> Witch's brew cauldron":
+              "Collectible",
+            "<a:theCursedPumpkin:1165123196647915590> The cursed pumpkin":
+              "Collectible",
             "<a:mysterionixPro:1159100552299429908> Mysterionix pro": "Premium",
             "<a:disguisedDiverfish:1158038321537241098> Disguised diverfish":
               "Collectible",

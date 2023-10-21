@@ -193,7 +193,7 @@ module.exports = {
                         )
                       );
                     message.channel.send(
-                      `Ok, you didn't sell ${amountOfPieces}x ${item}`
+                      `Ok, you didn't sell ${amountOfPieces}x ${fullNameItem}`
                     );
                   }
                 });

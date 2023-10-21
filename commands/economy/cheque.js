@@ -1,295 +1,336 @@
-// // const Discord = require("discord.js");
-// // const ms = require("parse-ms");
-// // const db = require("quick.db");
-// // const Canvas = require("canvas");
-// // module.exports = {
-// //   name: "cheque",
-// //   aliases: ["cheque"],
-// //   description: "To create a oyons cheque",
-// //   usage: "cheque",
-// //   category: "Economy",
-// //   run: async (client, message, args) => {
-// //     // if amount is not specified
+const Discord = require("discord.js");
+const ms = require("parse-ms");
+const db = require("quick.db");
+const Canvas = require("canvas");
 
-// <<<<<<< HEAD
-// //     let code = Math.floor(Math.random() * 1000000);
-// //     let user = message.author;
-// //     let targetUser = message.mentions.users.first();
-// //     const tokenDB = db.fetch(`${user.id}.oyOtoken`);
-// //     if (!tokenDB) {
-// //       message.channel.send(
-// //         `${user} your token is not registered yet , type <Oyo token me to set your Oyo token`
-// //       );
-// //     } else {
-// //       if (args[0] === "create") {
-// //         // if amount greater than usermoney then return
-// //         let amount = args[1];
-// //         let usermoney = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
-// //         if (usermoney === null) usermoney = 0;
-// //         if (amount === null) amount = 0;
+module.exports = {
+  name: "cheque",
+  aliases: ["cheque"],
+  description: "To create a gold coins cheque",
+  usage: "cheque create <amount> <@user> OR cheque redeem <code>",
+  category: "Economy",
+  run: async (client, message, args) => {
+    let user = message.author;
+    let targetUser = message.mentions.users.first();
+    const tokenDB = db.fetch(`${user.id}.valoriumToken`);
 
-// //         if (amount < 0) {
-// //           message.channel.send(
-// //             `<@${user.id}> You can't make a cheque with negative amount`
-// //           );
-// //           return;
-// //         }
-// //         if (!targetUser) {
-// //           message.channel.send(
-// //             `<@${user.id}> Please mention a user to give the cheque`
-// //           );
-// //           return;
-// //         }
-// //         // if amount * 15% is greater than usermoney then return
+    if (!tokenDB) {
+      return message.channel.send(
+        `${user} your token is not registered yet, type 'token me.x' to set your Mysterionix token`
+      );
+    }
 
-// //         if (amount * 1.5 > usermoney) {
-// //           message.channel.send(
-// //             `<@${user.id}> You don't have enough money to make a cheque`
-// //           );
-// //         }
-// //         if (targetUser === "@everyone") {
-// //           message.channel.send("Idiot you can't mention everyone");
-// //         } else {
-// //           let embed = new Discord.MessageEmbed()
-// //             .setColor("GREEN")
-// //             .setTitle("Cheque")
-// //             .setDescription(
-// //               `**${user}**, you have made a cheque for **${amount}** , you have paid around 15% tax on it`
-// //             );
-// //           targetUser.send(`You received a cheque from ${user}`);
-// //           message.channel.send(embed);
-// //           let canvas = Canvas.createCanvas(500, 250);
-// //           let ctx = canvas.getContext("2d");
-// //           ctx.fillStyle = "#ffffff";
-// //           ctx.fillRect(0, 0, canvas.width, canvas.height);
-// //           ctx.fillStyle = "#000000";
-// //           ctx.font = "20px Arial";
-// //           ctx.fillText(
-// //             `Cheque by : ${message.member.displayName}#${message.member.user.discriminator},
-// //          amount : ${amount}
-// //       code : ${code},
-// //         `,
-// //             canvas.width / 4,
-// //             canvas.height / 2
-// //           );
-// //           ctx.beginPath();
-// //           ctx.moveTo(0, 0);
-// //           ctx.lineTo(canvas.width, canvas.height);
-// //           ctx.beginPath();
-// //           ctx.moveTo(canvas.width, 0);
-// //           ctx.lineTo(0, canvas.height);
-// //           // send the canvas
-// //           targetUser.send(
-// //             new Discord.MessageAttachment(canvas.toBuffer(), "cheque.png")
-// //           );
-// //           let cheque = await db.fetch(`cheque_${code}`);
-// //           if (cheque === null) {
-// //             db.set(`cheque_${code}`, {
-// //               user: user.id,
-// //               amount: amount,
-// //               time: Date.now(),
-// //             });
-// =======
-//     let code = Math.floor(Math.random() * 1000000);
-//     let user = message.author;
-//     const tokenDB = db.fetch(`${user.id}.oyOtoken`);
-//     if (!tokenDB) {
-//       message.channel.send(
-//         `${user} your token is not registered yet , type <Oyo token me to set your Oyo token`
-//       );
-//     } else {
-//       if (args[0] === "create") {
-//         // if amount greater than usermoney then return
-//         let amount = args[1];
-//         let usermoney = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
-//         if (usermoney === null) usermoney = 0;
-//         if (amount === null) amount = 0;
+    if (args[0] === "create") {
+      let amount = parseFloat(args[1]);
 
-//         if (amount < 0) {
-//           message.channel.send(
-//             `<@${user.id}> You can't make a cheque with negative amount`
-//           );
-//           return;
-//         }
-//         // if amount * 15% is greater than usermoney then return
+      if (isNaN(amount) || amount <= 0) {
+        return message.channel.send(
+          `<@${user.id}> Please provide a valid positive amount for the cheque`
+        );
+      }
 
-//         if (amount * 1.5 > usermoney) {
-//           message.channel.send(
-//             `<@${user.id}> You don't have enough money to make a cheque`
-//           );
-//         } else {
-//           let embed = new Discord.MessageEmbed()
-//             .setColor("GREEN")
-//             .setTitle("Cheque")
-//             .setDescription(
-//               `**${user}**, you have made a cheque for **${amount}** , you have paid around 15% tax on it`
-//             );
-//           user.send("Your Cheque is ready  : ");
-//           message.channel.send(embed);
-//           let canvas = Canvas.createCanvas(500, 250);
-//           let ctx = canvas.getContext("2d");
-//           ctx.fillStyle = "#ffffff";
-//           ctx.fillRect(0, 0, canvas.width, canvas.height);
-//           ctx.fillStyle = "#000000";
-//           ctx.font = "20px Arial";
-//           ctx.fillText(
-//             `Cheque by : ${message.member.displayName}#${message.member.user.discriminator},
-//          amount : ${amount}
-//       code : ${code},
-//         `,
-//             canvas.width / 4,
-//             canvas.height / 2
-//           );
-//           ctx.beginPath();
-//           ctx.moveTo(0, 0);
-//           ctx.lineTo(canvas.width, canvas.height);
-//           ctx.beginPath();
-//           ctx.moveTo(canvas.width, 0);
-//           ctx.lineTo(0, canvas.height);
-//           // send the canvas
-//           user.send(
-//             new Discord.MessageAttachment(canvas.toBuffer(), "cheque.png")
-//           );
-//           let cheque = await db.fetch(`cheque_${code}`);
-//           if (cheque === null) {
-//             db.set(`cheque_${code}`, {
-//               user: user.id,
-//               amount: amount,
-//               time: Date.now(),
-//             });
-// >>>>>>> parent of 2dfb571 (added every description needed for all items !!)
+      let usermoney = db.fetch(`money_${tokenDB}.pocket`) || 0;
 
-// //             // subtract amount from user
-// //             // db.subtract(`money_${user.id}.pocket`, amount);
-// //             // db.subtract amount + 15% from user
-// //             db.subtract(`money_${user.id}.${tokenDB}.pocket`, amount * 1.5);
-// //           }
-// //         }
-// //       }
+      if (amount * 1.5 > usermoney) {
+        return message.channel.send(
+          `<@${user.id}> You don't have enough money to create a cheque for this amount`
+        );
+      }
 
-// <<<<<<< HEAD
-// //       // if args[1] = redeem
-// //       if (args[0] === "redeem") {
-// //         // if args[2] = code
-// //         let code = args[1];
-// //         let cheque = await db.fetch(`cheque_${code}`);
-// //         if (cheque === null) {
-// //           message.channel.send(`<@${user.id}> This cheque does not exist`);
-// //           return;
-// //         }
-// //         if (code) {
-// //           let redeemed = await db.fetch(`redeemed_${code}`);
-// //           if (redeemed === true) {
-// //             message.channel.send(
-// //               `<@${user.id}> This cheque is already redeemed by someone`
-// //             );
-// //             return;
-// //           }
-// //           // if cheque has expired
-// //           if (Date.now() - cheque.time > 259200000) {
-// //             message.channel.send(
-// //               `<@${user.id}> This cheque has expired, you can't redeem it anymore`
-// //             );
-// //             return;
-// //           }
-// //           let amount = cheque.amount;
-// //           let usermoney = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
-// //           if (usermoney === null) usermoney = 0;
-// //           if (amount === null) amount = 0;
-// //           // add amount to user
-// //           db.add(`money_${user.id}.${tokenDB}.pocket`, amount);
-// //           // send message to check owner
-// //           let embed3 = new Discord.MessageEmbed()
-// //             .setColor("GREEN")
-// //             .setTitle("Cheque")
-// //             .setDescription(
-// //               `**${user}** you redeemed a cheque for **${amount}** which was sent by **${cheque.user}**`
-// //             );
-// //           user.send(embed3);
+      if (!targetUser) {
+        return message.channel.send(
+          `<@${user.id}> Please mention a user to give the cheque`
+        );
+      }
 
-// //           // set redeemed to true
-// //           db.set(`redeemed_${code}`, true);
-// //           let embed2 = new Discord.MessageEmbed()
-// //             .setColor("GREEN")
-// //             .setTitle("Cheque")
-// //             .setDescription(
-// //               `**${user}**, you have redeemed a cheque for ,  __**${amount} oyons**__`
-// //             );
-// //           message.channel.send(embed2);
-// //         }
-// //       }
-// //       if (!args[0]) {
-// //         message.channel.send(
-// //           `<@${user.id}>
-// //         **TO CREATE** A Cheque and send - Oyo cheque create <amount> <@user>
-// //         **TO REDEEM** A Cheque - Oyo cheque redeem <code>
-// //         `
-// //         );
-// //       }
-// //     }
-// //   },
-// // };
-// =======
-//       // if args[1] = redeem
-//       if (args[0] === "redeem") {
-//         // if args[2] = code
-//         let code = args[1];
-//         let cheque = await db.fetch(`cheque_${code}`);
-//         if (cheque === null) {
-//           message.channel.send(`<@${user.id}> This cheque does not exist`);
-//           return;
-//         }
-//         if (code) {
-//           let redeemed = await db.fetch(`redeemed_${code}`);
-//           if (redeemed === true) {
-//             message.channel.send(
-//               `<@${user.id}> This cheque is already redeemed by someone`
-//             );
-//             return;
-//           }
-//           // if cheque has expired
-//           if (Date.now() - cheque.time > 259200000) {
-//             message.channel.send(
-//               `<@${user.id}> This cheque has expired, you can't redeem it anymore`
-//             );
-//             return;
-//           }
-//           let amount = cheque.amount;
-//           let usermoney = await db.fetch(`money_${user.id}.${tokenDB}.pocket`);
-//           if (usermoney === null) usermoney = 0;
-//           if (amount === null) amount = 0;
-//           // add amount to user
-//           db.add(`money_${user.id}.${tokenDB}.pocket`, amount);
-//           // send message to check owner
-//           let embed3 = new Discord.MessageEmbed()
-//             .setColor("GREEN")
-//             .setTitle("Cheque")
-//             .setDescription(
-//               `**${user}**, you just redeemed a cheque of __**${amount} oyons**__`
-//             );
-//           // send embed 3 to check owner dm
-//           user.send(embed3);
+      let code = Math.floor(Math.random() * 1000000);
+      let taxAmount = amount * 0.15;
 
-//           // set redeemed to true
-//           db.set(`redeemed_${code}`, true);
-//           let embed2 = new Discord.MessageEmbed()
-//             .setColor("GREEN")
-//             .setTitle("Cheque")
-//             .setDescription(
-//               `**${user}**, you have redeemed a cheque for ,  __**${amount} oyons**__`
-//             );
-//           message.channel.send(embed2);
-//         }
-//       }
-//       if (!args[0]) {
-//         message.channel.send(
-//           `<@${user.id}>
-//         TO CREATE A Cheque - Oyo cheque create <amount>
-//         TO REDEEM A Cheque - Oyo cheque redeem <code>
-//         `
-//         );
-//       }
-//     }
-//   },
-// };
-// >>>>>>> parent of 2dfb571 (added every description needed for all items !!)
+      let amountInWords = convertAmountToWords(amount);
+
+      let embed = new Discord.MessageEmbed()
+        .setColor("GREEN")
+        .setTitle("Cheque")
+        .setDescription(`Sent a cheque to ${targetUser}`)
+        .addField(`Amount`, `${amount.toFixed(2)} Gold coins`);
+
+      message.channel.send(embed);
+
+      let canvas = Canvas.createCanvas(1200, 600);
+      let ctx = canvas.getContext("2d");
+
+      // Background Patterns
+      ctx.fillStyle = "#ffffe6";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Dotted Pattern Lines
+      ctx.strokeStyle = "#ddd";
+      ctx.setLineDash([5, 5]);
+      for (let i = 0; i < canvas.width; i += 20) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, canvas.height);
+        ctx.stroke();
+      }
+      for (let i = 0; i < canvas.height; i += 20) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(canvas.width, i);
+        ctx.stroke();
+      }
+
+      // Border
+      ctx.strokeStyle = "#000";
+      ctx.setLineDash([]);
+      ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+      // Header Line
+      ctx.beginPath();
+      ctx.moveTo(30, 120);
+      ctx.lineTo(canvas.width - 30, 120);
+      ctx.stroke();
+
+      // Header
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 40px Arial";
+      ctx.fillText("Mysterionix Bank", 30, 90);
+
+      // Sender Line
+      ctx.beginPath();
+      ctx.moveTo(30, 180);
+      ctx.lineTo(canvas.width - 30, 180);
+      ctx.stroke();
+
+      // Sender
+      ctx.font = "bold 30px Arial";
+      ctx.fillText(`Sender: ${user.tag}`, 30, 150);
+
+      // Payee Line
+      ctx.beginPath();
+      ctx.moveTo(30, 240);
+      ctx.lineTo(canvas.width - 30, 240);
+      ctx.stroke();
+
+      // Payee
+      ctx.font = "bold 30px Arial";
+      ctx.fillText(`Pay to: ${targetUser.tag}`, 30, 210);
+
+      // Amount Line
+      ctx.beginPath();
+      ctx.moveTo(30, 300);
+      ctx.lineTo(canvas.width - 30, 300);
+      ctx.stroke();
+
+      // Amount
+      ctx.font = "bold 30px Arial";
+      ctx.fillText(`Amount: ${amountInWords} gold coins only`, 30, 270);
+
+      // Serial Number
+      ctx.font = "italic 24px Arial";
+      ctx.fillText(`Serial number: ${code}`, canvas.width - 300, 90);
+
+      // Sender's Signature Line
+      let senderSignatureLineStart = canvas.width / 4;
+      let senderSignatureLineEnd = canvas.width / 2 - 30;
+
+      ctx.beginPath();
+      ctx.moveTo(senderSignatureLineStart, 500);
+      ctx.lineTo(senderSignatureLineEnd, 500);
+      ctx.stroke();
+
+      // "Sender's Signature" Text
+      let senderText = "Sender's Signature";
+      let senderTextWidth = ctx.measureText(senderText).width;
+      ctx.font = "italic 24px Arial";
+      ctx.fillText(
+        senderText,
+        (senderSignatureLineEnd + senderSignatureLineStart - senderTextWidth) /
+          2,
+        480
+      );
+
+      // User's Logo
+      const userLogoURL = user.avatarURL({ format: "png" });
+      const userLogo = await Canvas.loadImage(userLogoURL);
+
+      // Draw Circular Image for User's Logo
+      ctx.save();
+      const userLogoX =
+        (senderSignatureLineEnd + senderSignatureLineStart - 50) / 2; // Adjust 50 based on the size of your logo
+      const userLogoY = 525;
+      ctx.beginPath();
+      ctx.arc(userLogoX, userLogoY + 25, 25, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(userLogo, userLogoX - 25, userLogoY, 50, 50);
+      ctx.restore();
+
+      // Receiver's Signature Line
+      let receiverSignatureLineStart = canvas.width / 2 + 30;
+      let receiverSignatureLineEnd = (3 * canvas.width) / 4;
+
+      ctx.beginPath();
+      ctx.moveTo(receiverSignatureLineStart, 500);
+      ctx.lineTo(receiverSignatureLineEnd, 500);
+      ctx.stroke();
+
+      // "Receiver's Signature" Text
+      let receiverText = "Receiver's Signature";
+      let receiverTextWidth = ctx.measureText(receiverText).width;
+      ctx.font = "italic 24px Arial";
+      ctx.fillText(
+        receiverText,
+        (receiverSignatureLineEnd +
+          receiverSignatureLineStart -
+          receiverTextWidth) /
+          2,
+        480
+      );
+
+      // Draw Circular Image for Receiver's Logo
+      const receiverLogoURL = targetUser.avatarURL({ format: "png" });
+      const receiverLogo = await Canvas.loadImage(receiverLogoURL);
+
+      // Draw Circular Image
+      ctx.save();
+      const receiverLogoX =
+        (receiverSignatureLineEnd + receiverSignatureLineStart - 50) / 2; // Adjust 50 based on the size of your logo
+      const receiverLogoY = 525;
+      ctx.beginPath();
+      ctx.arc(receiverLogoX, receiverLogoY + 25, 25, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(receiverLogo, receiverLogoX - 25, receiverLogoY, 50, 50);
+      ctx.restore();
+
+      targetUser.send(
+        new Discord.MessageAttachment(canvas.toBuffer(), "cheque.png")
+      );
+      db.subtract(`money_${tokenDB}.pocket`, amount + taxAmount);
+      db.set(`cheque_${code}`, {
+        user: user.id,
+        amount: amount,
+        time: Date.now(),
+      });
+    } else if (args[0] === "redeem") {
+      let code = args[1];
+
+      if (!code) {
+        return message.channel.send(
+          `<@${user.id}> Please provide the code of the cheque to redeem`
+        );
+      }
+
+      let cheque = db.fetch(`cheque_${code}`);
+
+      if (!cheque) {
+        return message.channel.send(`<@${user.id}> This cheque does not exist`);
+      }
+
+      if (cheque.redeemed) {
+        return message.channel.send(
+          `<@${user.id}> This cheque has already been redeemed`
+        );
+      }
+
+      if (Date.now() - cheque.time > 259200000) {
+        return message.channel.send(
+          `<@${user.id}> This cheque has expired and can't be redeemed anymore`
+        );
+      }
+
+      let amount = cheque.amount;
+      db.add(`money_${tokenDB}.pocket`, amount);
+      db.set(`cheque_${code}.redeemed`, true);
+
+      let embed = new Discord.MessageEmbed()
+        .setColor("GREEN")
+        .setTitle("Cheque Redeemed")
+        .setDescription(
+          `**${user}**, you have redeemed a cheque for **${amount} gold coins**.`
+        );
+
+      message.channel.send(embed);
+    } else {
+      message.channel.send(
+        `<@${user.id}>
+        **TO CREATE** a Cheque and send - 'cheque create <amount> <@user>'
+        **TO REDEEM** a Cheque - 'cheque redeem <code>'
+        `
+      );
+    }
+  },
+};
+
+function convertAmountToWords(amount) {
+  const units = [
+    "",
+    "One",
+    "Two",
+    "Three",
+    "Four",
+    "Five",
+    "Six",
+    "Seven",
+    "Eight",
+    "Nine",
+  ];
+  const teens = [
+    "",
+    "Eleven",
+    "Twelve",
+    "Thirteen",
+    "Fourteen",
+    "Fifteen",
+    "Sixteen",
+    "Seventeen",
+    "Eighteen",
+    "Nineteen",
+  ];
+  const tens = [
+    "",
+    "Ten",
+    "Twenty",
+    "Thirty",
+    "Forty",
+    "Fifty",
+    "Sixty",
+    "Seventy",
+    "Eighty",
+    "Ninety",
+  ];
+
+  let words = "";
+
+  if (amount >= 1000000) {
+    words += convertAmountToWords(Math.floor(amount / 1000000)) + " Million ";
+    amount %= 1000000;
+  }
+
+  if (amount >= 1000) {
+    words += convertAmountToWords(Math.floor(amount / 1000)) + " Thousand ";
+    amount %= 1000;
+  }
+
+  if (amount >= 100) {
+    words += convertAmountToWords(Math.floor(amount / 100)) + " Hundred ";
+    amount %= 100;
+  }
+
+  if (amount > 0) {
+    if (words !== "") words += "and ";
+
+    if (amount < 10) {
+      words += units[amount];
+    } else if (amount < 20) {
+      words += teens[amount - 10];
+    } else {
+      words += tens[Math.floor(amount / 10)];
+      if (amount % 10 > 0) {
+        words += "-" + units[amount % 10];
+      }
+    }
+  }
+
+  return words.trim();
+}
