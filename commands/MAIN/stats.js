@@ -29,11 +29,17 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-    db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
-    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
       const natureDaggers = db.fetch(`natureDaggers_${tokenDB}`);
       const natureDaggersEquipped = db.fetch(
         `equippedNatureDaggers_${tokenDB}`

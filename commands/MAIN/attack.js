@@ -19,11 +19,17 @@ module.exports = {
     const tokenDB = db.fetch(`${user.id}.valoriumToken`);
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
-
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-    if (tokenDB && acceptedTOS == true && update == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
       const mentionedUser = message.mentions.users.first();
       if (!mentionedUser) {
         message.channel.send(

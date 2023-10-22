@@ -22,11 +22,18 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-    db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
-    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
+      db.set(`enshrinedAsAMysterionixLegend_${tokenDB}`, true);
       var balancePrivate = db.fetch(`balancePrivate_${tokenDB}`) || false;
       if (balancePrivate == true && message.mentions.users.first()) {
         const balancePrivateEmbed = new Discord.MessageEmbed()
@@ -35,9 +42,9 @@ module.exports = {
         message.channel.send(balancePrivateEmbed);
         return;
       }
-      let bal = await db.fetch(`money_${tokenDB}.pocket`);
-      let ruix = await db.fetch(`ruix_${tokenDB}`);
-      let keys = await db.fetch(`key_${tokenDB}`);
+      let bal = (await db.fetch(`money_${tokenDB}.pocket`)) || 0;
+      let ruix = (await db.fetch(`ruix_${tokenDB}`)) || 0;
+      let keys = (await db.fetch(`key_${tokenDB}`)) || 0;
       let hallowcharmToken =
         (await db.fetch(`hallowcharmToken_${tokenDB}`)) || 0;
       if (bal === null) bal = "0";
@@ -309,12 +316,22 @@ module.exports = {
         bubblegumBlowfish * prices.bubblegumBlowfish +
         bottle * prices.bottle +
         bal;
-      const netWorthInvPercentage = (
-        (netWorthInv / netWorthTotal) *
-        100
-      ).toFixed(2);
-      const netWorthBalPercentage =
-        ((bal / netWorthTotal) * 100).toFixed(2) || 0;
+      var netWorthInvPercentage = ((netWorthInv / netWorthTotal) * 100).toFixed(
+        2
+      );
+      if (
+        netWorthInvPercentage == "NaN" ||
+        netWorthInvPercentage == "undefined"
+      ) {
+        var netWorthInvPercentage = "0";
+      }
+      var netWorthBalPercentage = ((bal / netWorthTotal) * 100).toFixed(2);
+      if (
+        netWorthBalPercentage == "NaN" ||
+        netWorthBalPercentage == "undefined"
+      ) {
+        var netWorthBalPercentage = "0";
+      }
       netWorthInv = netWorthInv
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");

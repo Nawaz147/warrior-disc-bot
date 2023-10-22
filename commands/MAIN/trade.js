@@ -26,14 +26,16 @@ module.exports = {
     const update = db.fetch(`updateInProgress`);
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDBUser}`) || false;
     const banned = db.fetch(`banned_${tokenDBUser}`) || false;
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
     if (
-      tokenDBUser &&
+      tokenDB &&
       acceptedTOS == true &&
       update == false &&
-      banned == false
+      banned == false &&
+      isPoisoned == false
     ) {
       if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
         message.channel.send("I don't have the permission to manage messages.");

@@ -32,12 +32,17 @@ module.exports = {
     var acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     var banned = db.fetch(`banned_${tokenDB}`) || false;
     var update = db.fetch(`updateInProgress`);
-
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-
-    if (acceptedTOS == true && update == false && banned == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
       var userTokenDB = new db.table(`tokenDB_${userId}`);
       var partyData = userTokenDB.get(`party`) || { leader: null, members: [] };
 

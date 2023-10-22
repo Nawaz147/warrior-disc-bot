@@ -8,7 +8,9 @@ module.exports = {
   category: "Owner",
   run: async (client, message, args) => {
     if (ownerID) {
-      message.channel.send("The bot has left this server");
+      message.channel.send(
+        "The bot has left this server as commanded by " + message.author
+      );
       setTimeout(() => {
         message.guild.leave();
         console.log(`The bot has left - ${message.guild.name}`);

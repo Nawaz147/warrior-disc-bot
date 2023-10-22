@@ -56,11 +56,17 @@ module.exports = {
       { threshold: 2642, level: 9 },
       { threshold: 16950, level: 10 },
     ];
-
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
       if (args[0] === "texarus") {
         var equippedTexarus = db.fetch(`equippedTexarus_${tokenDB}`);
         if (!equippedTexarus) {

@@ -1,8 +1,9 @@
 const Discord = require("discord.js");
 const db = require("quick.db");
 const { MessageEmbed } = require("discord.js");
+const moment = require("moment");
 
-function startFunction(message, args, client) {
+async function startFunction(message, args, client) {
   let user =
     message.mentions.users.first() ||
     client.users.cache.get(args[0]) ||
@@ -67,7 +68,7 @@ Safe travels, and may the winds of fortune guide your way!
         `
 Sorry ${currentUser.username} , commands are disabled at the moment.
 The bot is currently undergoing an update. Please be patient!
-Update : Implementing party system   
+Update : Fixing error   
 `
       )
       .setColor("#3498db")
@@ -99,5 +100,35 @@ ${user.username} has not yet accepted the terms of service
     message.channel.send(acceptTOSembed);
     db.add(`uselessUsageOfCommand_${tokenDB}`, 1);
   }
+  const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`);
+  if (isPoisoned && args[0] !== "ebonrosePerfume") {
+    const remainingTime = db.fetch(`poisonedTime_${tokenDB}`);
+    const formattedTime = moment.duration(remainingTime).humanize();
+    if (user !== currentUser) {
+      const poisonEmbed = new Discord.MessageEmbed()
+        .setTitle("Poisoned!")
+        .setDescription(
+          `${user} is poisoned. Please wait for ${formattedTime} for the effect to end.`
+        )
+        .setColor("#2B2D31");
+
+      message.channel.send(poisonEmbed);
+      return;
+    } else {
+      const poisonEmbed = new Discord.MessageEmbed()
+        .setTitle("Poisoned!")
+        .setDescription(
+          `Oh no! You are poisoned. Please wait for ${formattedTime} for the effect to end.`
+        )
+        .setColor("#2B2D31")
+        .setFooter("Get well soon!");
+
+      message.channel.send(poisonEmbed);
+      // db.delete(`isPoisoned_${tokenDB}`);
+      // db.delete(`poisonedTime_${tokenDB}`);
+      return;
+    }
+  }
+  return;
 }
 module.exports = startFunction;

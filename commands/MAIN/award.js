@@ -19,7 +19,7 @@ module.exports = {
       message.author;
     const mentionedUser = message.mentions.users.first(); // Mentioned user
     const tokenDBUser = db.fetch(`${message.author.id}.valoriumToken`);
-    const tokenDBMentioned = db.fetch(`${mentionedUser.id}.valoriumToken`);
+    const tokenDBMentioned = db.fetch(`${user.id}.valoriumToken`);
     const mentionedUserMoney =
       db.fetch(`money_${tokenDBMentioned}.pocket`) || 0;
     const balance = db.fetch(`money_${tokenDBUser}.pocket`) || 0;
@@ -60,7 +60,7 @@ module.exports = {
       const tradeEmbed = new Discord.MessageEmbed()
         .setTitle(`Awarded`)
         .setDescription(
-          `Hey ${mentionedUser} , you have been awarded [${amountOfPieces}x ${icons[itemID]} ${fullNameItem}] by <@768747976767832084>`
+          `Hey ${user} , you have been awarded [${amountOfPieces}x ${icons[itemID]} ${fullNameItem}] by <@768747976767832084>`
         )
         .setTimestamp()
         .setColor(`#2B2D31`);

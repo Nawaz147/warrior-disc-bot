@@ -24,10 +24,17 @@ module.exports = {
     const bullet = db.fetch(`bullet_${tokenDB}`) || 0;
     const mysticRuneOfResilience =
       db.fetch(`mysticRuneOfResilience_${tokenDB}`) || 0;
+    const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
     if (startFunction) {
-      startFunction(message, args, client);
+      await startFunction(message, args, client);
     }
-    if (tokenDB && acceptedTOS == true && update == false && banned == false) {
+    if (
+      tokenDB &&
+      acceptedTOS == true &&
+      update == false &&
+      banned == false &&
+      isPoisoned == false
+    ) {
       if (!message.guild.me.hasPermission("MANAGE_MESSAGES")) {
         message.channel.send("I don't have the permission to manage messages.");
         return;
@@ -150,6 +157,13 @@ module.exports = {
 
                 collector.on("collect", async (reaction) => {
                   if (reaction.emoji.name === "✅") {
+                    const currentAmount = db.fetch(`${item}_${tokenDB}`);
+
+                    if (currentAmount < amountOfPieces) {
+                      return message.channel.send(
+                        `${user}, You dont have ${amountOfPieces}x ${fullNameItem}`
+                      );
+                    }
                     confirmationMessageSent
                       .delete()
                       .catch((error) =>
@@ -184,6 +198,12 @@ module.exports = {
                     db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
                     message.channel.send(itemSoldEmbed);
                   } else if (reaction.emoji.name === "❌") {
+                    const currentAmount = db.fetch(`${item}_${tokenDB}`);
+                    if (currentAmount < amountOfPieces) {
+                      return message.channel.send(
+                        `${user}, You dint have ${amountOfPieces}x ${fullNameItem}`
+                      );
+                    }
                     confirmationMessageSent
                       .delete()
                       .catch((error) =>
