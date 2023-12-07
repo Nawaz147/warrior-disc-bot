@@ -3,6 +3,7 @@ const db = require("quick.db");
 const { MessageEmbed } = require("discord.js");
 const startFunction = require("../../startCommandFunction.js");
 const prices = require("../../prices.json");
+
 const { link } = require("fs");
 module.exports = {
   name: "item",
@@ -80,6 +81,19 @@ module.exports = {
           item == "eliteAwakeningGem" ||
           item == "awakeningGem"
         ) {
+          const numberWithCommas = (x) =>
+            x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+          // ... your existing code ...
+
+          const itemPrice = prices[item]; // Get item price from prices.json
+
+          // Calculate sell price (half of the item price)
+          const sellPrice = Math.floor(itemPrice / 2);
+
+          const formattedBuyCost = numberWithCommas(itemPrice);
+          const formattedSellCost = numberWithCommas(sellPrice);
+          // ... your existing code ...
           var texarus = db.fetch(`texarus_${tokenDB}`) || 0;
           var waetra = db.fetch(`waetra_${tokenDB}`) || 0;
           var rasheta = db.fetch(`rasheta_${tokenDB}`) || 0;
@@ -248,6 +262,7 @@ module.exports = {
             db.fetch(`disguisedDiverfish_${tokenDB}`) || 0;
           var fishingRod = db.fetch(`fishingRod_${tokenDB}`) || 0;
           var balance = db.fetch(`money_${tokenDB}.pocket`) || 0;
+
           var netWorthTotal =
             goldBar * prices.goldBar +
             texarus * prices.texarus +
@@ -337,8 +352,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -363,8 +378,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `12,750,000`);
-            itemInfoEmbed.addField(`Sell cost`, `6,375,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -387,8 +402,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `10,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedBuyCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -408,13 +423,15 @@ module.exports = {
             );
             message.channel.send(itemInfoEmbed);
           } else if (item == "vortexOrb") {
-            itemInfoEmbed.setDescription(`A rare orb`);
+            itemInfoEmbed.setDescription(
+              `An enigmatic sphere of swirling cosmic energies, the Vortex Orb is a mysterious artifact with untold powers. Legends speak of its ability to manipulate the very fabric of space and time. The orb emits an otherworldly hum, captivating all who encounter it. Those who master its use gain access to unparalleled arcane abilities.`
+            );
             itemInfoEmbed.setTitle(`Vortex orb`);
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `50,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `25,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -437,8 +454,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -464,8 +481,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `45,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `22,500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -488,8 +505,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `225,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `112,500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -515,8 +532,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `185,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `92,500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -542,8 +559,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `160,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `80,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -569,8 +586,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `380,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `190,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -600,8 +617,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `325,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `162,500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -628,8 +645,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `185,700,000`);
-            itemInfoEmbed.addField(`Sell cost`, `92,850,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -655,8 +672,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `68,950,000`);
-            itemInfoEmbed.addField(`Sell cost`, `34,475,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -682,8 +699,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `25,058,006`);
-            itemInfoEmbed.addField(`Sell cost`, `12,529,003`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -709,8 +726,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `14,201,590`);
-            itemInfoEmbed.addField(`Sell cost`, `7,100,795`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -736,8 +753,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `35,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `17,500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -760,8 +777,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `78,950,000`);
-            itemInfoEmbed.addField(`Sell cost`, `39,475,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -787,8 +804,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `41,250,000`);
-            itemInfoEmbed.addField(`Sell cost`, `20,750,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -814,8 +831,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `20,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `10,000,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -838,8 +855,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `11,111,111`);
-            itemInfoEmbed.addField(`Sell cost`, `11,111,111`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -865,8 +882,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `5,210,000`);
-            itemInfoEmbed.addField(`Sell cost`, `2,605,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -889,8 +906,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `3,250,000`);
-            itemInfoEmbed.addField(`Sell cost`, `1,625,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -916,8 +933,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `456,120`);
-            itemInfoEmbed.addField(`Sell cost`, `228,060`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -940,8 +957,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `32,100`);
-            itemInfoEmbed.addField(`Sell cost`, `16,050`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -964,8 +981,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `18,230`);
-            itemInfoEmbed.addField(`Sell cost`, `9,115`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -990,8 +1007,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `26,201`);
-            itemInfoEmbed.addField(`Sell cost`, `26,201`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1013,8 +1030,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `8,092`);
-            itemInfoEmbed.addField(`Sell cost`, `8,092`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1036,8 +1053,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `12,790`);
-            itemInfoEmbed.addField(`Sell cost`, `12,790`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1059,8 +1076,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `52,150`);
-            itemInfoEmbed.addField(`Sell cost`, `52,150`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1082,8 +1099,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `16,210`);
-            itemInfoEmbed.addField(`Sell cost`, `16,210`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1105,8 +1122,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `23,191`);
-            itemInfoEmbed.addField(`Sell cost`, `23,191`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1128,8 +1145,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `41,092`);
-            itemInfoEmbed.addField(`Sell cost`, `41,092`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1151,8 +1168,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `78,210`);
-            itemInfoEmbed.addField(`Sell cost`, `78,210`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1174,8 +1191,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `9,108`);
-            itemInfoEmbed.addField(`Sell cost`, `9,108`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1197,8 +1214,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `32,500`);
-            itemInfoEmbed.addField(`Sell cost`, `32,500`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1223,8 +1240,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `7,100`);
-            itemInfoEmbed.addField(`Sell cost`, `7,100`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1246,8 +1263,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `18,029`);
-            itemInfoEmbed.addField(`Sell cost`, `18,029`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1272,8 +1289,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `43,102`);
-            itemInfoEmbed.addField(`Sell cost`, `43,102`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1295,8 +1312,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `80,500`);
-            itemInfoEmbed.addField(`Sell cost`, `80,500`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1318,8 +1335,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `12,072`);
-            itemInfoEmbed.addField(`Sell cost`, `12,072`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1341,8 +1358,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `2,321`);
-            itemInfoEmbed.addField(`Sell cost`, `2,321`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1364,8 +1381,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `1,000,000`);
-            itemInfoEmbed.addField(`Sell cost`, `500,000`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1387,8 +1404,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `39,211,040`);
-            itemInfoEmbed.addField(`Sell cost`, `19,605,520`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1413,8 +1430,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `32,109,214`);
-            itemInfoEmbed.addField(`Sell cost`, `16,054,607`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1436,8 +1453,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `22,150,900`);
-            itemInfoEmbed.addField(`Sell cost`, `11,075,450`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1462,8 +1479,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `126,920`);
-            itemInfoEmbed.addField(`Sell cost`, `63,460`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,
@@ -1485,8 +1502,8 @@ module.exports = {
             itemInfoEmbed.setURL(
               "https://mysterionix6.web.app/itemInfos.html#" + item
             );
-            itemInfoEmbed.addField(`Buy cost`, `17,850`);
-            itemInfoEmbed.addField(`Sell cost`, `8,925`);
+            itemInfoEmbed.addField(`Buy cost`, formattedBuyCost);
+            itemInfoEmbed.addField(`Sell cost`, formattedSellCost);
             if (itemDB > 0) {
               itemInfoEmbed.addField(
                 `Occupying net worth`,

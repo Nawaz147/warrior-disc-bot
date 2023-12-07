@@ -94,6 +94,7 @@ module.exports = {
             );
           db.subtract(`candy_${tokenDB}`, amountOfPieces);
           db.add(`money_${tokenDB}.pocket`, totalGoldCoins);
+          db.add(`totalMoneyInEconomy`, totalGoldCoins);
           message.channel.send(consumeEmbed);
         } else {
           message.channel.send(`You don't have that amount of candy.`);
@@ -158,6 +159,7 @@ module.exports = {
               } and walked away with <:goldCoin:1156621221761388676> ${finalGoldCoins}`
             );
           db.subtract(`chocolateBar_${tokenDB}`, amountOfPieces);
+          db.add(`totalMoneyInEconomy`, totalGoldCoins);
           db.add(`money_${tokenDB}.pocket`, totalGoldCoins);
           message.channel.send(consumeEmbed);
         } else {

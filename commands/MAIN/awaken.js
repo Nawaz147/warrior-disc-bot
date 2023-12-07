@@ -16,9 +16,11 @@ module.exports = {
     const acceptedTOS = db.fetch(`acceptedTOS_${tokenDB}`) || false;
     const banned = db.fetch(`banned_${tokenDB}`) || false;
     const isPoisoned = db.fetch(`isPoisoned_${tokenDB}`) || false;
+
     if (startFunction) {
       await startFunction(message, args, client);
     }
+
     if (
       tokenDB &&
       acceptedTOS == true &&
@@ -27,6 +29,7 @@ module.exports = {
       isPoisoned == false
     ) {
       db.add(`usefulUsageOfCommand_${tokenDB}`, 1);
+
       function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
           const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -34,229 +37,134 @@ module.exports = {
         }
         return array;
       }
-      //normal awakes possible
-      const normalPossibleAwakes1 = [
+
+      // Normal and elite awakens possible arrays
+      const normalPossibleAwakes = [
         0.25, 0.25, 0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32,
         0.35,
       ];
-      const normalPossibleAwakesSlot1 = shuffleArray(normalPossibleAwakes1);
-      const normalPossibleAwakes2 = [
-        0.25, 0.25, 0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32,
-        0.35,
-      ];
-      const normalPossibleAwakesSlot2 = shuffleArray(normalPossibleAwakes2);
-      const normalPossibleAwakes3 = [
-        0.25, 0.25, 0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32,
-        0.35,
-      ];
-      const normalPossibleAwakesSlot3 = shuffleArray(normalPossibleAwakes3);
 
-      //elite awakes possible
-      const elitePossibleAwakes1 = [
+      const elitePossibleAwakes = [
         0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32, 0.5, 0.55,
         0.6,
       ];
-      const elitePossibleAwakesSlot1 = shuffleArray(elitePossibleAwakes1);
-      const elitePossibleAwakes2 = [
-        0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32, 0.5, 0.55,
-        0.6,
-      ];
-      const elitePossibleAwakesSlot2 = shuffleArray(elitePossibleAwakes2);
-      const elitePossibleAwakes3 = [
-        0.25, 0.25, 0.25, 0.3, 0.3, 0.3, 0.3, 0.3, 0.32, 0.32, 0.32, 0.5, 0.55,
-        0.6,
-      ];
-      const elitePossibleAwakesSlot3 = shuffleArray(elitePossibleAwakes3);
 
-      var awakGem = db.fetch(`awakeningGem_${tokenDB}`);
-      if (awakGem == undefined || awakGem == null) {
-        awakGem = 0;
-      }
-      var eliteAwakGem = db.fetch(`eliteAwakeningGem_${tokenDB}`);
-      if (eliteAwakGem == undefined || eliteAwakGem == null) {
-        eliteAwakGem = 0;
-      }
-      if (args[0] == "elite") {
-        if (eliteAwakGem == 0) {
-          message.channel.send("You litterally have 0 elite awakening gems");
-        } else {
-          db.subtract(`eliteAwakeningGem_${tokenDB}`, 1);
-          db.add(`gemsUsed_${tokenDB}`, 1);
-          var gemsUsed = db.fetch(`gemsUsed_${tokenDB}`);
-          const apsData = [
-            {
-              gemsAmount: 1,
-              aps: 100,
-              key: "emergingAwareness",
-              title: "ACHIEVEMENT COMPLETE - Emerging Awareness",
-            },
-            {
-              gemsAmount: 10,
-              aps: 365,
-              key: "tenthEnlightenment",
-              title: "ACHIEVEMENT COMPLETE - Tenth Enlightenment",
-            },
-            {
-              gemsAmount: 50,
-              aps: 500,
-              key: "ascendedFifty",
-              title: "ACHIEVEMENT COMPLETE - Ascended Fifty",
-            },
-            {
-              gemsAmount: 100,
-              aps: 625,
-              key: "centennialEpiphany",
-              title: "ACHIEVEMENT COMPLETE - Centennial Epiphany",
-            },
-          ];
+      var awakGem = db.fetch(`awakeningGem_${tokenDB}`) || 0;
+      var eliteAwakGem = db.fetch(`eliteAwakeningGem_${tokenDB}`) || 0;
 
-          for (const achievement of apsData) {
-            const achievementKey = `${achievement.key}_${tokenDB}`;
-            if (
-              gemsUsed >= achievement.gemsAmount &&
-              !db.fetch(achievementKey)
-            ) {
-              const apsEmbed = new Discord.MessageEmbed()
-                .setTitle(achievement.title)
-                .setDescription(`${user} You gained ${achievement.aps} aps`)
-                .setColor("#00FF00");
-              db.set(achievementKey, true);
-              db.add(`achievementPoints_${tokenDB}`, achievement.aps);
-              message.channel.send(apsEmbed);
-            }
-          }
-          const eliteAwakEmbed = new MessageEmbed()
-            .setTitle("Awakenings")
-            .setDescription(
-              `
-${elitePossibleAwakesSlot1[0]}x Gold Loot
-${elitePossibleAwakesSlot2[0]}x Gold Loot
-${elitePossibleAwakesSlot3[0]}x Gold Loot
+      const normalAwakenings = shuffleArray([...normalPossibleAwakes]);
+      const eliteAwakenings = shuffleArray([...elitePossibleAwakes]);
 
-<:eliteawakeninggem:1147070929957027860> ${
-                eliteAwakGem - 1
-              } , <:awakeninggem:1147071223042424902> ${awakGem - 1}
-`
-            )
-            .setColor(`#2B2D31`);
+      const awakenEmbed = new MessageEmbed()
+        .setTitle("Awakenings")
+        .setDescription(
+          `${normalAwakenings[0]}x Gold Loot\n${normalAwakenings[1]}x Gold Loot\n${normalAwakenings[2]}x Gold Loot`
+        )
+        .setColor(`#2B2D31`);
 
-          db.set(
-            `goldLoot_${tokenDB}`,
-            elitePossibleAwakesSlot1[0] +
-              elitePossibleAwakesSlot2[0] +
-              elitePossibleAwakesSlot3[0]
-          );
-          db.set(`awake1_${tokenDB}`, elitePossibleAwakesSlot1[0]);
-          db.set(`awake2_${tokenDB}`, elitePossibleAwakesSlot2[0]);
-          db.set(`awake3_${tokenDB}`, elitePossibleAwakesSlot3[0]);
-          message.channel.send(eliteAwakEmbed);
-          console.log(
-            `Awakening : `,
-            elitePossibleAwakesSlot2[0] + elitePossibleAwakesSlot3[0]
-          );
-        }
-      } else if (args[0] == "view") {
-        const awake1 = db.fetch(`awake1_${tokenDB}`);
-        const awake2 = db.fetch(`awake2_${tokenDB}`);
-        const awake3 = db.fetch(`awake3_${tokenDB}`);
-        const awakGem = db.fetch(`awakeningGem_${tokenDB}`);
-        const eliteAwakGem = db.fetch(`eliteAwakeningGem_${tokenDB}`);
-        const viewAwakEmbed = new MessageEmbed()
-          .setTitle(`${user.username}, your awakenings`)
-          .setDescription(
-            `
-${awake1}x Gold Loot
-${awake2}x Gold Loot
-${awake3}x Gold Loot
-
-<:eliteawakeninggem:1147070929957027860> ${eliteAwakGem} , <:awakeninggem:1147071223042424902> ${awakGem}
-`
-          )
-          .setColor(`#2B2D31`);
-
-        message.channel.send(viewAwakEmbed);
+      if (eliteAwakGem > 0) {
+        awakenEmbed.addField(
+          "Gems",
+          `${eliteAwakGem} ${"🌟"} , ${awakGem} ${"💎"}`
+        );
       } else {
-        if (awakGem == 0) {
-          message.channel.send("You litterally have 0 awakening gems");
-        } else {
-          db.subtract(`awakeningGem_${tokenDB}`, 1);
-          db.add(`gemsUsed_${tokenDB}`, 1);
-          var gemsUsed = db.fetch(`gemsUsed_${tokenDB}`);
-          const apsData = [
-            {
-              gemsAmount: 1,
-              aps: 100,
-              key: "emergingAwareness",
-              title: "ACHIEVEMENT COMPLETE - Emerging Awareness",
-            },
-            {
-              gemsAmount: 10,
-              aps: 365,
-              key: "tenthEnlightenment",
-              title: "ACHIEVEMENT COMPLETE - Tenth Enlightenment",
-            },
-            {
-              gemsAmount: 50,
-              aps: 500,
-              key: "ascendedFifty",
-              title: "ACHIEVEMENT COMPLETE - Ascended Fifty",
-            },
-            {
-              gemsAmount: 100,
-              aps: 625,
-              key: "centennialEpiphany",
-              title: "ACHIEVEMENT COMPLETE - Centennial Epiphany",
-            },
-          ];
+        awakenEmbed.addField("Gems", `${awakGem} ${"💎"}`);
+      }
 
-          for (const achievement of apsData) {
-            const achievementKey = `${achievement.key}_${tokenDB}`;
-            if (
-              gemsUsed >= achievement.gemsAmount &&
-              !db.fetch(achievementKey)
-            ) {
-              const apsEmbed = new Discord.MessageEmbed()
-                .setTitle(achievement.title)
-                .setDescription(`${user} You gained ${achievement.aps} aps`)
-                .setColor("#00FF00");
-              db.set(achievementKey, true);
-              db.add(`achievementPoints_${tokenDB}`, achievement.aps);
-              message.channel.send(apsEmbed);
-            }
-          }
-          const normalAwakeEmbed = new MessageEmbed()
-            .setTitle("Awakenings")
+      const awakenMessage = await message.channel.send(awakenEmbed);
+
+      // Add reactions for elite and normal gems
+      const eliteReaction = "🌟";
+      const normalReaction = "💎";
+
+      await awakenMessage.react(eliteReaction);
+      await awakenMessage.react(normalReaction);
+
+      const filter = (reaction, user) => {
+        return (
+          [eliteReaction, normalReaction].includes(reaction.emoji.name) &&
+          user.id === message.author.id
+        );
+      };
+
+      const collector = awakenMessage.createReactionCollector(filter, {
+        dispose: true,
+        time: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      collector.on("collect", (reaction, user) => {
+        if (reaction.emoji.name === eliteReaction && eliteAwakGem > 0) {
+          const eliteAwakenEmbed = new MessageEmbed()
+            .setTitle("Elite Awakenings")
             .setDescription(
-              `
-${normalPossibleAwakesSlot1[0]}x Gold Loot
-${normalPossibleAwakesSlot2[0]}x Gold Loot
-${normalPossibleAwakesSlot3[0]}x Gold Loot
-
-<:eliteawakeninggem:1147070929957027860> ${
-                eliteAwakGem - 1
-              } , <:awakeninggem:1147071223042424902> ${awakGem - 1}
-`
+              `${eliteAwakenings[0]}x Gold Loot\n${eliteAwakenings[1]}x Gold Loot\n${eliteAwakenings[2]}x Gold Loot`
             )
-            .setColor(`#2B2D31`);
+            .setColor(`#2B2D31`)
+            .addField(
+              "Gems",
+              `${eliteAwakGem - 1} ${"🌟"} , ${awakGem} ${"💎"}`
+            );
 
           db.set(
             `goldLoot_${tokenDB}`,
-            normalPossibleAwakesSlot1[0] +
-              normalPossibleAwakesSlot2[0] +
-              normalPossibleAwakesSlot3[0]
+            eliteAwakenings[0] + eliteAwakenings[1] + eliteAwakenings[2]
           );
-          db.set(`awake1_${tokenDB}`, normalPossibleAwakesSlot1[0]);
-          db.set(`awake2_${tokenDB}`, normalPossibleAwakesSlot2[0]);
-          db.set(`awake3_${tokenDB}`, normalPossibleAwakesSlot3[0]);
-          message.channel.send(normalAwakeEmbed);
+          db.set(`awake1_${tokenDB}`, eliteAwakenings[0]);
+          db.set(`awake2_${tokenDB}`, eliteAwakenings[1]);
+          db.set(`awake3_${tokenDB}`, eliteAwakenings[2]);
+
+          awakenMessage.reactions.removeAll().then(() => {
+            awakenMessage.react(eliteReaction);
+            awakenMessage.react(normalReaction);
+          });
+
+          awakenMessage.edit(eliteAwakenEmbed);
           console.log(
-            `Awakening : `,
-            normalPossibleAwakesSlot1[0] +
-              normalPossibleAwakesSlot2[0] +
-              normalPossibleAwakesSlot3[0]
+            `Elite Awakening : `,
+            eliteAwakenings[1] + eliteAwakenings[2]
           );
+
+          eliteAwakGem -= 1;
+          db.set(`eliteAwakeningGem_${tokenDB}`, eliteAwakGem);
+        } else if (reaction.emoji.name === normalReaction && awakGem > 0) {
+          const normalAwakenEmbed = new MessageEmbed()
+            .setTitle("Normal Awakenings")
+            .setDescription(
+              `${normalAwakenings[0]}x Gold Loot\n${normalAwakenings[1]}x Gold Loot\n${normalAwakenings[2]}x Gold Loot`
+            )
+            .setColor(`#2B2D31`)
+            .addField(
+              "Gems",
+              `${eliteAwakGem} ${"🌟"} , ${awakGem - 1} ${"💎"}`
+            );
+
+          db.set(
+            `goldLoot_${tokenDB}`,
+            normalAwakenings[0] + normalAwakenings[1] + normalAwakenings[2]
+          );
+          db.set(`awake1_${tokenDB}`, normalAwakenings[0]);
+          db.set(`awake2_${tokenDB}`, normalAwakenings[1]);
+          db.set(`awake3_${tokenDB}`, normalAwakenings[2]);
+
+          awakenMessage.reactions.removeAll().then(() => {
+            awakenMessage.react(eliteReaction);
+            awakenMessage.react(normalReaction);
+          });
+
+          awakenMessage.edit(normalAwakenEmbed);
+          console.log(
+            `Normal Awakening : `,
+            normalAwakenings[1] + normalAwakenings[2]
+          );
+
+          awakGem -= 1;
+          db.set(`awakeningGem_${tokenDB}`, awakGem);
         }
-      }
+      });
+
+      collector.on("remove", (reaction, user) => {
+        // Handle removal of reactions if needed
+      });
     }
   },
 };

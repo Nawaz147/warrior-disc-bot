@@ -83,6 +83,7 @@ module.exports = {
           db.subtract(`${item}StoreAdd`, amountOfPieces);
           db.add(`${item}_${tokenDB}`, amountOfPieces);
           db.subtract(`money_${tokenDB}.pocket`, itemTotalBuyPrice);
+          db.subtract(`totalMoneyInEconomy`, itemTotalBuyPrice);
           itemBuyPrice = itemBuyPrice
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",");

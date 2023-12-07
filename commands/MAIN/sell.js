@@ -180,6 +180,7 @@ module.exports = {
                     db.add(`${item}StoreAdd`, amountOfPieces);
                     db.subtract(`${item}_${tokenDB}`, amountOfPieces);
                     db.add(`money_${tokenDB}.pocket`, itemTotalSellPrice);
+                    db.add(`totalMoneyInEconomy`, itemTotalSellPrice);
                     itemSellPrice = itemSellPrice
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");

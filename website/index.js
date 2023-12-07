@@ -15,3 +15,7 @@ const itemInfosBtn = document.querySelector(".itemInfosBtn");
 itemInfosBtn.onclick = function () {
   window.location = "./itemInfos.html";
 };
+const termsOfServiceBtn = document.querySelector(".termsOfServiceBtn");
+termsOfServiceBtn.onclick = function () {
+  window.location = "./termsOfService.html";
+};

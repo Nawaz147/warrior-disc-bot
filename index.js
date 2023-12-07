@@ -45,15 +45,30 @@ const commandFiles = fs
   .filter((file) => file.endsWith(".js"));
 const data = [];
 
-for (const file of commandFiles) {
-  const commandfile = require(`./slashcommands/${file}`);
-  client.commands.set(commandfile.name, commandfile);
-  data.push({
-    name: commandfile.name,
-    description: commandfile.description,
-    options: commandfile.options,
-  });
-}
+const pingCommand = require("./slashcommands/ping");
+
+// Register your ping command
+client.commands.set(pingCommand.data.name, pingCommand);
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return;
+
+  const { commandName } = interaction;
+
+  // Check if the command exists
+  if (!client.commands.has(commandName)) return;
+
+  try {
+    // Execute the command
+    await client.commands.get(commandName).execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({
+      content: "There was an error while executing this command!",
+      ephemeral: true,
+    });
+  }
+});
 client.db = new Database(db);
 client.commands = new Collection();
 client.aliases = new Collection();
@@ -98,6 +113,146 @@ for (const file of player) {
   const event = require(`./player/${file}`);
   // client.player.on(file.split(".")[0], event.bind(null, client));
 }
+const commands = new Map();
+
+function loadCommands() {
+  // Implement your logic to load commands into the 'commands' Map
+  // For simplicity, let's assume you have a 'commands' directory
+  // with each command in a separate file.
+}
+
+function reloadCommand(commandName) {
+  try {
+    // Delete the cached module for the specified command
+    delete require.cache[require.resolve(`./commands/MAIN/${commandName}.js`)];
+
+    // Reload the command
+    const reloadedCommand = require(`./commands/MAIN/${commandName}.js`);
+
+    // Update the 'commands' Map with the reloaded command
+    commands.set(commandName, reloadedCommand);
+
+    console.log(`Command '${commandName}' reloaded successfully.`);
+    return true;
+  } catch (error) {
+    console.error(`Error reloading command '${commandName}':`, error);
+    return false;
+  }
+}
+
+client.once("ready", () => {
+  console.log(`Logged in as ${client.user.tag}`);
+  loadCommands();
+});
+
+client.on("message", (message) => {
+  function restartBot() {
+    console.log("Restarting...");
+    process.exit(0); // Exit the Node.js process, triggering a restart
+  }
+  const args = message.content.split(" ");
+  const commandName = args.shift().toLowerCase();
+  // client.on("message", async (message) => {
+  //   // Ignore messages from bots
+  //   if (message.author.bot) return;
+
+  //   if (
+  //     message.content.startsWith("!econstats") &&
+  //     message.author.id === "768747976767832084"
+  //   ) {
+
+  //     // Split the message content into args
+  //     const args = message.content.split(" ");
+
+  //     if (!args[1]) {
+  //       function createEconomyEmbed(title, description) {
+  //         return new Discord.MessageEmbed()
+  //           .setTitle("ECONOMY STATS")
+  //           .setDescription(description)
+  //           .setColor("#00ff00");
+  //       }
+  //       // Calculate average money per user
+  //       const averageMoneyPerUser = calculateAverageMoneyPerUser();
+
+  //       // Create and send the embed
+  //       const embed = createEconomyEmbed(
+  //         "Economy Stats - Average Money Per User (including goldBars)",
+  //         `Average Money Per User: ${averageMoneyPerUser.toFixed(2)}`
+  //       );
+
+  //       message.channel.send(embed);
+  //       return;
+  //     } else {
+  //       function calculateTotalItemPieces(itemName) {
+  //         const allUserTokens = datab
+  //           .all()
+  //           .filter((entry) => entry.ID.startsWith(`${args[0]}_`))
+  //           .map((entry) => entry.ID.slice(6));
+
+  //         let totalItemPieces = 0;
+
+  //         for (const tokenDB of allUserTokens) {
+  //           const tokenDB = datab.fetch(`${message.member.id}.valoriumToken`);
+  //           const userItemPieces = datab.get(`${itemName}_${tokenDB}`) || 0;
+  //           totalItemPieces += userItemPieces;
+  //         }
+
+  //         return totalItemPieces;
+  //       }
+
+  //       // Assume args[1] contains the item name
+  //       const itemName = args[1];
+
+  //       // Calculate total item pieces in the economy
+  //       const totalItemPieces = calculateTotalItemPieces(itemName);
+
+  //       // Create and send the embed
+  //       const embed = createEconomyEmbed(
+  //         `Economy Stats - Total ${itemName} Pieces in the Economy`,
+  //         `Total ${itemName} Pieces: ${totalItemPieces}`
+  //       );
+  //       message.channel.send(embed);
+  //       return;
+  //     }
+  //   }
+
+  //   function calculateAverageMoneyPerUser() {
+  //     const allUserTokens = datab
+  //       .all()
+  //       .filter((entry) => entry.ID.startsWith("money_"))
+  //       .map((entry) => entry.ID.slice(6));
+
+  //     let totalMoney = 0;
+
+  //     for (const tokenDB of allUserTokens) {
+  //       const tokenDB = datab.fetch(`${message.member.id}.valoriumToken`);
+  //       const userBalance = datab.get(`money_${tokenDB}.pocket`) || 0;
+  //       const userGoldBars = datab.get(`goldBar_${tokenDB}`) || 0;
+
+  //       // Each goldBar is worth 10,000,000
+  //       totalMoney += userBalance + userGoldBars * 10000000;
+  //     }
+
+  //     const totalUsers = allUserTokens.length;
+  //     return totalUsers === 0 ? 0 : totalMoney / totalUsers;
+  //   }
+  // });
+  if (commandName === "!reload" && args.length === 1) {
+    const success = reloadCommand(args[0]);
+    message.reply(
+      success
+        ? `Command '${args[0]}' reloaded.`
+        : `Error reloading command '${args[0]}.js'.`
+    );
+  } else {
+    // Handle other commands
+    const command = commands.get(commandName);
+    if (command) {
+      // Execute the command
+      command.execute(message, args);
+    }
+  }
+});
 client.login(token);
 client.on("ready", () => {
   client.user

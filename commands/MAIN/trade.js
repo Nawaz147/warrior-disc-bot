@@ -18,6 +18,7 @@ module.exports = {
       client.users.cache.get(args[0]) ||
       message.author;
     const mentionedUser = message.mentions.users.first(); // Mentioned user
+    const tokenDB = db.fetch(`${message.author.id}.valoriumToken`);
     const tokenDBUser = db.fetch(`${message.author.id}.valoriumToken`);
     const tokenDBMentioned = db.fetch(`${mentionedUser.id}.valoriumToken`);
     const mentionedUserMoney =

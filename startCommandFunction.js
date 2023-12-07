@@ -68,7 +68,7 @@ Safe travels, and may the winds of fortune guide your way!
         `
 Sorry ${currentUser.username} , commands are disabled at the moment.
 The bot is currently undergoing an update. Please be patient!
-Update : Fixing error   
+Update : Making prices reasonable!
 `
       )
       .setColor("#3498db")
